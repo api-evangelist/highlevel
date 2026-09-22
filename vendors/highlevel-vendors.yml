@@ -1,0 +1,44 @@
+generated: '2026-09-22'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: gohighlevel.com
+  evidence: header:cf-ray
+  signal: header
+  confidence: high
+  kin_score:
+  - https_enforced
+  - hsts
+- vendor: freshdesk
+  name: Freshdesk
+  area: support
+  host: help.gohighlevel.com
+  evidence: cname:freshdesk.com
+  signal: cname
+  confidence: high
+  kin_score:
+  - support_channel
+checked:
+- 'docs-platform: custom'
+- help.gohighlevel.com (Support)
+- help.gohighlevel.com (GettingStarted)
+- developers.gohighlevel.com (Documentation)
+- gohighlevel.com (Website)
+- api.gohighlevel.com (baseURL)
