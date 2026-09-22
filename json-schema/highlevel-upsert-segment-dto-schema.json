@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-upsert-segment-dto-schema.json",
+  "title": "UpsertSegmentDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-ad-manager-openapi.json#/components/schemas/UpsertSegmentDTO",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Segment name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Segment description"
+    },
+    "members": {
+      "description": "Segment members — keywords, URLs, or apps that define the custom segment",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MemberDTO"
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "Segment status"
+    },
+    "type": {
+      "type": "string",
+      "description": "Segment type"
+    },
+    "id": {
+      "type": "string",
+      "description": "Segment identifier"
+    },
+    "membershipStatus": {
+      "type": "string",
+      "description": "Membership status"
+    },
+    "ruleBasedUserList": {
+      "description": "Rule-based user list config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/RuleBasedUserListDTO"
+        }
+      ]
+    },
+    "membershipLifeSpan": {
+      "type": "number",
+      "description": "Membership life span"
+    },
+    "seedUserListIds": {
+      "description": "Seed user list IDs",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "countryCodes": {
+      "description": "Country codes",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "expansionLevel": {
+      "type": "string",
+      "description": "Expansion level",
+      "enum": [
+        "BALANCED",
+        "BROAD",
+        "NARROW"
+      ]
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "$defs": {
+    "FlexibleRuleUserListDTO": {
+      "type": "object",
+      "properties": {
+        "inclusiveRuleOperator": {
+          "type": "string",
+          "description": "Operator for combining inclusive operands"
+        },
+        "inclusiveOperands": {
+          "description": "Inclusive rule operands",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleOperandDTO"
+          }
+        },
+        "exclusiveOperands": {
+          "description": "Exclusive rule operands",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleOperandDTO"
+          }
+        }
+      },
+      "required": [
+        "inclusiveOperands",
+        "exclusiveOperands"
+      ]
+    },
+    "MemberDTO": {
+      "type": "object",
+      "properties": {
+        "memberType": {
+          "type": "string",
+          "description": "Member type",
+          "enum": [
+            "KEYWORD",
+            "URL",
+            "APP"
+          ]
+        },
+        "keyword": {
+          "type": "string",
+          "description": "Keyword value"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL value"
+        },
+        "app": {
+          "type": "string",
+          "description": "App identifier"
+        }
+      },
+      "required": [
+        "memberType"
+      ]
+    },
+    "RuleBasedUserListDTO": {
+      "type": "object",
+      "properties": {
+        "prepopulationStatus": {
+          "type": "string",
+          "description": "Prepopulation status",
+          "enum": [
+            "REQUESTED"
+          ]
+        },
+        "flexibleRuleUserList": {
+          "description": "Flexible rule user list configuration",
+          "allOf": [
+            {
+              "$ref": "#/$defs/FlexibleRuleUserListDTO"
+            }
+          ]
+        }
+      },
+      "required": [
+        "flexibleRuleUserList"
+      ]
+    },
+    "RuleDTO": {
+      "type": "object",
+      "properties": {
+        "ruleItemGroups": {
+          "description": "List of rule item groups",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleItemGroupDTO"
+          }
+        }
+      },
+      "required": [
+        "ruleItemGroups"
+      ]
+    },
+    "RuleItemDTO": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Rule item name",
+          "enum": [
+            "url__",
+            "referrer__"
+          ]
+        },
+        "stringRuleItem": {
+          "description": "String rule item condition",
+          "allOf": [
+            {
+              "$ref": "#/$defs/StringRuleItemDTO"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "stringRuleItem"
+      ]
+    },
+    "RuleItemGroupDTO": {
+      "type": "object",
+      "properties": {
+        "ruleItems": {
+          "description": "List of rule items",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleItemDTO"
+          }
+        }
+      },
+      "required": [
+        "ruleItems"
+      ]
+    },
+    "RuleOperandDTO": {
+      "type": "object",
+      "properties": {
+        "lookbackWindowDays": {
+          "type": "number",
+          "description": "Lookback window in days"
+        },
+        "rule": {
+          "description": "Rule definition",
+          "allOf": [
+            {
+              "$ref": "#/$defs/RuleDTO"
+            }
+          ]
+        }
+      },
+      "required": [
+        "lookbackWindowDays",
+        "rule"
+      ]
+    },
+    "StringRuleItemDTO": {
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "description": "Rule operator"
+        },
+        "value": {
+          "type": "string",
+          "description": "Rule value"
+        }
+      },
+      "required": [
+        "operator",
+        "value"
+      ]
+    }
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-update-price-dto-schema.json",
+  "title": "UpdatePriceDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-products-openapi.json#/components/schemas/UpdatePriceDto",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the price."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the price.",
+      "enum": [
+        "one_time",
+        "recurring"
+      ]
+    },
+    "currency": {
+      "type": "string",
+      "description": "The currency of the price."
+    },
+    "amount": {
+      "type": "number",
+      "description": "The amount of the price. ( min: 0 )"
+    },
+    "recurring": {
+      "description": "The recurring details of the price (if type is recurring).",
+      "allOf": [
+        {
+          "$ref": "#/$defs/RecurringDto"
+        }
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief description of the price."
+    },
+    "membershipOffers": {
+      "description": "An array of membership offers associated with the price.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MembershipOfferDto"
+      }
+    },
+    "trialPeriod": {
+      "type": "number",
+      "description": "The trial period duration in days (if applicable)."
+    },
+    "totalCycles": {
+      "type": "number",
+      "description": "The total number of billing cycles for the price. ( min: 1 )"
+    },
+    "setupFee": {
+      "type": "number",
+      "description": "The setup fee for the price."
+    },
+    "variantOptionIds": {
+      "description": "An array of variant option IDs associated with the price.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "compareAtPrice": {
+      "type": "number",
+      "description": "The compare at price for the price."
+    },
+    "locationId": {
+      "type": "string",
+      "description": "The unique identifier of the location associated with the price."
+    },
+    "userId": {
+      "type": "string",
+      "description": "The unique identifier of the user who created the price."
+    },
+    "meta": {
+      "description": "Additional metadata associated with the price.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/PriceMetaDto"
+        }
+      ]
+    },
+    "trackInventory": {
+      "type": "boolean",
+      "description": "Need to track inventory stock quantity"
+    },
+    "availableQuantity": {
+      "type": "number",
+      "description": "Available inventory stock quantity"
+    },
+    "allowOutOfStockPurchases": {
+      "type": "boolean",
+      "description": "Continue selling when out of stock"
+    },
+    "sku": {
+      "type": "string",
+      "description": "The unique identifier of the SKU associated with the price"
+    },
+    "shippingOptions": {
+      "description": "Shipping options of the Price",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ShippingOptionsDto"
+        }
+      ]
+    },
+    "isDigitalProduct": {
+      "type": "boolean",
+      "description": "Is the product a digital product"
+    },
+    "digitalDelivery": {
+      "description": "Digital delivery options",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "currency",
+    "amount",
+    "locationId"
+  ],
+  "$defs": {
+    "MembershipOfferDto": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Membership offer label"
+        },
+        "value": {
+          "type": "string",
+          "description": "Membership offer label"
+        },
+        "_id": {
+          "type": "string",
+          "description": "The unique identifier for the membership offer."
+        }
+      },
+      "required": [
+        "label",
+        "value",
+        "_id"
+      ]
+    },
+    "PriceDimensionsDto": {
+      "type": "object",
+      "properties": {
+        "height": {
+          "type": "number",
+          "description": "Height of the price"
+        },
+        "width": {
+          "type": "number",
+          "description": "Width of the price"
+        },
+        "length": {
+          "type": "number",
+          "description": "Length of the price"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit of the price dimensions",
+          "enum": [
+            "cm",
+            "in",
+            "m"
+          ]
+        }
+      },
+      "required": [
+        "height",
+        "width",
+        "length",
+        "unit"
+      ]
+    },
+    "PriceMetaDto": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "The source of the price.",
+          "enum": [
+            "stripe",
+            "woocommerce",
+            "shopify"
+          ]
+        },
+        "sourceId": {
+          "type": "string",
+          "description": "The id of the source of the price from where it is imported"
+        },
+        "stripePriceId": {
+          "type": "string",
+          "description": "The Stripe price ID associated with the price."
+        },
+        "internalSource": {
+          "type": "string",
+          "description": "The internal source of the price.",
+          "enum": [
+            "agency_plan",
+            "funnel",
+            "membership",
+            "communities",
+            "gokollab",
+            "calendar"
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "stripePriceId",
+        "internalSource"
+      ]
+    },
+    "RecurringDto": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "string",
+          "description": "The interval at which the recurring event occurs.",
+          "enum": [
+            "day",
+            "month",
+            "week",
+            "year"
+          ]
+        },
+        "intervalCount": {
+          "type": "number",
+          "description": "The number of intervals between each occurrence of the event."
+        }
+      },
+      "required": [
+        "interval",
+        "intervalCount"
+      ]
+    },
+    "ShippingOptionsDto": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "description": "Weight options of the product",
+          "allOf": [
+            {
+              "$ref": "#/$defs/WeightOptionsDto"
+            }
+          ]
+        },
+        "dimensions": {
+          "description": "Dimensions of the product",
+          "allOf": [
+            {
+              "$ref": "#/$defs/PriceDimensionsDto"
+            }
+          ]
+        }
+      }
+    },
+    "WeightOptionsDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Actual weight of the product"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Weight unit of the product",
+          "enum": [
+            "kg",
+            "lb",
+            "g",
+            "oz"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ]
+    }
+  }
+}

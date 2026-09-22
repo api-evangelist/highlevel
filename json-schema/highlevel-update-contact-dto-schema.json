@@ -1,0 +1,380 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-update-contact-dto-schema.json",
+  "title": "UpdateContactDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-contacts-openapi.json#/components/schemas/UpdateContactDto",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lastName": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "email": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "phone": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "address1": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "city": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "postalCode": {
+      "type": "string"
+    },
+    "website": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "timezone": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dnd": {
+      "type": "boolean"
+    },
+    "dndSettings": {
+      "$ref": "#/$defs/DndSettingsSchema"
+    },
+    "inboundDndSettings": {
+      "$ref": "#/$defs/InboundDndSettingsSchema"
+    },
+    "tags": {
+      "description": "This field will overwrite all current tags associated with the contact. To update a tags, it is recommended to use the Add Tag or Remove Tag API instead.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "customFields": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/TextField"
+          },
+          {
+            "$ref": "#/$defs/LargeTextField"
+          },
+          {
+            "$ref": "#/$defs/SingleSelectField"
+          },
+          {
+            "$ref": "#/$defs/RadioField"
+          },
+          {
+            "$ref": "#/$defs/NumericField"
+          },
+          {
+            "$ref": "#/$defs/MonetoryField"
+          },
+          {
+            "$ref": "#/$defs/CheckboxField"
+          },
+          {
+            "$ref": "#/$defs/MultiSelectField"
+          },
+          {
+            "$ref": "#/$defs/FileField"
+          }
+        ]
+      }
+    },
+    "source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dateOfBirth": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "The birth date of the contact. Supported formats: YYYY/MM/DD, MM/DD/YYYY, YYYY-MM-DD, MM-DD-YYYY, YYYY.MM.DD, MM.DD.YYYY, YYYY_MM_DD, MM_DD_YYYY"
+    },
+    "country": {
+      "type": "string"
+    },
+    "assignedTo": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "User's Id"
+    }
+  },
+  "$defs": {
+    "CheckboxField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "DndSettingSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive",
+            "permanent"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "DndSettingsSchema": {
+      "type": "object",
+      "properties": {
+        "Call": {
+          "$ref": "#/$defs/DndSettingSchema"
+        },
+        "Email": {
+          "$ref": "#/$defs/DndSettingSchema"
+        },
+        "SMS": {
+          "$ref": "#/$defs/DndSettingSchema"
+        },
+        "WhatsApp": {
+          "$ref": "#/$defs/DndSettingSchema"
+        },
+        "GMB": {
+          "$ref": "#/$defs/DndSettingSchema"
+        },
+        "FB": {
+          "$ref": "#/$defs/DndSettingSchema"
+        }
+      }
+    },
+    "FileField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "InboundDndSettingSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "InboundDndSettingsSchema": {
+      "type": "object",
+      "properties": {
+        "all": {
+          "$ref": "#/$defs/InboundDndSettingSchema"
+        }
+      }
+    },
+    "LargeTextField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "MonetoryField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "MultiSelectField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "NumericField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "RadioField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "SingleSelectField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "TextField": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "field_value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  }
+}

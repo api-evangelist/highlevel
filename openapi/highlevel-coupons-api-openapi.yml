@@ -1,0 +1,774 @@
+openapi: 3.2.0
+info:
+  title: Payments Coupons API
+  description: Documentation for payments API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Coupons
+  description: Documentation for payments API
+paths:
+  /payments/coupon/list:
+    get:
+      operationId: list-coupons
+      summary: List Coupons
+      description: The "List Coupons" API allows you to retrieve a list of all coupons available in your location. Use this endpoint to view all promotional offers and special discounts for your customers.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: BQdAwxa0ky1iK2sstLGJ
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Maximum number of coupons to return
+        schema:
+          default: 100
+          example: 10
+          type: number
+      - name: offset
+        required: false
+        in: query
+        description: Number of coupons to skip for pagination
+        schema:
+          default: 0
+          example: 0
+          type: number
+      - name: status
+        required: false
+        in: query
+        description: Filter coupons by status
+        schema:
+          example: active
+          enum:
+          - scheduled
+          - active
+          - expired
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Search term to filter coupons by name or code
+        schema:
+          example: DEAL50
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCouponsResponseDto'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Coupons
+      security:
+      - Location-Access:
+        - payments/coupons.readonly
+  /payments/coupon:
+    post:
+      operationId: create-coupon
+      summary: Create Coupon
+      description: The "Create Coupon" API allows you to create a new promotional coupon with customizable parameters such as discount amount, validity period, usage limits, and applicable products. Use this endpoint to set up promotional offers and special discounts for your customers.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCouponParams'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCouponResponseDto'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Coupons
+      security:
+      - Location-Access:
+        - payments/coupons.write
+    put:
+      operationId: update-coupon
+      summary: Update Coupon
+      description: The "Update Coupon" API enables you to modify existing coupon details such as discount values, validity periods, usage limits, and other promotional parameters. Use this endpoint to adjust or extend promotional offers for your customers.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCouponParams'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCouponResponseDto'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Coupons
+      security:
+      - Location-Access:
+        - payments/coupons.write
+    delete:
+      operationId: delete-coupon
+      summary: Delete Coupon
+      description: The "Delete Coupon" API allows you to permanently remove a coupon from your system using its unique identifier. Use this endpoint to discontinue promotional offers or clean up unused coupons. Note that this action cannot be undone.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCouponParams'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCouponResponseDto'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Coupons
+      security:
+      - Location-Access:
+        - payments/coupons.write
+    get:
+      operationId: get-coupon
+      summary: Fetch Coupon
+      description: The "Get Coupon Details" API enables you to retrieve comprehensive information about a specific coupon using either its unique identifier or promotional code. Use this endpoint to view coupon parameters, usage statistics, validity periods, and other promotional details.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: BQdAwxa0ky1iK2sstLGJ
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      - name: id
+        required: true
+        in: query
+        description: Coupon id
+        schema:
+          example: 6241712be68f7a98102ba272
+          type: string
+      - name: code
+        required: true
+        in: query
+        description: Coupon code
+        schema:
+          example: DEAL50
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCouponResponseDto'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Coupons
+      security:
+      - Location-Access:
+        - payments/coupons.readonly
+components:
+  schemas:
+    ListCouponsResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of coupon objects
+          type: array
+          items:
+            $ref: '#/components/schemas/CouponDto'
+        totalCount:
+          type: number
+          description: Total number of coupons matching the query criteria
+          example: 20
+        traceId:
+          type: string
+          description: Unique identifier for tracing this API request
+          example: c667b18d-8f5e-44cf-a914
+      required:
+      - data
+      - totalCount
+      - traceId
+    DeleteCouponResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the delete was successful
+          example: true
+        traceId:
+          type: string
+          description: Unique identifier for tracing this API request
+          example: c667b18d-8f5e-44cf-a914
+      required:
+      - success
+      - traceId
+    UpdateCouponParams:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: BQdAwxa0ky1iK2sstLGJ
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        name:
+          type: string
+          description: Coupon Name
+          example: New Year Sale
+        code:
+          type: string
+          description: Coupon Code
+          example: LEVELUPDAY2022
+        discountType:
+          type: string
+          description: Discount Type
+          enum:
+          - percentage
+          - amount
+          example: amount
+        discountValue:
+          type: number
+          description: Discount Value
+          example: 10
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2023-01-01T22:45:00.000Z'
+        endDate:
+          type: string
+          description: End date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2023-01-31T22:45:00.000Z'
+        usageLimit:
+          type: number
+          description: Max number of times coupon can be used
+          example: 10
+        productIds:
+          description: Product Ids
+          example:
+          - 6241712be68f7a98102ba272
+          type: array
+          items:
+            type: string
+        applyToFuturePayments:
+          type: boolean
+          example: true
+          default: true
+          description: Is Coupon applicable on upcoming subscription transactions
+        applyToFuturePaymentsConfig:
+          example:
+          - type: fixed
+            duration: 5
+            durationType: months
+          - type: forever
+          default:
+            type: forever
+          description: If coupon is applicable on upcoming subscription transactions, how many months should it be applicable for a subscription
+          allOf:
+          - $ref: '#/components/schemas/ApplyToFuturePaymentsConfig'
+        limitPerCustomer:
+          type: boolean
+          example: true
+          default: false
+          description: Limits whether a coupon can be redeemed only once per customer.
+        id:
+          type: string
+          description: Coupon Id
+          example: 6241712be68f7a98102ba272
+      required:
+      - altId
+      - altType
+      - name
+      - code
+      - discountType
+      - discountValue
+      - startDate
+      - id
+    CreateCouponParams:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: BQdAwxa0ky1iK2sstLGJ
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        name:
+          type: string
+          description: Coupon Name
+          example: New Year Sale
+        code:
+          type: string
+          description: Coupon Code
+          example: LEVELUPDAY2022
+        discountType:
+          type: string
+          description: Discount Type
+          enum:
+          - percentage
+          - amount
+          example: amount
+        discountValue:
+          type: number
+          description: Discount Value
+          example: 10
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2023-01-01T22:45:00.000Z'
+        endDate:
+          type: string
+          description: End date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2023-01-31T22:45:00.000Z'
+        usageLimit:
+          type: number
+          description: Max number of times coupon can be used
+          example: 10
+        productIds:
+          description: Product Ids
+          example:
+          - 6241712be68f7a98102ba272
+          type: array
+          items:
+            type: string
+        applyToFuturePayments:
+          type: boolean
+          example: true
+          default: true
+          description: Is Coupon applicable on upcoming subscription transactions
+        applyToFuturePaymentsConfig:
+          example:
+          - type: fixed
+            duration: 5
+            durationType: months
+          - type: forever
+          default:
+            type: forever
+          description: If coupon is applicable on upcoming subscription transactions, how many months should it be applicable for a subscription
+          allOf:
+          - $ref: '#/components/schemas/ApplyToFuturePaymentsConfig'
+        limitPerCustomer:
+          type: boolean
+          example: true
+          default: false
+          description: Limits whether a coupon can be redeemed only once per customer.
+      required:
+      - altId
+      - altType
+      - name
+      - code
+      - discountType
+      - discountValue
+      - startDate
+    ApplyToFuturePaymentsConfigDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of future payments configuration
+          example: fixed
+          enum:
+          - forever
+          - fixed
+        duration:
+          type: number
+          description: Duration value for fixed type configurations
+          example: 3
+        durationType:
+          type: string
+          description: Duration type for fixed configurations (e.g. months)
+          example: months
+      required:
+      - type
+    DeleteCouponParams:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: BQdAwxa0ky1iK2sstLGJ
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        id:
+          type: string
+          description: Coupon Id
+          example: 6241712be68f7a98102ba272
+      required:
+      - altId
+      - altType
+      - id
+    CreateCouponResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique MongoDB identifier for the coupon
+          example: 67f6c132d9485f9dacd5f123
+        usageCount:
+          type: number
+          description: Number of times the coupon has been used
+          example: 12
+        limitPerCustomer:
+          type: number
+          description: Maximum number of times a customer can use this coupon (0 for unlimited)
+          example: 5
+        altId:
+          type: string
+          description: Location Id
+          example: 79t07PzK8Tvf73d12312
+        altType:
+          type: string
+          description: Type of entity
+          example: location
+        name:
+          type: string
+          description: Display name of the coupon
+          example: NEWT6
+        code:
+          type: string
+          description: Redemption code for the coupon
+          example: NEWT6
+        discountType:
+          type: string
+          description: Type of discount (percentage or amount)
+          example: percentage
+          enum:
+          - percentage
+          - amount
+        discountValue:
+          type: number
+          description: Value of the discount (percentage or fixed amount)
+          example: 25
+        status:
+          type: string
+          description: Current status of the coupon
+          example: scheduled
+          enum:
+          - scheduled
+          - active
+          - expired
+        startDate:
+          type: string
+          description: Date when the coupon becomes active
+          example: '2025-04-30T18:30:00.000Z'
+        endDate:
+          type: string
+          description: End date when the coupon expires
+          example: '2025-05-30T18:30:00.000Z'
+        applyToFuturePayments:
+          type: boolean
+          description: Indicates if the coupon applies to future recurring payments
+          example: true
+        applyToFuturePaymentsConfig:
+          description: Configuration for how the coupon applies to future payments
+          allOf:
+          - $ref: '#/components/schemas/ApplyToFuturePaymentsConfigDto'
+        userId:
+          type: string
+          description: User ID associated with the coupon (if applicable)
+          example: q0m15dTLGeiGOXG123123
+        createdAt:
+          type: string
+          description: Creation timestamp
+          example: '2025-04-09T18:49:22.026Z'
+        updatedAt:
+          type: string
+          description: Last update timestamp
+          example: '2025-04-09T18:49:22.026Z'
+        traceId:
+          type: string
+          description: Unique identifier for tracing this API request
+          example: c667b18d-8f5e-44cf-a914
+      required:
+      - _id
+      - usageCount
+      - limitPerCustomer
+      - altId
+      - altType
+      - name
+      - code
+      - discountType
+      - discountValue
+      - status
+      - startDate
+      - applyToFuturePayments
+      - applyToFuturePaymentsConfig
+      - createdAt
+      - updatedAt
+      - traceId
+    ApplyToFuturePaymentsConfig:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of the config
+          example: forever | fixed
+          enum:
+          - forever
+          - fixed
+        duration:
+          type: number
+          description: Duration the coupon to be applied in a subscription
+          example: 5
+        durationType:
+          type: string
+          description: Type of the duration
+          example: months
+          enum:
+          - months
+      required:
+      - type
+      - duration
+      - durationType
+    CouponDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique MongoDB identifier for the coupon
+          example: 67f6c132d9485f9dacd5f123
+        usageCount:
+          type: number
+          description: Number of times the coupon has been used
+          example: 12
+        limitPerCustomer:
+          type: number
+          description: Maximum number of times a customer can use this coupon (0 for unlimited)
+          example: 5
+        altId:
+          type: string
+          description: Location Id
+          example: 79t07PzK8Tvf73d12312
+        altType:
+          type: string
+          description: Type of entity
+          example: location
+        name:
+          type: string
+          description: Display name of the coupon
+          example: NEWT6
+        code:
+          type: string
+          description: Redemption code for the coupon
+          example: NEWT6
+        discountType:
+          type: string
+          description: Type of discount (percentage or amount)
+          example: percentage
+          enum:
+          - percentage
+          - amount
+        discountValue:
+          type: number
+          description: Value of the discount (percentage or fixed amount)
+          example: 25
+        status:
+          type: string
+          description: Current status of the coupon
+          example: scheduled
+          enum:
+          - scheduled
+          - active
+          - expired
+        startDate:
+          type: string
+          description: Date when the coupon becomes active
+          example: '2025-04-30T18:30:00.000Z'
+        endDate:
+          type: string
+          description: End date when the coupon expires
+          example: '2025-05-30T18:30:00.000Z'
+        applyToFuturePayments:
+          type: boolean
+          description: Indicates if the coupon applies to future recurring payments
+          example: true
+        applyToFuturePaymentsConfig:
+          description: Configuration for how the coupon applies to future payments
+          allOf:
+          - $ref: '#/components/schemas/ApplyToFuturePaymentsConfigDto'
+        userId:
+          type: string
+          description: User ID associated with the coupon (if applicable)
+          example: q0m15dTLGeiGOXG123123
+        createdAt:
+          type: string
+          description: Creation timestamp
+          example: '2025-04-09T18:49:22.026Z'
+        updatedAt:
+          type: string
+          description: Last update timestamp
+          example: '2025-04-09T18:49:22.026Z'
+      required:
+      - _id
+      - usageCount
+      - limitPerCustomer
+      - altId
+      - altType
+      - name
+      - code
+      - discountType
+      - discountValue
+      - status
+      - startDate
+      - applyToFuturePayments
+      - applyToFuturePaymentsConfig
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Payments
+  tags:
+  - Payments
+  - Integrations
+  - Orders
+  - Order fulfillments
+  - Order Notes
+  - Transactions
+  - Subscriptions
+  - Coupons
+  - Custom Provider

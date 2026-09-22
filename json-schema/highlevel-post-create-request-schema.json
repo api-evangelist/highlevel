@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-post-create-request-schema.json",
+  "title": "PostCreateRequest",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-social-media-posting-openapi.json#/components/schemas/PostCreateRequest",
+  "type": "object",
+  "properties": {
+    "accountIds": {
+      "description": "Account Ids",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Post Content \n The limitations of content as per the platforms is provided through the reference link in API description"
+    },
+    "media": {
+      "description": "Post Media Data \n The limitations of media as per the platforms is provided through the reference link in API description",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PostMediaSchema"
+      }
+    },
+    "status": {
+      "type": "object",
+      "description": "Status must be one of the following values: in_progress, draft, failed, published, scheduled, in_review, notification_sent, deleted"
+    },
+    "scheduleDate": {
+      "type": "string",
+      "description": "Schedule Date"
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "Created By"
+    },
+    "followUpComment": {
+      "type": "string",
+      "description": "Follow Up Comment on platform. It is not allowed on Tiktok and GMB accounts and there is a limit of 280 charecters for twitter account"
+    },
+    "ogTagsDetails": {
+      "description": "Og Tags Meta Data",
+      "allOf": [
+        {
+          "$ref": "#/$defs/OgTagsSchema"
+        }
+      ]
+    },
+    "type": {
+      "type": "object",
+      "description": "Post Type must be one of the following values: - post, story, reel"
+    },
+    "postApprovalDetails": {
+      "description": "Post Approval Details",
+      "allOf": [
+        {
+          "$ref": "#/$defs/PostApprovalSchema"
+        }
+      ]
+    },
+    "scheduleTimeUpdated": {
+      "type": "boolean",
+      "description": "if schedule datetime is updated"
+    },
+    "tags": {
+      "description": "Array of Tag Value",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "categoryId": {
+      "type": "string",
+      "description": "Category Id"
+    },
+    "tiktokPostDetails": {
+      "description": "Tiktok Post Details",
+      "allOf": [
+        {
+          "$ref": "#/$defs/TiktokPostSchema"
+        }
+      ]
+    },
+    "gmbPostDetails": {
+      "description": "GMB Post Details",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GMBPostSchema"
+        }
+      ]
+    },
+    "userId": {
+      "type": "string",
+      "description": "User ID"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "$defs": {
+    "DateSchema": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "number"
+        },
+        "month": {
+          "type": "number"
+        },
+        "day": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "year",
+        "month",
+        "day"
+      ]
+    },
+    "EndDateSchema": {
+      "type": "object",
+      "properties": {
+        "endDate": {
+          "description": "End Date",
+          "allOf": [
+            {
+              "$ref": "#/$defs/DateSchema"
+            }
+          ]
+        },
+        "endTime": {
+          "description": "End Time",
+          "allOf": [
+            {
+              "$ref": "#/$defs/TimeSchema"
+            }
+          ]
+        }
+      }
+    },
+    "GMBPostSchema": {
+      "type": "object",
+      "properties": {
+        "gmbEventType": {
+          "type": "string",
+          "description": "gmbEventType must be one of the following values: STANDARD, EVENT, OFFER"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title"
+        },
+        "offerTitle": {
+          "type": "string",
+          "description": "Offer Title"
+        },
+        "startDate": {
+          "description": "Start Date",
+          "allOf": [
+            {
+              "$ref": "#/$defs/StartDateSchema"
+            }
+          ]
+        },
+        "endDate": {
+          "description": "End Date",
+          "allOf": [
+            {
+              "$ref": "#/$defs/EndDateSchema"
+            }
+          ]
+        },
+        "termsConditions": {
+          "type": "string",
+          "description": "Terms Condition Url"
+        },
+        "url": {
+          "type": "string",
+          "description": "Url"
+        },
+        "couponCode": {
+          "type": "string",
+          "description": "Coupon Code"
+        },
+        "redeemOnlineUrl": {
+          "type": "string",
+          "description": "Redeem Online Url"
+        },
+        "actionType": {
+          "type": "object",
+          "description": "Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up"
+        }
+      }
+    },
+    "OgTagsSchema": {
+      "type": "object",
+      "properties": {
+        "metaImage": {
+          "type": "string",
+          "description": "Meta Image"
+        },
+        "metaLink": {
+          "type": "string",
+          "description": "Meta Link"
+        }
+      }
+    },
+    "PostApprovalSchema": {
+      "type": "object",
+      "properties": {
+        "approver": {
+          "type": "string",
+          "description": "Approver"
+        },
+        "requesterNote": {
+          "type": "string",
+          "description": "Requester Notes"
+        },
+        "approverNote": {
+          "type": "string",
+          "description": "Approver Notes"
+        },
+        "approvalStatus": {
+          "type": "object",
+          "description": "Approval Status must be one of the following values: pending, approved, rejected, not_required"
+        }
+      }
+    },
+    "PostMediaSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "defaultThumb": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "StartDateSchema": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "description": "Start Date",
+          "allOf": [
+            {
+              "$ref": "#/$defs/DateSchema"
+            }
+          ]
+        },
+        "startTime": {
+          "description": "Start Time",
+          "allOf": [
+            {
+              "$ref": "#/$defs/TimeSchema"
+            }
+          ]
+        }
+      }
+    },
+    "TiktokPostSchema": {
+      "type": "object",
+      "properties": {
+        "privacyLevel": {
+          "type": "object",
+          "description": "privacy level is an enum and must be one of the following values: PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY"
+        },
+        "promoteOtherBrand": {
+          "type": "boolean",
+          "description": "promote other brand"
+        },
+        "enableComment": {
+          "type": "boolean",
+          "description": "enable comment"
+        },
+        "enableDuet": {
+          "type": "boolean",
+          "description": "enable duet"
+        },
+        "enableStitch": {
+          "type": "boolean",
+          "description": "enable stitch"
+        },
+        "videoDisclosure": {
+          "type": "boolean",
+          "description": "video disclosure"
+        },
+        "promoteYourBrand": {
+          "type": "boolean",
+          "description": "promote your brand"
+        }
+      }
+    },
+    "TimeSchema": {
+      "type": "object",
+      "properties": {
+        "hours": {
+          "type": "number"
+        },
+        "minutes": {
+          "type": "number"
+        },
+        "seconds": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "hours",
+        "minutes",
+        "seconds"
+      ]
+    }
+  }
+}

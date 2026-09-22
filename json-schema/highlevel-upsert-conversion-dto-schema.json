@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-upsert-conversion-dto-schema.json",
+  "title": "UpsertConversionDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-ad-manager-openapi.json#/components/schemas/UpsertConversionDTO",
+  "type": "object",
+  "properties": {
+    "locationId": {
+      "type": "string",
+      "description": "Location identifier"
+    },
+    "conversionId": {
+      "type": "string",
+      "description": "Conversion identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Conversion name"
+    },
+    "type": {
+      "type": "string",
+      "description": "Conversion type",
+      "enum": [
+        "UPLOAD_CLICKS",
+        "UPLOAD_CALLS",
+        "WEBPAGE",
+        "LEAD_FORM_SUBMIT"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "description": "Conversion category"
+    },
+    "valueSettings": {
+      "description": "Value settings that control how monetary value is attributed to conversions",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ConversionValueSettings"
+        }
+      ]
+    },
+    "countingType": {
+      "type": "string",
+      "description": "How conversions are counted per interaction",
+      "enum": [
+        "ONE_PER_CLICK",
+        "MANY_PER_CLICK"
+      ]
+    },
+    "attributionModel": {
+      "type": "string",
+      "description": "Attribution model used to credit conversions",
+      "enum": [
+        "GOOGLE_SEARCH_ATTRIBUTION_DATA_DRIVEN",
+        "GOOGLE_ADS_LAST_CLICK"
+      ]
+    },
+    "clickThroughWindow": {
+      "type": "number",
+      "description": "Click-through conversion window in days"
+    }
+  },
+  "required": [
+    "locationId",
+    "name",
+    "type",
+    "category",
+    "valueSettings",
+    "countingType",
+    "attributionModel",
+    "clickThroughWindow"
+  ],
+  "$defs": {
+    "ConversionValueSettings": {
+      "type": "object",
+      "properties": {
+        "defaultValue": {
+          "type": "number",
+          "description": "Default monetary value assigned to each conversion"
+        },
+        "defaultCurrencyCode": {
+          "type": "string",
+          "description": "ISO 4217 currency code for the default value"
+        },
+        "alwaysUseDefaultValue": {
+          "type": "boolean",
+          "description": "When true, always uses the default value even if a transaction-specific value is provided"
+        }
+      },
+      "required": [
+        "defaultValue",
+        "defaultCurrencyCode",
+        "alwaysUseDefaultValue"
+      ]
+    }
+  }
+}

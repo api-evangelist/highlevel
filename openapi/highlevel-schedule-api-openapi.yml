@@ -1,0 +1,2481 @@
+openapi: 3.2.0
+info:
+  title: Invoice Schedule API
+  description: Documentation for invoice API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Schedule
+  description: Documentation for invoice API
+paths:
+  /invoices/schedule:
+    post:
+      operationId: create-invoice-schedule
+      summary: Create Invoice Schedule
+      description: API to create an invoice Schedule
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceScheduleDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+    get:
+      operationId: list-invoice-schedules
+      summary: List schedules
+      description: API to get list of schedules
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status to be filtered
+        schema:
+          type: string
+      - name: startAt
+        required: false
+        in: query
+        description: startAt in YYYY-MM-DD format
+        schema:
+          example: '2023-01-01'
+          type: string
+      - name: endAt
+        required: false
+        in: query
+        description: endAt in YYYY-MM-DD format
+        schema:
+          example: '2023-01-01'
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: To search for an invoice by id / name / email / phoneNo
+        schema:
+          example: Alex
+          type: string
+      - name: paymentMode
+        required: false
+        in: query
+        description: payment mode
+        schema:
+          example: live
+          enum:
+          - default
+          - live
+          - test
+          type: string
+      - name: limit
+        required: true
+        in: query
+        description: Limit the number of items to return
+        schema:
+          example: 10
+          type: string
+      - name: offset
+        required: true
+        in: query
+        description: Number of items to skip
+        schema:
+          example: 10
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSchedulesResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.readonly
+      - Agency-Access:
+        - invoices/schedule.readonly
+  /invoices/schedule/{scheduleId}:
+    get:
+      operationId: get-invoice-schedule
+      summary: Get an schedule
+      description: API to get an schedule by schedule id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.readonly
+      - Agency-Access:
+        - invoices/schedule.readonly
+    put:
+      operationId: update-invoice-schedule
+      summary: Update schedule
+      description: API to update an schedule by schedule id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInvoiceScheduleDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+    delete:
+      operationId: delete-invoice-schedule
+      summary: Delete schedule
+      description: API to delete an schedule by schedule id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+  /invoices/schedule/{scheduleId}/updateAndSchedule:
+    post:
+      operationId: update-and-schedule-invoice-schedule
+      summary: Update scheduled recurring invoice
+      description: API to update scheduled recurring invoice
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAndScheduleInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+  /invoices/schedule/{scheduleId}/schedule:
+    post:
+      operationId: schedule-invoice-schedule
+      summary: Schedule an schedule invoice
+      description: API to schedule an schedule invoice to start sending to the customer
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleInvoiceScheduleDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+  /invoices/schedule/{scheduleId}/auto-payment:
+    post:
+      operationId: auto-payment-invoice-schedule
+      summary: Manage Auto payment for an schedule invoice
+      description: API to manage auto payment for a schedule
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutoPaymentScheduleDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoPaymentInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+  /invoices/schedule/{scheduleId}/cancel:
+    post:
+      operationId: cancel-invoice-schedule
+      summary: Cancel an scheduled invoice
+      description: API to cancel a scheduled invoice by schedule id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: scheduleId
+        required: true
+        in: path
+        description: Schedule Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelInvoiceScheduleDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelInvoiceScheduleResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Schedule
+      security:
+      - Location-Access:
+        - invoices/schedule.write
+      - Agency-Access:
+        - invoices/schedule.write
+components:
+  schemas:
+    BusinessDetailsDto:
+      type: object
+      properties:
+        logoUrl:
+          type: string
+          description: Business Logo URL
+          example: https://example.com/logo.png
+        name:
+          type: string
+          description: Business Name
+          example: ABC Corp.
+        phoneNo:
+          type: string
+          description: Business Phone Number
+          example: +1-214-559-6993
+        address:
+          description: Business Address
+          example: 9931 Beechwood, TX
+          allOf:
+          - $ref: '#/components/schemas/AddressDto'
+        website:
+          type: string
+          description: Business Website Link
+          example: wwww.example.com
+        customValues:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+    AutoPaymentDetailsDto:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        type:
+          type: string
+        paymentMethodId:
+          type: string
+        customerId:
+          type: string
+        card:
+          $ref: '#/components/schemas/CardDto'
+        usBankAccount:
+          $ref: '#/components/schemas/USBankAccountDto'
+        sepaDirectDebit:
+          $ref: '#/components/schemas/SepaDirectDebitDTO'
+        bacsDirectDebit:
+          $ref: '#/components/schemas/BacsDirectDebitDTO'
+        becsDirectDebit:
+          $ref: '#/components/schemas/BecsDirectDebitDTO'
+        cardId:
+          type: string
+        provider:
+          type: object
+      required:
+      - enable
+    AdditionalEmailsDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: alex@example.com
+      required:
+      - email
+    GetScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    CreateInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    PaymentMethodDto:
+      type: object
+      properties:
+        stripe:
+          description: Payment Method
+          allOf:
+          - $ref: '#/components/schemas/StripePaymentMethodDto'
+      required:
+      - stripe
+    USBankAccountDto:
+      type: object
+      properties:
+        bank_name:
+          type: string
+        last4:
+          type: string
+      required:
+      - bank_name
+      - last4
+    BecsDirectDebitDTO:
+      type: object
+      properties:
+        bsb_number:
+          type: string
+        last4:
+          type: string
+      required:
+      - bsb_number
+      - last4
+    AutoPaymentInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    InvoiceItemDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Invoice Item Name
+          example: ABC Product
+        description:
+          type: string
+          description: Invoice descriptions
+          example: ABC Corp.
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9c
+        priceId:
+          type: string
+          description: Price Id
+          example: 6578278e879ad2646715ba9c
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        amount:
+          type: number
+          description: Product amount
+          example: 999
+        qty:
+          type: number
+          description: Product Quantity
+          example: 1
+        taxes:
+          description: Tax
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemTaxDto'
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category id for calculating automatic tax
+          example: 6578278e879ad2646715ba9c
+        isSetupFeeItem:
+          type: boolean
+          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
+        type:
+          type: string
+          description: Price type of the item
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        taxInclusive:
+          type: boolean
+          description: true if item amount is tax inclusive
+          example: true
+          default: false
+      required:
+      - name
+      - currency
+      - amount
+      - qty
+    ScheduleInvoiceScheduleDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        liveMode:
+          type: boolean
+        autoPayment:
+          description: auto-payment configuration
+          allOf:
+          - $ref: '#/components/schemas/AutoPaymentDetailsDto'
+      required:
+      - altId
+      - altType
+      - liveMode
+    LateFeesGraceDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees grace interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees grace interval
+          example: day
+          enum:
+          - day
+      required:
+      - intervalCount
+      - interval
+    AutoPaymentScheduleDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        id:
+          type: string
+        autoPayment:
+          description: auto-payment configuration
+          allOf:
+          - $ref: '#/components/schemas/AutoPaymentDetailsDto'
+      required:
+      - altId
+      - altType
+      - id
+      - autoPayment
+    AttachmentsDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the file selected
+          example: 6241712be68f7a98102ba272
+        name:
+          type: string
+          description: 'Name of the file '
+          example: Electronics.pdf
+        url:
+          type: string
+          description: URL of the file
+          example: https://example.com/digital-delivery
+        type:
+          type: string
+          description: Type of the file
+        size:
+          type: number
+          description: Size of the file
+          example: 10000
+      required:
+      - id
+      - name
+      - url
+      - type
+      - size
+    UpdateAndScheduleInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    LateFeesFrequencyDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees interval
+          example: day
+          enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - one_time
+      required:
+      - intervalCount
+      - interval
+    BacsDirectDebitDTO:
+      type: object
+      properties:
+        sort_code:
+          type: string
+        last4:
+          type: string
+      required:
+      - sort_code
+      - last4
+    ProcessingFeeDto:
+      type: object
+      properties:
+        charges:
+          description: charges for the processing fee
+          items:
+            type: array
+          type: array
+        collectedMiscellaneousCharges:
+          type: number
+          description: collected miscellaneous charges
+          example: 10
+        paidCharges:
+          description: paid miscellaneous charges
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+      required:
+      - charges
+    StripePaymentMethodDto:
+      type: object
+      properties:
+        enableBankDebitOnly:
+          type: boolean
+          description: Enable Bank Debit Only
+          example: false
+      required:
+      - enableBankDebitOnly
+    CardDto:
+      type: object
+      properties:
+        brand:
+          type: string
+        last4:
+          type: string
+      required:
+      - brand
+      - last4
+    ScheduleOptionsDto:
+      type: object
+      properties:
+        executeAt:
+          type: string
+        rrule:
+          $ref: '#/components/schemas/CustomRRuleOptionsDto'
+    UpdateInvoiceScheduleDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        name:
+          type: string
+        contactDetails:
+          $ref: '#/components/schemas/ContactDetailsDto'
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        liveMode:
+          type: boolean
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItemDto'
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+        title:
+          type: string
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        miscellaneousCharges:
+          description: miscellaneous charges for the invoice
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+      required:
+      - altId
+      - altType
+      - name
+      - contactDetails
+      - schedule
+      - liveMode
+      - businessDetails
+      - currency
+      - items
+      - discount
+    DiscountDto:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Discount Value
+          example: 10
+          default: 0
+        type:
+          type: string
+          description: Discount type
+          enum:
+          - percentage
+          - fixed
+          example: percentage
+          default: percentage
+        validOnProductIds:
+          description: Product Ids on which discount is applicable
+          example: '[ ''6579751d56f60276e5bd4154'' ]'
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    UpdateInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    ProcessingFeePaidChargeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the processing fee
+          example: Processing Fee
+        charge:
+          type: number
+          description: charge for the processing fee
+          example: 10
+        amount:
+          type: number
+          description: amount of the processing fee
+          example: 10
+        _id:
+          type: string
+          description: id of the processing fee
+          example: 673d01d7d547648a8dab6211
+      required:
+      - name
+      - charge
+      - amount
+      - _id
+    CreateInvoiceScheduleDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        name:
+          type: string
+        contactDetails:
+          $ref: '#/components/schemas/ContactDetailsDto'
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        liveMode:
+          type: boolean
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItemDto'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+        title:
+          type: string
+        tipsConfiguration:
+          description: Configuration for tips on invoices
+          allOf:
+          - $ref: '#/components/schemas/TipsConfigurationDto'
+        lateFeesConfiguration:
+          description: Late fees configuration for the invoices
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+        invoiceNumberPrefix:
+          type: string
+          description: prefix for invoice number
+          example: INV-
+        paymentMethods:
+          description: Payment Methods for Invoices
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodDto'
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        miscellaneousCharges:
+          description: miscellaneous charges for the invoice
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+      required:
+      - altId
+      - altType
+      - name
+      - contactDetails
+      - schedule
+      - liveMode
+      - businessDetails
+      - currency
+      - items
+      - discount
+    CancelInvoiceScheduleDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+      required:
+      - altId
+      - altType
+    AddressDto:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address Line 1
+          example: 9931 Beechwood
+        addressLine2:
+          type: string
+          description: Address Line 2
+          example: Beechwood
+        city:
+          type: string
+          description: City
+          example: St. Houston
+        state:
+          type: string
+          description: State
+          example: TX
+        countryCode:
+          type: string
+          description: Country Code
+          example: US
+        postalCode:
+          type: string
+          description: Postal Code
+          example: 559-6993
+    ScheduleInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    ListSchedulesResponseDto:
+      type: object
+      properties:
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetScheduleResponseDto'
+        total:
+          type: number
+          description: Total number of Schedules
+          example: 100
+      required:
+      - schedules
+      - total
+    ContactDetailsDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Contact ID
+          example: 6578278e879ad2646715ba9c
+        name:
+          type: string
+          description: Contact Name
+          example: Alex
+        phoneNo:
+          type: string
+          description: Contact Phone Number
+          example: '+1234567890'
+        email:
+          type: string
+          description: Contact Email
+          example: alex@example.com
+        additionalEmails:
+          description: Secondary email addresses for the contact to be saved
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalEmailsDto'
+        companyName:
+          type: string
+          description: Contact Company Name
+          example: ABC Corp.
+        address:
+          $ref: '#/components/schemas/AddressDto'
+        customFields:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - phoneNo
+      - email
+    SepaDirectDebitDTO:
+      type: object
+      properties:
+        bank_code:
+          type: string
+        last4:
+          type: string
+        branch_code:
+          type: string
+      required:
+      - bank_code
+      - last4
+      - branch_code
+    DeleteInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: success
+          example: true
+      required:
+      - success
+    DefaultInvoiceResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Invoice Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: string
+          description: Invoice Status
+          example: draft
+          enum:
+          - draft
+          - sent
+          - payment_processing
+          - paid
+          - void
+          - partially_paid
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        amountPaid:
+          type: number
+          description: Amount Paid
+          example: 0
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        businessDetails:
+          type: object
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          type: object
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+        issueDate:
+          type: string
+          description: Issue date in YYYY-MM-DD format
+          example: '2023-01-01'
+        dueDate:
+          type: string
+          description: Due date in YYYY-MM-DD format
+          example: '2023-01-01'
+        discount:
+          type: object
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+        invoiceItems:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        amountDue:
+          type: number
+          description: Total Amount Due
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        automaticTaxesCalculated:
+          type: boolean
+          description: Is Automatic taxes calculated for the Invoice items
+          example: true
+        paymentSchedule:
+          type: object
+          description: split invoice into payment schedule summing up to full invoice amount
+      required:
+      - _id
+      - status
+      - liveMode
+      - amountPaid
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - invoiceNumber
+      - currency
+      - contactDetails
+      - issueDate
+      - dueDate
+      - invoiceItems
+      - total
+      - title
+      - amountDue
+      - createdAt
+      - updatedAt
+    ItemTaxDto:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+        calculation:
+          type: string
+          enum:
+          - exclusive
+        description:
+          type: string
+        taxId:
+          type: string
+      required:
+      - _id
+      - name
+      - rate
+    LateFeesConfigurationDto:
+      type: object
+      properties:
+        enable:
+          type: boolean
+          description: Enable late fees
+          example: true
+        value:
+          type: number
+          description: Late Fees Value
+          example: 10
+        type:
+          type: string
+          description: Late Fees Type
+          example: fixed
+          enum:
+          - fixed
+          - percentage
+        frequency:
+          description: Late Fees Frequency
+          allOf:
+          - $ref: '#/components/schemas/LateFeesFrequencyDto'
+        grace:
+          description: Late Fees Grace
+          allOf:
+          - $ref: '#/components/schemas/LateFeesGraceDto'
+        maxLateFees:
+          description: Max late fees payable
+          allOf:
+          - $ref: '#/components/schemas/LateFeesMaxFeesDto'
+      required:
+      - enable
+      - value
+      - type
+      - frequency
+    LateFeesMaxFeesDto:
+      type: object
+      properties:
+        type:
+          type: string
+          example: fixed
+          enum:
+          - fixed
+        value:
+          type: number
+          example: '10'
+          description: Max late fees to pay
+      required:
+      - type
+      - value
+    CustomRRuleOptionsDto:
+      type: object
+      properties:
+        intervalType:
+          type: string
+          enum:
+          - yearly
+          - monthly
+          - weekly
+          - daily
+          - hourly
+          - minutely
+          - secondly
+          example: monthly
+        interval:
+          type: number
+          example: 2
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DD format
+          example: '2023-01-01'
+        startTime:
+          type: string
+          description: Start time in HH:mm:ss format
+          example: '20:45:00'
+        endDate:
+          type: string
+          description: End date in YYYY-MM-DD format
+          example: '2029-11-01'
+        endTime:
+          type: string
+          description: End time in HH:mm:ss format
+          example: '18:45:00'
+        dayOfMonth:
+          type: number
+          description: -1, 1, 2, 3, ..., 27, 28
+          example: 15
+        dayOfWeek:
+          type: string
+          enum:
+          - mo
+          - tu
+          - we
+          - th
+          - fr
+          - sa
+          - su
+          example: mo
+        numOfWeek:
+          type: number
+          description: -1, 1, 2, 3, 4
+          example: -1
+        monthOfYear:
+          type: string
+          enum:
+          - jan
+          - feb
+          - mar
+          - apr
+          - may
+          - jun
+          - jul
+          - aug
+          - sep
+          - oct
+          - nov
+          - dec
+          example: jan
+        count:
+          type: number
+          description: Max number of task executions
+          example: 10
+        daysBefore:
+          type: number
+          description: Execute task number of days before
+          example: 5
+        useStartAsPrimaryUserAccepted:
+          type: boolean
+          description: Start as primary user accepted date
+          example: true
+        endType:
+          type: string
+          description: End type like after, by, count
+          example: by
+      required:
+      - intervalType
+      - interval
+      - startDate
+    CancelInvoiceScheduleResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Schedule Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: object
+          description: Schedule Status
+          example: draft
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        schedule:
+          $ref: '#/components/schemas/ScheduleOptionsDto'
+        invoices:
+          description: List of invoices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        termsNotes:
+          type: string
+          description: Terms notes
+          example: Confidential
+        compiledTermsNotes:
+          type: string
+          description: Compiled terms notes
+          example: Confidential
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - status
+      - liveMode
+      - altId
+      - altType
+      - name
+      - invoices
+      - businessDetails
+      - currency
+      - contactDetails
+      - items
+      - total
+      - title
+      - termsNotes
+      - compiledTermsNotes
+      - createdAt
+      - updatedAt
+    TipsConfigurationDto:
+      type: object
+      properties:
+        tipsPercentage:
+          description: Percentage of tips allowed
+          example:
+          - 5
+          - 10
+          - 15
+          type: array
+          items:
+            type: string
+        tipsEnabled:
+          type: boolean
+          description: Tips enabled status
+          example: true
+      required:
+      - tipsPercentage
+      - tipsEnabled
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Invoice
+  tags:
+  - Invoice
+  - Template
+  - Schedule
+  - Text2Pay
+  - Estimate

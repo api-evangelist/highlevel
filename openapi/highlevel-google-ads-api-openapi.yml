@@ -1,0 +1,2785 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager Google Ads API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Google Ads
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/google/conversions:
+    get:
+      operationId: google-get-conversions
+      summary: Get conversions
+      description: Retrieve Google Ads conversion actions for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Integration type
+        schema:
+          example: AD_MANAGER
+          enum:
+          - AD_MANAGER
+          - AD_WORDS
+          type: string
+      - name: conversionType
+        required: false
+        in: query
+        description: Conversion type
+        schema:
+          example: WEBPAGE
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: Conversion category
+        schema:
+          example: PURCHASE
+          type: string
+      - name: startDate
+        required: false
+        in: query
+        description: Filter start date
+        schema:
+          example: '2024-01-01'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: Filter end date
+        schema:
+          example: '2024-12-31'
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+    put:
+      operationId: google-upsert-conversion
+      summary: Upsert conversion
+      description: Create or update a Google Ads conversion action
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertConversionDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/conversions/{conversionId}:
+    get:
+      operationId: google-get-conversion-by-id
+      summary: Get conversion by ID
+      description: Retrieve a specific Google Ads conversion action by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: conversionId
+        required: true
+        in: path
+        description: Conversion identifier
+        schema:
+          example: conv_abc123
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+    delete:
+      operationId: google-delete-conversion
+      summary: Delete conversion
+      description: Delete a Google Ads conversion action by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: conversionId
+        required: true
+        in: path
+        description: Conversion identifier
+        schema:
+          example: conv_abc123
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/ads/{adId}/publish:
+    post:
+      operationId: google-publish-ad
+      summary: Publish ad
+      description: Publish a Google ad and push it live
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        description: Ad identifier
+        schema:
+          example: 507f1f77bcf86cd799439011
+          type: string
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/targeting/search:
+    get:
+      operationId: google-search-targeting
+      summary: Search targeting options
+      description: Search Google geo-locations for ad targeting
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: type
+        required: true
+        in: query
+        description: Search type
+        schema:
+          example: geolocation
+          type: string
+      - name: query
+        required: false
+        in: query
+        description: Search query
+        schema:
+          example: New York
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/keyword-ideas:
+    post:
+      operationId: google-get-keyword-ideas
+      summary: Get keyword ideas
+      description: Retrieve keyword suggestions for Google Ads campaigns
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeywordSuggestionDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/assets:
+    get:
+      operationId: google-get-assets
+      summary: Get assets
+      description: Retrieve Google Ads creative assets for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Asset type to retrieve
+        schema:
+          example: CALL
+          enum:
+          - CALL
+          - SITELINK
+          - LEAD_FORM
+          - IMAGE
+          - TEXT
+          type: string
+      - name: id
+        required: false
+        in: query
+        description: Asset identifier
+        schema:
+          example: asset_123
+          type: string
+      - name: advertiserOnly
+        required: false
+        in: query
+        description: Advertiser only flag
+        schema:
+          example: 'true'
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+    post:
+      operationId: google-upsert-assets
+      summary: Upsert assets
+      description: Create or update Google Ads creative assets
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertAssetsDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/entity:
+    get:
+      operationId: google-get-entity
+      summary: Get entities
+      description: Retrieve Google campaigns, ad groups, or ads based on entity type
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Integration type
+        schema:
+          example: AD_MANAGER
+          enum:
+          - AD_MANAGER
+          - INTEGRATION
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: Campaign identifier
+        schema:
+          example: camp_123
+          type: string
+      - name: adGroupId
+        required: false
+        in: query
+        description: Ad group identifier
+        schema:
+          example: ag_123
+          type: string
+      - name: entityType
+        required: true
+        in: query
+        description: Entity type
+        schema:
+          example: CAMPAIGN
+          enum:
+          - CAMPAIGN
+          - ADGROUP
+          - AD
+          type: string
+      - name: searchId
+        required: false
+        in: query
+        description: Search identifier
+        schema:
+          example: search_123
+          type: string
+      - name: startDate
+        required: false
+        in: query
+        description: Filter start date
+        schema:
+          example: '2024-01-01'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: Filter end date
+        schema:
+          example: '2024-12-31'
+          type: string
+      - name: selectedAdAccountId
+        required: false
+        in: query
+        description: Selected ad account ID
+        schema:
+          example: 123-456-7890
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/target-interests:
+    get:
+      operationId: google-get-target-interests
+      summary: Get target interests
+      description: Retrieve affinity and in-market audience options for Google Ads targeting
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Interest type
+        schema:
+          example: AFFINITY
+          enum:
+          - AFFINITY
+          - IN_MARKET
+          type: string
+      - name: advertisingChannelType
+        required: true
+        in: query
+        description: Channel type
+        schema:
+          example: SEARCH
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/segments:
+    get:
+      operationId: google-get-segments
+      summary: Get segments
+      description: Retrieve Google Ads audience segments for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Segment type
+        schema:
+          example: CUSTOM_SEGMENTS
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+    put:
+      operationId: google-upsert-segment
+      summary: Upsert segment
+      description: Create or update a Google Ads audience segment
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Segment type
+        schema:
+          example: CUSTOM_SEGMENTS
+          enum:
+          - CUSTOM_SEGMENTS
+          - WEBSITE_VISITOR
+          - CUSTOMER_MATCH
+          - LOOKALIKE
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertSegmentDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/segments/{segmentId}:
+    delete:
+      operationId: google-delete-segment
+      summary: Delete segment
+      description: Delete a Google Ads audience segment by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: segmentId
+        required: true
+        in: path
+        description: Segment identifier
+        schema:
+          example: seg_abc123
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Segment type
+        schema:
+          example: CUSTOM_SEGMENTS
+          enum:
+          - CUSTOM_SEGMENTS
+          - DATA_SEGMENTS
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+    get:
+      operationId: google-get-segment-by-id
+      summary: Get segment by ID
+      description: Retrieve a specific Google Ads audience segment by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: segmentId
+        required: true
+        in: path
+        description: Segment identifier
+        schema:
+          example: seg_abc123
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Segment type
+        schema:
+          example: CUSTOM_SEGMENTS
+          enum:
+          - CUSTOM_SEGMENTS
+          - DATA_SEGMENTS
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/segments/offline-user-list-job:
+    post:
+      operationId: google-create-offline-user-list-job
+      summary: Create offline user list job
+      description: Create a job to upload users to a Google customer match list
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOfflineUserListJobDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/audiences:
+    put:
+      operationId: google-upsert-audience
+      summary: Upsert audience
+      description: Create or update a Google Ads combined audience
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertAudienceDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+    get:
+      operationId: google-get-audiences
+      summary: Get audiences
+      description: Retrieve Google Ads combined audiences for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/audiences/{audienceId}:
+    get:
+      operationId: google-get-audience-by-id
+      summary: Get audience by ID
+      description: Retrieve a specific Google Ads combined audience by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Audience identifier
+        schema:
+          example: aud_abc123
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/ads:
+    put:
+      operationId: google-upsert-campaign
+      summary: Upsert Google campaign
+      description: Create or update a full Google Ads campaign structure
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Ads
+  /ad-publishing/google/ads/{adId}:
+    get:
+      operationId: google-get-campaign-by-id
+      summary: Get Google campaign by ID
+      description: Retrieve a specific Google Ads campaign by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        description: Ad identifier
+        schema:
+          example: 507f1f77bcf86cd799439011
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+  /ad-publishing/google/conversion-goals:
+    get:
+      operationId: google-get-conversion-goals
+      summary: Get conversion goals
+      description: Retrieve Google Ads conversion goals for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Ads
+components:
+  schemas:
+    GeoLatLngDTO:
+      type: object
+      properties:
+        lat:
+          type: number
+          description: Latitude
+        lng:
+          type: number
+          description: Longitude
+    GoogleKeywordItemDTO:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: Keyword text
+        matchType:
+          type: string
+          description: Match type (BROAD, PHRASE, EXACT)
+      required:
+      - keyword
+      - matchType
+    KeywordSuggestionDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Target URL
+          example: https://example.com
+        languageCode:
+          type: string
+          description: Language code
+          example: en
+        locations:
+          description: Target locations
+          example:
+          - US
+          - CA
+          type: array
+          items:
+            type: string
+        keywords:
+          description: Seed keywords
+          example:
+          - marketing
+          type: array
+          items:
+            type: string
+      required:
+      - url
+    UpsertConversionDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        conversionId:
+          type: string
+          description: Conversion identifier
+          example: conv_456
+        name:
+          type: string
+          description: Conversion name
+          example: Purchase Conversion
+        type:
+          type: string
+          description: Conversion type
+          example: WEBPAGE
+          enum:
+          - UPLOAD_CLICKS
+          - UPLOAD_CALLS
+          - WEBPAGE
+          - LEAD_FORM_SUBMIT
+        category:
+          type: string
+          description: Conversion category
+          example: PURCHASE
+        valueSettings:
+          description: Value settings that control how monetary value is attributed to conversions
+          example:
+            defaultValue: '10.00'
+            defaultCurrencyCode: USD
+            alwaysUseDefaultValue: false
+          allOf:
+          - $ref: '#/components/schemas/ConversionValueSettings'
+        countingType:
+          type: string
+          description: How conversions are counted per interaction
+          example: ONE_PER_CLICK
+          enum:
+          - ONE_PER_CLICK
+          - MANY_PER_CLICK
+        attributionModel:
+          type: string
+          description: Attribution model used to credit conversions
+          example: GOOGLE_ADS_LAST_CLICK
+          enum:
+          - GOOGLE_SEARCH_ATTRIBUTION_DATA_DRIVEN
+          - GOOGLE_ADS_LAST_CLICK
+        clickThroughWindow:
+          type: number
+          description: Click-through conversion window in days
+          example: 30
+      required:
+      - locationId
+      - name
+      - type
+      - category
+      - valueSettings
+      - countingType
+      - attributionModel
+      - clickThroughWindow
+    GoogleBiddingStrategyDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Bidding strategy type
+        value:
+          type: number
+          description: Bid value in micros
+    MemberDTO:
+      type: object
+      properties:
+        memberType:
+          type: string
+          description: Member type
+          example: KEYWORD
+          enum:
+          - KEYWORD
+          - URL
+          - APP
+        keyword:
+          type: string
+          description: Keyword value
+          example: marketing
+        url:
+          type: string
+          description: URL value
+          example: https://example.com
+        app:
+          type: string
+          description: App identifier
+          example: com.example.app
+      required:
+      - memberType
+    GoogleAdGroupAudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geo-location targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleGeoLocationDTO'
+        locales:
+          description: Language/locale targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleLocaleDTO'
+    ConversionValueSettings:
+      type: object
+      properties:
+        defaultValue:
+          type: number
+          description: Default monetary value assigned to each conversion
+          example: 10
+        defaultCurrencyCode:
+          type: string
+          description: ISO 4217 currency code for the default value
+          example: USD
+        alwaysUseDefaultValue:
+          type: boolean
+          description: When true, always uses the default value even if a transaction-specific value is provided
+          example: false
+      required:
+      - defaultValue
+      - defaultCurrencyCode
+      - alwaysUseDefaultValue
+    GoogleYouTubeVideoLinkDTO:
+      type: object
+      properties:
+        youtubeVideoId:
+          type: string
+          description: YouTube video ID
+      required:
+      - youtubeVideoId
+    GoogleSegmentTargetDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Segment type
+        id:
+          type: string
+          description: Segment identifier
+      required:
+      - type
+      - id
+    LeadFormAssetPayloadDTO:
+      type: object
+      properties:
+        resourceName:
+          type: string
+          description: Google Ads resource name for an existing lead form asset
+          example: customers/123/assets/456
+        headline:
+          type: string
+          description: Lead form headline
+          example: Get a free quote
+        description:
+          type: string
+          description: Lead form description
+          example: Fill out this form and we will contact you within 24 hours
+        businessName:
+          type: string
+          description: Business name shown on the form
+          example: Acme Corp
+        privacyPolicyUrl:
+          type: string
+          description: Privacy policy URL
+          example: https://example.com/privacy
+        fields:
+          description: Form fields to collect user input
+          example:
+          - inputType: FULL_NAME
+            singleChoiceAnswers: []
+          - inputType: EMAIL
+            singleChoiceAnswers: []
+          type: array
+          items:
+            $ref: '#/components/schemas/LeadFormFieldDTO'
+        callToActionType:
+          type: string
+          description: Call to action button type
+          example: GET_QUOTE
+          enum:
+          - LEARN_MORE
+          - GET_QUOTE
+          - APPLY_NOW
+          - SIGN_UP
+          - CONTACT_US
+          - SUBSCRIBE
+          - DOWNLOAD
+          - BOOK_NOW
+          - GET_OFFER
+          - REGISTER
+          - GET_INFO
+          - REQUEST_DEMO
+          - JOIN_NOW
+          - GET_STARTED
+          - VISIT_SITE
+        callToActionDescription:
+          type: string
+          description: Description text for the CTA button
+          example: Request your free quote now
+        backgroundImageAsset:
+          type: string
+          description: Background image asset resource name
+          example: customers/123/assets/789
+        desiredIntent:
+          type: string
+          description: Desired lead intent level
+          example: HIGH_INTENT
+          enum:
+          - LOW_INTENT
+          - HIGH_INTENT
+        customQuestionFields:
+          description: Custom question fields appended after standard fields
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomQuestionFieldDTO'
+        postSubmitHeadline:
+          type: string
+          description: Headline shown after form submission
+          example: Thank you!
+        postSubmitDescription:
+          type: string
+          description: Description shown after form submission
+          example: We will be in touch shortly
+        postSubmitCallToActionType:
+          type: string
+          description: Post-submit CTA button type
+          example: VISIT_SITE
+          enum:
+          - VISIT_SITE
+          - DOWNLOAD
+          - LEARN_MORE
+          - SHOP_NOW
+        finalUrls:
+          type: string
+          description: Final URL shown after form submission
+          example: https://example.com/thank-you
+      required:
+      - headline
+      - description
+      - businessName
+      - privacyPolicyUrl
+      - fields
+      - callToActionType
+    LeadFormFieldDTO:
+      type: object
+      properties:
+        inputType:
+          type: string
+          description: Field input type from Google Ads LeadFormFieldUserInputType
+          example: FULL_NAME
+        singleChoiceAnswers:
+          description: Single-choice answer options for the field
+          example:
+          - key: option_1
+            value: 'Yes'
+          type: array
+          items:
+            type: string
+      required:
+      - inputType
+    RuleDTO:
+      type: object
+      properties:
+        ruleItemGroups:
+          description: List of rule item groups
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleItemGroupDTO'
+      required:
+      - ruleItemGroups
+    GoogleBudgetDTO:
+      type: object
+      properties:
+        budgetType:
+          type: string
+          description: Budget type
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+          description: Budget amount in micros
+          example: 5000
+        scheduleStartDate:
+          type: string
+          description: Schedule start date
+          example: '2024-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date
+          example: '2024-12-31'
+    GoogleCampaignAudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geo-location targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleGeoLocationDTO'
+        locales:
+          description: Language/locale targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleLocaleDTO'
+        gender:
+          description: Gender targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleDemographicTargetDTO'
+        ageRange:
+          description: Age range targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleDemographicTargetDTO'
+        segments:
+          description: Audience segment targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleSegmentTargetDTO'
+        targetInterests:
+          description: Interest-based targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleTargetInterestsDTO'
+    GeoAddressComponentDTO:
+      type: object
+      properties:
+        long_name:
+          type: string
+          description: Full name of the address component
+        short_name:
+          type: string
+          description: Abbreviated name of the address component
+        types:
+          description: Address component types
+          example:
+          - locality
+          - political
+          type: array
+          items:
+            type: string
+    SitelinkAssetPayloadDTO:
+      type: object
+      properties:
+        resourceName:
+          type: string
+          description: Google Ads resource name for an existing sitelink asset
+          example: customers/123/assets/456
+        linkText:
+          type: string
+          description: Sitelink display text
+          example: Pricing
+        finalUrls:
+          type: string
+          description: Final landing page URL
+          example: https://example.com/pricing
+        description1:
+          type: string
+          description: First description line
+          example: See our plans and pricing
+        description2:
+          type: string
+          description: Second description line
+          example: Starting at $9/month
+        startDate:
+          type: string
+          description: Start date for the sitelink (YYYY-MM-DD)
+          example: '2024-01-01'
+        endDate:
+          type: string
+          description: End date for the sitelink (YYYY-MM-DD)
+          example: '2024-12-31'
+        adScheduleTargets:
+          description: Ad schedule targets restricting when the sitelink is shown
+          type: array
+          items:
+            $ref: '#/components/schemas/AdScheduleTargetDTO'
+      required:
+      - linkText
+      - finalUrls
+    GoogleAdScheduleDTO:
+      type: object
+      properties:
+        dayOfWeek:
+          type: string
+          description: Day of week
+          enum:
+          - FRIDAY
+          - MONDAY
+          - SATURDAY
+          - SUNDAY
+          - THURSDAY
+          - TUESDAY
+          - UNKNOWN
+          - UNSPECIFIED
+          - WEDNESDAY
+          - ALL_DAYS
+          - MONDAY_TO_FRIDAY
+          - SATURDAY_AND_SUNDAY
+        from:
+          type: string
+          description: Start time (HH:MM)
+          example: 09:00
+        to:
+          type: string
+          description: End time (HH:MM)
+          example: '17:00'
+      required:
+      - dayOfWeek
+      - from
+      - to
+    CustomQuestionFieldDTO:
+      type: object
+      properties:
+        customQuestionText:
+          type: string
+          description: Custom question text shown to the user
+          example: What service are you interested in?
+        singleChoiceAnswers:
+          description: Answer choices for the custom question
+          example:
+          - answerTexts:
+            - Web Design
+            - SEO
+            - PPC
+          type: array
+          items:
+            type: string
+      required:
+      - customQuestionText
+      - singleChoiceAnswers
+    AdScheduleTargetDTO:
+      type: object
+      properties:
+        startMinute:
+          type: string
+          description: Minute mark the schedule starts at
+          example: ZERO
+          enum:
+          - ZERO
+          - FIFTEEN
+          - THIRTY
+          - FORTY_FIVE
+        endMinute:
+          type: string
+          description: Minute mark the schedule ends at
+          example: ZERO
+          enum:
+          - ZERO
+          - FIFTEEN
+          - THIRTY
+          - FORTY_FIVE
+        dayOfWeek:
+          type: string
+          description: Day of the week for this schedule
+          example: MONDAY
+          enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+        startHour:
+          type: number
+          description: Start hour in 24h format (0-23)
+          example: 9
+        endHour:
+          type: number
+          description: End hour in 24h format (0-23)
+          example: 17
+      required:
+      - startMinute
+      - endMinute
+      - dayOfWeek
+      - startHour
+      - endHour
+    GoogleMediaDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Media type
+          enum:
+          - IMAGE
+        src:
+          type: string
+          description: Media source URL
+          example: https://example.com/image.jpg
+        isLogo:
+          type: boolean
+          description: Is logo flag
+          example: false
+        error:
+          type: string
+          description: Error message if media failed
+        url:
+          type: string
+          description: Public URL of the media
+        imageType:
+          type: string
+          description: Image type classification
+    UpsertSegmentDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Segment name
+          example: My Segment
+        description:
+          type: string
+          description: Segment description
+          example: Target audience segment
+        members:
+          description: Segment members — keywords, URLs, or apps that define the custom segment
+          example:
+          - memberType: KEYWORD
+            keyword: digital marketing
+          - memberType: URL
+            url: https://example.com
+          - memberType: APP
+            app: com.example.app
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberDTO'
+        status:
+          type: string
+          description: Segment status
+          example: ENABLED
+        type:
+          type: string
+          description: Segment type
+          example: CUSTOM_SEGMENTS
+        id:
+          type: string
+          description: Segment identifier
+          example: seg_123
+        membershipStatus:
+          type: string
+          description: Membership status
+          example: OPEN
+        ruleBasedUserList:
+          description: Rule-based user list config
+          allOf:
+          - $ref: '#/components/schemas/RuleBasedUserListDTO'
+        membershipLifeSpan:
+          type: number
+          description: Membership life span
+          example: 30
+        seedUserListIds:
+          description: Seed user list IDs
+          example:
+          - list_1
+          type: array
+          items:
+            type: string
+        countryCodes:
+          description: Country codes
+          example:
+          - US
+          - CA
+          type: array
+          items:
+            type: string
+        expansionLevel:
+          type: string
+          description: Expansion level
+          example: BALANCED
+          enum:
+          - BALANCED
+          - BROAD
+          - NARROW
+      required:
+      - name
+    StringRuleItemDTO:
+      type: object
+      properties:
+        operator:
+          type: string
+          description: Rule operator
+          example: CONTAINS
+        value:
+          type: string
+          description: Rule value
+          example: /products
+      required:
+      - operator
+      - value
+    GoogleGeoLocationDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Geo target constant resource name
+        id:
+          type: string
+          description: Location identifier (place_id)
+        name:
+          type: string
+          description: Location display name
+        country_name:
+          type: string
+          description: Country name
+        type:
+          type: string
+          description: Location type (city, region, country, address, etc.)
+        radius:
+          type: number
+          description: Radius for proximity targeting
+        radiusUnit:
+          type: string
+          description: Radius unit
+          enum:
+          - km
+          - mi
+        selectionType:
+          type: string
+          description: Include or exclude this location
+          enum:
+          - include
+          - exclude
+        resourceName:
+          type: string
+          description: Google Ads resource name
+        place_id:
+          type: string
+          description: Google place ID
+        formatted_address:
+          type: string
+          description: Full formatted address string
+        geometry:
+          description: Geometry data from Google Geocoding API
+          allOf:
+          - $ref: '#/components/schemas/GeoGeometryDTO'
+        address_components:
+          description: Address components from Google Geocoding API
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoAddressComponentDTO'
+    GeoViewportDTO:
+      type: object
+      properties:
+        northeast:
+          description: Northeast corner of the viewport
+          allOf:
+          - $ref: '#/components/schemas/GeoLatLngDTO'
+        southwest:
+          description: Southwest corner of the viewport
+          allOf:
+          - $ref: '#/components/schemas/GeoLatLngDTO'
+    GoogleCarouselCardDTO:
+      type: object
+      properties:
+        headline:
+          type: string
+          description: Card headline
+          example: Shop Now
+        finalUrl:
+          type: string
+          description: Card final URL
+          example: https://example.com
+        callToActionLabel:
+          type: string
+          description: Call to action label
+        media:
+          description: Card media items
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleMediaDTO'
+    RuleItemDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Rule item name
+          enum:
+          - url__
+          - referrer__
+          example: url__
+        stringRuleItem:
+          description: String rule item condition
+          allOf:
+          - $ref: '#/components/schemas/StringRuleItemDTO'
+      required:
+      - name
+      - stringRuleItem
+    GoogleKeywordsDTO:
+      type: object
+      properties:
+        positives:
+          description: Positive keywords
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleKeywordItemDTO'
+        negatives:
+          description: Negative keywords
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleKeywordItemDTO'
+    GoogleLocaleDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Language display name
+        key:
+          type: string
+          description: Language key
+        id:
+          type: string
+          description: Language identifier
+        resourceName:
+          type: string
+          description: Language resource name
+    UpsertAudienceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        resourceName:
+          type: string
+          description: Audience resource name
+          example: customers/123/audiences/456
+        name:
+          type: string
+          description: Audience name
+          example: My Audience
+        dimensions:
+          description: Audience dimensions
+          allOf:
+          - $ref: '#/components/schemas/AudienceDimensionDTO'
+        exclusionDimension:
+          description: Exclusion dimensions
+          allOf:
+          - $ref: '#/components/schemas/AudienceDimensionDTO'
+      required:
+      - locationId
+      - name
+    RuleOperandDTO:
+      type: object
+      properties:
+        lookbackWindowDays:
+          type: number
+          description: Lookback window in days
+          example: 30
+        rule:
+          description: Rule definition
+          allOf:
+          - $ref: '#/components/schemas/RuleDTO'
+      required:
+      - lookbackWindowDays
+      - rule
+    CallAssetPayloadDTO:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          description: Phone number for call ads
+          example: '+14155551234'
+        countryCode:
+          type: string
+          description: Two-letter ISO country code
+          example: US
+        callConversionAction:
+          type: string
+          description: Call conversion action resource name
+          example: customers/123/conversionActions/456
+        adScheduleTargets:
+          description: Ad schedule targets restricting when the call asset is shown
+          example:
+          - startMinute: ZERO
+            endMinute: ZERO
+            dayOfWeek: MONDAY
+            startHour: 9
+            endHour: 17
+          type: array
+          items:
+            $ref: '#/components/schemas/AdScheduleTargetDTO'
+        resourceName:
+          type: string
+          description: Google Ads resource name for an existing call asset
+          example: customers/123/assets/456
+      required:
+      - phoneNumber
+      - countryCode
+    GeoGeometryDTO:
+      type: object
+      properties:
+        location:
+          description: Location coordinates
+          allOf:
+          - $ref: '#/components/schemas/GeoLatLngDTO'
+        location_type:
+          type: string
+          description: Location type (e.g. APPROXIMATE)
+        viewport:
+          description: Viewport bounding box
+          allOf:
+          - $ref: '#/components/schemas/GeoViewportDTO'
+    RuleItemGroupDTO:
+      type: object
+      properties:
+        ruleItems:
+          description: List of rule items
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleItemDTO'
+      required:
+      - ruleItems
+    GoogleDemographicTargetDTO:
+      type: object
+      properties:
+        enum:
+          type: string
+          description: Demographic enum value
+        negative:
+          type: boolean
+          description: Whether this is a negative target
+      required:
+      - enum
+      - negative
+    GoogleAdGroupDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ad group identifier
+        adGroupId:
+          type: string
+          description: Google ad group identifier
+        name:
+          type: string
+          description: Ad group name
+          example: Ad Group 1
+        adCampaignId:
+          type: string
+          description: Ad campaign identifier
+        adContent:
+          description: Ad content items
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleAdContentDTO'
+        keywords:
+          description: Keyword targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleKeywordsDTO'
+        publishingStatus:
+          type: string
+          description: Ad group publishing status
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        adGroupError:
+          type: string
+          description: Ad group-level error from Google
+        googleAdGroupId:
+          type: string
+          description: Google Ads ad group resource ID
+        customChannels:
+          type: boolean
+          description: Custom channels flag
+        selectedChannels:
+          type: array
+          description: Selected channel placements
+          items:
+            type: string
+            enum:
+            - GMAIL
+            - YOUTUBE_IN_STREAM
+            - YOUTUBE_SHORTS
+            - YOUTUBE_IN_FEED
+            - DISCOVER
+            - DISPLAY
+        googleAudienceId:
+          type: string
+          description: Google audience resource ID
+        audience:
+          description: Ad group audience targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleAdGroupAudienceDTO'
+    GoogleNetworkSettingsDTO:
+      type: object
+      properties:
+        targetSearchNetwork:
+          type: boolean
+          description: Target Google Search Network
+        targetContentNetwork:
+          type: boolean
+          description: Target Google Display Network
+      required:
+      - targetSearchNetwork
+      - targetContentNetwork
+    FlexibleRuleUserListDTO:
+      type: object
+      properties:
+        inclusiveRuleOperator:
+          type: string
+          description: Operator for combining inclusive operands
+          example: AND
+        inclusiveOperands:
+          description: Inclusive rule operands
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleOperandDTO'
+        exclusiveOperands:
+          description: Exclusive rule operands
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleOperandDTO'
+      required:
+      - inclusiveOperands
+      - exclusiveOperands
+    GoogleAssetImageDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Image URL
+        resourceName:
+          type: string
+          description: Google Ads resource name
+        name:
+          type: string
+          description: Asset name
+        error:
+          type: string
+          description: Error message if asset upload failed
+      required:
+      - url
+    GoogleAssetsDTO:
+      type: object
+      properties:
+        calls:
+          description: Call extension asset resource names
+          type: array
+          items:
+            type: string
+        sitelinks:
+          description: Sitelink asset resource names
+          type: array
+          items:
+            type: string
+        leadForm:
+          type: string
+          description: Lead form asset resource name
+        images:
+          description: Image assets
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleAssetImageDTO'
+        businessLogo:
+          description: Business logo asset
+          allOf:
+          - $ref: '#/components/schemas/GoogleAssetImageDTO'
+    GoogleCampaignGoalDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Campaign goal type
+          enum:
+          - CONVERSIONS
+          - CLICK
+          - YOUTUBE_ENGAGEMENT
+        value:
+          type: string
+          description: Goal value (e.g. conversion action resource name)
+        isCustomConversionGoal:
+          type: boolean
+          description: Whether this is a custom conversion goal
+      required:
+      - type
+    GoogleTargetInterestsDTO:
+      type: object
+      properties:
+        affinity:
+          description: Affinity audience IDs
+          type: array
+          items:
+            type: string
+        inMarket:
+          description: In-market audience IDs
+          type: array
+          items:
+            type: string
+    CreateOfflineUserListJobDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        smartListIds:
+          description: Smart list IDs
+          example:
+          - sl_123
+          type: array
+          items:
+            type: string
+        csvPath:
+          type: string
+          description: CSV file path
+          example: /uploads/users.csv
+        userListId:
+          type: string
+          description: User list identifier
+          example: ul_123
+        isDynamic:
+          type: boolean
+          description: Dynamic list flag
+          example: false
+      required:
+      - locationId
+    UpsertAssetsDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        type:
+          type: string
+          description: Asset type to create or update
+          example: CALL
+          enum:
+          - CALL
+          - SITELINK
+          - LEAD_FORM
+        payload:
+          description: 'Asset payload — shape depends on the type field: CallAssetPayload (CALL), SitelinkAssetPayload (SITELINK), or LeadFormAssetPayload (LEAD_FORM)'
+          oneOf:
+          - $ref: '#/components/schemas/CallAssetPayloadDTO'
+          - $ref: '#/components/schemas/SitelinkAssetPayloadDTO'
+          - $ref: '#/components/schemas/LeadFormAssetPayloadDTO'
+      required:
+      - locationId
+      - type
+      - payload
+    CampaignDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Campaign identifier
+        name:
+          type: string
+          description: Campaign name
+          example: My Campaign
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        advertisingChannelType:
+          type: string
+          description: Advertising channel
+          enum:
+          - SEARCH
+          - DISCOVERY
+          - DISPLAY
+          - HOTEL
+          - LOCAL
+          - MULTI_CHANNEL
+          - PERFORMANCE_MAX
+          - DEMAND_GEN
+        advertisingChannelSubType:
+          type: string
+          description: Channel sub type
+          enum:
+          - DEMAND_GEN
+        goalType:
+          type: string
+          description: Goal type
+          enum:
+          - WEBSITE_TRAFFIC
+          - LEAD
+        budget:
+          description: Campaign budget
+          allOf:
+          - $ref: '#/components/schemas/GoogleBudgetDTO'
+        audience:
+          description: Campaign audience targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleCampaignAudienceDTO'
+        networkSettings:
+          description: Network settings
+          allOf:
+          - $ref: '#/components/schemas/GoogleNetworkSettingsDTO'
+        biddingStrategy:
+          description: Bidding strategy config
+          allOf:
+          - $ref: '#/components/schemas/GoogleBiddingStrategyDTO'
+        assets:
+          description: Campaign assets
+          allOf:
+          - $ref: '#/components/schemas/GoogleAssetsDTO'
+        isEuPoliticalAds:
+          type: boolean
+          description: EU political ads flag
+          example: false
+        adGroups:
+          description: Campaign ad groups
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleAdGroupDTO'
+        campaignGoal:
+          description: Campaign goal config
+          allOf:
+          - $ref: '#/components/schemas/GoogleCampaignGoalDTO'
+        adSchedule:
+          description: Ad schedule rules
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleAdScheduleDTO'
+        publishingStatus:
+          type: string
+          description: Publishing status
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        googleAdAccountId:
+          type: string
+          description: Google Ad account identifier
+        unpublishedChanges:
+          type: boolean
+          description: Whether the campaign has unpublished changes
+        maximumCpc:
+          type: number
+          description: Maximum CPC bid in micros
+        googleCampaignId:
+          type: string
+          description: Google Ads campaign resource ID
+        source:
+          type: string
+          description: Traffic source
+          example: WEBSITE
+        advancedOptions:
+          type: object
+          description: Advanced options
+      required:
+      - name
+      - locationId
+      - advertisingChannelType
+    AudienceSegmentsDTO:
+      type: object
+      properties:
+        customAudiences:
+          description: Resource names of custom audience segments
+          example:
+          - customers/123/customAudiences/456
+          type: array
+          items:
+            type: string
+        userLists:
+          description: Resource names of user lists (remarketing lists, customer match lists, etc.)
+          example:
+          - customers/123/userLists/789
+          type: array
+          items:
+            type: string
+        userInterests:
+          description: Resource names of user interest segments (in-market or affinity audiences)
+          example:
+          - customers/123/userInterests/321
+          type: array
+          items:
+            type: string
+    RuleBasedUserListDTO:
+      type: object
+      properties:
+        prepopulationStatus:
+          type: string
+          description: Prepopulation status
+          enum:
+          - REQUESTED
+          example: REQUESTED
+        flexibleRuleUserList:
+          description: Flexible rule user list configuration
+          allOf:
+          - $ref: '#/components/schemas/FlexibleRuleUserListDTO'
+      required:
+      - flexibleRuleUserList
+    AudienceDimensionDTO:
+      type: object
+      properties:
+        isAgeUnknown:
+          type: boolean
+          description: Include unknown age
+          example: false
+        ageRanges:
+          description: Age range filters
+          example:
+          - minAge: 25
+            maxAge: 34
+          type: array
+          items:
+            type: string
+        genders:
+          description: Gender targets
+          example:
+          - MALE
+          - FEMALE
+          type: array
+          items:
+            type: string
+        parentalStatuses:
+          description: Parental status targets
+          example:
+          - PARENT
+          type: array
+          items:
+            type: string
+        audienceSegments:
+          description: Audience segment references used for targeting
+          allOf:
+          - $ref: '#/components/schemas/AudienceSegmentsDTO'
+    GoogleAdContentDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ad identifier
+        name:
+          type: string
+          description: Ad name
+        mediaType:
+          type: string
+          description: Media type
+          enum:
+          - IMAGE
+          - VIDEO
+          - CAROUSEL
+        headlines:
+          description: Ad headlines
+          example:
+          - Buy Now
+          - Best Deals
+          type: array
+          items:
+            type: string
+        longHeadlines:
+          description: Long headlines
+          example:
+          - Discover Great Deals Today
+          type: array
+          items:
+            type: string
+        descriptions:
+          description: Ad descriptions
+          example:
+          - Great products
+          type: array
+          items:
+            type: string
+        finalUrl:
+          type: string
+          description: Final URL
+          example: https://example.com
+        path1:
+          type: string
+          description: Display path 1
+          example: products
+        path2:
+          type: string
+          description: Display path 2
+          example: deals
+        isDeleted:
+          type: boolean
+          description: Whether the ad is soft-deleted
+        adError:
+          type: string
+          description: Ad-level error message from Google
+        publishingStatus:
+          type: string
+          description: Ad publishing status
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        adId:
+          type: string
+          description: Internal ad identifier
+        adCampaignId:
+          type: string
+          description: Ad campaign identifier
+        adGroupId:
+          type: string
+          description: Ad group identifier
+        googleAdId:
+          type: string
+          description: Google Ads ad resource ID
+        media:
+          description: Ad media items
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleMediaDTO'
+        callToActionLabel:
+          type: string
+          description: Call to action label
+          enum:
+          - AUTOMATED
+          - LEARN_MORE
+          - GET_QUOTE
+          - APPLY_NOW
+          - SIGN_UP
+          - CONTACT_US
+          - SUBSCRIBE
+          - DOWNLOAD
+          - BOOK_NOW
+          - SHOP_NOW
+          - BUY_NOW
+          - DONATE_NOW
+          - ORDER_NOW
+          - PLAY_NOW
+          - SEE_MORE
+        businessName:
+          type: string
+          description: Business name
+          example: Acme Corp
+        youtubeVideoLinks:
+          description: YouTube video links
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleYouTubeVideoLinkDTO'
+        carouselCards:
+          description: Carousel cards
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleCarouselCardDTO'
+        placements:
+          type: array
+          description: Channel placements
+          items:
+            type: string
+            enum:
+            - GMAIL
+            - YOUTUBE_IN_STREAM
+            - YOUTUBE_SHORTS
+            - YOUTUBE_IN_FEED
+            - DISCOVER
+            - DISPLAY
+        customChannels:
+          type: boolean
+          description: Custom channels flag
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

@@ -1,0 +1,174 @@
+generated: '2026-09-22'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://marketplace.gohighlevel.com/docs/category/webhook/index.html
+sources:
+- https://marketplace.gohighlevel.com/docs/category/webhook/index.html
+- https://marketplace.gohighlevel.com/docs/webhook/WebhookIntegrationGuide/index.html
+- https://marketplace.gohighlevel.com/docs/webhook/WebhookLogsDashboard/index.html
+- https://marketplace.gohighlevel.com/docs/ghl/calendars/calendar-events/index.html
+description: HighLevel sends a webhook for each listed activity. Each webhook includes a JSON payload with a "type" field matching the event name.
+events:
+- event: AppInstall
+  description: Called whenever an app is installed.
+- event: AppointmentCreate
+  description: Called whenever an appointment is created.
+- event: AppointmentDelete
+  description: Called whenever an appointment is deleted.
+- event: AppointmentUpdate
+  description: Called whenever an appointment is updated.
+- event: AppUninstall
+  description: Called whenever an app is uninstalled.
+- event: AppPaymentStatus
+  description: Called whenever the payment status of a paid app subscription changes — for example when a recurring payment fails during dunning,
+    or when a previously failed payment is successfully recovered.
+- event: AppUpdate
+  description: Called whenever an app is updated to a new version.
+- event: AssociationCreate
+  description: Overview.
+- event: AssociationDelete
+  description: Overview.
+- event: AssociationUpdate
+  description: Overview.
+- event: CampaignStatusUpdate
+  description: Called whenever a campaign status is updated.
+- event: ContactCreate
+  description: Called whenever a contact is created.
+- event: ContactUpdate
+  description: Called whenever the specific fields in contact is updated.
+- event: ContactDelete
+  description: Called whenever a contact is deleted.
+- event: ContactDndUpdate
+  description: Called whenever a contact's dnd field is updated.
+- event: ContactTagUpdate
+  description: Called whenever a contact's tag field is updated.
+- event: ConversationUnreadWebhook
+  description: Called whenever a conversations unread status is updated.
+- event: ConversationUpdate
+  description: Called whenever a live chat conversation is merged into another conversation due to contact identification (e.g. a visitor provides
+    their email or phone number matching an existing contact).
+- event: ExternalAuthConnected
+  description: Called whenever external authentication (OAuth2 or Basic) is connected successfully for an app/location/company.
+- event: SupportTicketCreate
+  description: Called whenever a new support ticket is created for an app.
+- event: SupportTicketUpdate
+  description: Called whenever a support ticket is updated — for example when its status changes, a reply is added to the conversation, or its
+    details are edited.
+- event: SupportTicketDelete
+  description: Called whenever a support ticket is deleted.
+- event: InboundMessage
+  description: Called whenever a contact sends a message to the user.
+- event: InvoiceCreate
+  description: Called whenever an invoice is created.
+- event: InvoiceDelete
+  description: Called whenever an invoice is deleted.
+- event: InvoicePaid
+  description: Called whenever an invoice is paid.
+- event: InvoicePartiallyPaid
+  description: Called whenever an invoice is partially paid.
+- event: InvoiceSent
+  description: Called whenever an invoice is sent.
+- event: InvoiceUpdate
+  description: Called whenever an invoice is updated.
+- event: InvoiceVoid
+  description: Called whenever an invoice is marked as void.
+- event: KnowledgeBaseCreate
+  description: Called whenever a knowledge base is created.
+- event: KnowledgeBaseUpdate
+  description: Called whenever a knowledge base name/description is updated.
+- event: KnowledgeBaseDelete
+  description: Called whenever a knowledge base is deleted.
+- event: KnowledgeBaseFileChange
+  description: Called whenever a knowledge base file asset is created, updated or deleted.
+- event: KnowledgeBaseFaqChange
+  description: Called whenever a knowledge base FAQ asset is created, updated or deleted.
+- event: KnowledgeBaseRichTextChange
+  description: Called whenever a knowledge base rich text asset is created, updated or deleted.
+- event: KnowledgeBaseTableFileChange
+  description: Called whenever a knowledge base table file asset is created, updated or deleted.
+- event: KnowledgeBaseTrainedUrlChange
+  description: Called whenever a knowledge base trained URL asset is created, updated or deleted.
+- event: LCEmailStats
+  description: Called whenever an email is sent, gives the statistics of the said email.
+- event: LocationCreate
+  description: Called whenever a location is created.
+- event: LocationUpdate
+  description: Called whenever a location is updated.
+- event: NoteCreate
+  description: Called whenever a note is created.
+- event: NoteDelete
+  description: Called whenever a note is deleted.
+- event: NoteUpdate
+  description: Called whenever a note is updated.
+- event: ObjectSchemaCreate
+  description: Overview.
+- event: ObjectSchemaUpdate
+  description: Overview.
+- event: OpportunityAssignedToUpdate
+  description: Called whenever an opportunity's AssignedTo field is updated.
+- event: OpportunityCreate
+  description: Called whenever an opportunity is created.
+- event: OpportunityDelete
+  description: Called whenever an opportunity is deleted.
+- event: OpportunityMonetaryValueUpdate
+  description: Called whenever an opportunity's monetary value field is updated.
+- event: OpportunityStageUpdate
+  description: Called whenever an opportunity's stage field is updated.
+- event: OpportunityStatusUpdate
+  description: Called whenever an opportunity's status field is updated.
+- event: OpportunityUpdate
+  description: Called whenever an opportunity is updated.
+- event: OrderCreate
+  description: Called whenever an order is created.
+- event: OrderStatusUpdate
+  description: Called whenever an order's status field updated.
+- event: OutboundMessage
+  description: Called whenever a user sends a message to a contact.
+- event: PlanChange
+  description: Called whenever user changes the plan for a paid app.
+- event: PriceCreate
+  description: Called whenever a price is created.
+- event: PriceDelete
+  description: Called whenever a price is deleted.
+- event: PriceUpdate
+  description: Called whenever a price is updated.
+- event: ProductCreate
+  description: Called whenever a product is created.
+- event: ProductDelete
+  description: Called whenever a product is deleted.
+- event: ProductUpdate
+  description: Called whenever a product is updated.
+- event: ProviderOutboundMessage
+  description: Called whenever a user sends a message to a contact and has a custom provider as the default channel in the settings.
+- event: RecordCreate
+  description: Overview.
+- event: RecordDelete
+  description: Overview.
+- event: RecordUpdate
+  description: Overview.
+- event: RelationCreate
+  description: Overview.
+- event: RelationDelete
+  description: Overview.
+- event: SaaSPlanCreate
+  description: Overview.
+- event: TaskComplete
+  description: Called whenever a task is completed.
+- event: TaskCreate
+  description: Called whenever a task is created.
+- event: TaskDelete
+  description: Called whenever a task is deleted.
+- event: UserCreate
+  description: Called whenever a user is created.
+- event: VoiceAiCallEnd
+  description: Called whenever a Voice AI call ends for a sub-account.
+- event: UserDelete
+  description: Called whenever a user is deleted.
+- event: UserUpdate
+  description: Called whenever a user is updated.
+delivery:
+  signature: 'Two signature headers are sent: X-WH-Signature (RSA‑SHA256, legacy) and X-GHL-Signature (Ed25519, current). The legacy header will
+    be deprecated on September 1, 2026.'
+  retries: For any non‑2xx response or transport failure, HighLevel retries up to 12 times (excluding the original attempt) using exponential
+    backoff with jitter.
+docs: https://marketplace.gohighlevel.com/docs/category/webhook/index.html

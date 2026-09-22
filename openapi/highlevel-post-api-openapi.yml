@@ -1,0 +1,1130 @@
+openapi: 3.2.0
+info:
+  title: Social Media Posting Post API
+  description: Documentation for Social Media Posting API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Post
+  description: Documentation for Social Media Posting API
+paths:
+  /social-media-posting/{locationId}/posts/list:
+    post:
+      operationId: get-posts
+      summary: Get posts
+      description: Get Posts
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPostDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Post
+      security:
+      - bearer:
+        - socialplanner/post.readonly
+  /social-media-posting/{locationId}/posts:
+    post:
+      operationId: create-post
+      summary: Create post
+      description: 'Create posts for all supported platforms. It is possible to create customized posts per channel by using the same platform account IDs in a request and hitting the create post API multiple times with different summaries and account IDs per platform.
+
+
+        The content and media limitations, as well as platform rate limiters corresponding to the respective platforms, are provided in the following reference link:
+
+
+        Link: Platform Limitations'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePostSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Post
+      security:
+      - bearer:
+        - socialplanner/post.write
+  /social-media-posting/{locationId}/posts/{id}:
+    get:
+      operationId: get-post
+      summary: Get post
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Post Id
+        example: 65fac446d599990d1313c1dd
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPostSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Post
+      security:
+      - bearer: []
+    put:
+      operationId: edit-post
+      summary: Edit post
+      description: 'Create posts for all supported platforms. It is possible to create customized posts per channel by using the same platform account IDs in a request and hitting the create post API multiple times with different summaries and account IDs per platform.
+
+
+        The content and media limitations, as well as platform rate limiters corresponding to the respective platforms, are provided in the following reference link:
+
+
+        Link: Platform Limitations'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Post Id
+        example: 65fac446d599990d1313c1dd
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreateRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePostSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Post
+      security:
+      - bearer: []
+    delete:
+      operationId: delete-post
+      summary: Delete Post
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Post Id
+        example: 65fac446d599990d1313c1dd
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePostSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Post
+      security:
+      - bearer: []
+  /social-media-posting/{locationId}/posts/bulk-delete:
+    post:
+      operationId: bulk-delete-social-planner-posts
+      summary: Bulk Delete Social Planner Posts
+      description: 'Deletes multiple posts based on the provided list of post IDs.
+
+        This operation is useful for clearing up large numbers of posts efficiently.
+
+
+        Note:
+
+
+        1.The maximum number of posts that can be deleted in a single request is ''50''.
+
+
+        2.However, It will only get deleted in Highlevel database but still
+
+        it is recommended to be cautious of this operation.'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePostsDto'
+      responses:
+        '201':
+          description: Posts deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteResponseDto'
+        '400':
+          description: Cannot delete more than 50 posts at a time.
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: No posts found with the given IDs.
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+        '500':
+          description: An error occurred while trying to delete the posts. Please try again later.
+      tags:
+      - Post
+components:
+  schemas:
+    TiktokPostSchema:
+      type: object
+      properties:
+        privacyLevel:
+          type: object
+          description: 'privacy level is an enum and must be one of the following values: PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY'
+          example: PUBLIC_TO_EVERYONE
+        promoteOtherBrand:
+          type: boolean
+          description: promote other brand
+          example: true
+        enableComment:
+          type: boolean
+          description: enable comment
+          example: true
+        enableDuet:
+          type: boolean
+          description: enable duet
+          example: true
+        enableStitch:
+          type: boolean
+          description: enable stitch
+          example: true
+        videoDisclosure:
+          type: boolean
+          description: video disclosure
+          example: true
+        promoteYourBrand:
+          type: boolean
+          description: promote your brand
+          example: true
+    GetPostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetPostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    FormatedApprovalDetails:
+      type: object
+      properties:
+        approver:
+          type: string
+          description: Approver
+          example: iVrVJ2uoXNF0wzcBzgl5
+        requesterNote:
+          type: string
+          description: Requester Notes
+          example: Test suggestion
+        approverNote:
+          type: string
+          description: Approver Notes
+          example: Test suggestion
+        approvalStatus:
+          type: object
+          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
+          example: approved
+        approverUser:
+          description: Approver User Details
+          allOf:
+          - $ref: '#/components/schemas/PostUserSchema'
+    StartDateSchema:
+      type: object
+      properties:
+        startDate:
+          description: Start Date
+          allOf:
+          - $ref: '#/components/schemas/DateSchema'
+        startTime:
+          description: Start Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
+    UpdatePostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Updated Post
+      required:
+      - success
+      - statusCode
+      - message
+    PostCreateRequest:
+      type: object
+      properties:
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        summary:
+          type: string
+          description: "Post Content \n The limitations of content as per the platforms is provided through the reference link in API description"
+          example: Hello World
+        media:
+          description: "Post Media Data \n The limitations of media as per the platforms is provided through the reference link in API description"
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMediaSchema'
+        status:
+          type: object
+          description: 'Status must be one of the following values: in_progress, draft, failed, published, scheduled, in_review, notification_sent, deleted'
+          example: draft
+        scheduleDate:
+          type: string
+          description: Schedule Date
+        createdBy:
+          type: string
+          description: Created By
+        followUpComment:
+          type: string
+          description: Follow Up Comment on platform. It is not allowed on Tiktok and GMB accounts and there is a limit of 280 charecters for twitter account
+          example: First comment
+        ogTagsDetails:
+          description: Og Tags Meta Data
+          allOf:
+          - $ref: '#/components/schemas/OgTagsSchema'
+        type:
+          type: object
+          description: 'Post Type must be one of the following values: - post, story, reel'
+          example: post
+        postApprovalDetails:
+          description: Post Approval Details
+          allOf:
+          - $ref: '#/components/schemas/PostApprovalSchema'
+        scheduleTimeUpdated:
+          type: boolean
+          description: if schedule datetime is updated
+          example: true
+        tags:
+          description: Array of Tag Value
+          example:
+          - Tag1
+          type: array
+          items:
+            type: string
+        categoryId:
+          type: string
+          description: Category Id
+        tiktokPostDetails:
+          description: Tiktok Post Details
+          allOf:
+          - $ref: '#/components/schemas/TiktokPostSchema'
+        gmbPostDetails:
+          description: GMB Post Details
+          allOf:
+          - $ref: '#/components/schemas/GMBPostSchema'
+        userId:
+          type: string
+          description: User ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+      required:
+      - type
+    CreatePostSuccessfulResponseSchema:
+      type: object
+      properties:
+        post:
+          description: Post Data
+          allOf:
+          - $ref: '#/components/schemas/GetPostFormattedSchema'
+    OgTagsSchema:
+      type: object
+      properties:
+        metaImage:
+          type: string
+          description: Meta Image
+          example: https://wwww.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
+        metaLink:
+          type: string
+          description: Meta Link
+    PostSuccessfulResponseSchema:
+      type: object
+      properties:
+        posts:
+          description: Post Data
+          type: array
+          items:
+            $ref: '#/components/schemas/GetPostFormattedSchema'
+        count:
+          type: number
+          example: 6
+    DeletePostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Deleted Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/DeletePostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    PostApprovalSchema:
+      type: object
+      properties:
+        approver:
+          type: string
+          description: Approver
+          example: iVrVJ2uoXNF0wzcBzgl5
+        requesterNote:
+          type: string
+          description: Requester Notes
+          example: Test suggestion
+        approverNote:
+          type: string
+          description: Approver Notes
+          example: Test suggestion
+        approvalStatus:
+          type: object
+          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
+          example: approved
+    DeletePostsDto:
+      type: object
+      properties:
+        postIds:
+          description: Requested Results
+          example:
+          - 662791ee3f216822d7da0c8c
+          type: array
+          items:
+            type: string
+    DateSchema:
+      type: object
+      properties:
+        year:
+          type: number
+          example: 2022
+        month:
+          type: number
+          example: 1
+        day:
+          type: number
+          example: 1
+      required:
+      - year
+      - month
+      - day
+    TimeSchema:
+      type: object
+      properties:
+        hours:
+          type: number
+          example: 23
+        minutes:
+          type: number
+          example: 56
+        seconds:
+          type: number
+          example: 34
+      required:
+      - hours
+      - minutes
+      - seconds
+    CreatePostDTO:
+      type: object
+      properties:
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        summary:
+          type: string
+          description: "Post Content \n The limitations of content as per the platforms is provided through the reference link in API description. The summary will be trimmed based on the limit"
+          example: Hello World
+        media:
+          description: "Post Media Data \n The limitations of media as per the platforms is provided through the reference link in API description"
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMediaSchema'
+        status:
+          type: object
+          description: 'Status must be one of the following values: null, in_progress, draft, failed, published, scheduled, in_review, notification_sent, deleted'
+          example: draft
+        scheduleDate:
+          type: string
+          description: Schedule Date
+        createdBy:
+          type: string
+          description: Created By
+        followUpComment:
+          type: string
+          description: Follow Up Comment on platform. It is not allowed on Tiktok and GMB accounts and there is a limit of 280 charecters for twitter account
+          example: First comment
+        ogTagsDetails:
+          description: Og Tags Meta Data
+          allOf:
+          - $ref: '#/components/schemas/OgTagsSchema'
+        type:
+          type: object
+          description: 'Post Type must be one of the following values: - post, story, reel'
+          example: post
+        postApprovalDetails:
+          description: Post Approval Details
+          allOf:
+          - $ref: '#/components/schemas/PostApprovalSchema'
+        scheduleTimeUpdated:
+          type: boolean
+          description: if schedule datetime is updated
+          example: true
+        tags:
+          description: Array of Tag Value
+          example:
+          - 65f151c99bc2bf3aaf970d72
+          type: array
+          items:
+            type: string
+        categoryId:
+          type: string
+          description: Category Id
+          example: 65f151c99bc2bf3aaf970d72
+        tiktokPostDetails:
+          description: Tiktok Post Details
+          allOf:
+          - $ref: '#/components/schemas/TiktokPostSchema'
+        gmbPostDetails:
+          description: GMB Post Details
+          allOf:
+          - $ref: '#/components/schemas/GMBPostSchema'
+        userId:
+          type: string
+          description: User ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+      required:
+      - type
+      - accountIds
+      - userId
+    EndDateSchema:
+      type: object
+      properties:
+        endDate:
+          description: End Date
+          allOf:
+          - $ref: '#/components/schemas/DateSchema'
+        endTime:
+          description: End Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
+    GetPostSuccessfulResponseSchema:
+      type: object
+      properties:
+        post:
+          description: Post Data
+          allOf:
+          - $ref: '#/components/schemas/GetPostFormattedSchema'
+    SearchPostDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'type must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress and deleted'
+          example: Filter type
+          default: all
+        accounts:
+          type: string
+          description: List of account Ids seperated by comma as a string
+          example: 660a83fc29deacac50033e2b_omaDY3RbWtTP511e808O_17841465964543589, 38bF83fc29deacac50033e2b_omaDY3RbWtr3P11e808O_17841465964543998
+        skip:
+          type: string
+          example: '1'
+          default: '0'
+        limit:
+          type: string
+          example: '10'
+          default: '10'
+        fromDate:
+          type: string
+          description: From Date
+          example: '2024-01-22T05:32:49.463Z'
+        toDate:
+          type: string
+          description: To Date
+          example: '2024-03-20T05:32:49.463Z'
+        includeUsers:
+          type: string
+          description: Include User Data
+          example: 'true'
+        postType:
+          type: object
+          description: 'Post Type must be one of the following values: - post, story, reel'
+          example: post
+      required:
+      - skip
+      - limit
+      - fromDate
+      - toDate
+      - includeUsers
+    DeletePostSuccessfulResponseSchema:
+      type: object
+      properties:
+        postId:
+          type: string
+    PostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Fetched Posts
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/PostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    PostMediaSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://i0.wp.com/www.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
+        caption:
+          type: string
+          example: Caption 1
+        type:
+          type: string
+          example: video/mp4 or image/png
+        thumbnail:
+          type: string
+          example: https://storage.googleapis.com/test/test/media/test.jpeg
+        defaultThumb:
+          type: string
+          example: https://storage.googleapis.com/test/test/media/test.jpeg
+        id:
+          type: string
+          example: Edf3323fsfsdsd
+      required:
+      - url
+    BulkDeleteResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Posts Deleted Successfully
+        results:
+          description: Message and deleted count
+          example:
+            message: Posts deleted successfully
+            deletedCount: 10
+      required:
+      - success
+      - statusCode
+      - message
+      - results
+    GMBPostSchema:
+      type: object
+      properties:
+        gmbEventType:
+          type: string
+          example: STANDARD
+          description: 'gmbEventType must be one of the following values: STANDARD, EVENT, OFFER'
+        title:
+          type: string
+          description: Title
+          example: Event Title
+        offerTitle:
+          type: string
+          description: Offer Title
+          example: Hey
+        startDate:
+          description: Start Date
+          allOf:
+          - $ref: '#/components/schemas/StartDateSchema'
+        endDate:
+          description: End Date
+          allOf:
+          - $ref: '#/components/schemas/EndDateSchema'
+        termsConditions:
+          type: string
+          description: Terms Condition Url
+          example: https://google.com/privacy
+        url:
+          type: string
+          description: Url
+          example: https://google.com
+        couponCode:
+          type: string
+          description: Coupon Code
+          example: BOGO-50
+        redeemOnlineUrl:
+          type: string
+          description: Redeem Online Url
+          example: https://google.com
+        actionType:
+          type: object
+          description: 'Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up'
+          example: book
+    GetPostFormattedSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 61bb16833b3f2791f9715be2
+        source:
+          type: string
+          description: 'source must be one of the following values: composer, recurring, csv'
+          enum:
+          - composer
+          - csv
+          - recurring
+          - review
+          - rss
+          example: composer
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        platform:
+          type: string
+          description: 'platform must be one of the following values: google, facebook, instagram, linkedin, twitter, tiktok'
+          example: google
+        displayDate:
+          format: date-time
+          type: string
+          example: '2023-08-02T00:00:00.000Z'
+        createdAt:
+          format: date-time
+          type: string
+          example: '2023-08-02T00:00:00.000Z'
+        updatedAt:
+          format: date-time
+          type: string
+          example: '2023-08-02T00:00:00.000Z'
+        accountId:
+          type: string
+          description: Account Id
+          example: w37swmmLbA02zgqKPpxITe
+        error:
+          type: string
+          description: Error
+          example: Failed due to auth token
+        postId:
+          type: string
+          example: '323534534435'
+        publishedAt:
+          type: string
+          example: '2021-06-22T05:32:49.463Z'
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        summary:
+          type: string
+          example: Sample Summary
+        media:
+          description: "Post Media Data \n The limitations of media as per the platforms is provided through the reference link in API description"
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMediaSchema'
+        status:
+          type: object
+          description: 'Status must be one of the following values: in_progress, draft, failed, published, scheduled, in_review, notification_sent, deleted'
+          example: published
+        createdBy:
+          type: string
+          example: Lx1EI6YIgQYMQi0ytFXv
+        type:
+          type: object
+          description: 'Post Type must be one of the following values: - post, story, reel'
+          example: post
+        tags:
+          description: Tag Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        ogTagsDetails:
+          description: Og Tags Meta Data
+          allOf:
+          - $ref: '#/components/schemas/OgTagsSchema'
+        postApprovalDetails:
+          description: Post Approval Details
+          allOf:
+          - $ref: '#/components/schemas/FormatedApprovalDetails'
+        tiktokPostDetails:
+          description: Tiktok Post Details
+          allOf:
+          - $ref: '#/components/schemas/TiktokPostSchema'
+        gmbPostDetails:
+          description: GMB Post Details
+          allOf:
+          - $ref: '#/components/schemas/GMBPostSchema'
+        user:
+          description: User
+          allOf:
+          - $ref: '#/components/schemas/PostUserSchema'
+      required:
+      - locationId
+      - error
+      - type
+    CreatePostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Created Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/CreatePostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    PostUserSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User Id
+          example: 6284c43d519161e96cc09c13
+        title:
+          type: string
+          description: Title
+          example: Mr
+        firstName:
+          type: string
+          description: First name
+          example: Harry
+        lastName:
+          type: string
+          description: Last name
+          example: Spencer
+        profilePhoto:
+          type: string
+          description: Profile photo
+          example: https://storage.googleapis.com/user/kCrjKGHZQ2/profile/1dca8c-61c9-404d-a459-751fbcb.jpeg
+        phone:
+          type: string
+          description: Phone number
+          example: '901111119'
+        email:
+          type: string
+          description: Email Id
+          example: abc@xyc.com
+      required:
+      - id
+      - title
+      - firstName
+      - lastName
+      - profilePhoto
+      - phone
+      - email
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Social Planner
+  tags:
+  - Oauth | Google
+  - Post
+  - Account
+  - Oauth | Facebook
+  - Oauth | Instagram
+  - Oauth | LinkedIn
+  - Oauth | Twitter
+  - CSV
+  - Oauth | Tiktok
+  - Category
+  - Tag
+  - Statistics

@@ -1,0 +1,170 @@
+openapi: 3.2.0
+info:
+  title: Sub-Account (Formerly location) Tasks Search API
+  description: Documentation for Sub-Account (Formerly location) API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Tasks Search
+  description: Documentation for Sub-Account (Formerly location) API
+paths:
+  /locations/{locationId}/tasks/search:
+    post:
+      operationId: task-search
+      summary: Task Search Filter
+      description: Task Search
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskSearchParamsDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationTaskListSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tasks Search
+      security:
+      - bearer:
+        - locations/tasks.readonly
+components:
+  schemas:
+    TaskSearchParamsDto:
+      type: object
+      properties:
+        contactId:
+          description: Contact Ids
+          example:
+          - dSMo5jnqkJyh8YeGXM7k
+          - j5WESpmRj816VtyUuWwh
+          type: array
+          items:
+            type: string
+        completed:
+          type: boolean
+          description: Task Completed Or Pending
+          example: true
+        assignedTo:
+          description: Assigned User Ids
+          example:
+          - 0004Mtfsd11SBU1mBPgd
+          type: array
+          items:
+            type: string
+        query:
+          type: string
+          description: Search Value
+          example: Task Name
+        limit:
+          type: number
+          description: Limit To Api
+          example: 10
+          default: 25
+        skip:
+          type: number
+          description: Number Of Tasks To Skip
+          default: 0
+          example: 10
+        businessId:
+          type: string
+          description: Bussiness Id
+          example: 6348240b98722079e5417332
+    LocationTaskListSuccessfulResponseDto:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            type: array
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Sub-Account (Formerly location)
+  tags:
+  - Location
+  - Location Tags
+  - Custom Field
+  - Custom Value
+  - Template
+  - Tags Search
+  - Location Notes
+  - Location Tasks
+  - Recurring Tasks
+  - Location Search
+  - Custom Field Search
+  - Location Keys
+  - Labs
+  - Conversation Channel
+  - Search
+  - Sub-Account (Formerly Location)
+  - Tags
+  - Tasks Search
+  - Timezone
+  - ElasticSearch

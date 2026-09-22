@@ -1,0 +1,400 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager Google Integration API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Google Integration
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/google/integration:
+    get:
+      operationId: google-get-integration
+      summary: Get Google integration
+      description: Retrieve the Google Ads integration details for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Integration
+    post:
+      operationId: google-create-integration
+      summary: Create Google integration
+      description: Create a Google Ads integration for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGoogleIntegrationDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Integration
+  /ad-publishing/google/me:
+    get:
+      operationId: google-get-current-user
+      summary: Get current Google user
+      description: Retrieve the authenticated Google user info for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Integration
+  /ad-publishing/google/ad-accounts:
+    get:
+      operationId: google-get-ad-accounts
+      summary: Get Google ad accounts
+      description: Retrieve Google Ads accounts available for the connected user
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Account type
+        schema:
+          example: AD_MANAGER
+          enum:
+          - INTEGRATION
+          - AD_MANAGER
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Integration
+  /ad-publishing/google/ad-accounts/{adAccountId}:
+    get:
+      operationId: google-get-ad-account-details
+      summary: Get ad account details
+      description: Retrieve details of a specific Google Ads account
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: adAccountId
+        required: true
+        in: path
+        description: Ad account identifier
+        schema:
+          example: act_abc123
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Integration
+    delete:
+      operationId: google-delete-ad-account
+      summary: Delete ad account
+      description: Remove a Google Ads account connection from a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adAccountId
+        required: true
+        in: path
+        description: Ad account identifier
+        schema:
+          example: act_abc123
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Google Integration
+components:
+  schemas:
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
+    CreateGoogleIntegrationDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        adAccountId:
+          type: string
+          description: Ad account identifier
+          example: 123-456-7890
+        mccId:
+          type: string
+          description: MCC identifier
+          example: 987-654-3210
+      required:
+      - locationId
+      - adAccountId
+      - mccId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

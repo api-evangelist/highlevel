@@ -1,0 +1,248 @@
+openapi: 3.2.0
+info:
+  title: Contacts Bulk API
+  description: Documentation for Contacts API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Bulk
+  description: Documentation for Contacts API
+paths:
+  /contacts/bulk/tags/update/{type}:
+    post:
+      operationId: create-association
+      summary: Update Contacts Tags
+      description: Allows you to update tags to multiple contacts at once, you can add or remove tags from the contacts
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTagsDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTagsResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Bulk
+  /contacts/bulk/business:
+    post:
+      operationId: add-remove-contact-from-business
+      summary: Add/Remove Contacts From Business
+      description: Add/Remove Contacts From Business . Passing a `null` businessId will remove the businessId from the contacts
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsBusinessUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactsBulkUpateResponse'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Bulk
+components:
+  schemas:
+    ContactsBulkUpateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        ids:
+          example:
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+      required:
+      - success
+      - ids
+    UpdateTagsDTO:
+      type: object
+      properties:
+        contacts:
+          description: list of contact ids to be processed
+          example:
+          - qFSqySFkVvNzOSqgGqFi
+          - abcdef
+          - qFSqySFkVvNzOSqgGqFi
+          - 3ualbhnV7j3n3a9r2moD
+          type: array
+          items:
+            type: string
+        tags:
+          description: list of tags to be added or removed
+          example:
+          - tag-1
+          - tag-2
+          type: array
+          items:
+            type: string
+        locationId:
+          type: string
+          description: location id from where the bulk request is executed
+          example: asdrwHvLUxlfw5SqKVCN
+        removeAllTags:
+          type: boolean
+          description: Option to implement remove all tags. if true, all tags will be removed from the contacts. Can only be used with remove type.
+          example: 'false'
+      required:
+      - contacts
+      - tags
+      - locationId
+    UpdateTagsResponseDTO:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        errorCount:
+          type: number
+          description: Number of errors encountered during the operation
+          example: 0
+        responses:
+          description: Responses for each contact processed
+          example:
+          - contactId: qFSqySFkVvNzOSqgGqFi
+            message: Tags updated
+            type: success
+            oldTags:
+            - tag-1
+            - tag-2
+            tagsAdded: []
+            tagsRemoved: []
+          - contactId: abcdef
+            message: contact id is not a valid firebase id
+            type: error
+          - contactId: qFSqySFkVvNzOSqgGqFi
+            message: contact is deleted
+            type: error
+          - contactId: 3ualbhnV7j3n3a9r2moD
+            message: contact does not belong to location
+            type: error
+          type: array
+          items:
+            type: string
+      required:
+      - succeded
+      - errorCount
+      - responses
+    ContactsBusinessUpdate:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: PX8m5VwxEbcpFlzYEPVG
+        ids:
+          example:
+          - IDqvFHGColiyK6jiatuz
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+            maxLength: 50
+        businessId:
+          type:
+          - string
+          - 'null'
+          example: 63b7ec34ea409a9a8bd2a4ff
+      required:
+      - locationId
+      - ids
+      - businessId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Contacts
+  tags:
+  - Contacts
+  - Tasks
+  - Appointments
+  - Tags
+  - Notes
+  - Campaigns
+  - Workflow
+  - Bulk
+  - Search
+  - Followers

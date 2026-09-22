@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-update-tags-dto-schema.json",
+  "title": "UpdateTagsDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-contacts-openapi.json#/components/schemas/UpdateTagsDTO",
+  "type": "object",
+  "properties": {
+    "contacts": {
+      "description": "list of contact ids to be processed",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "description": "list of tags to be added or removed",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "locationId": {
+      "type": "string",
+      "description": "location id from where the bulk request is executed"
+    },
+    "removeAllTags": {
+      "type": "boolean",
+      "description": "Option to implement remove all tags. if true, all tags will be removed from the contacts. Can only be used with remove type."
+    }
+  },
+  "required": [
+    "contacts",
+    "tags",
+    "locationId"
+  ]
+}

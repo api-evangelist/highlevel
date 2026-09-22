@@ -1,0 +1,140 @@
+openapi: 3.2.0
+info:
+  title: Conversations Providers API
+  description: Documentation for Conversations API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Providers
+  description: Documentation for Conversations API
+paths:
+  /conversations/providers/live-chat/typing:
+    post:
+      operationId: live-chat-agent-typing
+      summary: Agent/Ai-Bot is typing a message indicator for live chat
+      description: Agent/AI-Bot will call this when they are typing a message in live chat message
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTypingBody'
+      responses:
+        '201':
+          description: Show typing indicator for live chat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLiveChatMessageFeedbackResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Providers
+      security:
+      - Location-Access:
+        - conversations/livechat.write
+components:
+  schemas:
+    CreateLiveChatMessageFeedbackResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+      - success
+    UserTypingBody:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        isTyping:
+          type: string
+          description: Typing status
+          example: true
+        visitorId:
+          type: string
+          description: visitorId is the Unique ID assigned to each Live chat visitor. visitorId will be added soon in <a href="https://highlevel.stoplight.io/docs/integrations/00c5ff21f0030-get-contact" target="_blank">GET Contact API</a>
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          description: Conversation Id
+          example: ve9EPM428h8vShlRW1KT
+      required:
+      - locationId
+      - isTyping
+      - visitorId
+      - conversationId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Conversations
+  tags:
+  - Conversations
+  - Search
+  - Preference Management
+  - Email
+  - Messages
+  - Providers

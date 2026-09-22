@@ -1,0 +1,121 @@
+openapi: 3.2.0
+info:
+  title: Payments Order Notes API
+  description: Documentation for payments API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Order Notes
+  description: Documentation for payments API
+paths:
+  /payments/orders/{orderId}/notes:
+    get:
+      operationId: list-order-notes
+      summary: List Order Notes
+      description: List all notes of an order
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: orderId
+        required: true
+        in: path
+        description: ID of the order that needs to be returned
+        schema:
+          example: 653f5e0cde5a1314e62a837c
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Order Notes
+      security:
+      - Location-Access: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Payments
+  tags:
+  - Payments
+  - Integrations
+  - Orders
+  - Order fulfillments
+  - Order Notes
+  - Transactions
+  - Subscriptions
+  - Coupons
+  - Custom Provider

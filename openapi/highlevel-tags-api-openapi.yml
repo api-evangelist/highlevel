@@ -1,0 +1,534 @@
+openapi: 3.2.0
+info:
+  title: Highlevel Tags API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Tags across 2 of this provider''s published API definitions: highlevel-contacts-openapi.json, highlevel-locations-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Tags
+  description: Documentation for Contacts API
+paths:
+  /contacts/{contactId}/tags:
+    post:
+      operationId: add-tags
+      summary: Add Tags
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagsDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAddTagSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer:
+        - contacts.write
+    delete:
+      operationId: remove-tags
+      summary: Remove Tags
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagsDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDeleteTagSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer:
+        - contacts.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /locations/{locationId}/tags:
+    get:
+      operationId: get-location-tags
+      summary: Get Tags
+      description: Get Sub-Account (Formerly Location) Tags
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationTagsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer:
+        - locations/tags.readonly
+    post:
+      operationId: create-tag
+      summary: Create Tag
+      description: Create tag
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tagBody'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationTagSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer:
+        - locations/tags.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /locations/{locationId}/tags/{tagId}:
+    get:
+      operationId: get-tag-by-id
+      summary: Get tag by id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: tagId
+        required: true
+        in: path
+        description: Tag Id
+        example: flGwEuzsfJOia1i1ikRN
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationTagSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer: []
+    put:
+      operationId: update-tag
+      summary: Update tag
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: tagId
+        required: true
+        in: path
+        description: Tag Id
+        example: flGwEuzsfJOia1i1ikRN
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tagBody'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationTagSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer: []
+    delete:
+      operationId: delete-tag
+      summary: Delete tag
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: tagId
+        required: true
+        in: path
+        description: Tag Id
+        example: flGwEuzsfJOia1i1ikRN
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationTagDeleteSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tags
+      security:
+      - bearer: []
+    servers:
+    - url: https://services.leadconnectorhq.com
+components:
+  schemas:
+    CreateAddTagSuccessfulResponseDto:
+      type: object
+      properties:
+        tags:
+          example:
+          - minim
+          - velit magna
+          type: array
+          items:
+            type: string
+    CreateDeleteTagSuccessfulResponseDto:
+      type: object
+      properties:
+        tags:
+          example:
+          - minim
+          - velit magna
+          type: array
+          items:
+            type: string
+    TagsDTO:
+      type: object
+      properties:
+        tags:
+          example:
+          - minim
+          - velit magna
+          type: array
+          items:
+            type: string
+      required:
+      - tags
+    LocationTagsSuccessfulResponseDto:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationTagsSchema'
+    LocationTagDeleteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    LocationTagsSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: minim aliquip anim
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        id:
+          type: string
+          example: flGwEuzsfJOia1i1ikRN
+    tagBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Tag name
+          example: Tag
+      required:
+      - name
+    LocationTagSuccessfulResponseDto:
+      type: object
+      properties:
+        tag:
+          $ref: '#/components/schemas/LocationTagsSchema'
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-refined-from:
+- highlevel-contacts-openapi.json
+- highlevel-locations-openapi.json
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

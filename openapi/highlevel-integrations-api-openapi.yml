@@ -1,0 +1,354 @@
+openapi: 3.2.0
+info:
+  title: Payments Integrations API
+  description: Documentation for payments API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Integrations
+  description: Documentation for payments API
+paths:
+  /payments/integrations/provider/whitelabel:
+    post:
+      operationId: create-integration provider
+      summary: Create White-label Integration Provider
+      description: The "Create White-label Integration Provider" API allows adding a new payment provider integration to the system which is built on top of Authorize.net or NMI. Use this endpoint to create a integration provider with the specified details. Ensure that the required information is provided in the request payload. This endpoint can be only invoked using marketplace-app token
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWhiteLabelIntegrationProviderDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateWhitelabelIntegrationResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Integrations
+      security:
+      - Location-Access:
+        - payments/integration.write
+    get:
+      operationId: list-integration-providers
+      summary: List White-label Integration Providers
+      description: The "List White-label Integration Providers" API allows to retrieve a paginated list of integration providers. Customize your results by filtering whitelabel integration providers(which are built directly on top of Authorize.net or NMI) based on name or paginate through the list using the provided query parameters. This endpoint provides a straightforward way to explore and retrieve integration provider information.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: The maximum number of items to be included in a single page of results
+        schema:
+          default: 0
+          example: 20
+          type: number
+      - name: offset
+        required: false
+        in: query
+        description: The starting index of the page, indicating the position from which the results should be retrieved.
+        schema:
+          default: 0
+          example: 0
+          type: number
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListWhitelabelIntegrationProviderResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Integrations
+      security:
+      - Location-Access:
+        - payments/integration.readonly
+components:
+  schemas:
+    ListWhitelabelIntegrationProviderResponseDto:
+      type: object
+      properties:
+        providers:
+          description: list of integration provider.
+          allOf:
+          - $ref: '#/components/schemas/IntegrationProviderSchema'
+      required:
+      - providers
+    IntegrationProviderSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the integration provider.
+          example: 65cb47dda50f4f13ced4b870
+        altId:
+          type: string
+          description: The altId / locationId of the integration provider.
+          example: Z4Bxl8J4SaPEPLq9IQ8g
+        altType:
+          type: string
+          description: The altType of the integration provider.
+          example: location
+        title:
+          type: string
+          description: The title or name of the integration provider.
+          example: Example
+        route:
+          type: string
+          description: The route name associated with the integration provider.
+          example: epd
+        provider:
+          type: string
+          description: The payment provider associated with the integration provider.
+          example: nmi
+        description:
+          type: string
+          description: A brief description providing additional information about the integration provider.
+          example: Lorem
+        imageUrl:
+          type: string
+          description: The URL to an image representing the integration provider.
+          example: https://example.com/assets/pmd/img/payments/nmi-logo.webp
+        createdAt:
+          format: date-time
+          type: string
+          description: The timestamp when the integration provider was created.
+          example: '2024-02-13T10:43:41.026Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The timestamp when the integration provider was last updated.
+          example: '2024-02-13T10:43:41.026Z'
+      required:
+      - _id
+      - altId
+      - altType
+      - title
+      - route
+      - provider
+      - description
+      - imageUrl
+      - createdAt
+      - updatedAt
+    CreateWhitelabelIntegrationResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the integration provider.
+          example: 65cb47dda50f4f13ced4b870
+        altId:
+          type: string
+          description: The altId / locationId of the integration provider.
+          example: Z4Bxl8J4SaPEPLq9IQ8g
+        altType:
+          type: string
+          description: The altType of the integration provider.
+          example: location
+        title:
+          type: string
+          description: The title or name of the integration provider.
+          example: Example
+        route:
+          type: string
+          description: The route name associated with the integration provider.
+          example: epd
+        provider:
+          type: string
+          description: The payment provider associated with the integration provider.
+          example: nmi
+        description:
+          type: string
+          description: A brief description providing additional information about the integration provider.
+          example: Lorem
+        imageUrl:
+          type: string
+          description: The URL to an image representing the integration provider.
+          example: https://example.com/assets/pmd/img/payments/nmi-logo.webp
+        createdAt:
+          format: date-time
+          type: string
+          description: The timestamp when the integration provider was created.
+          example: '2024-02-13T10:43:41.026Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The timestamp when the integration provider was last updated.
+          example: '2024-02-13T10:43:41.026Z'
+      required:
+      - _id
+      - altId
+      - altType
+      - title
+      - route
+      - provider
+      - description
+      - imageUrl
+      - createdAt
+      - updatedAt
+    CreateWhiteLabelIntegrationProviderDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        uniqueName:
+          type: string
+          description: A unique name given to the integration provider, uniqueName must start and end with a character. Only lowercase characters and hyphens (-) are supported
+          example: easy-direct
+        title:
+          type: string
+          description: The title or name of the integration provider.
+          example: Title
+        provider:
+          type: string
+          description: The type of payment provider associated with the integration provider.
+          enum:
+          - authorize-net
+          - nmi
+          example:
+            AUTHORIZE_NET: authorize-net
+            NMI: nmi
+        description:
+          type: string
+          description: A brief description providing additional information about the integration provider.
+          example: Description
+        imageUrl:
+          type: string
+          description: The URL to an image representing the integration provider. The imageUrl should start with "https://" and ensure that this URL is publicly accessible.
+          example: https://example.com/image.jpg
+      required:
+      - altId
+      - altType
+      - uniqueName
+      - title
+      - provider
+      - description
+      - imageUrl
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Payments
+  tags:
+  - Payments
+  - Integrations
+  - Orders
+  - Order fulfillments
+  - Order Notes
+  - Transactions
+  - Subscriptions
+  - Coupons
+  - Custom Provider

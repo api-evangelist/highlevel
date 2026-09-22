@@ -1,0 +1,38 @@
+generated: '2026-09-22'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://marketplace.gohighlevel.com/docs/sdk/GettingStartedSDK/index.html
+sources:
+- https://marketplace.gohighlevel.com/docs/sdk/GettingStartedSDK/index.html
+- https://marketplace.gohighlevel.com/docs/sdk/marketplace-cli/index.html
+install:
+- method: npm
+  command: npm install -g @gohighlevel/marketplace-cli
+commands:
+- group: top-level
+  commands:
+  - ghl --help
+  - ghl help [command]
+  - ghl <command> --help
+  - ghl commands
+  - ghl --version
+- group: auth
+  commands:
+  - ghl login
+  - ghl logout
+  - ghl account
+  - ghl account switch [accountId]
+- group: app
+  commands:
+  - ghl app create
+  - ghl app pull <appId>
+  - ghl app validate
+  - ghl app diff
+  - ghl app push
+  - ghl app use [appId]
+  - ghl app current
+  - ghl app info
+  - ghl app list
+  - ghl app publish
+binary: ghl
+docs: https://marketplace.gohighlevel.com/docs/sdk/GettingStartedSDK/index.html

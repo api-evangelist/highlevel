@@ -1,0 +1,1538 @@
+openapi: 3.2.0
+info:
+  title: Highlevel Template API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Template across 2 of this provider''s published API definitions: highlevel-invoices-openapi.json, highlevel-locations-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Template
+  description: Documentation for invoice API
+paths:
+  /invoices/template:
+    post:
+      operationId: create-invoice-template
+      summary: Create template
+      description: API to create a template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceTemplateDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInvoiceTemplateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access:
+        - invoices/template.write
+      - Agency-Access:
+        - invoices/template.write
+    get:
+      operationId: list-invoice-templates
+      summary: List templates
+      description: API to get list of templates
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status to be filtered
+        schema:
+          type: string
+      - name: startAt
+        required: false
+        in: query
+        description: startAt in YYYY-MM-DD format
+        schema:
+          example: '2023-01-01'
+          type: string
+      - name: endAt
+        required: false
+        in: query
+        description: endAt in YYYY-MM-DD format
+        schema:
+          example: '2023-01-01'
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: To search for an invoice by id / name / email / phoneNo
+        schema:
+          example: Alex
+          type: string
+      - name: paymentMode
+        required: false
+        in: query
+        description: payment mode
+        schema:
+          example: live
+          enum:
+          - default
+          - live
+          - test
+          type: string
+      - name: limit
+        required: true
+        in: query
+        description: Limit the number of items to return
+        schema:
+          example: 10
+          type: string
+      - name: offset
+        required: true
+        in: query
+        description: Number of items to skip
+        schema:
+          example: 10
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplatesResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access:
+        - invoices/template.readonly
+      - Agency-Access:
+        - invoices/template.readonly
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /invoices/template/{templateId}:
+    get:
+      operationId: get-invoice-template
+      summary: Get an template
+      description: API to get an template by template id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTemplateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access:
+        - invoices/template.readonly
+      - Agency-Access:
+        - invoices/template.readonly
+    put:
+      operationId: update-invoice-template
+      summary: Update template
+      description: API to update an template by template id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInvoiceTemplateDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceTemplateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access:
+        - invoices/template.write
+      - Agency-Access:
+        - invoices/template.write
+    delete:
+      operationId: delete-invoice-template
+      summary: Delete template
+      description: API to update an template by template id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: location Id / company Id based on altType
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: Alt Type
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteInvoiceTemplateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access:
+        - invoices/template.write
+      - Agency-Access:
+        - invoices/template.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /invoices/template/{templateId}/late-fees-configuration:
+    patch:
+      operationId: update-invoice-template-late-fees-configuration
+      summary: Update template late fees configuration
+      description: API to update template late fees configuration by template id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInvoiceLateFeesConfigurationDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceTemplateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access: []
+      - Agency-Access: []
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /invoices/template/{templateId}/payment-methods-configuration:
+    patch:
+      operationId: update-invoice-payment-methods-configuration
+      summary: Update template late fees configuration
+      description: API to update template late fees configuration by template id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePaymentMethodsConfigurationDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInvoiceTemplateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - Location-Access: []
+      - Agency-Access: []
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /locations/{locationId}/templates:
+    get:
+      operationId: GET-all-or-email-sms-templates
+      summary: GET all or email/sms templates
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: deleted
+        required: false
+        in: query
+        example: false
+        schema:
+          default: false
+          type: boolean
+      - name: skip
+        required: false
+        in: query
+        example: '1'
+        schema:
+          default: '0'
+          type: string
+      - name: limit
+        required: false
+        in: query
+        example: '25'
+        schema:
+          default: '25'
+          type: string
+      - name: type
+        required: false
+        in: query
+        schema:
+          enum:
+          - sms
+          - email
+          - whatsapp
+          type: string
+      - name: originId
+        required: true
+        in: query
+        description: Origin Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTemplatesSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - bearer:
+        - locations/templates.readonly
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /locations/{locationId}/templates/{id}:
+    delete:
+      operationId: DELETE-an-email-sms-template
+      summary: DELETE an email/sms template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Template Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Template
+      security:
+      - bearer: []
+    servers:
+    - url: https://services.leadconnectorhq.com
+components:
+  schemas:
+    BusinessDetailsDto:
+      type: object
+      properties:
+        logoUrl:
+          type: string
+          description: Business Logo URL
+          example: https://example.com/logo.png
+        name:
+          type: string
+          description: Business Name
+          example: ABC Corp.
+        phoneNo:
+          type: string
+          description: Business Phone Number
+          example: +1-214-559-6993
+        address:
+          description: Business Address
+          example: 9931 Beechwood, TX
+          allOf:
+          - $ref: '#/components/schemas/AddressDto'
+        website:
+          type: string
+          description: Business Website Link
+          example: wwww.example.com
+        customValues:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+    UpdatePaymentMethodsConfigurationDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        paymentMethods:
+          description: Payment Methods for Invoices
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodDto'
+      required:
+      - altId
+      - altType
+    PaymentMethodDto:
+      type: object
+      properties:
+        stripe:
+          description: Payment Method
+          allOf:
+          - $ref: '#/components/schemas/StripePaymentMethodDto'
+      required:
+      - stripe
+    InvoiceItemDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Invoice Item Name
+          example: ABC Product
+        description:
+          type: string
+          description: Invoice descriptions
+          example: ABC Corp.
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9c
+        priceId:
+          type: string
+          description: Price Id
+          example: 6578278e879ad2646715ba9c
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        amount:
+          type: number
+          description: Product amount
+          example: 999
+        qty:
+          type: number
+          description: Product Quantity
+          example: 1
+        taxes:
+          description: Tax
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemTaxDto'
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category id for calculating automatic tax
+          example: 6578278e879ad2646715ba9c
+        isSetupFeeItem:
+          type: boolean
+          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
+        type:
+          type: string
+          description: Price type of the item
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        taxInclusive:
+          type: boolean
+          description: true if item amount is tax inclusive
+          example: true
+          default: false
+      required:
+      - name
+      - currency
+      - amount
+      - qty
+    LateFeesGraceDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees grace interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees grace interval
+          example: day
+          enum:
+          - day
+      required:
+      - intervalCount
+      - interval
+    GetTemplateResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Template Id
+          example: 6578278e879ad2646715ba9c
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the Template
+          example: New Template
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        invoiceNumberPrefix:
+          type: string
+          description: prefix for invoice number
+          example: INV-
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+      - total
+      - createdAt
+      - updatedAt
+    LateFeesFrequencyDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees interval
+          example: day
+          enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - one_time
+      required:
+      - intervalCount
+      - interval
+    UpdateInvoiceTemplateResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Template Id
+          example: 6578278e879ad2646715ba9c
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the Template
+          example: New Template
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        invoiceNumberPrefix:
+          type: string
+          description: prefix for invoice number
+          example: INV-
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+      - total
+      - createdAt
+      - updatedAt
+    ProcessingFeeDto:
+      type: object
+      properties:
+        charges:
+          description: charges for the processing fee
+          items:
+            type: array
+          type: array
+        collectedMiscellaneousCharges:
+          type: number
+          description: collected miscellaneous charges
+          example: 10
+        paidCharges:
+          description: paid miscellaneous charges
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+      required:
+      - charges
+    StripePaymentMethodDto:
+      type: object
+      properties:
+        enableBankDebitOnly:
+          type: boolean
+          description: Enable Bank Debit Only
+          example: false
+      required:
+      - enableBankDebitOnly
+    UpdateInvoiceLateFeesConfigurationDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        lateFeesConfiguration:
+          description: late fees configuration
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+      required:
+      - altId
+      - altType
+      - lateFeesConfiguration
+    DeleteInvoiceTemplateResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: success
+          example: true
+      required:
+      - success
+    DiscountDto:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Discount Value
+          example: 10
+          default: 0
+        type:
+          type: string
+          description: Discount type
+          enum:
+          - percentage
+          - fixed
+          example: percentage
+          default: percentage
+        validOnProductIds:
+          description: Product Ids on which discount is applicable
+          example: '[ ''6579751d56f60276e5bd4154'' ]'
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    ProcessingFeePaidChargeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the processing fee
+          example: Processing Fee
+        charge:
+          type: number
+          description: charge for the processing fee
+          example: 10
+        amount:
+          type: number
+          description: amount of the processing fee
+          example: 10
+        _id:
+          type: string
+          description: id of the processing fee
+          example: 673d01d7d547648a8dab6211
+      required:
+      - name
+      - charge
+      - amount
+      - _id
+    CreateInvoiceTemplateResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Template Id
+          example: 6578278e879ad2646715ba9c
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the Template
+          example: New Template
+        businessDetails:
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        discount:
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        items:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        invoiceNumberPrefix:
+          type: string
+          description: prefix for invoice number
+          example: INV-
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - _id
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+      - total
+      - createdAt
+      - updatedAt
+    UpdateInvoiceTemplateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        internal:
+          type: boolean
+        name:
+          type: string
+          description: Name of the template
+          example: New Template
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItemDto'
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+        title:
+          type: string
+          description: Template title
+          example: New Template
+        miscellaneousCharges:
+          description: miscellaneous charges for the invoice
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+      required:
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+    CreateInvoiceTemplateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        internal:
+          type: boolean
+        name:
+          type: string
+          description: Name of the template
+          example: New Template
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItemDto'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+        title:
+          type: string
+          description: Template title
+          example: New Template
+        tipsConfiguration:
+          description: Configuration for tips on invoices
+          allOf:
+          - $ref: '#/components/schemas/TipsConfigurationDto'
+        lateFeesConfiguration:
+          description: Late fees configuration for the invoices
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+        invoiceNumberPrefix:
+          type: string
+          description: prefix for invoice number
+          example: INV-
+        paymentMethods:
+          description: Payment Methods for Invoices
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodDto'
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            type: string
+        miscellaneousCharges:
+          description: miscellaneous charges for the invoice
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+      required:
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+    AddressDto:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address Line 1
+          example: 9931 Beechwood
+        addressLine2:
+          type: string
+          description: Address Line 2
+          example: Beechwood
+        city:
+          type: string
+          description: City
+          example: St. Houston
+        state:
+          type: string
+          description: State
+          example: TX
+        countryCode:
+          type: string
+          description: Country Code
+          example: US
+        postalCode:
+          type: string
+          description: Postal Code
+          example: 559-6993
+    ListTemplatesResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetTemplateResponseDto'
+        totalCount:
+          type: number
+          description: Total number of Templates
+          example: 100
+      required:
+      - data
+      - totalCount
+    ItemTaxDto:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+        calculation:
+          type: string
+          enum:
+          - exclusive
+        description:
+          type: string
+        taxId:
+          type: string
+      required:
+      - _id
+      - name
+      - rate
+    LateFeesMaxFeesDto:
+      type: object
+      properties:
+        type:
+          type: string
+          example: fixed
+          enum:
+          - fixed
+        value:
+          type: number
+          example: '10'
+          description: Max late fees to pay
+      required:
+      - type
+      - value
+    LateFeesConfigurationDto:
+      type: object
+      properties:
+        enable:
+          type: boolean
+          description: Enable late fees
+          example: true
+        value:
+          type: number
+          description: Late Fees Value
+          example: 10
+        type:
+          type: string
+          description: Late Fees Type
+          example: fixed
+          enum:
+          - fixed
+          - percentage
+        frequency:
+          description: Late Fees Frequency
+          allOf:
+          - $ref: '#/components/schemas/LateFeesFrequencyDto'
+        grace:
+          description: Late Fees Grace
+          allOf:
+          - $ref: '#/components/schemas/LateFeesGraceDto'
+        maxLateFees:
+          description: Max late fees payable
+          allOf:
+          - $ref: '#/components/schemas/LateFeesMaxFeesDto'
+      required:
+      - enable
+      - value
+      - type
+      - frequency
+    TipsConfigurationDto:
+      type: object
+      properties:
+        tipsPercentage:
+          description: Percentage of tips allowed
+          example:
+          - 5
+          - 10
+          - 15
+          type: array
+          items:
+            type: string
+        tipsEnabled:
+          type: boolean
+          description: Tips enabled status
+          example: true
+      required:
+      - tipsPercentage
+      - tipsEnabled
+    EmailTemplateSchema:
+      type: object
+      properties:
+        subject:
+          type: string
+          example: subject text
+        attachments:
+          example: []
+          type: array
+          items:
+            type: array
+        html:
+          type: string
+          example: '<html><head><style>body{font-family: sans-serif;}</style></head><body>testing</body></html>'
+    GetTemplatesSuccessfulResponseDto:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/GetSmsTemplateResponseSchema'
+            - $ref: '#/components/schemas/GetEmailTemplateResponseSchema'
+        totalCount:
+          type: number
+          example: 100
+    GetSmsTemplateResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2yMwhgTNO19bpintqrap
+        name:
+          type: string
+          example: sms template
+        type:
+          type: string
+          example: sms
+        template:
+          $ref: '#/components/schemas/SmsTemplateSchema'
+        dateAdded:
+          type: string
+          example: '2022-01-27T12:31:19.679Z'
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        urlAttachments:
+          example: []
+          type: array
+          items:
+            type: string
+    GetEmailTemplateResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2yMwhgTNO19bpintqrap
+        name:
+          type: string
+          example: email template
+        type:
+          type: string
+          example: email
+        dateAdded:
+          type: string
+          example: '2022-01-27T12:31:19.679Z'
+        template:
+          $ref: '#/components/schemas/EmailTemplateSchema'
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+    SmsTemplateSchema:
+      type: object
+      properties:
+        body:
+          type: string
+          example: sms body
+        attachments:
+          example: []
+          type: array
+          items:
+            type: array
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-refined-from:
+- highlevel-invoices-openapi.json
+- highlevel-locations-openapi.json
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

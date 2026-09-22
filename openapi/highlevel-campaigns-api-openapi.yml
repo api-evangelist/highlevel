@@ -1,0 +1,542 @@
+openapi: 3.2.0
+info:
+  title: Highlevel Campaigns API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Campaigns across 2 of this provider''s published API definitions: highlevel-contacts-openapi.json, highlevel-emails-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Campaigns
+  description: Documentation for Contacts API
+paths:
+  /contacts/{contactId}/campaigns/{campaignId}:
+    post:
+      operationId: add-contact-to-campaign
+      summary: Add Contact to Campaign
+      description: Add contact to Campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: 3bZD1nQzbul0MCancbQD
+          type: string
+      - name: campaignId
+        required: true
+        in: path
+        description: Campaigns Id
+        schema:
+          example: Y2I9XM7aO1hncuSOlc9L
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddContactToCampaignDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDeleteCantactsCampaignsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Campaigns
+      security:
+      - bearer:
+        - contacts.write
+    delete:
+      operationId: remove-contact-from-campaign
+      summary: Remove Contact From Campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: 3bZD1nQzbul0MCancbQD
+          type: string
+      - name: campaignId
+        required: true
+        in: path
+        description: Campaigns Id
+        schema:
+          example: Y2I9XM7aO1hncuSOlc9L
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDeleteCantactsCampaignsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Campaigns
+      security:
+      - bearer:
+        - contacts.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /contacts/{contactId}/campaigns/removeAll:
+    delete:
+      operationId: remove-contact-from-every-campaign
+      summary: Remove Contact From Every Campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: 3bZD1nQzbul0MCancbQD
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDeleteCantactsCampaignsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Campaigns
+      security:
+      - bearer:
+        - contacts.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /emails/schedule:
+    get:
+      operationId: fetch-campaigns
+      summary: Get Campaigns
+      parameters:
+      - name: locationId
+        required: true
+        in: query
+        example: ohjiah0wdg3bzmzacvd6
+        description: Location ID to fetch campaigns from
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        example: '7'
+        description: Maximum number of campaigns to return. Defaults to 10, maximum is 100
+        schema:
+          type: number
+      - name: offset
+        required: false
+        in: query
+        example: '0'
+        description: Number of campaigns to skip for pagination
+        schema:
+          type: number
+      - name: status
+        required: false
+        in: query
+        description: Filter by schedule status
+        schema:
+          default: active
+          enum:
+          - active
+          - pause
+          - complete
+          - cancelled
+          - retry
+          - draft
+          - resend-scheduled
+          type: string
+      - name: emailStatus
+        required: false
+        in: query
+        description: Filter by email delivery status
+        schema:
+          default: complete
+          enum:
+          - all
+          - not-started
+          - paused
+          - cancelled
+          - processing
+          - resumed
+          - next-drip
+          - complete
+          - success
+          - error
+          - waiting
+          - queued
+          - queueing
+          - reading
+          - scheduled
+          type: string
+      - name: name
+        required: false
+        in: query
+        example: Black Friday Campaign
+        description: Filter campaigns by name
+        schema:
+          type: string
+      - name: parentId
+        required: false
+        in: query
+        example: folder123
+        description: Filter campaigns by parent folder ID
+        schema:
+          type: string
+      - name: limitedFields
+        required: false
+        default: false
+        example: 'false'
+        in: query
+        description: When true, returns only essential campaign fields like id, templateDataDownloadUrl, updatedAt, type, templateType, templateId, downloadUrl and isPlainText. When false, returns complete campaign data including meta information, bulkRequestStatusInfo, ABTestInfo, resendScheduleInfo and all other campaign properties
+        schema:
+          type: boolean
+      - name: archived
+        required: false
+        example: 'false'
+        in: query
+        description: Filter archived campaigns
+        schema:
+          type: boolean
+      - name: campaignsOnly
+        required: false
+        default: false
+        example: 'false'
+        in: query
+        description: Return only campaigns, excluding folders
+        schema:
+          type: boolean
+      - name: showStats
+        required: false
+        default: true
+        example: 'true'
+        in: query
+        description: When true, returns campaign statistics including delivered count, opened count, clicked count and revenue if available for the campaign. When false, returns campaign data without statistics.
+        schema:
+          type: boolean
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleFetchSuccessfulDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '403':
+          description: The token does not have access to this location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidLocationDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - Location-Access:
+        - emails/schedule.readonly
+      tags:
+      - Campaigns
+    servers:
+    - url: https://services.leadconnectorhq.com
+components:
+  schemas:
+    CreateDeleteCantactsCampaignsSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    AddContactToCampaignDto:
+      type: object
+      properties: {}
+    ScheduleDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Untitled new campaign
+        repeatAfter:
+          type: string
+        id:
+          type: string
+        parentId:
+          type: string
+        childCount:
+          type: number
+        campaignType:
+          type: string
+        bulkActionVersion:
+          type: string
+        _id:
+          type: string
+        status:
+          type: string
+        sendDays:
+          type: array
+          items:
+            type: string
+        deleted:
+          type: boolean
+        migrated:
+          type: boolean
+        archived:
+          type: boolean
+        hasTracking:
+          type: boolean
+        isPlainText:
+          type: boolean
+        hasUtmTracking:
+          type: boolean
+        enableResendToUnopened:
+          type: boolean
+        locationId:
+          type: string
+        templateId:
+          type: string
+        templateType:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        __v:
+          type: number
+        documentId:
+          type: string
+        downloadUrl:
+          type: string
+        templateDataDownloadUrl:
+          type: string
+        child:
+          type: array
+          items:
+            type: string
+      required:
+      - name
+      - repeatAfter
+      - id
+      - parentId
+      - childCount
+      - campaignType
+      - bulkActionVersion
+      - _id
+      - status
+      - sendDays
+      - deleted
+      - migrated
+      - archived
+      - hasTracking
+      - isPlainText
+      - hasUtmTracking
+      - enableResendToUnopened
+      - locationId
+      - templateId
+      - templateType
+      - createdAt
+      - updatedAt
+      - __v
+      - documentId
+      - downloadUrl
+      - templateDataDownloadUrl
+      - child
+    ScheduleFetchSuccessfulDTO:
+      type: object
+      properties:
+        schedules:
+          description: The list of campaigns
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleDto'
+        total:
+          description: The total number of campaigns
+          type: array
+          items:
+            type: string
+        traceId:
+          type: string
+          description: Trace Id
+      required:
+      - schedules
+      - total
+      - traceId
+    NotFoundDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 404
+        message:
+          type: string
+          example: Not Found
+        error:
+          type: string
+          example: The requested resource was not found
+    InvalidLocationDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 403
+        message:
+          type: string
+          example: The token does not have access to this location
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-refined-from:
+- highlevel-contacts-openapi.json
+- highlevel-emails-openapi.json
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

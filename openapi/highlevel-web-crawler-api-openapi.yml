@@ -1,0 +1,836 @@
+openapi: 3.2.0
+info:
+  title: Knowledge Base Web Crawler API
+  description: Documentation for Knowledge Base API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Web Crawler
+  description: Documentation for Knowledge Base API
+paths:
+  /knowledge-bases/crawler:
+    get:
+      operationId: getAllWebsiteUrlsDataByKnowledgeBase
+      summary: Get all trained page links by knowledge base
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: knowledgeBaseId
+        required: true
+        in: query
+        description: knowledge base ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: location ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Page number
+        schema:
+          example: 1
+          type: number
+      - name: pageLength
+        required: false
+        in: query
+        description: Records per page
+        schema:
+          example: 1
+          type: number
+      - name: query
+        required: false
+        in: query
+        description: query to filter on url links
+        schema:
+          example: www.example.com/
+          type: string
+      responses:
+        '200':
+          description: Trained page links retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllUrlsByKnowledgeBaseResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - Web Crawler
+      security:
+      - Location-Access: []
+    post:
+      operationId: discoverWebsite
+      summary: Start crawling and discover pages for training
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscoverWebsiteRequestDTO'
+      responses:
+        '201':
+          description: Crawling and discovery started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscoverWebsiteResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - Web Crawler
+      security:
+      - Location-Access: []
+    delete:
+      operationId: deleteTrainedUrlsForKnowledgeBase
+      summary: Delete trained pages
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteWebsiteUrlRequestDTO'
+      responses:
+        '200':
+          description: Selected pages deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteWebsiteUrlResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - Web Crawler
+      security:
+      - Location-Access: []
+  /knowledge-bases/crawler/status:
+    get:
+      operationId: getCrawlingStatusForLatestOperation
+      summary: Get crawling status for the latest operation
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: operationId
+        required: true
+        in: query
+        description: operation id as string
+        schema:
+          example: 1
+          type: string
+      - name: knowledgeBaseId
+        required: true
+        in: query
+        description: knowledge base id
+        schema:
+          example: jjkkxftgvbhjmn,
+          type: string
+      responses:
+        '200':
+          description: Operation status fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrawlingStatusResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - Web Crawler
+      security:
+      - Location-Access: []
+  /knowledge-bases/crawler/train:
+    post:
+      operationId: trainDiscoveredUrls
+      summary: Train discovered website pages and ingest into the knowledge base
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainDiscoveredUrlsDTO'
+      responses:
+        '201':
+          description: Pages trained successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainDiscoveredUrlsResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - Web Crawler
+      security:
+      - Location-Access: []
+components:
+  schemas:
+    TrainDiscoveredUrlsDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        urlIds:
+          description: List of Object ids of the discovered urls
+          example:
+          - 688b640bcb02d498102a13ec
+          - 688b640bcb02d498102a13ea
+          type: array
+          items:
+            type: string
+        knowledgeBaseId:
+          type: string
+          description: knowledge base id
+          example: jjkkxftgvbhjmn,
+        operationId:
+          type: string
+          description: operation id as string
+          example: 688b640bcb02d498102a13f0,
+      required:
+      - locationId
+      - urlIds
+      - knowledgeBaseId
+      - operationId
+    CrawlingAggregateDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Status grouping identifier
+          example: Failed
+          enum:
+          - Pending
+          - Processing
+          - Successful
+          - Failed
+          - Existing
+          - Restricted
+          - Cancelled
+          - Aborted
+          - Training
+        records:
+          description: Array of records for this status
+          type: array
+          items:
+            $ref: '#/components/schemas/CrawlingRecordDTO'
+      required:
+      - _id
+      - records
+    DeleteWebsiteUrlResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+      required:
+      - success
+    DiscoverWebsiteRequestDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        url:
+          type: string
+          description: Website URL as string
+          example: https://kubernetes.io/tDtDnQdgm2LXpyiqYvZ6
+        option:
+          type: string
+          description: Mode as string
+          example: Exact
+          enum:
+          - Exact
+          - Path
+          - Domain
+        knowledgeBaseId:
+          type: string
+          description: knowledge base ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+      required:
+      - locationId
+      - url
+      - option
+      - knowledgeBaseId
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    DiscoverWebsiteResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        data:
+          description: Data containing operation details
+          allOf:
+          - $ref: '#/components/schemas/DiscoverWebsiteDataDTO'
+      required:
+      - success
+      - data
+    UnprocessableDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 422
+        message:
+          example:
+          - Unprocessable Entity
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+          example: Unprocessable Entity
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: Internal Server Error
+    UnauthorizedDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 401
+        message:
+          type: string
+          example: 'Invalid token: access token is invalid'
+        error:
+          type: string
+          example: Unauthorized
+    GetAllUrlsByKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total count of URLs in the knowledge base
+          example: 64
+        urls:
+          description: Array of crawled URLs with their details
+          type: array
+          items:
+            $ref: '#/components/schemas/CrawledUrlDTO'
+      required:
+      - count
+      - urls
+    DeleteWebsiteUrlRequestDTO:
+      type: object
+      properties:
+        knowledgeBaseId:
+          type: string
+          description: knowledge base ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        locationId:
+          type: string
+          description: location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        urlIds:
+          description: List of trained urls ids ( fetched from the Get all trained page links by knowledge base endpoint)
+          example: '[tDtDnQdgm2LXpyiqYvZ6]'
+          type: array
+          items:
+            type: string
+      required:
+      - knowledgeBaseId
+      - locationId
+      - urlIds
+    CrawlingStatusResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        data:
+          description: Detailed crawling status data
+          allOf:
+          - $ref: '#/components/schemas/CrawlingStatusDataDTO'
+      required:
+      - success
+      - data
+    OperationDetailsDTO:
+      type: object
+      properties:
+        discoveredUrlsCount:
+          type: number
+          description: Number of URLs discovered
+          example: 66
+        trainedUrlsCount:
+          type: number
+          description: Number of URLs successfully trained
+          example: 0
+        _id:
+          type: string
+          description: Operation unique identifier
+          example: 688e410c8a18870ecf4d13bb
+        locationId:
+          type: string
+          description: Associated location ID
+          example: nnAzVJqSv6PJ1p6zrhvC
+        status:
+          type: string
+          description: Current operation status
+          example: Pending
+          enum:
+          - Pending
+          - Processing
+          - Successful
+          - Failed
+          - Existing
+          - Restricted
+          - Cancelled
+          - Aborted
+          - Training
+        url:
+          type: string
+          description: Base URL being crawled
+          example: https://developer.mozilla.org/en-US/blog/
+        mode:
+          type: string
+          description: Crawling mode used
+          example: Path
+          enum:
+          - Exact
+          - Path
+          - Domain
+        knowledgeBaseId:
+          type: string
+          description: Knowledge base ID
+          example: CCNPhKqSCkTOG8O7dtbq
+        createdAt:
+          type: string
+          description: Operation creation timestamp
+          example: '2025-08-02T16:47:08.182Z'
+        updatedAt:
+          type: string
+          description: Last update timestamp
+          example: '2025-08-02T16:48:43.635Z'
+        __v:
+          type: number
+          description: Version field
+          example: 0
+        robotsFileData:
+          type: string
+          description: Robots.txt file content
+          example: 'User-agent: *
+
+            Sitemap: https://developer.mozilla.org/sitemap.xml
+
+            Disallow: /api/'
+      required:
+      - discoveredUrlsCount
+      - trainedUrlsCount
+      - _id
+      - locationId
+      - status
+      - url
+      - mode
+      - knowledgeBaseId
+      - createdAt
+      - updatedAt
+      - __v
+    CrawlingRecordDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL being crawled
+          example: https://developer.mozilla.org/en-US/blog/rss.xml
+        id:
+          type: string
+          description: Unique record identifier
+          example: 688e41118a188704914d13c0
+        title:
+          type: string
+          description: Page title (for successful/pending records)
+          example: JavaScript Temporal is coming | MDN Blog
+        error:
+          description: Error details (for failed records)
+          allOf:
+          - $ref: '#/components/schemas/ErrorDetailsDTO'
+      required:
+      - url
+      - id
+    DiscoverWebsiteDataDTO:
+      type: object
+      properties:
+        operationId:
+          type: string
+          description: Operation ID for tracking the discovery process
+          example: 688e410c8a18870ecf4d13bb
+        status:
+          type: string
+          description: Current status of the website discovery operation
+          example: Processing
+          enum:
+          - Pending
+          - Processing
+          - Successful
+          - Failed
+          - Existing
+          - Restricted
+          - Cancelled
+          - Aborted
+          - Training
+        url:
+          type: string
+          description: The URL being discovered/crawled
+          example: https://developer.mozilla.org/en-US/blog/
+      required:
+      - operationId
+      - status
+      - url
+    CrawledUrlDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the URL
+          example: 688c73a25275c513f5f3a7de
+        url:
+          type: string
+          description: The actual URL that was crawled
+          example: https://developer.mozilla.org/en-US/blog
+        title:
+          type: string
+          description: Title of the webpage
+          example: MDN Blog
+        status:
+          type: string
+          description: Current processing status of the URL
+          example: Successful
+          enum:
+          - Pending
+          - Processing
+          - Successful
+          - Failed
+          - Existing
+          - Restricted
+          - Cancelled
+          - Aborted
+          - Training
+        locationId:
+          type: string
+          description: Location ID associated with this URL
+          example: qIyivCmsuEOSnyoFYEej
+        knowledgeBaseId:
+          type: string
+          description: Knowledge base ID this URL belongs to
+          example: Arc9QRauPKkSuMJO8D0m
+        content:
+          type: string
+          description: URL to the stored content file
+          example: https://storage.googleapis.com/crm-conversations-ai-staging/conversationAI/2025/8/1/locations/qIyivCmsuEOSnyoFYEej/688c739c88c89f21ad30f63e-4IseusbZ3vDXMT8WNw9M.txt
+        contentEditedByUser:
+          type: boolean
+          description: Whether the content was edited by user
+          example: false
+        updatedAt:
+          type: string
+          description: Last updated timestamp
+          example: '2025-08-01T07:58:29.858Z'
+      required:
+      - id
+      - url
+      - title
+      - status
+      - locationId
+      - knowledgeBaseId
+      - content
+      - contentEditedByUser
+      - updatedAt
+    CrawlingStatusDataDTO:
+      type: object
+      properties:
+        aggregate:
+          description: Aggregated crawling results by status
+          type: array
+          items:
+            $ref: '#/components/schemas/CrawlingAggregateDTO'
+        operationDetails:
+          description: Detailed operation information
+          allOf:
+          - $ref: '#/components/schemas/OperationDetailsDTO'
+      required:
+      - aggregate
+      - operationDetails
+    TrainDiscoveredUrlsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+      required:
+      - success
+    ErrorDetailsDTO:
+      type: object
+      properties:
+        stack:
+          type: string
+          description: Error stack trace
+          example: "HttpException: Failed to fetch HTML content\n    at getHtml (/app/dist/apps/conversations-ai/crm-conversations-ai-discover-worker.js:2531:15)"
+        response:
+          type: string
+          description: Error response message
+          example: Failed to fetch HTML content
+        status:
+          type: number
+          description: HTTP status code
+          example: 500
+        options:
+          type: object
+          description: Additional options (nullable)
+          example: null
+        message:
+          type: string
+          description: Error message
+          example: Failed to fetch HTML content
+        name:
+          type: string
+          description: Error name/type
+          example: HttpException
+      required:
+      - stack
+      - response
+      - status
+      - message
+      - name
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Knowledge Base
+  tags:
+  - Knowledge Base
+  - Faqs
+  - Web Crawler

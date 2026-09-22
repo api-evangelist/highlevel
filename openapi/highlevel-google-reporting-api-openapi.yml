@@ -1,0 +1,319 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager Google Reporting API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Google Reporting
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/google/reporting:
+    get:
+      operationId: google-get-reporting
+      summary: Get reporting data
+      description: Retrieve aggregated Google Ads reporting metrics for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: fRMewNQIxSyZ5R4nQyit
+          type: string
+      - name: groupBy
+        required: false
+        in: query
+        description: Group by period
+        schema:
+          example: month
+          enum:
+          - date
+          - week
+          - month
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Report start date
+        schema:
+          example: '2022-01-11'
+          type: string
+      - name: endDate
+        required: true
+        in: query
+        description: Report end date
+        schema:
+          example: '2022-01-31'
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Integration type
+        schema:
+          example: AD_MANAGER or INTEGRATION
+          enum:
+          - AD_MANAGER
+          - INTEGRATION
+          type: string
+      - name: fields
+        required: true
+        in: query
+        explode: false
+        description: Comma-separated reporting fields
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - impressions
+            - clicks
+            - cost_micros
+            - average_cpc
+            - conversions
+            - average_cpm
+            - cost_per_conversion
+            - ctr
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Reporting
+  /ad-publishing/google/reporting/list:
+    get:
+      operationId: google-get-reporting-list
+      summary: Get reporting list
+      description: Retrieve a list of Google campaigns or ad groups with reporting data
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: fRMewNQIxSyZ5R4nQyit
+          type: string
+      - name: listType
+        required: true
+        in: query
+        description: Report list type
+        schema:
+          example: campaigns
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Report start date
+        schema:
+          example: '2022-01-11'
+          type: string
+      - name: endDate
+        required: true
+        in: query
+        description: Report end date
+        schema:
+          example: '2022-01-31'
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: Campaign identifier
+        schema:
+          example: '196684453527082'
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Integration type
+        schema:
+          example: INTEGRATION
+          enum:
+          - AD_MANAGER
+          - INTEGRATION
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Reporting
+  /ad-publishing/google/reporting/campaign/{campaignId}:
+    get:
+      operationId: google-get-campaign-reporting
+      summary: Get campaign reporting
+      description: Retrieve reporting metrics for a specific Google campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        description: Campaign identifier
+        schema:
+          example: camp_abc123
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: fRMewNQIxSyZ5R4nQyit
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Report start date
+        schema:
+          example: '2022-01-11'
+          type: string
+      - name: endDate
+        required: true
+        in: query
+        description: Report end date
+        schema:
+          example: '2022-01-31'
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Google Reporting
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

@@ -1,0 +1,1045 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager LinkedIn Ads API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: LinkedIn Ads
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/linkedin/ads/{adId}:
+    get:
+      operationId: li-get-campaign-group
+      summary: Get ad campaign group
+      description: Retrieve a LinkedIn ad campaign group by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        description: Ad identifier
+        schema:
+          example: 507f1f77bcf86cd799439011
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - LinkedIn Ads
+  /ad-publishing/linkedin/ads/{adId}/publish:
+    post:
+      operationId: li-publish-campaign-group
+      summary: Publish ad campaign group
+      description: Publish a LinkedIn ad campaign group and push it live
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        description: Ad identifier
+        schema:
+          example: 507f1f77bcf86cd799439011
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - LinkedIn Ads
+  /ad-publishing/linkedin/ads:
+    put:
+      operationId: li-upsert-campaign-group
+      summary: Upsert ad campaign group
+      description: Create or update a LinkedIn ad campaign group with campaigns and ads
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdCampaignGroupDataDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - LinkedIn Ads
+  /ad-publishing/linkedin/targeting/search:
+    get:
+      operationId: li-search-targeting
+      summary: Search targeting options
+      description: Search LinkedIn targeting facets such as locations, industries, and job titles
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: facet
+        required: true
+        in: query
+        description: Targeting facet
+        schema:
+          example: locations
+          type: string
+      - name: query
+        required: false
+        in: query
+        description: Search query
+        schema:
+          example: software
+          type: string
+      - name: q
+        required: false
+        in: query
+        description: Query parameter
+        schema:
+          example: typeahead
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - LinkedIn Ads
+  /ad-publishing/linkedin/{accountId}/forms:
+    get:
+      operationId: li-get-lead-forms
+      summary: Get lead forms
+      description: Retrieve LinkedIn lead gen forms for an ad account
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: accountId
+        required: true
+        in: path
+        description: Account identifier
+        schema:
+          example: '12345678'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - LinkedIn Ads
+  /ad-publishing/linkedin/{accountId}/form:
+    post:
+      operationId: li-create-lead-form
+      summary: Create lead form
+      description: Create a new LinkedIn lead gen form for an ad account
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkedInCreateLeadFormBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - LinkedIn Ads
+  /ad-publishing/linkedin/{adId}/status:
+    patch:
+      operationId: li-update-ad-status
+      summary: Update ad status
+      description: Pause or resume a LinkedIn ad, campaign, or ad group
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        description: Ad identifier
+        schema:
+          example: 507f1f77bcf86cd799439011
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkedInUpdateAdStatusBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - LinkedIn Ads
+components:
+  schemas:
+    HiddenFieldDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+          example: utm_source
+        value:
+          type: string
+          description: Field value
+          example: linkedin
+      required:
+      - name
+      - value
+    LinkedInCreateLeadFormBodyDTO:
+      type: object
+      properties:
+        owner:
+          description: Form owner
+          allOf:
+          - $ref: '#/components/schemas/SponsoredAccountOwnerDTO'
+        creationLocale:
+          description: Creation locale
+          allOf:
+          - $ref: '#/components/schemas/CreationLocaleDTO'
+        name:
+          type: string
+          description: Form name
+          example: Contact Us
+        state:
+          type: string
+          description: Form state
+          enum:
+          - PUBLISHED
+          example: PUBLISHED
+        content:
+          description: Form content
+          allOf:
+          - $ref: '#/components/schemas/LeadFormContentDTO'
+        hiddenFields:
+          description: Hidden fields
+          type: array
+          items:
+            $ref: '#/components/schemas/HiddenFieldDTO'
+      required:
+      - owner
+      - creationLocale
+      - name
+      - state
+      - content
+    SponsoredAccountOwnerDTO:
+      type: object
+      properties:
+        sponsoredAccount:
+          type: string
+          description: Sponsored account URN
+          example: urn:li:sponsoredAccount:123456
+      required:
+      - sponsoredAccount
+    LinkedInUpdateAdStatusBodyDTO:
+      type: object
+      properties:
+        operationType:
+          type: string
+          description: Update operation
+          example: PAUSED
+          enum:
+          - PAUSED
+          - ARCHIVED
+          - RESUME
+        type:
+          type: string
+          description: Ad object type
+          example: adCampaign
+          enum:
+          - adGroup
+          - adCampaign
+          - ad
+      required:
+      - operationType
+      - type
+    SelectedAttributeDTO:
+      type: object
+      properties:
+        urn:
+          type: string
+          description: Targeting attribute URN
+        name:
+          type: string
+          description: Display name
+        categoryName:
+          type: string
+          description: Category name
+        facet:
+          type: string
+          description: Facet identifier
+      required:
+      - urn
+      - name
+      - categoryName
+      - facet
+    QuestionDetailsDTO:
+      type: object
+      properties:
+        textQuestionDetails:
+          type: object
+          description: Text question details (empty object for text questions)
+        multipleChoiceQuestionDetails:
+          description: Multiple choice question details
+          allOf:
+          - $ref: '#/components/schemas/MultipleChoiceQuestionDetailsDTO'
+    LegalInfoDTO:
+      type: object
+      properties:
+        consents:
+          description: Consent entries
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsentDTO'
+        privacyPolicyUrl:
+          type: string
+          description: Privacy policy URL
+          example: https://example.com/privacy
+        legalDisclaimer:
+          description: Legal disclaimer text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+      required:
+      - consents
+      - privacyPolicyUrl
+    ConsentDTO:
+      type: object
+      properties:
+        checkRequired:
+          type: boolean
+          description: Whether consent checkbox is required
+          example: true
+        id:
+          type: number
+          description: Consent identifier
+          example: 1
+        consent:
+          description: Consent text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+      required:
+      - checkRequired
+      - id
+      - consent
+    UnitCostDTO:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Bid amount in currency minor units
+          example: 500
+      required:
+      - amount
+    LinkedInBudgetDTO:
+      type: object
+      properties:
+        budgetType:
+          type: string
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+        scheduleStartDate:
+          type: string
+          description: Schedule start date (ISO 8601)
+          example: '2025-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date (ISO 8601)
+          example: '2025-12-31'
+    AdCampaignDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        locale:
+          description: Campaign locale
+          allOf:
+          - $ref: '#/components/schemas/LocaleDTO'
+        name:
+          type: string
+        publishingStatus:
+          type: string
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        mediaType:
+          type: string
+          description: Campaign audience targeting
+          enum:
+          - STANDARD_UPDATE
+          - SINGLE_VIDEO
+          - CAROUSEL
+        audience:
+          description: Campaign audience targeting
+          allOf:
+          - $ref: '#/components/schemas/AudienceDTO'
+        unitCost:
+          description: Bid unit cost
+          allOf:
+          - $ref: '#/components/schemas/UnitCostDTO'
+        campaignType:
+          type: string
+        adCampaignGroupId:
+          type: string
+        adCampaignId:
+          type: string
+        ads:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedInAdDTO'
+        linkedInError:
+          type: string
+          description: LinkedIn API error message
+        meta:
+          type: object
+    LinkedInAdDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        introductoryText:
+          type: string
+        destinationUrl:
+          type: string
+        callToActionLabel:
+          type: string
+        destinationFormId:
+          type: string
+        contentReferenceString:
+          type: string
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedInMediaDTO'
+        adCampaignId:
+          type: string
+        adId:
+          type: string
+        headline:
+          type: string
+        publishingStatus:
+          type: string
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        adCampaignGroupId:
+          type: string
+        description:
+          type: string
+        meta:
+          type: object
+        linkedInError:
+          type: string
+          description: LinkedIn API error message
+    PostSubmissionCallToActionDTO:
+      type: object
+      properties:
+        callToActionTarget:
+          description: Call to action target
+          allOf:
+          - $ref: '#/components/schemas/PostSubmissionCallToActionTargetDTO'
+        callToActionLabel:
+          type: string
+          description: Call to action label
+          enum:
+          - VISIT_COMPANY_WEBSITE
+          - DOWNLOAD_NOW
+          - TRY_NOW
+          - VIEW_NOW
+          - LEARN_MORE
+      required:
+      - callToActionTarget
+      - callToActionLabel
+    AudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geographic location targets
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoLocationDTO'
+        targetAudience:
+          description: Target audience attribute selections
+          allOf:
+          - $ref: '#/components/schemas/TargetAudienceDTO'
+    TargetAudienceDTO:
+      type: object
+      properties:
+        include:
+          type: array
+          description: Included targeting attributes (groups of ANDed attributes, ORed together)
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/SelectedAttributeDTO'
+        exclude:
+          type: array
+          description: Excluded targeting attributes
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/SelectedAttributeDTO'
+    AdCampaignGroupDataDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        locationId:
+          type: string
+          description: Location ID
+        budget:
+          $ref: '#/components/schemas/LinkedInBudgetDTO'
+        adCampaigns:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdCampaignDTO'
+        adBudgetOptimization:
+          type: string
+          enum:
+          - MAXIMUM_DELIVERY
+          - COST_CAP
+        objectiveType:
+          type: string
+          enum:
+          - LEAD_GENERATION
+          - WEBSITE_VISIT
+        name:
+          type: string
+        adCampaignGroupId:
+          type: string
+        publishingStatus:
+          type: string
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        linkedInAdAccountId:
+          type: string
+        unpublishedChanges:
+          type: boolean
+        meta:
+          type: object
+        linkedInError:
+          type: string
+      required:
+      - locationId
+    PostSubmissionCallToActionTargetDTO:
+      type: object
+      properties:
+        landingPageUrl:
+          type: string
+          description: Landing page URL
+          example: https://example.com/thank-you
+      required:
+      - landingPageUrl
+    LocalizedStringDTO:
+      type: object
+      properties:
+        localized:
+          type: object
+          description: Locale-keyed string map
+          example:
+            en_US: Hello
+      required:
+      - localized
+    PostSubmissionInfoDTO:
+      type: object
+      properties:
+        message:
+          description: Thank-you message
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        callToAction:
+          description: Post-submission call to action
+          allOf:
+          - $ref: '#/components/schemas/PostSubmissionCallToActionDTO'
+      required:
+      - message
+      - callToAction
+    LocaleDTO:
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country code
+          example: US
+        language:
+          type: string
+          description: Language code
+          example: en
+      required:
+      - country
+      - language
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
+    CreationLocaleDTO:
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country code
+          example: US
+        language:
+          type: string
+          description: Language code
+          example: en
+      required:
+      - country
+      - language
+    GeoLocationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Location display name
+          example: India
+        urn:
+          type: string
+          description: Location URN
+          example: urn:li:geo:12321321
+        facetUrn:
+          type: string
+          description: Facet URN
+          example: urn:li:adTargetingFacet:locations
+        selectionType:
+          type: string
+          description: Selection type
+          example: include
+          enum:
+          - include
+          - exclude
+      required:
+      - name
+      - urn
+      - facetUrn
+      - selectionType
+    LeadFormQuestionDTO:
+      type: object
+      properties:
+        question:
+          description: Question text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        name:
+          type: string
+          description: Question field name
+          example: firstName
+        questionDetails:
+          description: Question type details
+          allOf:
+          - $ref: '#/components/schemas/QuestionDetailsDTO'
+        predefinedField:
+          type: string
+          description: Predefined field identifier
+          example: FIRST_NAME
+      required:
+      - question
+      - name
+      - questionDetails
+    MultipleChoiceQuestionDetailsDTO:
+      type: object
+      properties:
+        options:
+          description: Choice options
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipleChoiceOptionDTO'
+      required:
+      - options
+    MultipleChoiceOptionDTO:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Option ID
+          example: 1
+        text:
+          description: Option text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+      required:
+      - id
+      - text
+    LinkedInMediaDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Media type
+          enum:
+          - video
+          - image
+        src:
+          type: string
+          description: Media source URL
+        frames:
+          description: Video frame URLs
+          type: array
+          items:
+            type: string
+        selectedPoster:
+          type: number
+          description: Selected poster frame index
+        thumbnailUrl:
+          type: string
+          description: Thumbnail URL
+        name:
+          type: string
+          description: Media name
+        headline:
+          type: string
+          description: Media headline
+        destinationUrl:
+          type: string
+          description: Click-through destination URL
+        fileSizeBytes:
+          type: number
+          description: File size in bytes
+    LeadFormContentDTO:
+      type: object
+      properties:
+        questions:
+          description: Form questions
+          type: array
+          items:
+            $ref: '#/components/schemas/LeadFormQuestionDTO'
+        description:
+          description: Form description
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        headline:
+          description: Form headline
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        postSubmissionInfo:
+          description: Post-submission info
+          allOf:
+          - $ref: '#/components/schemas/PostSubmissionInfoDTO'
+        legalInfo:
+          description: Legal information
+          allOf:
+          - $ref: '#/components/schemas/LegalInfoDTO'
+      required:
+      - questions
+      - headline
+      - postSubmissionInfo
+      - legalInfo
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

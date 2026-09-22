@@ -1,0 +1,328 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager LinkedIn Reporting API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: LinkedIn Reporting
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/linkedin/reporting:
+    get:
+      operationId: li-get-ad-analytics
+      summary: Get ad analytics
+      description: Retrieve LinkedIn Ads analytics data with configurable pivot and time grouping
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID
+        schema:
+          type: string
+      - name: pivot
+        required: false
+        in: query
+        description: Analytics pivot type
+        schema:
+          default: ACCOUNT
+          enum:
+          - ACCOUNT
+          - CAMPAIGN
+          - CAMPAIGN_GROUP
+          - CREATIVE
+          type: string
+      - name: groupBy
+        required: false
+        in: query
+        description: Time granularity for analytics
+        schema:
+          default: day
+          enum:
+          - day
+          - month
+          - year
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Start date in yyyy-mm-dd format
+        schema:
+          example: '2024-01-01'
+          type: string
+      - name: endDate
+        required: true
+        in: query
+        description: End date in yyyy-mm-dd format
+        schema:
+          example: '2024-01-31'
+          type: string
+      - name: entityUrns
+        required: false
+        in: query
+        description: Comma-separated list of entity URNs
+        schema:
+          type: string
+      - name: fields
+        required: false
+        in: query
+        description: Comma-separated list of fields to retrieve
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - LinkedIn Reporting
+  /ad-publishing/linkedin/reporting/list:
+    get:
+      operationId: li-get-reporting-list
+      summary: Get reporting list
+      description: Retrieve a list of LinkedIn campaigns or campaign groups with reporting data
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID
+        schema:
+          type: string
+      - name: listType
+        required: true
+        in: query
+        description: List type
+        schema:
+          type: string
+      - name: campaignId
+        required: true
+        in: query
+        description: Campaign ID
+        schema:
+          type: string
+      - name: campaignGroupId
+        required: true
+        in: query
+        description: Campaign group ID
+        schema:
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Start date in yyyy-mm-dd format
+        schema:
+          example: '2024-01-01'
+          type: string
+      - name: endDate
+        required: true
+        in: query
+        description: End date in yyyy-mm-dd format
+        schema:
+          example: '2024-01-31'
+          type: string
+      - name: fields
+        required: false
+        in: query
+        description: Comma-separated list of fields to retrieve
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - LinkedIn Reporting
+  /ad-publishing/linkedin/reporting/campaign-group/{campaignGroupId}:
+    get:
+      operationId: li-get-campaign-group-reporting
+      summary: Get campaign group reporting
+      description: Retrieve reporting metrics for a specific LinkedIn campaign group
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignGroupId
+        required: true
+        in: path
+        description: Campaign group identifier
+        schema:
+          example: '12345678'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID
+        schema:
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Start date in yyyy-mm-dd format
+        schema:
+          type: string
+      - name: endDate
+        required: true
+        in: query
+        description: End date in yyyy-mm-dd format
+        schema:
+          type: string
+      - name: fields
+        required: false
+        in: query
+        description: Comma-separated list of fields to retrieve
+        schema:
+          type: array
+          items:
+            type: string
+      - name: campaignGroupId
+        required: false
+        in: query
+        description: Campaign group ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - LinkedIn Reporting
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

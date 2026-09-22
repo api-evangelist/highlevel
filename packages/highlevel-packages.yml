@@ -1,0 +1,61 @@
+generated: '2026-09-22'
+method: probed
+generator: harvest-packages.py
+source: registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org, api.nuget.org, packagist.org, crates.io) ; github.com/GoHighLevel
+ownership_rule: 'official: true only when the registry metadata (homepage, repository, author, URLs) names the provider''s domain (gohighlevel.com,
+  security/highlevel-domain-security.yml) or its accepted GitHub org (GoHighLevel).'
+packages:
+- name: highlevel-api-sdk
+  registry: github
+  url: https://github.com/GoHighLevel/highlevel-api-sdk
+  language: TypeScript
+  official: true
+  version: null
+  published: '2026-09-03'
+  source_repo: https://github.com/GoHighLevel/highlevel-api-sdk
+  evidence: repository in github.com/GoHighLevel, whose profile names the provider's domain
+- name: highlevel-api-docs
+  registry: github
+  url: https://github.com/GoHighLevel/highlevel-api-docs
+  language: ''
+  official: true
+  version: null
+  published: '2026-08-25'
+  source_repo: https://github.com/GoHighLevel/highlevel-api-docs
+  evidence: repository in github.com/GoHighLevel, whose profile names the provider's domain
+- name: ghl-sdk-examples
+  registry: github
+  url: https://github.com/GoHighLevel/ghl-sdk-examples
+  language: PHP
+  official: true
+  version: null
+  published: '2026-06-25'
+  source_repo: https://github.com/GoHighLevel/ghl-sdk-examples
+  evidence: repository in github.com/GoHighLevel, whose profile names the provider's domain
+- name: highlevel-api-python
+  registry: github
+  url: https://github.com/GoHighLevel/highlevel-api-python
+  language: Python
+  official: true
+  version: null
+  published: '2026-06-25'
+  source_repo: https://github.com/GoHighLevel/highlevel-api-python
+  evidence: repository in github.com/GoHighLevel, whose profile names the provider's domain
+- name: highlevel-api-php
+  registry: github
+  url: https://github.com/GoHighLevel/highlevel-api-php
+  language: PHP
+  official: true
+  version: null
+  published: '2026-06-22'
+  source_repo: https://github.com/GoHighLevel/highlevel-api-php
+  evidence: repository in github.com/GoHighLevel, whose profile names the provider's domain
+- name: ghl-agent-sdk
+  registry: github
+  url: https://github.com/GoHighLevel/ghl-agent-sdk
+  language: ''
+  official: true
+  version: null
+  published: '2026-04-30'
+  source_repo: https://github.com/GoHighLevel/ghl-agent-sdk
+  evidence: repository in github.com/GoHighLevel, whose profile names the provider's domain

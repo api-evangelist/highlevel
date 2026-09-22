@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-process-message-body-dto-schema.json",
+  "title": "ProcessMessageBodyDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-conversations-openapi.json#/components/schemas/ProcessMessageBodyDto",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Message Type",
+      "enum": [
+        "SMS",
+        "RCS",
+        "Email",
+        "WhatsApp",
+        "GMB",
+        "IG",
+        "FB",
+        "Custom",
+        "WebChat",
+        "Live_Chat",
+        "Call",
+        "IVR_Call",
+        "Campaign_Call",
+        "Campaign_VoiceMail",
+        "TIKTOK",
+        "ALL_IN_ONE_CHAT",
+        "FORM_SUBMISSION"
+      ]
+    },
+    "attachments": {
+      "description": "Array of attachments",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "message": {
+      "type": "string",
+      "description": "Message Body"
+    },
+    "conversationId": {
+      "type": "string",
+      "description": "Conversation Id"
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Contact Id"
+    },
+    "conversationProviderId": {
+      "type": "string",
+      "description": "Conversation Provider Id"
+    },
+    "html": {
+      "type": "string",
+      "description": "HTML Body of Email"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject of the Email"
+    },
+    "emailFrom": {
+      "type": "string",
+      "description": "Email address to send from. This field is associated with the contact record and cannot be dynamically changed."
+    },
+    "emailTo": {
+      "type": "string",
+      "description": "Recipient email address. This field is associated with the contact record and cannot be dynamically changed."
+    },
+    "emailCc": {
+      "description": "List of email address to CC",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "emailBcc": {
+      "description": "List of email address to BCC",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "emailMessageId": {
+      "type": "string",
+      "description": "Send the email message id for which this email should be threaded. This is for replying to a specific email"
+    },
+    "altId": {
+      "type": "string",
+      "description": "external mail provider's message id"
+    },
+    "direction": {
+      "type": "object",
+      "description": "Message direction, if required can be set manually, default is outbound",
+      "default": "outbound"
+    },
+    "date": {
+      "format": "date-time",
+      "type": "string",
+      "description": "Date of the inbound message"
+    },
+    "call": {
+      "description": "Phone call dialer and receiver information",
+      "allOf": [
+        {
+          "$ref": "#/$defs/CallDataDTO"
+        }
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "conversationId",
+    "contactId",
+    "conversationProviderId"
+  ],
+  "$defs": {
+    "CallDataDTO": {
+      "type": "object",
+      "properties": {
+        "to": {
+          "type": "string",
+          "description": "Phone number of the receiver"
+        },
+        "from": {
+          "type": "string",
+          "description": "Phone number of the dialer"
+        },
+        "status": {
+          "type": "string",
+          "description": "Call status",
+          "enum": [
+            "pending",
+            "completed",
+            "answered",
+            "busy",
+            "no-answer",
+            "failed",
+            "canceled",
+            "voicemail"
+          ]
+        }
+      }
+    }
+  }
+}

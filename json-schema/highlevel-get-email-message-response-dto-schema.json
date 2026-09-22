@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-get-email-message-response-dto-schema.json",
+  "title": "GetEmailMessageResponseDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-conversations-openapi.json#/components/schemas/GetEmailMessageResponseDto",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "altId": {
+      "type": "string",
+      "description": "External Id"
+    },
+    "threadId": {
+      "type": "string",
+      "description": "Message Id or thread Id"
+    },
+    "locationId": {
+      "type": "string"
+    },
+    "contactId": {
+      "type": "string"
+    },
+    "conversationId": {
+      "type": "string"
+    },
+    "dateAdded": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "inbound",
+        "outbound"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "scheduled",
+        "sent",
+        "delivered",
+        "read",
+        "undelivered",
+        "connected",
+        "failed",
+        "opened"
+      ]
+    },
+    "contentType": {
+      "type": "string"
+    },
+    "attachments": {
+      "description": "An array of attachment URLs.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provider": {
+      "type": "string"
+    },
+    "from": {
+      "type": "string",
+      "description": "Name and Email Id of the sender"
+    },
+    "to": {
+      "description": "List of email Ids of the receivers",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cc": {
+      "description": "List of email Ids of the people in the cc field",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "bcc": {
+      "description": "List of email Ids of the people in the bcc field",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "replyToMessageId": {
+      "type": "string",
+      "description": "In case of reply, email message Id of the reply to email"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "workflow",
+        "bulk_actions",
+        "campaign",
+        "api",
+        "app"
+      ],
+      "description": "Email source"
+    },
+    "conversationProviderId": {
+      "type": "string",
+      "description": "Conversation provider ID"
+    }
+  },
+  "required": [
+    "id",
+    "threadId",
+    "locationId",
+    "contactId",
+    "conversationId",
+    "dateAdded",
+    "body",
+    "direction",
+    "contentType",
+    "from",
+    "to"
+  ]
+}

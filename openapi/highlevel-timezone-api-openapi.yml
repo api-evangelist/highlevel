@@ -1,0 +1,107 @@
+openapi: 3.2.0
+info:
+  title: Sub-Account (Formerly location) Timezone API
+  description: Documentation for Sub-Account (Formerly location) API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Timezone
+  description: Documentation for Sub-Account (Formerly location) API
+paths:
+  /locations/{locationId}/timezones:
+    get:
+      operationId: get-timezones
+      summary: Fetch Timezones
+      description: Fetch the available timezones
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Timezone
+      security:
+      - bearer:
+        - locations.readonly
+      - Location-Access:
+        - locations.readonly
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Sub-Account (Formerly location)
+  tags:
+  - Location
+  - Location Tags
+  - Custom Field
+  - Custom Value
+  - Template
+  - Tags Search
+  - Location Notes
+  - Location Tasks
+  - Recurring Tasks
+  - Location Search
+  - Custom Field Search
+  - Location Keys
+  - Labs
+  - Conversation Channel
+  - Search
+  - Sub-Account (Formerly Location)
+  - Tags
+  - Tasks Search
+  - Timezone
+  - ElasticSearch

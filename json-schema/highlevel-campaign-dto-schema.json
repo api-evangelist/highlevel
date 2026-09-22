@@ -1,0 +1,991 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-campaign-dto-schema.json",
+  "title": "CampaignDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-ad-manager-openapi.json#/components/schemas/CampaignDTO",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Campaign identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Campaign name"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Location identifier"
+    },
+    "advertisingChannelType": {
+      "type": "string",
+      "description": "Advertising channel",
+      "enum": [
+        "SEARCH",
+        "DISCOVERY",
+        "DISPLAY",
+        "HOTEL",
+        "LOCAL",
+        "MULTI_CHANNEL",
+        "PERFORMANCE_MAX",
+        "DEMAND_GEN"
+      ]
+    },
+    "advertisingChannelSubType": {
+      "type": "string",
+      "description": "Channel sub type",
+      "enum": [
+        "DEMAND_GEN"
+      ]
+    },
+    "goalType": {
+      "type": "string",
+      "description": "Goal type",
+      "enum": [
+        "WEBSITE_TRAFFIC",
+        "LEAD"
+      ]
+    },
+    "budget": {
+      "description": "Campaign budget",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GoogleBudgetDTO"
+        }
+      ]
+    },
+    "audience": {
+      "description": "Campaign audience targeting",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GoogleCampaignAudienceDTO"
+        }
+      ]
+    },
+    "networkSettings": {
+      "description": "Network settings",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GoogleNetworkSettingsDTO"
+        }
+      ]
+    },
+    "biddingStrategy": {
+      "description": "Bidding strategy config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GoogleBiddingStrategyDTO"
+        }
+      ]
+    },
+    "assets": {
+      "description": "Campaign assets",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GoogleAssetsDTO"
+        }
+      ]
+    },
+    "isEuPoliticalAds": {
+      "type": "boolean",
+      "description": "EU political ads flag"
+    },
+    "adGroups": {
+      "description": "Campaign ad groups",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/GoogleAdGroupDTO"
+      }
+    },
+    "campaignGoal": {
+      "description": "Campaign goal config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GoogleCampaignGoalDTO"
+        }
+      ]
+    },
+    "adSchedule": {
+      "description": "Ad schedule rules",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/GoogleAdScheduleDTO"
+      }
+    },
+    "publishingStatus": {
+      "type": "string",
+      "description": "Publishing status",
+      "enum": [
+        "DRAFT",
+        "SCHEDULED",
+        "PUBLISHED",
+        "PUBLISHING",
+        "FAILED",
+        "IN_REVIEW",
+        "PAUSED",
+        "ARCHIVED",
+        "WITH_ISSUES",
+        "REJECTED"
+      ]
+    },
+    "googleAdAccountId": {
+      "type": "string",
+      "description": "Google Ad account identifier"
+    },
+    "unpublishedChanges": {
+      "type": "boolean",
+      "description": "Whether the campaign has unpublished changes"
+    },
+    "maximumCpc": {
+      "type": "number",
+      "description": "Maximum CPC bid in micros"
+    },
+    "googleCampaignId": {
+      "type": "string",
+      "description": "Google Ads campaign resource ID"
+    },
+    "source": {
+      "type": "string",
+      "description": "Traffic source"
+    },
+    "advancedOptions": {
+      "type": "object",
+      "description": "Advanced options"
+    }
+  },
+  "required": [
+    "name",
+    "locationId",
+    "advertisingChannelType"
+  ],
+  "$defs": {
+    "GeoAddressComponentDTO": {
+      "type": "object",
+      "properties": {
+        "long_name": {
+          "type": "string",
+          "description": "Full name of the address component"
+        },
+        "short_name": {
+          "type": "string",
+          "description": "Abbreviated name of the address component"
+        },
+        "types": {
+          "description": "Address component types",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GeoGeometryDTO": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "description": "Location coordinates",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeoLatLngDTO"
+            }
+          ]
+        },
+        "location_type": {
+          "type": "string",
+          "description": "Location type (e.g. APPROXIMATE)"
+        },
+        "viewport": {
+          "description": "Viewport bounding box",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeoViewportDTO"
+            }
+          ]
+        }
+      }
+    },
+    "GeoLatLngDTO": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Latitude"
+        },
+        "lng": {
+          "type": "number",
+          "description": "Longitude"
+        }
+      }
+    },
+    "GeoViewportDTO": {
+      "type": "object",
+      "properties": {
+        "northeast": {
+          "description": "Northeast corner of the viewport",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeoLatLngDTO"
+            }
+          ]
+        },
+        "southwest": {
+          "description": "Southwest corner of the viewport",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeoLatLngDTO"
+            }
+          ]
+        }
+      }
+    },
+    "GoogleAdContentDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Ad identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Ad name"
+        },
+        "mediaType": {
+          "type": "string",
+          "description": "Media type",
+          "enum": [
+            "IMAGE",
+            "VIDEO",
+            "CAROUSEL"
+          ]
+        },
+        "headlines": {
+          "description": "Ad headlines",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "longHeadlines": {
+          "description": "Long headlines",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "descriptions": {
+          "description": "Ad descriptions",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "finalUrl": {
+          "type": "string",
+          "description": "Final URL"
+        },
+        "path1": {
+          "type": "string",
+          "description": "Display path 1"
+        },
+        "path2": {
+          "type": "string",
+          "description": "Display path 2"
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "description": "Whether the ad is soft-deleted"
+        },
+        "adError": {
+          "type": "string",
+          "description": "Ad-level error message from Google"
+        },
+        "publishingStatus": {
+          "type": "string",
+          "description": "Ad publishing status",
+          "enum": [
+            "DRAFT",
+            "SCHEDULED",
+            "PUBLISHED",
+            "PUBLISHING",
+            "FAILED",
+            "IN_REVIEW",
+            "PAUSED",
+            "ARCHIVED",
+            "WITH_ISSUES",
+            "REJECTED"
+          ]
+        },
+        "adId": {
+          "type": "string",
+          "description": "Internal ad identifier"
+        },
+        "adCampaignId": {
+          "type": "string",
+          "description": "Ad campaign identifier"
+        },
+        "adGroupId": {
+          "type": "string",
+          "description": "Ad group identifier"
+        },
+        "googleAdId": {
+          "type": "string",
+          "description": "Google Ads ad resource ID"
+        },
+        "media": {
+          "description": "Ad media items",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleMediaDTO"
+          }
+        },
+        "callToActionLabel": {
+          "type": "string",
+          "description": "Call to action label",
+          "enum": [
+            "AUTOMATED",
+            "LEARN_MORE",
+            "GET_QUOTE",
+            "APPLY_NOW",
+            "SIGN_UP",
+            "CONTACT_US",
+            "SUBSCRIBE",
+            "DOWNLOAD",
+            "BOOK_NOW",
+            "SHOP_NOW",
+            "BUY_NOW",
+            "DONATE_NOW",
+            "ORDER_NOW",
+            "PLAY_NOW",
+            "SEE_MORE"
+          ]
+        },
+        "businessName": {
+          "type": "string",
+          "description": "Business name"
+        },
+        "youtubeVideoLinks": {
+          "description": "YouTube video links",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleYouTubeVideoLinkDTO"
+          }
+        },
+        "carouselCards": {
+          "description": "Carousel cards",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleCarouselCardDTO"
+          }
+        },
+        "placements": {
+          "type": "array",
+          "description": "Channel placements",
+          "items": {
+            "type": "string",
+            "enum": [
+              "GMAIL",
+              "YOUTUBE_IN_STREAM",
+              "YOUTUBE_SHORTS",
+              "YOUTUBE_IN_FEED",
+              "DISCOVER",
+              "DISPLAY"
+            ]
+          }
+        },
+        "customChannels": {
+          "type": "boolean",
+          "description": "Custom channels flag"
+        }
+      }
+    },
+    "GoogleAdGroupAudienceDTO": {
+      "type": "object",
+      "properties": {
+        "geo_locations": {
+          "description": "Geo-location targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleGeoLocationDTO"
+          }
+        },
+        "locales": {
+          "description": "Language/locale targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleLocaleDTO"
+          }
+        }
+      }
+    },
+    "GoogleAdGroupDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Ad group identifier"
+        },
+        "adGroupId": {
+          "type": "string",
+          "description": "Google ad group identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Ad group name"
+        },
+        "adCampaignId": {
+          "type": "string",
+          "description": "Ad campaign identifier"
+        },
+        "adContent": {
+          "description": "Ad content items",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleAdContentDTO"
+          }
+        },
+        "keywords": {
+          "description": "Keyword targeting",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GoogleKeywordsDTO"
+            }
+          ]
+        },
+        "publishingStatus": {
+          "type": "string",
+          "description": "Ad group publishing status",
+          "enum": [
+            "DRAFT",
+            "SCHEDULED",
+            "PUBLISHED",
+            "PUBLISHING",
+            "FAILED",
+            "IN_REVIEW",
+            "PAUSED",
+            "ARCHIVED",
+            "WITH_ISSUES",
+            "REJECTED"
+          ]
+        },
+        "adGroupError": {
+          "type": "string",
+          "description": "Ad group-level error from Google"
+        },
+        "googleAdGroupId": {
+          "type": "string",
+          "description": "Google Ads ad group resource ID"
+        },
+        "customChannels": {
+          "type": "boolean",
+          "description": "Custom channels flag"
+        },
+        "selectedChannels": {
+          "type": "array",
+          "description": "Selected channel placements",
+          "items": {
+            "type": "string",
+            "enum": [
+              "GMAIL",
+              "YOUTUBE_IN_STREAM",
+              "YOUTUBE_SHORTS",
+              "YOUTUBE_IN_FEED",
+              "DISCOVER",
+              "DISPLAY"
+            ]
+          }
+        },
+        "googleAudienceId": {
+          "type": "string",
+          "description": "Google audience resource ID"
+        },
+        "audience": {
+          "description": "Ad group audience targeting",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GoogleAdGroupAudienceDTO"
+            }
+          ]
+        }
+      }
+    },
+    "GoogleAdScheduleDTO": {
+      "type": "object",
+      "properties": {
+        "dayOfWeek": {
+          "type": "string",
+          "description": "Day of week",
+          "enum": [
+            "FRIDAY",
+            "MONDAY",
+            "SATURDAY",
+            "SUNDAY",
+            "THURSDAY",
+            "TUESDAY",
+            "UNKNOWN",
+            "UNSPECIFIED",
+            "WEDNESDAY",
+            "ALL_DAYS",
+            "MONDAY_TO_FRIDAY",
+            "SATURDAY_AND_SUNDAY"
+          ]
+        },
+        "from": {
+          "type": "string",
+          "description": "Start time (HH:MM)"
+        },
+        "to": {
+          "type": "string",
+          "description": "End time (HH:MM)"
+        }
+      },
+      "required": [
+        "dayOfWeek",
+        "from",
+        "to"
+      ]
+    },
+    "GoogleAssetImageDTO": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Image URL"
+        },
+        "resourceName": {
+          "type": "string",
+          "description": "Google Ads resource name"
+        },
+        "name": {
+          "type": "string",
+          "description": "Asset name"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message if asset upload failed"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "GoogleAssetsDTO": {
+      "type": "object",
+      "properties": {
+        "calls": {
+          "description": "Call extension asset resource names",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sitelinks": {
+          "description": "Sitelink asset resource names",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "leadForm": {
+          "type": "string",
+          "description": "Lead form asset resource name"
+        },
+        "images": {
+          "description": "Image assets",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleAssetImageDTO"
+          }
+        },
+        "businessLogo": {
+          "description": "Business logo asset",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GoogleAssetImageDTO"
+            }
+          ]
+        }
+      }
+    },
+    "GoogleBiddingStrategyDTO": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Bidding strategy type"
+        },
+        "value": {
+          "type": "number",
+          "description": "Bid value in micros"
+        }
+      }
+    },
+    "GoogleBudgetDTO": {
+      "type": "object",
+      "properties": {
+        "budgetType": {
+          "type": "string",
+          "description": "Budget type",
+          "enum": [
+            "DAILY",
+            "LIFETIME"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "description": "Budget amount in micros"
+        },
+        "scheduleStartDate": {
+          "type": "string",
+          "description": "Schedule start date"
+        },
+        "scheduleEndDate": {
+          "type": "string",
+          "description": "Schedule end date"
+        }
+      }
+    },
+    "GoogleCampaignAudienceDTO": {
+      "type": "object",
+      "properties": {
+        "geo_locations": {
+          "description": "Geo-location targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleGeoLocationDTO"
+          }
+        },
+        "locales": {
+          "description": "Language/locale targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleLocaleDTO"
+          }
+        },
+        "gender": {
+          "description": "Gender targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleDemographicTargetDTO"
+          }
+        },
+        "ageRange": {
+          "description": "Age range targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleDemographicTargetDTO"
+          }
+        },
+        "segments": {
+          "description": "Audience segment targeting",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleSegmentTargetDTO"
+          }
+        },
+        "targetInterests": {
+          "description": "Interest-based targeting",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GoogleTargetInterestsDTO"
+            }
+          ]
+        }
+      }
+    },
+    "GoogleCampaignGoalDTO": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Campaign goal type",
+          "enum": [
+            "CONVERSIONS",
+            "CLICK",
+            "YOUTUBE_ENGAGEMENT"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "Goal value (e.g. conversion action resource name)"
+        },
+        "isCustomConversionGoal": {
+          "type": "boolean",
+          "description": "Whether this is a custom conversion goal"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "GoogleCarouselCardDTO": {
+      "type": "object",
+      "properties": {
+        "headline": {
+          "type": "string",
+          "description": "Card headline"
+        },
+        "finalUrl": {
+          "type": "string",
+          "description": "Card final URL"
+        },
+        "callToActionLabel": {
+          "type": "string",
+          "description": "Call to action label"
+        },
+        "media": {
+          "description": "Card media items",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleMediaDTO"
+          }
+        }
+      }
+    },
+    "GoogleDemographicTargetDTO": {
+      "type": "object",
+      "properties": {
+        "enum": {
+          "type": "string",
+          "description": "Demographic enum value"
+        },
+        "negative": {
+          "type": "boolean",
+          "description": "Whether this is a negative target"
+        }
+      },
+      "required": [
+        "enum",
+        "negative"
+      ]
+    },
+    "GoogleGeoLocationDTO": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Geo target constant resource name"
+        },
+        "id": {
+          "type": "string",
+          "description": "Location identifier (place_id)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Location display name"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Country name"
+        },
+        "type": {
+          "type": "string",
+          "description": "Location type (city, region, country, address, etc.)"
+        },
+        "radius": {
+          "type": "number",
+          "description": "Radius for proximity targeting"
+        },
+        "radiusUnit": {
+          "type": "string",
+          "description": "Radius unit",
+          "enum": [
+            "km",
+            "mi"
+          ]
+        },
+        "selectionType": {
+          "type": "string",
+          "description": "Include or exclude this location",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "resourceName": {
+          "type": "string",
+          "description": "Google Ads resource name"
+        },
+        "place_id": {
+          "type": "string",
+          "description": "Google place ID"
+        },
+        "formatted_address": {
+          "type": "string",
+          "description": "Full formatted address string"
+        },
+        "geometry": {
+          "description": "Geometry data from Google Geocoding API",
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeoGeometryDTO"
+            }
+          ]
+        },
+        "address_components": {
+          "description": "Address components from Google Geocoding API",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GeoAddressComponentDTO"
+          }
+        }
+      }
+    },
+    "GoogleKeywordItemDTO": {
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "type": "string",
+          "description": "Keyword text"
+        },
+        "matchType": {
+          "type": "string",
+          "description": "Match type (BROAD, PHRASE, EXACT)"
+        }
+      },
+      "required": [
+        "keyword",
+        "matchType"
+      ]
+    },
+    "GoogleKeywordsDTO": {
+      "type": "object",
+      "properties": {
+        "positives": {
+          "description": "Positive keywords",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleKeywordItemDTO"
+          }
+        },
+        "negatives": {
+          "description": "Negative keywords",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoogleKeywordItemDTO"
+          }
+        }
+      }
+    },
+    "GoogleLocaleDTO": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Language display name"
+        },
+        "key": {
+          "type": "string",
+          "description": "Language key"
+        },
+        "id": {
+          "type": "string",
+          "description": "Language identifier"
+        },
+        "resourceName": {
+          "type": "string",
+          "description": "Language resource name"
+        }
+      }
+    },
+    "GoogleMediaDTO": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Media type",
+          "enum": [
+            "IMAGE"
+          ]
+        },
+        "src": {
+          "type": "string",
+          "description": "Media source URL"
+        },
+        "isLogo": {
+          "type": "boolean",
+          "description": "Is logo flag"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message if media failed"
+        },
+        "url": {
+          "type": "string",
+          "description": "Public URL of the media"
+        },
+        "imageType": {
+          "type": "string",
+          "description": "Image type classification"
+        }
+      }
+    },
+    "GoogleNetworkSettingsDTO": {
+      "type": "object",
+      "properties": {
+        "targetSearchNetwork": {
+          "type": "boolean",
+          "description": "Target Google Search Network"
+        },
+        "targetContentNetwork": {
+          "type": "boolean",
+          "description": "Target Google Display Network"
+        }
+      },
+      "required": [
+        "targetSearchNetwork",
+        "targetContentNetwork"
+      ]
+    },
+    "GoogleSegmentTargetDTO": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Segment type"
+        },
+        "id": {
+          "type": "string",
+          "description": "Segment identifier"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ]
+    },
+    "GoogleTargetInterestsDTO": {
+      "type": "object",
+      "properties": {
+        "affinity": {
+          "description": "Affinity audience IDs",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inMarket": {
+          "description": "In-market audience IDs",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GoogleYouTubeVideoLinkDTO": {
+      "type": "object",
+      "properties": {
+        "youtubeVideoId": {
+          "type": "string",
+          "description": "YouTube video ID"
+        }
+      },
+      "required": [
+        "youtubeVideoId"
+      ]
+    }
+  }
+}

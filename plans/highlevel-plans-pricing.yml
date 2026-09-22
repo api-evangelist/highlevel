@@ -1,0 +1,44 @@
+generated: '2026-09-22'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://www.gohighlevel.com/pricing
+sources:
+- https://www.gohighlevel.com/pricing
+- https://help.gohighlevel.com/support/solutions/articles/48001223556-phone-system-pricing-billing-guide
+- https://help.gohighlevel.com/support/solutions/articles/155000001156-highlevel-pricing-guide
+- https://marketplace.gohighlevel.com/docs/oauth/Billing/index.html
+name: HighLevel pricing
+audience: business-product
+pricing_basis: per-seat
+plans:
+- name: Starter
+  price_text: $97 /Month
+  price: 97
+  description: Perfect for smaller businesses and solo marketers
+  features:
+  - 3 Sub-Accounts
+  - Unlimited Contacts
+  - Unlimited Users
+  - 24/7 Support
+  - All Core Features
+- name: Unlimited
+  price_text: $297 /Month
+  price: 297
+  description: Built for growing agencies
+  features:
+  - Unlimited Sub-Accounts
+  - Rebill Phone & Email (no markup)
+  - Basic API Access
+- name: Agency Pro
+  price_text: $497 /Month
+  price: 497
+  description: Ideal for SaaSPRENEURs & Agencies looking to go SaaS
+  features:
+  - Everything in Unlimited Plan
+  - SaaS Mode
+  - Automated Sub-Account Creation
+  - Rebill Phone & Email with Markup
+  - User/Agent Reporting
+  - Advanced API Access
+docs: https://www.gohighlevel.com/pricing
+note: 1 extracted row(s) were dropped because their quote was not on the page.

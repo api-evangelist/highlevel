@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-get-message-response-dto-schema.json",
+  "title": "GetMessageResponseDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-conversations-openapi.json#/components/schemas/GetMessageResponseDto",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "number"
+    },
+    "messageType": {
+      "type": "string",
+      "description": "Type of the message as a string",
+      "enum": [
+        "TYPE_CALL",
+        "TYPE_SMS",
+        "TYPE_RCS",
+        "TYPE_EMAIL",
+        "TYPE_SMS_REVIEW_REQUEST",
+        "TYPE_WEBCHAT",
+        "TYPE_SMS_NO_SHOW_REQUEST",
+        "TYPE_CAMPAIGN_SMS",
+        "TYPE_CAMPAIGN_CALL",
+        "TYPE_CAMPAIGN_EMAIL",
+        "TYPE_CAMPAIGN_VOICEMAIL",
+        "TYPE_FACEBOOK",
+        "TYPE_CAMPAIGN_FACEBOOK",
+        "TYPE_CAMPAIGN_MANUAL_CALL",
+        "TYPE_CAMPAIGN_MANUAL_SMS",
+        "TYPE_GMB",
+        "TYPE_CAMPAIGN_GMB",
+        "TYPE_REVIEW",
+        "TYPE_INSTAGRAM",
+        "TYPE_WHATSAPP",
+        "TYPE_CUSTOM_SMS",
+        "TYPE_CUSTOM_EMAIL",
+        "TYPE_CUSTOM_PROVIDER_SMS",
+        "TYPE_CUSTOM_PROVIDER_EMAIL",
+        "TYPE_IVR_CALL",
+        "TYPE_ACTIVITY_CONTACT",
+        "TYPE_ACTIVITY_INVOICE",
+        "TYPE_ACTIVITY_PAYMENT",
+        "TYPE_ACTIVITY_OPPORTUNITY",
+        "TYPE_LIVE_CHAT",
+        "TYPE_LIVE_CHAT_INFO_MESSAGE",
+        "TYPE_ACTIVITY_APPOINTMENT",
+        "TYPE_FACEBOOK_COMMENT",
+        "TYPE_INSTAGRAM_COMMENT",
+        "TYPE_CUSTOM_CALL",
+        "TYPE_INTERNAL_COMMENT",
+        "TYPE_ACTIVITY_EMPLOYEE_ACTION_LOG",
+        "TYPE_TIKTOK",
+        "TYPE_TIKTOK_COMMENT",
+        "TYPE_ACTIVITY_WHATSAPP",
+        "TYPE_FORM_SUBMISSION",
+        "TYPE_SMS_REACTION"
+      ]
+    },
+    "locationId": {
+      "type": "string"
+    },
+    "contactId": {
+      "type": "string"
+    },
+    "conversationId": {
+      "type": "string"
+    },
+    "dateAdded": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "inbound",
+        "outbound"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "delivered",
+        "failed",
+        "opened",
+        "pending",
+        "read",
+        "scheduled",
+        "sent",
+        "undelivered",
+        "clicked",
+        "opt_out",
+        "queued"
+      ]
+    },
+    "contentType": {
+      "type": "string"
+    },
+    "attachments": {
+      "description": "An array of attachment URLs. Attachments will be empty for Call and Voicemails, type 1 and 10. Please use get call recording API to fetch call recording and voicemails.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "meta": {
+      "$ref": "#/$defs/MessageMeta"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "workflow",
+        "bulk_actions",
+        "campaign",
+        "api",
+        "app"
+      ],
+      "description": "Message source"
+    },
+    "userId": {
+      "type": "string",
+      "description": "User Id"
+    },
+    "conversationProviderId": {
+      "type": "string",
+      "description": "Conversation Provider Id"
+    },
+    "chatWidgetId": {
+      "type": "string",
+      "description": "Chat Widget Id"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "messageType",
+    "locationId",
+    "contactId",
+    "conversationId",
+    "dateAdded",
+    "direction",
+    "contentType"
+  ],
+  "$defs": {
+    "MessageMeta": {
+      "type": "object",
+      "properties": {
+        "callDuration": {
+          "type": "string",
+          "description": "Call duration in seconds"
+        },
+        "callStatus": {
+          "type": "string",
+          "description": "Call status - can be pending, completed, answered, busy, no-answer, failed, canceled, or voicemail",
+          "enum": [
+            "pending",
+            "completed",
+            "answered",
+            "busy",
+            "no-answer",
+            "failed",
+            "canceled",
+            "voicemail"
+          ]
+        },
+        "email": {
+          "type": "object",
+          "description": "meta will contain email, for message type 3 (email). messageIds is list of all email message ids under the message thread"
+        }
+      }
+    }
+  }
+}

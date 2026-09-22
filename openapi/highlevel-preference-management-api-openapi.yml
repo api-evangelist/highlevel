@@ -1,0 +1,414 @@
+openapi: 3.2.0
+info:
+  title: Conversations Preference Management API
+  description: Documentation for Conversations API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Preference Management
+  description: Documentation for Conversations API
+paths:
+  /conversations/preferences/custom-subtypes:
+    get:
+      operationId: get-all-custom-subtypes
+      summary: Get All Custom Subtypes
+      description: Get all custom subtypes for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Preference Management
+    post:
+      operationId: create-custom-subtype
+      summary: Create Custom Subtype
+      description: Create a new custom subtype for a location. Requires agency or account admin role.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomSubtypeDto'
+      responses:
+        '200':
+          description: Successful response
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Preference Management
+  /conversations/preferences/custom-subtypes/{id}:
+    put:
+      operationId: update-custom-subtype
+      summary: Update Custom Subtype
+      description: Update or archive a custom subtype. Requires agency or account admin role.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: id
+        required: true
+        in: path
+        description: Custom Subtype Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomSubtypeDto'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Preference Management
+  /conversations/preferences/unsubscriptions/status:
+    get:
+      operationId: get-contact-unsubscription-status
+      summary: Get Contact Unsubscription Status
+      description: Get all subscription statuses for a contact (all emails or specific email)
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: contactId
+        required: true
+        in: query
+        description: Contact Id
+        schema:
+          example: OP7z4LCyPACyH5fcEIZa
+          type: string
+      - name: email
+        required: false
+        in: query
+        description: Email address (optional - if not provided, gets all emails for contact)
+        schema:
+          example: user@example.com
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Preference Management
+  /conversations/preferences/unsubscriptions/user-change:
+    post:
+      operationId: user-subscription-change
+      summary: User Subscription Change
+      description: Process subscription change initiated by a user (admin/agent). Supports individual custom subscription changes and resub all functionality. Legal forms are automatically created for user-initiated resubscribe actions on custom subscriptions.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSubscriptionChangeDto'
+      responses:
+        '200':
+          description: Successful response
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Preference Management
+components:
+  schemas:
+    UserSubscriptionChangeDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          description: Contact Id
+          example: OP7z4LCyPACyH5fcEIZa
+        email:
+          type: string
+          description: Email address
+          example: user@example.com
+        subscription_action:
+          description: Subscription action details
+          examples:
+            default_one_on_one:
+              summary: Unsubscribe from One on One emails
+              value:
+                type: default
+                subtype_name: One on One
+                subtype_status: unsubscribed
+            custom_newsletter:
+              summary: Subscribe to custom newsletter
+              value:
+                type: custom
+                subtype_id: ve9EPM428h8vShlRW1KT
+                subtype_status: subscribed
+            resub_all:
+              summary: Resubscribe to all email types
+              value:
+                type: resub_all
+                subtype_status: subscribed
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionActionDto'
+        legal_reason:
+          type: string
+          description: Legal reason for the change (required only for resubscribe and resub_all actions)
+          example: User requested resubscribe via customer service
+        legal_description:
+          type: string
+          description: Legal description/details
+          example: Customer called support on 2024-01-15 requesting to be removed from newsletter
+      required:
+      - locationId
+      - contactId
+      - email
+      - subscription_action
+    UpdateCustomSubtypeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the custom subtype (max 100 characters)
+          example: Newsletter Subscription
+          maxLength: 100
+        description:
+          type: string
+          description: Description of the custom subtype (max 100 characters)
+          example: Updated weekly newsletter subscription preferences
+          maxLength: 100
+        archived:
+          type: boolean
+          description: Whether the custom subtype is archived
+          example: false
+        resubscription_legal_form_id:
+          type: string
+          description: Resubscription legal form ID (optional when archiving)
+          example: form_123456
+    SubscriptionActionDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of subscription action
+          enum:
+          - default
+          - custom
+          - resub_all
+          example: custom
+        subtype_name:
+          type: string
+          description: 'Subscription type name (required for default types: "One on One")'
+          enum:
+          - One on One
+          example: One on One
+        subtype_id:
+          type: string
+          description: Custom subscription type ID (required for custom types)
+          example: ve9EPM428h8vShlRW1KT
+        subtype_status:
+          type: string
+          description: Subscription status
+          enum:
+          - subscribed
+          - unsubscribed
+          example: unsubscribed
+      required:
+      - type
+      - subtype_status
+    CreateCustomSubtypeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the custom subtype (max 100 characters)
+          example: Newsletter Subscription
+          maxLength: 100
+        description:
+          type: string
+          description: Description of the custom subtype (max 100 characters)
+          example: Weekly newsletter subscription preferences
+          maxLength: 100
+        channel:
+          type: string
+          description: Communication channel
+          enum:
+          - email
+          - sms
+          example: email
+        language:
+          type: string
+          description: Language code
+          example: en
+      required:
+      - name
+      - channel
+      - language
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Conversations
+  tags:
+  - Conversations
+  - Search
+  - Preference Management
+  - Email
+  - Messages
+  - Providers

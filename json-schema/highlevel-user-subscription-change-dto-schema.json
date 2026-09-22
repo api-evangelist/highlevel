@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-user-subscription-change-dto-schema.json",
+  "title": "UserSubscriptionChangeDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-conversations-openapi.json#/components/schemas/UserSubscriptionChangeDto",
+  "type": "object",
+  "properties": {
+    "locationId": {
+      "type": "string",
+      "description": "Location Id"
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Contact Id"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "subscription_action": {
+      "description": "Subscription action details",
+      "allOf": [
+        {
+          "$ref": "#/$defs/SubscriptionActionDto"
+        }
+      ]
+    },
+    "legal_reason": {
+      "type": "string",
+      "description": "Legal reason for the change (required only for resubscribe and resub_all actions)"
+    },
+    "legal_description": {
+      "type": "string",
+      "description": "Legal description/details"
+    }
+  },
+  "required": [
+    "locationId",
+    "contactId",
+    "email",
+    "subscription_action"
+  ],
+  "$defs": {
+    "SubscriptionActionDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of subscription action",
+          "enum": [
+            "default",
+            "custom",
+            "resub_all"
+          ]
+        },
+        "subtype_name": {
+          "type": "string",
+          "description": "Subscription type name (required for default types: \"One on One\")",
+          "enum": [
+            "One on One"
+          ]
+        },
+        "subtype_id": {
+          "type": "string",
+          "description": "Custom subscription type ID (required for custom types)"
+        },
+        "subtype_status": {
+          "type": "string",
+          "description": "Subscription status",
+          "enum": [
+            "subscribed",
+            "unsubscribed"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "subtype_status"
+      ]
+    }
+  }
+}

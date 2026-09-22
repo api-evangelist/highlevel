@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-calendar-notification-dto-schema.json",
+  "title": "CreateCalendarNotificationDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-calendars-openapi.json#/components/schemas/CreateCalendarNotificationDTO",
+  "type": "object",
+  "properties": {
+    "receiverType": {
+      "type": "string",
+      "description": "notification recipient type",
+      "enum": [
+        "contact",
+        "guest",
+        "assignedUser",
+        "emails",
+        "phoneNumbers",
+        "business"
+      ]
+    },
+    "channel": {
+      "type": "string",
+      "description": "Notification channel",
+      "enum": [
+        "email",
+        "inApp",
+        "sms",
+        "whatsapp"
+      ]
+    },
+    "notificationType": {
+      "type": "string",
+      "description": "Notification type",
+      "enum": [
+        "booked",
+        "confirmation",
+        "cancellation",
+        "reminder",
+        "followup",
+        "reschedule"
+      ]
+    },
+    "isActive": {
+      "type": "boolean",
+      "description": "Is the notification active",
+      "default": true
+    },
+    "templateId": {
+      "type": "string",
+      "description": "Template ID for email notification. Not necessary for in-App notification"
+    },
+    "body": {
+      "type": "string",
+      "description": "Body  for email notification. Not necessary for in-App notification"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject  for email notification. Not necessary for in-App notification"
+    },
+    "afterTime": {
+      "description": "Specifies the time after which the follow-up notification should be sent. This is not required for other notification types.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SchedulesDTO"
+      }
+    },
+    "beforeTime": {
+      "description": "Specifies the time before which the reminder notification should be sent. This is not required for other notification types.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SchedulesDTO"
+      }
+    },
+    "additionalEmailIds": {
+      "description": "Additional email addresses to receive notifications.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "additionalPhoneNumbers": {
+      "description": "Additional phone numbers to receive notifications.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "selectedUsers": {
+      "description": "Selected users for in-App and business email notifications. Supports user IDs and special keyword \"sub_account_admin\"",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fromAddress": {
+      "type": "string",
+      "description": "from address for email notification"
+    },
+    "fromName": {
+      "type": "string",
+      "description": "from name for email/sms notification"
+    },
+    "fromNumber": {
+      "type": "string",
+      "description": "from number for sms notification"
+    }
+  },
+  "required": [
+    "receiverType",
+    "channel",
+    "notificationType"
+  ],
+  "$defs": {
+    "SchedulesDTO": {
+      "type": "object",
+      "properties": {
+        "timeOffset": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

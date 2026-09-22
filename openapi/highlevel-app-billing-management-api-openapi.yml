@@ -1,0 +1,271 @@
+openapi: 3.2.0
+info:
+  title: Developer marketplace App Billing Management API
+  description: Documentation for Marketplace API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: App Billing Management
+  description: Documentation for Marketplace API
+paths:
+  /marketplace/app/{appId}/rebilling-config/location/{locationId}:
+    get:
+      operationId: get-rebilling-config-for-app
+      summary: Get rebilling config for an app subscription and usage plans
+      description: Get rebilling config for an app subscription and usage plans for the authenticated sub-account. This endpoint returns the subscription and usage plans for an app.
+      parameters:
+      - name: appId
+        required: true
+        in: path
+        description: ID of the app to get rebilling config
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: locationId
+        required: true
+        in: path
+        description: ID of the Sub-Account location to get rebilling config for
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      responses:
+        '200':
+          description: Successfully retrieved rebilling config for the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRebillingConfigResponseDTO'
+        '400':
+          description: Bad Request. Invalid request parameters or missing required data.
+        '403':
+          description: Forbidden. The client does not have necessary permissions to access installer details.
+      security:
+      - Location-Access-Only:
+        - oauth.readonly
+      tags:
+      - App Billing Management
+components:
+  schemas:
+    SubscriptionPlanDTO:
+      type: object
+      properties:
+        resellingAmount:
+          type: number
+          description: The reselling amount
+          example: 0
+        baseAmount:
+          type: number
+          description: The base amount
+          example: 0
+        planId:
+          type: string
+          description: The plan id
+          example: 5ae000000000000000000000
+        features:
+          description: The features
+          example:
+          - feature1
+          - feature2
+          type: array
+          items:
+            type: string
+        paymentType:
+          type: string
+          description: The payment time
+          example: month
+        name:
+          type: string
+          description: The plan name
+          example: Monthly Plan - 999
+        paymentTime:
+          type: string
+          description: The payment time
+          example: month
+      required:
+      - resellingAmount
+      - baseAmount
+      - planId
+      - features
+      - paymentType
+      - name
+      - paymentTime
+    PlansDTO:
+      type: object
+      properties:
+        subscription:
+          description: Subscription plans
+          example:
+          - resellingAmount: 0
+            baseAmount: 999
+            planId: 5ae000000000000000000000
+            features:
+            - feature1
+            - feature2
+            paymentType: month
+            name: Monthly Plan - 999
+            paymentTime: month
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionPlanDTO'
+        usage:
+          description: Usage-based plans
+          example:
+          - productType: workflow_action
+            productName: Send Group iMessage
+            usageUnit: action / message
+            meterId: 680b97022b4a34420f5f9b93
+            meterName: Send Group iMessage
+            fixedPricePerUnit: 0.01001
+            priceType: fixed
+            minPricePerUnit: '0.01001'
+            maxPricePerUnit: '0.01001'
+            executionLimitPerCycle: 1000
+          type: array
+          items:
+            $ref: '#/components/schemas/UsagePlanDTO'
+      required:
+      - subscription
+      - usage
+    UsagePlanDTO:
+      type: object
+      properties:
+        productType:
+          type: string
+          description: The product type
+          example: workflow_action
+        productName:
+          type: string
+          description: The product name
+          example: Send Group iMessage
+        usageUnit:
+          type: string
+          description: The usage unit for the meter
+          example: action / message
+        meterId:
+          type: string
+          description: The meter id
+          example: 680b97022b4a34420f5f9b93
+        meterName:
+          type: string
+          description: The meter name
+          example: Send Group iMessage
+        fixedPricePerUnit:
+          type: number
+          description: The fixed price per unit, applicable for fixed price type
+          example: 0.01001
+        priceType:
+          type: string
+          description: The price type
+          example: fixed
+          enum:
+          - fixed
+          - dynamic
+        minPricePerUnit:
+          type: string
+          description: The min price per unit, applicable for dynamic price type
+          example: '0.01001'
+        maxPricePerUnit:
+          type: string
+          description: The max price per unit, applicable for dynamic price type
+          example: '0.01001'
+        executionLimitPerCycle:
+          type: number
+          description: The execution limit per cycle
+          example: 1000
+      required:
+      - productType
+      - productName
+      - usageUnit
+      - meterId
+      - meterName
+      - fixedPricePerUnit
+      - priceType
+      - minPricePerUnit
+      - maxPricePerUnit
+      - executionLimitPerCycle
+    GetRebillingConfigResponseDTO:
+      type: object
+      properties:
+        plans:
+          description: The rebilling plans configuration
+          example:
+            subscription:
+            - resellingAmount: 0
+              baseAmount: 999
+              planId: 5ae000000000000000000000
+              features:
+              - feature1
+              - feature2
+              paymentType: month
+              name: Monthly Plan - 999
+              paymentTime: month
+            usage:
+            - productType: workflow_action
+              productName: Send Group iMessage
+              usageUnit: action / message
+              meterId: 680b97022b4a34420f5f9b93
+              meterName: Send Group iMessage
+              fixedPricePerUnit: 0.01001
+              priceType: fixed
+              minPricePerUnit: '0.01001'
+              maxPricePerUnit: '0.01001'
+              executionLimitPerCycle: 1000
+          allOf:
+          - $ref: '#/components/schemas/PlansDTO'
+      required:
+      - plans
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Developer marketplace
+  tags:
+  - Marketplace
+  - App Management
+  - Wallet Charges
+  - App Billing Management
+  - External Auth Migration

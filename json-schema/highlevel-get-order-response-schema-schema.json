@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-get-order-response-schema-schema.json",
+  "title": "GetOrderResponseSchema",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-payments-openapi.json#/components/schemas/GetOrderResponseSchema",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "The unique identifier for the order."
+    },
+    "altId": {
+      "type": "string",
+      "description": "AltId is the unique identifier eg: location id."
+    },
+    "altType": {
+      "type": "string",
+      "description": "AltType is the type of identifier."
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Contact id corresponding to the order."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency in which order was created."
+    },
+    "amount": {
+      "type": "number",
+      "description": "Order value."
+    },
+    "status": {
+      "type": "string",
+      "description": "The status of the order (e.g., completed)."
+    },
+    "liveMode": {
+      "type": "boolean",
+      "description": "Order is in live / test mode."
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "The creation timestamp of the order."
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "The last update timestamp of the order."
+    },
+    "fulfillmentStatus": {
+      "type": "string",
+      "description": "Fulfillment status of the order."
+    },
+    "contactSnapshot": {
+      "type": "object",
+      "description": "Contact details of the order."
+    },
+    "amountSummary": {
+      "description": "Amount details of the order.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/AmountSummary"
+        }
+      ]
+    },
+    "source": {
+      "description": "Source details of the order.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/OrderSource"
+        }
+      ]
+    },
+    "items": {
+      "description": "Item details of the order.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "coupon": {
+      "type": "object",
+      "description": "Coupon details of the order."
+    },
+    "trackingId": {
+      "type": "string",
+      "description": "Tracking id of the order."
+    },
+    "fingerprint": {
+      "type": "string",
+      "description": "Fingerprint id of the order."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Meta details of the order."
+    },
+    "markAsTest": {
+      "type": "boolean",
+      "description": "Is test order."
+    },
+    "traceId": {
+      "type": "string",
+      "description": "Trace id of the order."
+    },
+    "automaticTaxesCalculated": {
+      "type": "boolean",
+      "description": "Automatic taxes applied for the Order"
+    },
+    "taxCalculationProvider": {
+      "type": "object",
+      "description": "Provider name for automatic tax calculation"
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "User ID who created the order."
+    }
+  },
+  "required": [
+    "_id",
+    "altId",
+    "altType",
+    "status",
+    "createdAt",
+    "updatedAt"
+  ],
+  "$defs": {
+    "AmountSummary": {
+      "type": "object",
+      "properties": {
+        "subtotal": {
+          "type": "number",
+          "description": "Order sub-total value."
+        },
+        "discount": {
+          "type": "number",
+          "description": "Discount value on order."
+        }
+      },
+      "required": [
+        "subtotal"
+      ]
+    },
+    "OrderSource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "funnel",
+            "website",
+            "invoice",
+            "calendar",
+            "text2Pay",
+            "document_contracts",
+            "membership",
+            "mobile_app",
+            "communities",
+            "point_of_sale",
+            "manual",
+            "form",
+            "survey",
+            "payment_link",
+            "external"
+          ]
+        },
+        "subType": {
+          "type": "string",
+          "enum": [
+            "one_step_order_form",
+            "two_step_order_form",
+            "upsell",
+            "tap_to_pay",
+            "card_payment",
+            "store",
+            "contact_view",
+            "email_campaign",
+            "payments_dashboard",
+            "shopify",
+            "subscription_view",
+            "store_upsell",
+            "woocommerce",
+            "service",
+            "meeting",
+            "imported_csv",
+            "qr_code",
+            "saas_one_time",
+            "saas_subscription"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "meta": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ]
+    }
+  }
+}

@@ -1,0 +1,349 @@
+openapi: 3.2.0
+info:
+  title: Affiliate Manager Commissions API
+  description: Documentation for Affiliate Manager API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Commissions
+  description: Documentation for Affiliate Manager API
+paths:
+  /affiliate-manager/{locationId}/commissions:
+    get:
+      operationId: list-commissions
+      summary: List Commissions
+      description: Retrieve the list of commissions for a location.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: Campaign Id
+        schema:
+          example: 6385d230f6d19db03eef6fb2
+          type: string
+      - name: affiliateId
+        required: false
+        in: query
+        description: Affiliate Id
+        schema:
+          example: 6385d230f6d19db03eef6fb2
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: Status
+        schema:
+          example: pending
+          type: string
+      - name: query
+        required: false
+        in: query
+        description: Query
+        schema:
+          example: affiliate@gmail.com
+          type: string
+      - name: skip
+        required: false
+        in: query
+        schema:
+          default: 0
+          example: 1
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Maximum number of records to return. Maximum allowed value is 100.
+        schema:
+          default: 10
+          example: 10
+          type: number
+      - name: fromDate
+        required: false
+        in: query
+        schema:
+          example: '2023-10-01'
+          type: string
+      - name: toDate
+        required: false
+        in: query
+        schema:
+          example: '2023-10-01'
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCommissionListResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Commissions
+      security:
+      - bearer:
+        - affiliate-manager.readonly
+components:
+  schemas:
+    CommissionListMetaResponseDto:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total commissions matching the filters
+          example: 42
+      required:
+      - count
+    GetCommissionListResponseDto:
+      type: object
+      properties:
+        commissions:
+          description: Commission list
+          type: array
+          items:
+            $ref: '#/components/schemas/CommissionListItemResponseDto'
+        meta:
+          description: Pagination metadata
+          allOf:
+          - $ref: '#/components/schemas/CommissionListMetaResponseDto'
+      required:
+      - commissions
+    CommissionListItemResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Commission id
+          example: 6385d230f6d19db03eef6fb2
+        productId:
+          type: string
+          description: Product id
+          example: 6385d230f6d19db03eef6fb2
+        productName:
+          type: string
+          description: Product name
+          example: Basic Plan
+        qty:
+          type: number
+          description: Quantity
+          example: 1
+        productCommission:
+          type: number
+          description: Product commission amount
+          example: 25
+        commissionAmount:
+          type: number
+          description: Commission amount
+          example: 25
+        amount:
+          type: number
+          description: Base amount
+          example: 100
+        unitDiscount:
+          type: number
+          description: Unit discount
+          example: 5
+        campaignName:
+          type: string
+          description: Campaign name
+          example: Summer Promo
+        commission:
+          type: number
+          description: Commission percentage or value
+          example: 25
+        commissionType:
+          type: string
+          description: Commission type
+          example: percentage
+        transactionAt:
+          type: string
+          description: Transaction time
+          example: '2024-06-16T00:00:00.000Z'
+        transactionId:
+          type: string
+          description: Transaction id
+          example: txn_123
+        affiliateId:
+          type: string
+          description: Affiliate id
+          example: 6385d230f6d19db03eef6fb2
+        payoutId:
+          type: string
+          description: Payout id
+          example: 6385d230f6d19db03eef6fb2
+        status:
+          type: string
+          description: Commission status
+          example: pending
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        isTrial:
+          type: boolean
+          description: Whether the item is a trial commission
+          example: false
+        customer:
+          description: Customer details
+          allOf:
+          - $ref: '#/components/schemas/CommissionCustomerResponseDto'
+        createdAt:
+          type: string
+          description: Created at
+          example: '2024-06-16T00:00:00.000Z'
+        eventId:
+          type: string
+          description: Event id
+          example: evt_123
+        campaign:
+          description: Campaign details
+          allOf:
+          - $ref: '#/components/schemas/CommissionCampaignResponseDto'
+        affiliate:
+          description: Affiliate details
+          allOf:
+          - $ref: '#/components/schemas/CommissionAffiliateResponseDto'
+        dueAt:
+          type: string
+          description: Due date
+          example: '2024-06-30T00:00:00.000Z'
+        liveMode:
+          type: boolean
+          description: Whether the commission is in live mode
+          example: true
+        tier:
+          type: number
+          description: Commission tier
+          example: 1
+      required:
+      - _id
+    CommissionAffiliateResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Affiliate id
+          example: 6385d230f6d19db03eef6fb2
+        name:
+          type: string
+          description: Affiliate display name
+          example: John Doe
+        email:
+          type: string
+          description: Affiliate email
+          example: affiliate@example.com
+    CommissionCampaignResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Campaign id
+          example: 6385d230f6d19db03eef6fb2
+        name:
+          type: string
+          description: Campaign name
+          example: Summer Promo
+        liveMode:
+          type: boolean
+          description: Whether the campaign is in live mode
+          example: true
+    CommissionCustomerResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Customer id
+          example: 6385d230f6d19db03eef6fb2
+        firstName:
+          type: string
+          description: Customer first name
+          example: John
+        lastName:
+          type: string
+          description: Customer last name
+          example: Doe
+        email:
+          type: string
+          description: Customer email
+          example: john@example.com
+        type:
+          type: string
+          description: Customer type
+          example: customer
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Affiliate Manager
+  tags:
+  - affiliate-manager
+  - Affiliates
+  - Payouts
+  - Commissions

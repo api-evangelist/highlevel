@@ -1,0 +1,356 @@
+openapi: 3.2.0
+info:
+  title: CUSTOM_OBJECTS Records API
+  description: Custom objects are completely customizable objects that allow you to store and manage information tailored to your unique business needs. With custom objects, you can create custom fields, establish relationships, and integrate them into workflows, providing flexibility beyond standard objects like Contacts, Opportunities or Companies.
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Records
+  description: Custom objects are completely customizable objects that allow you to store and manage information tailored to your unique business needs. With custom objects, you can create custom fields, establish relationships, and integrate them into workflows, providing flexibility beyond standard objects like Contacts, Opportunities or Companies.
+paths:
+  /objects/{schemaKey}/records/{id}:
+    get:
+      operationId: get-record-by-id
+      summary: Get Record By Id
+      description: Allows you to get a Standard Object like business and custom object record by Id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: schemaKey
+        required: true
+        in: path
+        description: The key of the Custom Object / Standard Object Schema. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.
+        schema:
+          example: custom_objects.pet or business.email (for company's email)
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: id of the record to be updated. Available on the Record details page under the 3 dots or in the url
+        schema:
+          example: 632c34b4c9b7da3358ac9891
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Records
+      security:
+      - bearer: []
+    put:
+      operationId: update-object-record
+      summary: Update Record
+      description: Update a Custom Object Record by Id. Supported Objects are business and custom objects. Documentation Link - https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-376296
+      externalDocs:
+        url: https://doc.clickup.com/8631005/d/h/87cpx-175596/e2f3e9f2e111d69/87cpx-275676
+        description: Click here for more information
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: schemaKey
+        required: true
+        in: path
+        description: The key of the Custom Object / Standard Object Schema. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.
+        schema:
+          example: custom_objects.pet or business.email (for company's email)
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: id of the record to be updated. Available on the Record details page under the 3 dots or in the url
+        schema:
+          example: 632c34b4c9b7da3358ac9891
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomObjectRecordDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Records
+      security:
+      - bearer: []
+    delete:
+      operationId: delete-object-record
+      summary: Delete Record
+      description: Delete Record By Id . Supported Objects are business and custom objects.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: schemaKey
+        required: true
+        in: path
+        description: The key of the Custom Object / Standard Object Schema. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.
+        schema:
+          example: custom_objects.pet or business.email (for company's email)
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: id of the record to be updated. Available on the Record details page under the 3 dots or in the url
+        schema:
+          example: 632c34b4c9b7da3358ac9891
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectRecordDeleteResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Records
+      security:
+      - bearer: []
+  /objects/{schemaKey}/records:
+    post:
+      operationId: create-object-record
+      summary: Create Record
+      description: Create a Custom Object Record. Supported Objects business and custom objects. Documentation Link - https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-376296
+      externalDocs:
+        url: https://doc.clickup.com/8631005/d/h/87cpx-175596/e2f3e9f2e111d69/87cpx-275236
+        description: Click here for more information
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: schemaKey
+        required: true
+        in: path
+        description: The key of the Custom Object / Standard Object Schema. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.
+        schema:
+          example: custom_objects.pet or business.email (for company's email)
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomObjectRecordDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Records
+      security:
+      - bearer:
+        - objects/record.write
+components:
+  schemas:
+    CreateCustomObjectRecordDto:
+      type: object
+      properties: {}
+    UpdateCustomObjectRecordDto:
+      type: object
+      properties: {}
+    RecordByIdResponseDTO:
+      type: object
+      properties:
+        record:
+          $ref: '#/components/schemas/IRecordSchema'
+    IRecordSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 661c06b4ffde146bdb469442
+          description: id of the record
+        owner:
+          description: Owner (User's id). Limited to 1 for now. Only Supported with custom objects
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+        followers:
+          description: Follower (User's ids). Limited to 10 for now
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - v5cEPM428h8vShlRW1KT
+          type: array
+          items:
+            type: string
+        properties:
+          type: string
+          example:
+            customer_number: 1424
+            ticket_name: Customer not able login
+            phone_number: '+917000000000'
+            money:
+              currency: default
+              value: 100
+            type_of_ticket: doubt
+            section_of_app:
+            - contacts
+            - smartlist
+            recieved_on: '2024-07-11'
+            my_files:
+            - url: '---url_of_file---'
+            my_textbox_list.option_a: Value 1
+            my_textbox_list.option_b: Value 2
+          description: Properties of the record
+        dateAdded:
+          type: string
+          description: Date and time when the object was added
+          format: date-time
+        dateUpdated:
+          type: string
+          description: Date and time when the object was last updated
+          format: date-time
+      required:
+      - id
+      - owner
+      - followers
+      - properties
+      - dateAdded
+      - dateUpdated
+    ObjectRecordDeleteResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the deleted object
+          example: 661c06b4ffde146bdb469442
+        success:
+          type: boolean
+          description: boolean that defines if the operation was a success or not
+          example: true
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Objects
+  tags:
+  - Custom Objects Schema
+  - Object Schema
+  - Sub-Account (Formerly Location)
+  - Records
+  - Search Object Records
+  - Search
+  - Tags
+  - Tasks Search
+  - Custom Field
+  - Custom Value
+  - Timezone
+  - Template
+  - ElasticSearch

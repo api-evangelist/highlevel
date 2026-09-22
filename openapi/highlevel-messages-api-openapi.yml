@@ -1,0 +1,1928 @@
+openapi: 3.2.0
+info:
+  title: Conversations Messages API
+  description: Documentation for Conversations API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Messages
+  description: Documentation for Conversations API
+paths:
+  /conversations/messages/export:
+    get:
+      operationId: export-messages-by-location
+      summary: Export messages by location ID
+      description: Export messages for a specific location with cursor-based pagination support. Response includes messageType (string), source, and subType fields. The channel parameter is optional - if not provided, all non-email message types will be returned including activity messages (opportunity updates, appointments, etc.).
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID to filter messages by
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of messages to return per page
+        schema:
+          minimum: 10
+          maximum: 500
+          default: 100
+          type: number
+      - name: cursor
+        required: false
+        in: query
+        description: Cursor for pagination. Pass the nextCursor from previous response to get next page.
+        schema:
+          example: eyJwaXRJZCI6ImFiYy0xMjMiLCJsYXN0U29ydCI6WzE2NDY4NjQ0MDBdLCJsYXN0SWQiOiIxMjMifQ==
+          type: string
+      - name: sortBy
+        required: false
+        in: query
+        description: Field to sort by
+        schema:
+          default: createdAt
+          enum:
+          - createdAt
+          - updatedAt
+          type: string
+      - name: sortOrder
+        required: false
+        in: query
+        description: Sort order
+        schema:
+          default: desc
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: conversationId
+        required: false
+        in: query
+        description: Filter messages by conversation ID
+        schema:
+          type: string
+      - name: contactId
+        required: false
+        in: query
+        description: Filter messages by contact ID
+        schema:
+          type: string
+      - name: channel
+        required: false
+        in: query
+        description: Filter by message channel. If not provided, all non-email message types will be returned including activity messages (opportunity updates, appointments, etc.)
+        schema:
+          enum:
+          - Call
+          - SMS
+          - Email
+          - WhatsApp
+          - Instagram
+          - Facebook
+          type: string
+      - name: startDate
+        required: false
+        in: query
+        description: Start date to filter messages by
+        schema:
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: End date to filter messages by
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of messages for the location with pagination details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportMessagesResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.readonly
+  /conversations/messages/{id}:
+    get:
+      operationId: get-message
+      summary: Get message by message id
+      description: Get message by message id.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      responses:
+        '200':
+          description: Message object for the id given.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.readonly
+  /conversations/{conversationId}/messages:
+    get:
+      operationId: get-messages
+      summary: Get messages by conversation id
+      description: Get messages by conversation id.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: conversationId
+        required: true
+        in: path
+        description: Conversation ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: lastMessageId
+        required: false
+        in: query
+        description: Message ID of the last message in the list as a string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of messages to be fetched from the conversation. Default limit is 20
+        schema:
+          example: 20
+          type: number
+      - name: type
+        required: false
+        in: query
+        description: Types of message to fetched separated with comma
+        schema:
+          example: TYPE_SMS,TYPE_CALL
+          enum:
+          - TYPE_CALL
+          - TYPE_SMS
+          - TYPE_RCS
+          - TYPE_EMAIL
+          - TYPE_FACEBOOK
+          - TYPE_GMB
+          - TYPE_INSTAGRAM
+          - TYPE_WHATSAPP
+          - TYPE_ACTIVITY_APPOINTMENT
+          - TYPE_ACTIVITY_CONTACT
+          - TYPE_ACTIVITY_INVOICE
+          - TYPE_ACTIVITY_PAYMENT
+          - TYPE_ACTIVITY_OPPORTUNITY
+          - TYPE_LIVE_CHAT
+          - TYPE_INTERNAL_COMMENTS
+          - TYPE_ACTIVITY_EMPLOYEE_ACTION_LOG
+          - TYPE_TIKTOK
+          - TYPE_ACTIVITY_WHATSAPP
+          - TYPE_FORM_SUBMISSION
+          type: string
+      responses:
+        '200':
+          description: List of messages for the conversation id of the given type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessagesByConversationResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.readonly
+  /conversations/messages:
+    post:
+      operationId: send-a-new-message
+      summary: Send a new message
+      description: Post the necessary fields for the API to send a new message.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageBodyDto'
+      responses:
+        '200':
+          description: Created the message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/inbound:
+    post:
+      operationId: add-an-inbound-message
+      summary: Add an inbound message
+      description: Post the necessary fields for the API to add a new inbound message.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessMessageBodyDto'
+      responses:
+        '200':
+          description: Created the message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessMessageResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/outbound:
+    post:
+      operationId: add-an-outbound-message
+      summary: Add an external outbound call
+      description: Post the necessary fields for the API to add a new outbound call.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessOutboundMessageBodyDto'
+      responses:
+        '200':
+          description: Created the message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessMessageResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/review-reply:
+    post:
+      operationId: send-review-reply
+      summary: Send a review reply to Google My Business
+      description: Post a reply to a customer review on Google My Business
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendReviewReplyDto'
+      responses:
+        '200':
+          description: Review reply sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/{messageId}/schedule:
+    delete:
+      operationId: cancel-scheduled-message
+      summary: Cancel a scheduled message
+      description: Post the messageId for the API to delete a scheduled message.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: messageId
+        required: true
+        in: path
+        description: Message Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      responses:
+        '200':
+          description: The scheduled message was cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelScheduledResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/upload:
+    post:
+      operationId: upload-file-attachments
+      summary: Upload file attachments
+      description: 'Post the necessary fields for the API to upload files. The files need to be a buffer with the key "fileAttachment".
+
+
+        The allowed file types are:
+
+
+        JPG
+
+
+        JPEG
+
+
+        PNG
+
+
+        MP4
+
+
+        MPEG
+
+
+        ZIP
+
+
+        RAR
+
+
+        PDF
+
+
+        DOC
+
+
+        DOCX
+
+
+        TXT
+
+
+        MP3
+
+
+        WAV
+
+
+        The API will return an object with the URLs'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFilesDto'
+      responses:
+        '200':
+          description: Uploaded the file successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFilesResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '413':
+          description: Payload Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFilesErrorResponseDto'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFilesErrorResponseDto'
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/upload/initiate:
+    post:
+      operationId: initiate-file-upload
+      summary: Initiate file upload to GCS
+      description: Generates a signed URL for direct file upload to Google Cloud Storage. Returns a signed URL valid for 15 minutes. Upload file via PUT request, then call /complete to finalize.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiateFileUploadDto'
+      responses:
+        '200':
+          description: Signed URL generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiateFileUploadResponseDto'
+        '400':
+          description: Bad Request - Invalid parameters
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '413':
+          description: File size exceeds maximum allowed limit
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/upload/complete:
+    post:
+      operationId: complete-file-upload
+      summary: Complete file upload
+      description: Validates the uploaded file in GCS and returns the public URL. Call this endpoint after successfully uploading the file to the signed URL.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteFileUploadDto'
+      responses:
+        '200':
+          description: Upload completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteFileUploadResponseDto'
+        '400':
+          description: Bad Request - Invalid parameters
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: File not found in storage - upload may have failed or URL expired
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/{messageId}/status:
+    put:
+      operationId: update-message-status
+      summary: Update message status
+      description: Post the necessary fields for the API to update message status.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: messageId
+        required: true
+        in: path
+        description: Message Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMessageStatusDto'
+      responses:
+        '200':
+          description: Created the message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/{messageId}/attachments:
+    put:
+      operationId: add-message-attachments
+      summary: Add message attachments
+      description: Set attachments on an existing message (replaces existing). Maximum 5 URLs. Supported for TYPE_CUSTOM_CALL (34) and TYPE_CALL (1) with subType EXTERNAL_CALL.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: messageId
+        required: true
+        in: path
+        description: Message Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMessageAttachmentsDto'
+      responses:
+        '200':
+          description: Successfully set message attachments
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '403':
+          description: Message type does not support attachment updates
+        '404':
+          description: Message not found
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.write
+  /conversations/messages/{messageId}/locations/{locationId}/recording:
+    get:
+      operationId: get-message-recording
+      summary: Get Recording by Message ID
+      description: Get the recording for a message by passing the message id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: path
+        description: Location ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: messageId
+        required: true
+        in: path
+        description: Message ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      responses:
+        '200':
+          description: Gives the attached recording to the message
+          headers:
+            Content-Type:
+              description: audio/x-wav
+            Content-Disposition:
+              description: Attachment; filename=audio.wav
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.readonly
+      - Location-Access:
+        - conversations/message.readonly
+  /conversations/locations/{locationId}/messages/{messageId}/transcription:
+    get:
+      operationId: get-message-transcription
+      summary: Get transcription by Message ID
+      description: Get the recording transcription for a message by passing the message id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: path
+        description: Location ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: messageId
+        required: true
+        in: path
+        description: Message ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      responses:
+        '200':
+          description: Gives the attached recording transcription to the message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageTranscriptionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.readonly
+      - Location-Access:
+        - conversations/message.readonly
+  /conversations/locations/{locationId}/messages/{messageId}/transcription/download:
+    get:
+      operationId: download-message-transcription
+      summary: Download transcription by Message ID
+      description: Download the recording transcription for a message by passing the message id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: path
+        description: Location ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      - name: messageId
+        required: true
+        in: path
+        description: Message ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      responses:
+        '200':
+          description: Downloads the attached transcription of the message
+          headers:
+            Content-Type:
+              description: text/plain
+            Content-Disposition:
+              description: Attachment; filename="transcription.txt"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Messages
+      security:
+      - bearer:
+        - conversations/message.readonly
+      - Location-Access:
+        - conversations/message.readonly
+components:
+  schemas:
+    SendMessageResponseDto:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Conversation ID.
+          example: ABC12h2F6uBrIkfXYazb
+        emailMessageId:
+          type: string
+          description: This contains the email message id (only for Email type). Use this ID to send inbound replies to GHL to create a threaded email.
+          example: rnGyqh2F6uBrIkfhFo9A
+        messageId:
+          type: string
+          description: This is the main Message ID
+          example: t22c6DQcTDf3MjRhwf77
+        messageIds:
+          description: When sending via the GMB channel, we will be returning list of `messageIds` instead of single `messageId`.
+          type: array
+          items:
+            type: string
+        msg:
+          type: string
+          description: Additional response message when sending a workflow message
+          example: Message queued successfully.
+        forwardData:
+          description: Optional metadata for forwarded email
+          example:
+            forwardWholeThread: false
+            messageId: t22c6DQcTDf3MjRhwf77
+            emailMessageId: rnGyqh2F6uBrIkfhFo9A
+            forwardToEmail: recipient@example.com
+            recipientContactId: DEF56h2F6uBrIkfXYacd
+          allOf:
+          - $ref: '#/components/schemas/ForwardResponseDto'
+        status:
+          type: string
+          description: Message status
+          example: delivered
+          enum:
+          - delivered
+          - failed
+          - pending
+          - read
+      required:
+      - conversationId
+      - messageId
+      - status
+    ForwardConfigDto:
+      type: object
+      properties:
+        isForwarded:
+          type: boolean
+          description: Specify if this is a forwarded email
+          example: true
+        forwardWholeThread:
+          type: boolean
+          description: Specify if forwarding the whole thread or just a single email
+          example: false
+        messageId:
+          type: string
+          description: Message ID of the email thread being forwarded (source) - REQUIRED for forwarding
+          example: t22c6DQcTDf3MjRhwf77
+        emailMessageId:
+          type: string
+          description: Email Message ID of the specific email being forwarded (source) - Required for single email forward, ignored for thread forward
+          example: rnGyqh2F6uBrIkfhFo9A
+        sourceContactId:
+          type: string
+          description: Contact ID where the forwarded email originated from (source) - Auto-populated if not provided
+          example: ABC12h2F6uBrIkfXYazb
+        sourceConversationId:
+          type: string
+          description: Conversation ID where the forwarded email originated from (source) - Auto-populated if not provided
+          example: XYZ12h2F6uBrIkfXYacd
+        toEmail:
+          type: string
+          description: Email address to forward to (destination)
+          example: forward@example.com
+        recipientContactId:
+          type: string
+          description: Contact ID of recipient when forwarding (destination)
+          example: DEF56h2F6uBrIkfXYacd
+        recipientConversationId:
+          type: string
+          description: Conversation ID of recipient when forwarding (destination)
+          example: GHI78h2F6uBrIkfXYefg
+      required:
+      - isForwarded
+    SendMessageBodyDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - SMS
+          - RCS
+          - Email
+          - WhatsApp
+          - IG
+          - FB
+          - Custom
+          - Live_Chat
+          - TIKTOK
+          description: Type of message being sent
+          example: Email
+        subType:
+          type: object
+          description: Type of message being sent
+          example: Email
+        contactId:
+          type: string
+          description: ID of the contact receiving the message
+          example: abc123def456
+        appointmentId:
+          type: string
+          description: ID of the associated appointment
+          example: appt123
+        attachments:
+          description: Array of attachment URLs
+          example:
+          - https://storage.com/file1.pdf
+          - https://storage.com/file2.jpg
+          type: array
+          items:
+            type: string
+        emailFrom:
+          type: string
+          description: Email address to send from
+          example: sender@company.com
+        emailCc:
+          description: Array of CC email addresses
+          example:
+          - cc1@company.com
+          - cc2@company.com
+          type: array
+          items:
+            type: string
+        emailBcc:
+          description: Array of BCC email addresses
+          example:
+          - bcc1@company.com
+          - bcc2@company.com
+          type: array
+          items:
+            type: string
+        html:
+          type: string
+          description: HTML content of the message
+          example: <p>Hello World</p>
+        message:
+          type: string
+          description: Text content of the message
+          example: Hello, how can I help you today?
+        subject:
+          type: string
+          description: Subject line for email messages
+          example: Important Update
+        replyMessageId:
+          type: string
+          description: ID of message being replied to
+          example: msg123
+        templateId:
+          type: string
+          description: ID of message template
+          example: template123
+        threadId:
+          type: string
+          description: ID of message thread. For email messages, this is the message ID that contains multiple email messages in the thread
+          example: thread123
+        scheduledTimestamp:
+          type: number
+          description: UTC Timestamp (in seconds) at which the message should be scheduled
+          example: 1669287863
+        conversationProviderId:
+          type: string
+          description: ID of conversation provider
+          example: provider123
+        emailTo:
+          type: string
+          description: Email address to send to, if different from contact's primary email. This should be a valid email address associated with the contact.
+          example: recipient@company.com
+        customSubtypeId:
+          type: string
+          description: Custom subtype ID for email unsubscription preferences. Only applies to email messages.
+          example: 507f1f77bcf86cd799439011
+        emailReplyMode:
+          type: string
+          enum:
+          - reply
+          - reply_all
+          description: Mode for email replies
+          example: reply_all
+        fromNumber:
+          type: string
+          description: Phone number used as the sender number for outbound messages
+          example: '+1499499299'
+        toNumber:
+          type: string
+          description: Recipient phone number for outbound messages
+          example: '+1439499299'
+        forward:
+          description: Forwarding configuration for emails
+          example:
+            isForwarded: true
+            forwardWholeThread: false
+            messageId: t22c6DQcTDf3MjRhwf77
+            emailMessageId: rnGyqh2F6uBrIkfhFo9A
+            toEmail: forward@example.com
+            recipientContactId: DEF56h2F6uBrIkfXYacd
+          allOf:
+          - $ref: '#/components/schemas/ForwardConfigDto'
+        status:
+          type: string
+          description: Message status
+          example: delivered
+          enum:
+          - delivered
+          - failed
+          - pending
+          - read
+        usesNativeSchedulingAi:
+          type: boolean
+          description: 'Whether the scheduled email uses native AI for the email scheduling '
+          example: false
+        optimizationPeriod:
+          type: string
+          description: Optimization period in hours (24h, 48h, or 72h)
+          example: 24h
+          enum:
+          - 24h
+          - 48h
+          - 72h
+      required:
+      - type
+      - subType
+      - contactId
+      - status
+    ForwardResponseDto:
+      type: object
+      properties:
+        forwardWholeThread:
+          type: boolean
+          description: Whether the entire thread was forwarded
+          example: false
+        messageId:
+          type: string
+          description: Message ID of the forwarded message (source)
+          example: t22c6DQcTDf3MjRhwf77
+        emailMessageId:
+          type: string
+          description: Email Message ID of the forwarded email (source)
+          example: rnGyqh2F6uBrIkfhFo9A
+        sourceContactId:
+          type: string
+          description: Contact ID where the forwarded email originated from (source)
+          example: ABC12h2F6uBrIkfXYazb
+        sourceConversationId:
+          type: string
+          description: Conversation ID where the forwarded email originated from (source)
+          example: XYZ12h2F6uBrIkfXYacd
+        forwardToEmail:
+          type: string
+          description: Email address the message was forwarded to (destination)
+          example: recipient@example.com
+        recipientContactId:
+          type: string
+          description: Contact ID of the recipient of the forwarded email (destination)
+          example: DEF56h2F6uBrIkfXYacd
+        recipientConversationId:
+          type: string
+          description: Conversation ID of the recipient of the forwarded email (destination)
+          example: GHI78h2F6uBrIkfXYefg
+    CancelScheduledResponseDto:
+      type: object
+      properties:
+        status:
+          type: number
+          description: HTTP Status code of the request
+          example: 404
+        message:
+          type: string
+          description: Error message of the request
+          example: Failed cancel the scheduled message
+      required:
+      - status
+      - message
+    UploadFilesDto:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Conversation Id
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          description: Contact Id
+          example: ve9EPM428h8vShlRW1KT
+        locationId:
+          type: string
+        attachmentUrls:
+          type: array
+          items:
+            type: string
+        chatServiceSid:
+          type: string
+          description: Twilio chat service SID for group SMS uploads
+          example: ISxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        isGroupSms:
+          type: string
+          description: Flag to indicate group SMS upload flow. When true, only 1 file upload is allowed per request.
+          example: 'true'
+      required:
+      - conversationId
+      - contactId
+      - locationId
+      - attachmentUrls
+    UpdateMessageStatusDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Message status
+          example: read
+          enum:
+          - delivered
+          - failed
+          - pending
+          - read
+        error:
+          description: Error object from the conversation provider
+          allOf:
+          - $ref: '#/components/schemas/ErrorDto'
+        emailMessageId:
+          type: string
+          description: Email message Id
+          example: ve9EPM428h8vShlRW1KT
+        recipients:
+          description: Email delivery status for additional email recipients.
+          type: array
+          items:
+            type: string
+      required:
+      - status
+    SendReviewReplyDto:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Conversation ID (must have reviewId)
+          example: conv123
+        locationId:
+          type: string
+          description: Location ID
+          example: loc123
+        message:
+          type: string
+          description: Review reply message text
+          example: Thank you for your review!
+      required:
+      - conversationId
+      - locationId
+      - message
+    CallDataDTO:
+      type: object
+      properties:
+        to:
+          type: string
+          description: Phone number of the receiver
+          example: '+15037081210'
+        from:
+          type: string
+          description: Phone number of the dialer
+          example: '+15037081210'
+        status:
+          type: string
+          description: Call status
+          example: completed
+          enum:
+          - pending
+          - completed
+          - answered
+          - busy
+          - no-answer
+          - failed
+          - canceled
+          - voicemail
+    CompleteFileUploadDto:
+      type: object
+      properties:
+        uploadId:
+          type: string
+          description: Upload ID from request response
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        filePath:
+          type: string
+          description: File path from request response
+          example: location/loc123/conversations/conv456/uuid.mp4
+        locationId:
+          type: string
+          description: Location ID
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          description: Conversation ID
+          example: ve9EPM428h8vShlRW1KT
+        filename:
+          type: string
+          description: Original filename (for response mapping)
+          example: video.mp4
+      required:
+      - uploadId
+      - filePath
+      - locationId
+      - conversationId
+      - filename
+    UploadFilesErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: number
+          description: HTTP Status code of the request
+          example: 413
+          enum:
+          - 400
+          - 413
+          - 415
+        message:
+          type: string
+          description: Error message of the request
+          example: Failed to upload the files
+      required:
+      - status
+      - message
+    InitiateFileUploadDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          description: Conversation ID
+          example: ve9EPM428h8vShlRW1KT
+        filename:
+          type: string
+          description: Original filename with extension
+          example: video.mp4
+        contentType:
+          type: string
+          description: MIME type of the file
+          example: video/mp4
+        fileSize:
+          type: number
+          description: File size in bytes (optional, for pre-validation)
+          example: 52428800
+        channel:
+          type: string
+          description: Channel type for size limits (WHATSAPP for 100MB limit, others for 5MB)
+          example: WHATSAPP
+      required:
+      - locationId
+      - conversationId
+      - filename
+      - contentType
+      - channel
+    InitiateFileUploadResponseDto:
+      type: object
+      properties:
+        uploadUrl:
+          type: string
+          description: Signed URL for direct upload to GCS. Use PUT request with file content.
+          example: https://storage.googleapis.com/bucket/path?X-Goog-Algorithm=...
+        uploadId:
+          type: string
+          description: Unique upload ID for tracking and completing the upload
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        filePath:
+          type: string
+          description: File path in GCS bucket (needed for confirmation endpoint)
+          example: location/loc123/conversations/conv456/uuid.mp4
+        expiresAt:
+          type: number
+          description: URL expiration timestamp (Unix milliseconds)
+          example: 1701619200000
+        maxFileSize:
+          type: number
+          description: Maximum allowed file size in bytes
+          example: 104857600
+      required:
+      - uploadUrl
+      - uploadId
+      - filePath
+      - expiresAt
+      - maxFileSize
+    GetMessagesByConversationResponseDto:
+      type: object
+      properties:
+        lastMessageId:
+          type: string
+          description: Id of the last message in the messages array
+          example: p1mRSHeLDhAms5q0LMr4
+        nextPage:
+          type: boolean
+          description: Next page value true indicates only 20 message is in the response. Rest of the messages are in the next page. Please use the lastMessageId value in the query to get the next page messages
+          example: true
+        messages:
+          description: Array of messages
+          type: array
+          items:
+            $ref: '#/components/schemas/GetMessageResponseDto'
+      required:
+      - lastMessageId
+      - nextPage
+      - messages
+    UploadFilesResponseDto:
+      type: object
+      properties:
+        uploadedFiles:
+          type: object
+        twilioMediaSids:
+          description: Twilio media SIDs for group SMS (when isGroupSms=true)
+          example:
+          - MExxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          type: array
+          items:
+            type: string
+      required:
+      - uploadedFiles
+    ProcessOutboundMessageBodyDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Message Type
+          example: Call
+          enum:
+          - Call
+        attachments:
+          description: Array of attachments
+          type: array
+          items:
+            type: string
+        conversationId:
+          type: string
+          description: Conversation Id
+          example: ve9EPM428h8vShlRW1KT
+        conversationProviderId:
+          type: string
+          description: Conversation Provider Id
+          example: 61d6d1f9cdac7612faf80753
+        altId:
+          type: string
+          description: external mail provider's message id
+          example: 61d6d1f9cdac7612faf80753
+        date:
+          format: date-time
+          type: string
+          description: Date of the outbound message
+        call:
+          description: Phone call dialer and receiver information
+          allOf:
+          - $ref: '#/components/schemas/CallDataDTO'
+      required:
+      - type
+      - conversationId
+      - conversationProviderId
+    GetMessageTranscriptionResponseDto:
+      type: object
+      properties:
+        mediaChannel:
+          type: number
+          description: Media channel describes the user interaction channel
+          example: '1'
+        sentenceIndex:
+          type: number
+          description: Index of the sentence in the transcription
+          example: '1'
+        startTime:
+          type: number
+          description: Start time of the sentence in milliseconds
+          example: '34'
+        endTime:
+          type: number
+          description: End time of the sentence in milliseconds
+          example: '45'
+        transcript:
+          type: string
+          description: Transcript of the sentence
+          example: This call may be recorded for quality assurance purposes.
+        confidence:
+          type: number
+          description: Confidence of the transcription
+          example: '0.5'
+      required:
+      - mediaChannel
+      - sentenceIndex
+      - startTime
+      - endTime
+      - transcript
+      - confidence
+    ErrorDto:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code
+          example: '1'
+        type:
+          type: string
+          description: Error Type
+          example: saas
+        message:
+          type: string
+          description: Error Message
+          example: There was an error from the provider
+      required:
+      - code
+      - type
+      - message
+    AddMessageAttachmentsDto:
+      type: object
+      properties:
+        attachments:
+          description: Array of attachment URLs to set on the message (replaces existing). Maximum 5 URLs.
+          example:
+          - https://provider.com/recordings/call-123.mp3
+          type: array
+          items:
+            type: string
+      required:
+      - attachments
+    ProcessMessageBodyDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Message Type
+          example: SMS
+          enum:
+          - SMS
+          - RCS
+          - Email
+          - WhatsApp
+          - GMB
+          - IG
+          - FB
+          - Custom
+          - WebChat
+          - Live_Chat
+          - Call
+          - IVR_Call
+          - Campaign_Call
+          - Campaign_VoiceMail
+          - TIKTOK
+          - ALL_IN_ONE_CHAT
+          - FORM_SUBMISSION
+        attachments:
+          description: Array of attachments
+          type: array
+          items:
+            type: string
+        message:
+          type: string
+          description: Message Body
+        conversationId:
+          type: string
+          description: Conversation Id
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          description: Contact Id
+          example: ve9EPM428h8vShlRW1KT
+        conversationProviderId:
+          type: string
+          description: Conversation Provider Id
+          example: 61d6d1f9cdac7612faf80753
+        html:
+          type: string
+          description: HTML Body of Email
+        subject:
+          type: string
+          description: Subject of the Email
+        emailFrom:
+          type: string
+          description: Email address to send from. This field is associated with the contact record and cannot be dynamically changed.
+          example: sender@company.com
+        emailTo:
+          type: string
+          description: Recipient email address. This field is associated with the contact record and cannot be dynamically changed.
+        emailCc:
+          description: List of email address to CC
+          example:
+          - john1@doe.com
+          - john2@doe.com
+          type: array
+          items:
+            type: string
+        emailBcc:
+          description: List of email address to BCC
+          example:
+          - john1@doe.com
+          - john2@doe.com
+          type: array
+          items:
+            type: string
+        emailMessageId:
+          type: string
+          description: Send the email message id for which this email should be threaded. This is for replying to a specific email
+        altId:
+          type: string
+          description: external mail provider's message id
+          example: 61d6d1f9cdac7612faf80753
+        direction:
+          type: object
+          description: Message direction, if required can be set manually, default is outbound
+          default: outbound
+          example:
+          - outbound
+          - inbound
+        date:
+          format: date-time
+          type: string
+          description: Date of the inbound message
+        call:
+          description: Phone call dialer and receiver information
+          allOf:
+          - $ref: '#/components/schemas/CallDataDTO'
+      required:
+      - type
+      - conversationId
+      - contactId
+      - conversationProviderId
+    ExportMessagesResponseDto:
+      type: object
+      properties:
+        messages:
+          description: Array of messages
+          type: array
+          items:
+            $ref: '#/components/schemas/GetMessageResponseDto'
+        nextCursor:
+          type: string
+          description: Cursor for fetching next page. Null if no more results.
+          example: eyJwaXRJZCI6ImFiYy0xMjMiLCJsYXN0U29ydCI6WzE2NDY4NjQ0MDBdLCJsYXN0SWQiOiIxMjMifQ==
+        total:
+          type: number
+          description: Total number of messages matching the query
+          example: 1234
+      required:
+      - messages
+      - total
+    GetMessageResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        type:
+          type: number
+          example: 1
+        messageType:
+          type: string
+          description: Type of the message as a string
+          example: SMS
+          enum:
+          - TYPE_CALL
+          - TYPE_SMS
+          - TYPE_RCS
+          - TYPE_EMAIL
+          - TYPE_SMS_REVIEW_REQUEST
+          - TYPE_WEBCHAT
+          - TYPE_SMS_NO_SHOW_REQUEST
+          - TYPE_CAMPAIGN_SMS
+          - TYPE_CAMPAIGN_CALL
+          - TYPE_CAMPAIGN_EMAIL
+          - TYPE_CAMPAIGN_VOICEMAIL
+          - TYPE_FACEBOOK
+          - TYPE_CAMPAIGN_FACEBOOK
+          - TYPE_CAMPAIGN_MANUAL_CALL
+          - TYPE_CAMPAIGN_MANUAL_SMS
+          - TYPE_GMB
+          - TYPE_CAMPAIGN_GMB
+          - TYPE_REVIEW
+          - TYPE_INSTAGRAM
+          - TYPE_WHATSAPP
+          - TYPE_CUSTOM_SMS
+          - TYPE_CUSTOM_EMAIL
+          - TYPE_CUSTOM_PROVIDER_SMS
+          - TYPE_CUSTOM_PROVIDER_EMAIL
+          - TYPE_IVR_CALL
+          - TYPE_ACTIVITY_CONTACT
+          - TYPE_ACTIVITY_INVOICE
+          - TYPE_ACTIVITY_PAYMENT
+          - TYPE_ACTIVITY_OPPORTUNITY
+          - TYPE_LIVE_CHAT
+          - TYPE_LIVE_CHAT_INFO_MESSAGE
+          - TYPE_ACTIVITY_APPOINTMENT
+          - TYPE_FACEBOOK_COMMENT
+          - TYPE_INSTAGRAM_COMMENT
+          - TYPE_CUSTOM_CALL
+          - TYPE_INTERNAL_COMMENT
+          - TYPE_ACTIVITY_EMPLOYEE_ACTION_LOG
+          - TYPE_TIKTOK
+          - TYPE_TIKTOK_COMMENT
+          - TYPE_ACTIVITY_WHATSAPP
+          - TYPE_FORM_SUBMISSION
+          - TYPE_SMS_REACTION
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        dateAdded:
+          type: string
+          example: '2024-03-27T18:13:49.000Z'
+        body:
+          type: string
+          example: Hi there
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+        status:
+          type: string
+          enum:
+          - connected
+          - delivered
+          - failed
+          - opened
+          - pending
+          - read
+          - scheduled
+          - sent
+          - undelivered
+          - clicked
+          - opt_out
+          - queued
+        contentType:
+          type: string
+          example: text/plain
+        attachments:
+          description: An array of attachment URLs. Attachments will be empty for Call and Voicemails, type 1 and 10. Please use get call recording API to fetch call recording and voicemails.
+          type: array
+          items:
+            type: string
+        meta:
+          $ref: '#/components/schemas/MessageMeta'
+        source:
+          type: string
+          enum:
+          - workflow
+          - bulk_actions
+          - campaign
+          - api
+          - app
+          description: Message source
+        userId:
+          type: string
+          description: User Id
+          example: ve9EPM428kjkvShlRW1KT
+        conversationProviderId:
+          type: string
+          description: Conversation Provider Id
+          example: ve9EPM428kjkvShlRW1KT
+        chatWidgetId:
+          type: string
+          description: Chat Widget Id
+          example: 67b0cc8cf14b19d85ace7s35
+      required:
+      - id
+      - type
+      - messageType
+      - locationId
+      - contactId
+      - conversationId
+      - dateAdded
+      - direction
+      - contentType
+    CompleteFileUploadResponseDto:
+      type: object
+      properties:
+        uploadedFiles:
+          type: object
+          description: Map of filename to public URL
+          example:
+            video.mp4: https://your-domain.com/conversations-assets/location/.../video.mp4
+        metadata:
+          type: object
+          description: File metadata
+          example:
+            size: 52428800
+            contentType: video/mp4
+      required:
+      - uploadedFiles
+      - metadata
+    MessageMeta:
+      type: object
+      properties:
+        callDuration:
+          type: string
+          description: Call duration in seconds
+          example: 120
+        callStatus:
+          type: string
+          description: Call status - can be pending, completed, answered, busy, no-answer, failed, canceled, or voicemail
+          example: completed
+          enum:
+          - pending
+          - completed
+          - answered
+          - busy
+          - no-answer
+          - failed
+          - canceled
+          - voicemail
+        email:
+          type: object
+          description: meta will contain email, for message type 3 (email). messageIds is list of all email message ids under the message thread
+          example:
+            email:
+              messageIds:
+              - ve9EPM428kjkvShlRW1KT
+              - ve9EPs1028kjkvShlRW1KT
+    ProcessMessageResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+        conversationId:
+          type: string
+          description: Conversation ID.
+          example: ABC12h2F6uBrIkfXYazb
+        messageId:
+          type: string
+          description: This is the main Message ID
+          example: t22c6DQcTDf3MjRhwf77
+        message:
+          type: string
+        contactId:
+          type: string
+        dateAdded:
+          format: date-time
+          type: string
+        emailMessageId:
+          type: string
+      required:
+      - success
+      - conversationId
+      - messageId
+      - message
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Conversations
+  tags:
+  - Conversations
+  - Search
+  - Preference Management
+  - Email
+  - Messages
+  - Providers

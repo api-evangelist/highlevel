@@ -1,0 +1,478 @@
+openapi: 3.2.0
+info:
+  title: Contacts Tasks API
+  description: Documentation for Contacts API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Tasks
+  description: Documentation for Contacts API
+paths:
+  /contacts/{contactId}/tasks:
+    get:
+      operationId: get-all-tasks
+      summary: Get all Tasks
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TasksListSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Tasks
+      security:
+      - bearer:
+        - contacts.readonly
+    post:
+      operationId: create-task
+      summary: Create Task
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskParams'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskByIsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tasks
+      security:
+      - bearer:
+        - contacts.write
+  /contacts/{contactId}/tasks/{taskId}:
+    get:
+      operationId: get-task
+      summary: Get Task
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      - name: taskId
+        required: true
+        in: path
+        description: Task Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskByIsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Tasks
+      security:
+      - bearer:
+        - contacts.readonly
+    put:
+      operationId: update-task
+      summary: Update Task
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      - name: taskId
+        required: true
+        in: path
+        description: Task Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskBody'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskByIsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tasks
+      security:
+      - bearer:
+        - contacts.write
+    delete:
+      operationId: delete-task
+      summary: Delete Task
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      - name: taskId
+        required: true
+        in: path
+        description: Task Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTaskSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Tasks
+      security:
+      - bearer:
+        - contacts.write
+  /contacts/{contactId}/tasks/{taskId}/completed:
+    put:
+      operationId: update-task-completed
+      summary: Update Task Completed
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302LLNR
+          type: string
+      - name: taskId
+        required: true
+        in: path
+        description: Task Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskStatusParams'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskByIsSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Tasks
+      security:
+      - bearer:
+        - contacts.write
+components:
+  schemas:
+    DeleteTaskSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    CreateTaskParams:
+      type: object
+      properties:
+        title:
+          type: string
+          example: First Task
+        body:
+          type: string
+          example: loram ipsum
+        dueDate:
+          type: string
+          example: '2020-10-25T11:00:00Z'
+        completed:
+          type: boolean
+          example: true
+        assignedTo:
+          type: string
+          example: hxHGVRb1YJUscrCB8eXK
+      required:
+      - title
+      - dueDate
+      - completed
+    UpdateTaskStatusParams:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          example: true
+      required:
+      - completed
+    UpdateTaskBody:
+      type: object
+      properties:
+        title:
+          type: string
+          example: First Task
+        body:
+          type: string
+          example: loram ipsum
+        dueDate:
+          type: string
+          example: '2020-10-25T11:00:00Z'
+        completed:
+          type: boolean
+          example: true
+        assignedTo:
+          type: string
+          example: hxHGVRb1YJUscrCB8eXK
+    TaskSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: lJpzYrWdpkC2hX6t2yue
+        title:
+          type: string
+          example: test
+        body:
+          type: string
+          example: testing
+        assignedTo:
+          type: string
+          example: tesTUcmRxWrjqzJS8EjkxNKting
+        dueDate:
+          type: string
+          example: '2021-07-08T02:30:00.000Z'
+        completed:
+          type: boolean
+          example: true
+        contactId:
+          type: string
+          example: lJpzYrWdpkC2hX6t2yue
+    TaskByIsSuccessfulResponseDto:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/TaskSchema'
+    TasksListSuccessfulResponseDto:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSchema'
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Contacts
+  tags:
+  - Contacts
+  - Tasks
+  - Appointments
+  - Tags
+  - Notes
+  - Campaigns
+  - Workflow
+  - Bulk
+  - Search
+  - Followers

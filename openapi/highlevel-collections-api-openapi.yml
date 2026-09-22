@@ -1,0 +1,562 @@
+openapi: 3.2.0
+info:
+  title: Products Collections API
+  description: Documentation for products API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Collections
+  description: Documentation for products API
+paths:
+  /products/collections:
+    get:
+      operationId: get-product-collection
+      summary: Fetch Product Collections
+      description: Internal API to fetch the Product Collections
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: limit
+        required: false
+        in: query
+        description: The maximum number of items to be included in a single page of results
+        schema:
+          default: 10
+          example: 20
+          type: number
+      - name: offset
+        required: false
+        in: query
+        description: The starting index of the page, indicating the position from which the results should be retrieved.
+        schema:
+          default: 0
+          example: 0
+          type: number
+      - name: altId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: The type of alt. For now it is only LOCATION
+        schema:
+          example: LOCATION
+          enum:
+          - location
+          type: string
+      - name: collectionIds
+        required: false
+        in: query
+        description: Ids of the collections separated by comma(,) for search purposes
+        schema:
+          example: 65d71377c326ea78e1c47df5,65d71377c326ea78e1c47d34
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: Query to search collection based on names
+        schema:
+          example: Best Sellers
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCollectionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Collections
+      security:
+      - Location-Access:
+        - products/collection.readonly
+    post:
+      operationId: create-product-collection
+      summary: Create Product Collection
+      description: Create a new Product Collection for a specific location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductCollectionsDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCollectionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Collections
+      security:
+      - Location-Access:
+        - products/collection.write
+  /products/collections/{collectionId}:
+    get:
+      operationId: get-product-collection-id
+      summary: Get Details about individual product collection
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: collectionId
+        required: true
+        in: path
+        description: Collection Id
+        schema:
+          example: 65d71377c326ea78e1c47df5
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: 3SwdhCsvxI8Au3KsPJt6
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultCollectionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Collections
+      security:
+      - Location-Access:
+        - products/collection.readonly
+    put:
+      operationId: update-product-collection
+      summary: Update Product Collection
+      description: Update a specific product collection with Id :collectionId
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: collectionId
+        required: true
+        in: path
+        description: MongoId of the collection
+        schema:
+          example: 65d71377c326ea78e1c47df5
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductCollectionsDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductCollectionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Collections
+      security:
+      - Location-Access:
+        - products/collection.write
+    delete:
+      operationId: delete-product-collection
+      summary: Delete Product Collection
+      description: Delete specific product collection with Id :collectionId
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: collectionId
+        required: true
+        in: path
+        description: MongoId of the collection
+        schema:
+          example: 65d71377c326ea78e1c47df5
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: The type of alt. For now it is only LOCATION
+        schema:
+          example: LOCATION
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProductCollectionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Collections
+      security:
+      - Location-Access:
+        - products/collection.write
+components:
+  schemas:
+    ListCollectionResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of Collections
+          items:
+            type: array
+          type: array
+        total:
+          type: number
+          description: The total count of the collections present, which is useful to calculate the pagination
+      required:
+      - data
+      - total
+    CollectionSEODto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title which will be displayed as an SEO format
+          example: Best Sellers
+        description:
+          type: string
+          description: The description which would be displayed in preview purposes
+          example: Collections where all the best products are available
+    DeleteProductCollectionResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    UpdateProductCollectionResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    UpdateProductCollectionsDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: The type of alt. For now it is only LOCATION
+          enum:
+          - location
+          example: LOCATION
+        name:
+          type: string
+          description: Name of the Product Collection
+          example: Best Sellers
+        slug:
+          type: string
+          description: Slug of the Product Collection which helps in navigation
+          example: best-sellers
+        image:
+          type: string
+          description: The URL of the image that is going to be displayed as the collection Thumbnail
+          example: http://example.com/watermark.png
+        seo:
+          description: The metadata information which will be displayed in SEO previews
+          allOf:
+          - $ref: '#/components/schemas/CollectionSEODto'
+      required:
+      - altId
+      - altType
+    ProductCategories:
+      type: object
+      properties: {}
+    CreateCollectionResponseDto:
+      type: object
+      properties:
+        data:
+          description: created Collection
+          allOf:
+          - $ref: '#/components/schemas/CollectionSchema'
+      required:
+      - data
+    CreateProductCollectionsDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: The type of alt. For now it is only LOCATION
+          enum:
+          - location
+          example: LOCATION
+        collectionId:
+          type: string
+          description: Unique Identifier of the Product Collection, Mongo Id
+          example: 66057f9d28536eae584ec047
+        name:
+          type: string
+          description: Name of the Product Collection
+          example: Best Sellers
+        slug:
+          type: string
+          description: Slug of the Product Collection which helps in navigation
+          example: best-sellers
+        image:
+          type: string
+          description: The URL of the image that is going to be displayed as the collection Thumbnail
+          example: http://example.com/watermark.png
+        seo:
+          description: The metadata information which will be displayed in SEO previews
+          allOf:
+          - $ref: '#/components/schemas/CollectionSEODto'
+      required:
+      - altId
+      - altType
+      - name
+      - slug
+    DefaultCollectionResponseDto:
+      type: object
+      properties:
+        data:
+          description: Collection Data
+          allOf:
+          - $ref: '#/components/schemas/ProductCategories'
+        status:
+          type: boolean
+          description: Status of the operation
+          example: true
+      required:
+      - data
+      - status
+    CollectionSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the collection
+          example: 655b33a82209e60b6adb87a5
+        altId:
+          type: string
+          description: Location Id to which the collection is associated
+          example: Z4Bxl8J4SaPEPLq9IQ8g
+        name:
+          type: string
+          description: Name of the collection
+          example: Best Sellers
+        slug:
+          type: string
+          description: Slug of the collection with which navigation is established. Special Characters and spacing is not allowed and should be unique
+          example: best-sellers
+        image:
+          type: string
+          description: The URL of the image that is going to be displayed as the collection Thumbnail
+          example: http://example.com/watermark.png
+        seo:
+          description: The information which will be displayed in SEO previews
+          allOf:
+          - $ref: '#/components/schemas/CollectionSEODto'
+        createdAt:
+          type: string
+          description: Date at which the collection was created
+          example: '2024-02-22T09:27:19.728Z'
+      required:
+      - _id
+      - altId
+      - name
+      - slug
+      - image
+      - seo
+      - createdAt
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Products
+  tags:
+  - Products
+  - Prices
+  - Store
+  - Collections
+  - Reviews

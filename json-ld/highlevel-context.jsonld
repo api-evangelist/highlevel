@@ -1,0 +1,1239 @@
+{
+  "@context": {
+    "@vocab": "https://gohighlevel.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "highlevel": "https://gohighlevel.com/schema#",
+    "GreetingCard": "highlevel:GreetingCard",
+    "title": {
+      "@id": "highlevel:title",
+      "@type": "xsd:string"
+    },
+    "style": {
+      "@id": "highlevel:style",
+      "@type": "xsd:string"
+    },
+    "content": {
+      "@id": "highlevel:content",
+      "@container": "@list"
+    },
+    "FormQuestionOption": "highlevel:FormQuestionOption",
+    "key": {
+      "@id": "highlevel:key",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "highlevel:value",
+      "@type": "xsd:string"
+    },
+    "FormQuestion": "highlevel:FormQuestion",
+    "label": {
+      "@id": "highlevel:label",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "highlevel:type",
+      "@type": "xsd:string"
+    },
+    "options": {
+      "@id": "highlevel:options",
+      "@container": "@list"
+    },
+    "CustomDisclaimerCheckbox": "highlevel:CustomDisclaimerCheckbox",
+    "is_required": {
+      "@id": "highlevel:is_required",
+      "@type": "xsd:boolean"
+    },
+    "text": {
+      "@id": "highlevel:text",
+      "@type": "xsd:string"
+    },
+    "CustomDisclaimer": "highlevel:CustomDisclaimer",
+    "body": {
+      "@id": "highlevel:body",
+      "@type": "xsd:string"
+    },
+    "checkboxes": {
+      "@id": "highlevel:checkboxes",
+      "@container": "@list"
+    },
+    "ThankYouPage": "highlevel:ThankYouPage",
+    "buttonText": {
+      "@id": "highlevel:buttonText",
+      "@type": "xsd:string"
+    },
+    "buttonType": {
+      "@id": "highlevel:buttonType",
+      "@type": "xsd:string"
+    },
+    "buttonLink": {
+      "@id": "highlevel:buttonLink",
+      "@type": "xsd:string"
+    },
+    "businessPhone": {
+      "@id": "highlevel:businessPhone",
+      "@type": "xsd:string"
+    },
+    "countryCode": {
+      "@id": "highlevel:countryCode",
+      "@type": "xsd:string"
+    },
+    "CreateLeadFormDTO": "highlevel:CreateLeadFormDTO",
+    "name": {
+      "@id": "highlevel:name",
+      "@type": "xsd:string"
+    },
+    "locationId": {
+      "@id": "highlevel:locationId",
+      "@type": "xsd:string"
+    },
+    "greetingCard": {
+      "@id": "highlevel:greetingCard"
+    },
+    "questions": {
+      "@id": "highlevel:questions",
+      "@container": "@list"
+    },
+    "questionPageHeadline": {
+      "@id": "highlevel:questionPageHeadline",
+      "@type": "xsd:string"
+    },
+    "privacyPolicyLink": {
+      "@id": "highlevel:privacyPolicyLink",
+      "@type": "xsd:string"
+    },
+    "privacyPolicyText": {
+      "@id": "highlevel:privacyPolicyText",
+      "@type": "xsd:string"
+    },
+    "customDisclaimer": {
+      "@id": "highlevel:customDisclaimer"
+    },
+    "thankYouPage": {
+      "@id": "highlevel:thankYouPage"
+    },
+    "LocationIdBodyDTO": "highlevel:LocationIdBodyDTO",
+    "WelcomeMessageQuestion": "highlevel:WelcomeMessageQuestion",
+    "question": {
+      "@id": "highlevel:question",
+      "@type": "xsd:string"
+    },
+    "response": {
+      "@id": "highlevel:response",
+      "@type": "xsd:string"
+    },
+    "CreateConversationFormDTO": "highlevel:CreateConversationFormDTO",
+    "CreateIntegrationDTO": "highlevel:CreateIntegrationDTO",
+    "pageId": {
+      "@id": "highlevel:pageId",
+      "@type": "xsd:string"
+    },
+    "adAccountId": {
+      "@id": "highlevel:adAccountId",
+      "@type": "xsd:string"
+    },
+    "PublishAdDTO": "highlevel:PublishAdDTO",
+    "UpsertConversionPixelDTO": "highlevel:UpsertConversionPixelDTO",
+    "conversionPixelId": {
+      "@id": "highlevel:conversionPixelId",
+      "@type": "xsd:string"
+    },
+    "igUserId": {
+      "@id": "highlevel:igUserId",
+      "@type": "xsd:string"
+    },
+    "FbUpdateAudienceBodyDTO": "highlevel:FbUpdateAudienceBodyDTO",
+    "description": {
+      "@id": "highlevel:description",
+      "@type": "xsd:string"
+    },
+    "UpdateCustomAudienceDTO": "highlevel:UpdateCustomAudienceDTO",
+    "contactId": {
+      "@id": "highlevel:contactId",
+      "@type": "xsd:string"
+    },
+    "fbAdAccountId": {
+      "@id": "highlevel:fbAdAccountId",
+      "@type": "xsd:string"
+    },
+    "UpdateCustomAudienceBatchDTO": "highlevel:UpdateCustomAudienceBatchDTO",
+    "csvPath": {
+      "@id": "highlevel:csvPath",
+      "@type": "xsd:string"
+    },
+    "operationType": {
+      "@id": "highlevel:operationType",
+      "@type": "xsd:string"
+    },
+    "smartlistIds": {
+      "@id": "highlevel:smartlistIds",
+      "@container": "@list"
+    },
+    "dynamicAudience": {
+      "@id": "highlevel:dynamicAudience",
+      "@type": "xsd:string"
+    },
+    "FbSetDefaultPageBodyDTO": "highlevel:FbSetDefaultPageBodyDTO",
+    "UpsertCampaignDTO": "highlevel:UpsertCampaignDTO",
+    "id": {
+      "@id": "highlevel:id",
+      "@type": "xsd:string"
+    },
+    "objective": {
+      "@id": "highlevel:objective",
+      "@type": "xsd:string"
+    },
+    "specialAdCategories": {
+      "@id": "highlevel:specialAdCategories",
+      "@type": "xsd:string"
+    },
+    "source": {
+      "@id": "highlevel:source",
+      "@type": "xsd:string"
+    },
+    "AudienceLocationGeometry": "highlevel:AudienceLocationGeometry",
+    "location": {
+      "@id": "highlevel:location"
+    },
+    "location_type": {
+      "@id": "highlevel:location_type",
+      "@type": "xsd:string"
+    },
+    "AudienceLocationDTO": "highlevel:AudienceLocationDTO",
+    "selectionType": {
+      "@id": "highlevel:selectionType",
+      "@type": "xsd:string"
+    },
+    "radius": {
+      "@id": "highlevel:radius",
+      "@type": "xsd:decimal"
+    },
+    "radiusUnit": {
+      "@id": "highlevel:radiusUnit",
+      "@type": "xsd:string"
+    },
+    "geometry": {
+      "@id": "highlevel:geometry"
+    },
+    "AudienceLocaleDTO": "highlevel:AudienceLocaleDTO",
+    "AudiencePlacementsDTO": "highlevel:AudiencePlacementsDTO",
+    "facebook": {
+      "@id": "highlevel:facebook",
+      "@container": "@list"
+    },
+    "instagram": {
+      "@id": "highlevel:instagram",
+      "@container": "@list"
+    },
+    "messenger": {
+      "@id": "highlevel:messenger",
+      "@container": "@list"
+    },
+    "AudienceCustomAudienceItemDTO": "highlevel:AudienceCustomAudienceItemDTO",
+    "AudienceInterestDTO": "highlevel:AudienceInterestDTO",
+    "FacebookAudienceDTO": "highlevel:FacebookAudienceDTO",
+    "geo_locations": {
+      "@id": "highlevel:geo_locations",
+      "@container": "@list"
+    },
+    "locales": {
+      "@id": "highlevel:locales",
+      "@container": "@list"
+    },
+    "placements": {
+      "@id": "highlevel:placements"
+    },
+    "placementType": {
+      "@id": "highlevel:placementType",
+      "@type": "xsd:string"
+    },
+    "lookalike": {
+      "@id": "highlevel:lookalike",
+      "@container": "@list"
+    },
+    "retargeting": {
+      "@id": "highlevel:retargeting",
+      "@container": "@list"
+    },
+    "interests": {
+      "@id": "highlevel:interests",
+      "@container": "@list"
+    },
+    "age_min": {
+      "@id": "highlevel:age_min",
+      "@type": "xsd:decimal"
+    },
+    "age_max": {
+      "@id": "highlevel:age_max",
+      "@type": "xsd:decimal"
+    },
+    "genders": {
+      "@id": "highlevel:genders",
+      "@container": "@list"
+    },
+    "Budget": "highlevel:Budget",
+    "budgetType": {
+      "@id": "highlevel:budgetType",
+      "@type": "xsd:string"
+    },
+    "amount": {
+      "@id": "highlevel:amount",
+      "@type": "xsd:decimal"
+    },
+    "scheduleStartDate": {
+      "@id": "highlevel:scheduleStartDate",
+      "@type": "xsd:string"
+    },
+    "scheduleEndDate": {
+      "@id": "highlevel:scheduleEndDate",
+      "@type": "xsd:string"
+    },
+    "UpsertAdsetDTO": "highlevel:UpsertAdsetDTO",
+    "instagramActorId": {
+      "@id": "highlevel:instagramActorId",
+      "@type": "xsd:string"
+    },
+    "messagingPlatforms": {
+      "@id": "highlevel:messagingPlatforms",
+      "@type": "xsd:string"
+    },
+    "whatsappNumber": {
+      "@id": "highlevel:whatsappNumber",
+      "@type": "xsd:string"
+    },
+    "audience": {
+      "@id": "highlevel:audience"
+    },
+    "budget": {
+      "@id": "highlevel:budget"
+    },
+    "conversionLocation": {
+      "@id": "highlevel:conversionLocation",
+      "@type": "xsd:string"
+    },
+    "customEventType": {
+      "@id": "highlevel:customEventType",
+      "@type": "xsd:string"
+    },
+    "pixelId": {
+      "@id": "highlevel:pixelId",
+      "@type": "xsd:string"
+    },
+    "campaignId": {
+      "@id": "highlevel:campaignId",
+      "@type": "xsd:string"
+    },
+    "MediaDTO": "highlevel:MediaDTO",
+    "src": {
+      "@id": "highlevel:src",
+      "@type": "xsd:string"
+    },
+    "thumbnailUrl": {
+      "@id": "highlevel:thumbnailUrl",
+      "@type": "xsd:string"
+    },
+    "selectedPoster": {
+      "@id": "highlevel:selectedPoster",
+      "@type": "xsd:decimal"
+    },
+    "headline": {
+      "@id": "highlevel:headline",
+      "@type": "xsd:string"
+    },
+    "link": {
+      "@id": "highlevel:link",
+      "@type": "xsd:string"
+    },
+    "UpsertAdDTO": "highlevel:UpsertAdDTO",
+    "primaryText": {
+      "@id": "highlevel:primaryText",
+      "@type": "xsd:string"
+    },
+    "imageUrl": {
+      "@id": "highlevel:imageUrl",
+      "@type": "xsd:string"
+    },
+    "mediaType": {
+      "@id": "highlevel:mediaType",
+      "@type": "xsd:string"
+    },
+    "media": {
+      "@id": "highlevel:media",
+      "@container": "@list"
+    },
+    "multiAdvertiserAds": {
+      "@id": "highlevel:multiAdvertiserAds",
+      "@type": "xsd:boolean"
+    },
+    "adsetId": {
+      "@id": "highlevel:adsetId",
+      "@type": "xsd:string"
+    },
+    "cta": {
+      "@id": "highlevel:cta",
+      "@type": "xsd:string"
+    },
+    "conversationFormId": {
+      "@id": "highlevel:conversationFormId",
+      "@type": "xsd:string"
+    },
+    "destinationLink": {
+      "@id": "highlevel:destinationLink",
+      "@type": "xsd:string"
+    },
+    "destinationFormId": {
+      "@id": "highlevel:destinationFormId",
+      "@type": "xsd:string"
+    },
+    "AdScheduleTargetDTO": "highlevel:AdScheduleTargetDTO",
+    "startMinute": {
+      "@id": "highlevel:startMinute",
+      "@type": "xsd:string"
+    },
+    "endMinute": {
+      "@id": "highlevel:endMinute",
+      "@type": "xsd:string"
+    },
+    "dayOfWeek": {
+      "@id": "highlevel:dayOfWeek",
+      "@type": "xsd:string"
+    },
+    "startHour": {
+      "@id": "highlevel:startHour",
+      "@type": "xsd:decimal"
+    },
+    "endHour": {
+      "@id": "highlevel:endHour",
+      "@type": "xsd:decimal"
+    },
+    "CallAssetPayloadDTO": "highlevel:CallAssetPayloadDTO",
+    "phoneNumber": {
+      "@id": "highlevel:phoneNumber",
+      "@type": "xsd:string"
+    },
+    "callConversionAction": {
+      "@id": "highlevel:callConversionAction",
+      "@type": "xsd:string"
+    },
+    "adScheduleTargets": {
+      "@id": "highlevel:adScheduleTargets",
+      "@container": "@list"
+    },
+    "resourceName": {
+      "@id": "highlevel:resourceName",
+      "@type": "xsd:string"
+    },
+    "SitelinkAssetPayloadDTO": "highlevel:SitelinkAssetPayloadDTO",
+    "linkText": {
+      "@id": "highlevel:linkText",
+      "@type": "xsd:string"
+    },
+    "finalUrls": {
+      "@id": "highlevel:finalUrls",
+      "@type": "xsd:string"
+    },
+    "description1": {
+      "@id": "highlevel:description1",
+      "@type": "xsd:string"
+    },
+    "description2": {
+      "@id": "highlevel:description2",
+      "@type": "xsd:string"
+    },
+    "startDate": {
+      "@id": "highlevel:startDate",
+      "@type": "xsd:string"
+    },
+    "endDate": {
+      "@id": "highlevel:endDate",
+      "@type": "xsd:string"
+    },
+    "LeadFormFieldDTO": "highlevel:LeadFormFieldDTO",
+    "inputType": {
+      "@id": "highlevel:inputType",
+      "@type": "xsd:string"
+    },
+    "singleChoiceAnswers": {
+      "@id": "highlevel:singleChoiceAnswers",
+      "@container": "@list"
+    },
+    "CustomQuestionFieldDTO": "highlevel:CustomQuestionFieldDTO",
+    "customQuestionText": {
+      "@id": "highlevel:customQuestionText",
+      "@type": "xsd:string"
+    },
+    "LeadFormAssetPayloadDTO": "highlevel:LeadFormAssetPayloadDTO",
+    "businessName": {
+      "@id": "highlevel:businessName",
+      "@type": "xsd:string"
+    },
+    "privacyPolicyUrl": {
+      "@id": "highlevel:privacyPolicyUrl",
+      "@type": "xsd:string"
+    },
+    "fields": {
+      "@id": "highlevel:fields",
+      "@container": "@list"
+    },
+    "callToActionType": {
+      "@id": "highlevel:callToActionType",
+      "@type": "xsd:string"
+    },
+    "callToActionDescription": {
+      "@id": "highlevel:callToActionDescription",
+      "@type": "xsd:string"
+    },
+    "backgroundImageAsset": {
+      "@id": "highlevel:backgroundImageAsset",
+      "@type": "xsd:string"
+    },
+    "desiredIntent": {
+      "@id": "highlevel:desiredIntent",
+      "@type": "xsd:string"
+    },
+    "customQuestionFields": {
+      "@id": "highlevel:customQuestionFields",
+      "@container": "@list"
+    },
+    "postSubmitHeadline": {
+      "@id": "highlevel:postSubmitHeadline",
+      "@type": "xsd:string"
+    },
+    "postSubmitDescription": {
+      "@id": "highlevel:postSubmitDescription",
+      "@type": "xsd:string"
+    },
+    "postSubmitCallToActionType": {
+      "@id": "highlevel:postSubmitCallToActionType",
+      "@type": "xsd:string"
+    },
+    "ConversionValueSettings": "highlevel:ConversionValueSettings",
+    "defaultValue": {
+      "@id": "highlevel:defaultValue",
+      "@type": "xsd:decimal"
+    },
+    "defaultCurrencyCode": {
+      "@id": "highlevel:defaultCurrencyCode",
+      "@type": "xsd:string"
+    },
+    "alwaysUseDefaultValue": {
+      "@id": "highlevel:alwaysUseDefaultValue",
+      "@type": "xsd:boolean"
+    },
+    "UpsertConversionDTO": "highlevel:UpsertConversionDTO",
+    "conversionId": {
+      "@id": "highlevel:conversionId",
+      "@type": "xsd:string"
+    },
+    "category": {
+      "@id": "highlevel:category",
+      "@type": "xsd:string"
+    },
+    "valueSettings": {
+      "@id": "highlevel:valueSettings"
+    },
+    "countingType": {
+      "@id": "highlevel:countingType",
+      "@type": "xsd:string"
+    },
+    "attributionModel": {
+      "@id": "highlevel:attributionModel",
+      "@type": "xsd:string"
+    },
+    "clickThroughWindow": {
+      "@id": "highlevel:clickThroughWindow",
+      "@type": "xsd:decimal"
+    },
+    "CreateGoogleIntegrationDTO": "highlevel:CreateGoogleIntegrationDTO",
+    "mccId": {
+      "@id": "highlevel:mccId",
+      "@type": "xsd:string"
+    },
+    "KeywordSuggestionDTO": "highlevel:KeywordSuggestionDTO",
+    "url": {
+      "@id": "highlevel:url",
+      "@type": "xsd:string"
+    },
+    "languageCode": {
+      "@id": "highlevel:languageCode",
+      "@type": "xsd:string"
+    },
+    "locations": {
+      "@id": "highlevel:locations",
+      "@container": "@list"
+    },
+    "keywords": {
+      "@id": "highlevel:keywords",
+      "@container": "@list"
+    },
+    "UpsertAssetsDTO": "highlevel:UpsertAssetsDTO",
+    "payload": {
+      "@id": "highlevel:payload"
+    },
+    "MemberDTO": "highlevel:MemberDTO",
+    "memberType": {
+      "@id": "highlevel:memberType",
+      "@type": "xsd:string"
+    },
+    "keyword": {
+      "@id": "highlevel:keyword",
+      "@type": "xsd:string"
+    },
+    "app": {
+      "@id": "highlevel:app",
+      "@type": "xsd:string"
+    },
+    "StringRuleItemDTO": "highlevel:StringRuleItemDTO",
+    "operator": {
+      "@id": "highlevel:operator",
+      "@type": "xsd:string"
+    },
+    "RuleItemDTO": "highlevel:RuleItemDTO",
+    "stringRuleItem": {
+      "@id": "highlevel:stringRuleItem"
+    },
+    "RuleItemGroupDTO": "highlevel:RuleItemGroupDTO",
+    "ruleItems": {
+      "@id": "highlevel:ruleItems",
+      "@container": "@list"
+    },
+    "RuleDTO": "highlevel:RuleDTO",
+    "ruleItemGroups": {
+      "@id": "highlevel:ruleItemGroups",
+      "@container": "@list"
+    },
+    "RuleOperandDTO": "highlevel:RuleOperandDTO",
+    "lookbackWindowDays": {
+      "@id": "highlevel:lookbackWindowDays",
+      "@type": "xsd:decimal"
+    },
+    "rule": {
+      "@id": "highlevel:rule"
+    },
+    "FlexibleRuleUserListDTO": "highlevel:FlexibleRuleUserListDTO",
+    "inclusiveRuleOperator": {
+      "@id": "highlevel:inclusiveRuleOperator",
+      "@type": "xsd:string"
+    },
+    "inclusiveOperands": {
+      "@id": "highlevel:inclusiveOperands",
+      "@container": "@list"
+    },
+    "exclusiveOperands": {
+      "@id": "highlevel:exclusiveOperands",
+      "@container": "@list"
+    },
+    "RuleBasedUserListDTO": "highlevel:RuleBasedUserListDTO",
+    "prepopulationStatus": {
+      "@id": "highlevel:prepopulationStatus",
+      "@type": "xsd:string"
+    },
+    "flexibleRuleUserList": {
+      "@id": "highlevel:flexibleRuleUserList"
+    },
+    "UpsertSegmentDTO": "highlevel:UpsertSegmentDTO",
+    "members": {
+      "@id": "highlevel:members",
+      "@container": "@list"
+    },
+    "status": {
+      "@id": "highlevel:status",
+      "@type": "xsd:string"
+    },
+    "membershipStatus": {
+      "@id": "highlevel:membershipStatus",
+      "@type": "xsd:string"
+    },
+    "ruleBasedUserList": {
+      "@id": "highlevel:ruleBasedUserList"
+    },
+    "membershipLifeSpan": {
+      "@id": "highlevel:membershipLifeSpan",
+      "@type": "xsd:decimal"
+    },
+    "seedUserListIds": {
+      "@id": "highlevel:seedUserListIds",
+      "@container": "@list"
+    },
+    "countryCodes": {
+      "@id": "highlevel:countryCodes",
+      "@container": "@list"
+    },
+    "expansionLevel": {
+      "@id": "highlevel:expansionLevel",
+      "@type": "xsd:string"
+    },
+    "CreateOfflineUserListJobDTO": "highlevel:CreateOfflineUserListJobDTO",
+    "smartListIds": {
+      "@id": "highlevel:smartListIds",
+      "@container": "@list"
+    },
+    "userListId": {
+      "@id": "highlevel:userListId",
+      "@type": "xsd:string"
+    },
+    "isDynamic": {
+      "@id": "highlevel:isDynamic",
+      "@type": "xsd:boolean"
+    },
+    "AudienceSegmentsDTO": "highlevel:AudienceSegmentsDTO",
+    "customAudiences": {
+      "@id": "highlevel:customAudiences",
+      "@container": "@list"
+    },
+    "userLists": {
+      "@id": "highlevel:userLists",
+      "@container": "@list"
+    },
+    "userInterests": {
+      "@id": "highlevel:userInterests",
+      "@container": "@list"
+    },
+    "AudienceDimensionDTO": "highlevel:AudienceDimensionDTO",
+    "isAgeUnknown": {
+      "@id": "highlevel:isAgeUnknown",
+      "@type": "xsd:boolean"
+    },
+    "ageRanges": {
+      "@id": "highlevel:ageRanges",
+      "@container": "@list"
+    },
+    "parentalStatuses": {
+      "@id": "highlevel:parentalStatuses",
+      "@container": "@list"
+    },
+    "audienceSegments": {
+      "@id": "highlevel:audienceSegments"
+    },
+    "UpsertAudienceDTO": "highlevel:UpsertAudienceDTO",
+    "dimensions": {
+      "@id": "highlevel:dimensions"
+    },
+    "exclusionDimension": {
+      "@id": "highlevel:exclusionDimension"
+    },
+    "GoogleBudgetDTO": "highlevel:GoogleBudgetDTO",
+    "GeoLatLngDTO": "highlevel:GeoLatLngDTO",
+    "lat": {
+      "@id": "highlevel:lat",
+      "@type": "xsd:decimal"
+    },
+    "lng": {
+      "@id": "highlevel:lng",
+      "@type": "xsd:decimal"
+    },
+    "GeoViewportDTO": "highlevel:GeoViewportDTO",
+    "northeast": {
+      "@id": "highlevel:northeast"
+    },
+    "southwest": {
+      "@id": "highlevel:southwest"
+    },
+    "GeoGeometryDTO": "highlevel:GeoGeometryDTO",
+    "viewport": {
+      "@id": "highlevel:viewport"
+    },
+    "GeoAddressComponentDTO": "highlevel:GeoAddressComponentDTO",
+    "long_name": {
+      "@id": "highlevel:long_name",
+      "@type": "xsd:string"
+    },
+    "short_name": {
+      "@id": "highlevel:short_name",
+      "@type": "xsd:string"
+    },
+    "types": {
+      "@id": "highlevel:types",
+      "@container": "@list"
+    },
+    "GoogleGeoLocationDTO": "highlevel:GoogleGeoLocationDTO",
+    "country_name": {
+      "@id": "highlevel:country_name",
+      "@type": "xsd:string"
+    },
+    "place_id": {
+      "@id": "highlevel:place_id",
+      "@type": "xsd:string"
+    },
+    "formatted_address": {
+      "@id": "highlevel:formatted_address",
+      "@type": "xsd:string"
+    },
+    "address_components": {
+      "@id": "highlevel:address_components",
+      "@container": "@list"
+    },
+    "GoogleLocaleDTO": "highlevel:GoogleLocaleDTO",
+    "GoogleDemographicTargetDTO": "highlevel:GoogleDemographicTargetDTO",
+    "enum": {
+      "@id": "highlevel:enum",
+      "@type": "xsd:string"
+    },
+    "negative": {
+      "@id": "highlevel:negative",
+      "@type": "xsd:boolean"
+    },
+    "GoogleSegmentTargetDTO": "highlevel:GoogleSegmentTargetDTO",
+    "GoogleTargetInterestsDTO": "highlevel:GoogleTargetInterestsDTO",
+    "affinity": {
+      "@id": "highlevel:affinity",
+      "@container": "@list"
+    },
+    "inMarket": {
+      "@id": "highlevel:inMarket",
+      "@container": "@list"
+    },
+    "GoogleCampaignAudienceDTO": "highlevel:GoogleCampaignAudienceDTO",
+    "gender": {
+      "@id": "highlevel:gender",
+      "@container": "@list"
+    },
+    "ageRange": {
+      "@id": "highlevel:ageRange",
+      "@container": "@list"
+    },
+    "segments": {
+      "@id": "highlevel:segments",
+      "@container": "@list"
+    },
+    "targetInterests": {
+      "@id": "highlevel:targetInterests"
+    },
+    "GoogleNetworkSettingsDTO": "highlevel:GoogleNetworkSettingsDTO",
+    "targetSearchNetwork": {
+      "@id": "highlevel:targetSearchNetwork",
+      "@type": "xsd:boolean"
+    },
+    "targetContentNetwork": {
+      "@id": "highlevel:targetContentNetwork",
+      "@type": "xsd:boolean"
+    },
+    "GoogleBiddingStrategyDTO": "highlevel:GoogleBiddingStrategyDTO",
+    "GoogleAssetImageDTO": "highlevel:GoogleAssetImageDTO",
+    "error": {
+      "@id": "highlevel:error",
+      "@type": "xsd:string"
+    },
+    "GoogleAssetsDTO": "highlevel:GoogleAssetsDTO",
+    "calls": {
+      "@id": "highlevel:calls",
+      "@container": "@list"
+    },
+    "sitelinks": {
+      "@id": "highlevel:sitelinks",
+      "@container": "@list"
+    },
+    "leadForm": {
+      "@id": "highlevel:leadForm",
+      "@type": "xsd:string"
+    },
+    "images": {
+      "@id": "highlevel:images",
+      "@container": "@list"
+    },
+    "businessLogo": {
+      "@id": "highlevel:businessLogo"
+    },
+    "GoogleMediaDTO": "highlevel:GoogleMediaDTO",
+    "isLogo": {
+      "@id": "highlevel:isLogo",
+      "@type": "xsd:boolean"
+    },
+    "imageType": {
+      "@id": "highlevel:imageType",
+      "@type": "xsd:string"
+    },
+    "GoogleYouTubeVideoLinkDTO": "highlevel:GoogleYouTubeVideoLinkDTO",
+    "youtubeVideoId": {
+      "@id": "highlevel:youtubeVideoId",
+      "@type": "xsd:string"
+    },
+    "GoogleCarouselCardDTO": "highlevel:GoogleCarouselCardDTO",
+    "finalUrl": {
+      "@id": "highlevel:finalUrl",
+      "@type": "xsd:string"
+    },
+    "callToActionLabel": {
+      "@id": "highlevel:callToActionLabel",
+      "@type": "xsd:string"
+    },
+    "GoogleAdContentDTO": "highlevel:GoogleAdContentDTO",
+    "headlines": {
+      "@id": "highlevel:headlines",
+      "@container": "@list"
+    },
+    "longHeadlines": {
+      "@id": "highlevel:longHeadlines",
+      "@container": "@list"
+    },
+    "descriptions": {
+      "@id": "highlevel:descriptions",
+      "@container": "@list"
+    },
+    "path1": {
+      "@id": "highlevel:path1",
+      "@type": "xsd:string"
+    },
+    "path2": {
+      "@id": "highlevel:path2",
+      "@type": "xsd:string"
+    },
+    "isDeleted": {
+      "@id": "highlevel:isDeleted",
+      "@type": "xsd:boolean"
+    },
+    "adError": {
+      "@id": "highlevel:adError",
+      "@type": "xsd:string"
+    },
+    "publishingStatus": {
+      "@id": "highlevel:publishingStatus",
+      "@type": "xsd:string"
+    },
+    "adId": {
+      "@id": "highlevel:adId",
+      "@type": "xsd:string"
+    },
+    "adCampaignId": {
+      "@id": "highlevel:adCampaignId",
+      "@type": "xsd:string"
+    },
+    "adGroupId": {
+      "@id": "highlevel:adGroupId",
+      "@type": "xsd:string"
+    },
+    "googleAdId": {
+      "@id": "highlevel:googleAdId",
+      "@type": "xsd:string"
+    },
+    "youtubeVideoLinks": {
+      "@id": "highlevel:youtubeVideoLinks",
+      "@container": "@list"
+    },
+    "carouselCards": {
+      "@id": "highlevel:carouselCards",
+      "@container": "@list"
+    },
+    "customChannels": {
+      "@id": "highlevel:customChannels",
+      "@type": "xsd:boolean"
+    },
+    "GoogleKeywordItemDTO": "highlevel:GoogleKeywordItemDTO",
+    "matchType": {
+      "@id": "highlevel:matchType",
+      "@type": "xsd:string"
+    },
+    "GoogleKeywordsDTO": "highlevel:GoogleKeywordsDTO",
+    "positives": {
+      "@id": "highlevel:positives",
+      "@container": "@list"
+    },
+    "negatives": {
+      "@id": "highlevel:negatives",
+      "@container": "@list"
+    },
+    "GoogleAdGroupAudienceDTO": "highlevel:GoogleAdGroupAudienceDTO",
+    "GoogleAdGroupDTO": "highlevel:GoogleAdGroupDTO",
+    "adContent": {
+      "@id": "highlevel:adContent",
+      "@container": "@list"
+    },
+    "adGroupError": {
+      "@id": "highlevel:adGroupError",
+      "@type": "xsd:string"
+    },
+    "googleAdGroupId": {
+      "@id": "highlevel:googleAdGroupId",
+      "@type": "xsd:string"
+    },
+    "selectedChannels": {
+      "@id": "highlevel:selectedChannels",
+      "@container": "@list"
+    },
+    "googleAudienceId": {
+      "@id": "highlevel:googleAudienceId",
+      "@type": "xsd:string"
+    },
+    "GoogleCampaignGoalDTO": "highlevel:GoogleCampaignGoalDTO",
+    "isCustomConversionGoal": {
+      "@id": "highlevel:isCustomConversionGoal",
+      "@type": "xsd:boolean"
+    },
+    "GoogleAdScheduleDTO": "highlevel:GoogleAdScheduleDTO",
+    "from": {
+      "@id": "highlevel:from",
+      "@type": "xsd:string"
+    },
+    "to": {
+      "@id": "highlevel:to",
+      "@type": "xsd:string"
+    },
+    "CampaignDTO": "highlevel:CampaignDTO",
+    "advertisingChannelType": {
+      "@id": "highlevel:advertisingChannelType",
+      "@type": "xsd:string"
+    },
+    "advertisingChannelSubType": {
+      "@id": "highlevel:advertisingChannelSubType",
+      "@type": "xsd:string"
+    },
+    "goalType": {
+      "@id": "highlevel:goalType",
+      "@type": "xsd:string"
+    },
+    "networkSettings": {
+      "@id": "highlevel:networkSettings"
+    },
+    "biddingStrategy": {
+      "@id": "highlevel:biddingStrategy"
+    },
+    "assets": {
+      "@id": "highlevel:assets"
+    },
+    "isEuPoliticalAds": {
+      "@id": "highlevel:isEuPoliticalAds",
+      "@type": "xsd:boolean"
+    },
+    "adGroups": {
+      "@id": "highlevel:adGroups",
+      "@container": "@list"
+    },
+    "campaignGoal": {
+      "@id": "highlevel:campaignGoal"
+    },
+    "adSchedule": {
+      "@id": "highlevel:adSchedule",
+      "@container": "@list"
+    },
+    "googleAdAccountId": {
+      "@id": "highlevel:googleAdAccountId",
+      "@type": "xsd:string"
+    },
+    "unpublishedChanges": {
+      "@id": "highlevel:unpublishedChanges",
+      "@type": "xsd:boolean"
+    },
+    "maximumCpc": {
+      "@id": "highlevel:maximumCpc",
+      "@type": "xsd:decimal"
+    },
+    "googleCampaignId": {
+      "@id": "highlevel:googleCampaignId",
+      "@type": "xsd:string"
+    },
+    "advancedOptions": {
+      "@id": "highlevel:advancedOptions"
+    },
+    "CreateLinkedinIntegrationDTO": "highlevel:CreateLinkedinIntegrationDTO",
+    "adAccountName": {
+      "@id": "highlevel:adAccountName",
+      "@type": "xsd:string"
+    },
+    "currencyCode": {
+      "@id": "highlevel:currencyCode",
+      "@type": "xsd:string"
+    },
+    "organizationId": {
+      "@id": "highlevel:organizationId",
+      "@type": "xsd:string"
+    },
+    "LinkedInBudgetDTO": "highlevel:LinkedInBudgetDTO",
+    "LocaleDTO": "highlevel:LocaleDTO",
+    "country": {
+      "@id": "highlevel:country",
+      "@type": "xsd:string"
+    },
+    "language": {
+      "@id": "highlevel:language",
+      "@type": "xsd:string"
+    },
+    "GeoLocationDTO": "highlevel:GeoLocationDTO",
+    "urn": {
+      "@id": "highlevel:urn",
+      "@type": "xsd:string"
+    },
+    "facetUrn": {
+      "@id": "highlevel:facetUrn",
+      "@type": "xsd:string"
+    },
+    "SelectedAttributeDTO": "highlevel:SelectedAttributeDTO",
+    "categoryName": {
+      "@id": "highlevel:categoryName",
+      "@type": "xsd:string"
+    },
+    "facet": {
+      "@id": "highlevel:facet",
+      "@type": "xsd:string"
+    },
+    "TargetAudienceDTO": "highlevel:TargetAudienceDTO",
+    "include": {
+      "@id": "highlevel:include",
+      "@container": "@list"
+    },
+    "exclude": {
+      "@id": "highlevel:exclude",
+      "@container": "@list"
+    },
+    "AudienceDTO": "highlevel:AudienceDTO",
+    "targetAudience": {
+      "@id": "highlevel:targetAudience"
+    },
+    "UnitCostDTO": "highlevel:UnitCostDTO",
+    "LinkedInMediaDTO": "highlevel:LinkedInMediaDTO",
+    "frames": {
+      "@id": "highlevel:frames",
+      "@container": "@list"
+    },
+    "destinationUrl": {
+      "@id": "highlevel:destinationUrl",
+      "@type": "xsd:string"
+    },
+    "fileSizeBytes": {
+      "@id": "highlevel:fileSizeBytes",
+      "@type": "xsd:decimal"
+    },
+    "LinkedInAdDTO": "highlevel:LinkedInAdDTO",
+    "introductoryText": {
+      "@id": "highlevel:introductoryText",
+      "@type": "xsd:string"
+    },
+    "contentReferenceString": {
+      "@id": "highlevel:contentReferenceString",
+      "@type": "xsd:string"
+    },
+    "adCampaignGroupId": {
+      "@id": "highlevel:adCampaignGroupId",
+      "@type": "xsd:string"
+    },
+    "meta": {
+      "@id": "highlevel:meta"
+    },
+    "linkedInError": {
+      "@id": "highlevel:linkedInError",
+      "@type": "xsd:string"
+    },
+    "AdCampaignDTO": "highlevel:AdCampaignDTO",
+    "locale": {
+      "@id": "highlevel:locale"
+    },
+    "unitCost": {
+      "@id": "highlevel:unitCost"
+    },
+    "campaignType": {
+      "@id": "highlevel:campaignType",
+      "@type": "xsd:string"
+    },
+    "ads": {
+      "@id": "highlevel:ads",
+      "@container": "@list"
+    },
+    "AdCampaignGroupDataDTO": "highlevel:AdCampaignGroupDataDTO",
+    "adCampaigns": {
+      "@id": "highlevel:adCampaigns",
+      "@container": "@list"
+    },
+    "adBudgetOptimization": {
+      "@id": "highlevel:adBudgetOptimization",
+      "@type": "xsd:string"
+    },
+    "objectiveType": {
+      "@id": "highlevel:objectiveType",
+      "@type": "xsd:string"
+    },
+    "linkedInAdAccountId": {
+      "@id": "highlevel:linkedInAdAccountId",
+      "@type": "xsd:string"
+    },
+    "SponsoredAccountOwnerDTO": "highlevel:SponsoredAccountOwnerDTO",
+    "sponsoredAccount": {
+      "@id": "highlevel:sponsoredAccount",
+      "@type": "xsd:string"
+    },
+    "CreationLocaleDTO": "highlevel:CreationLocaleDTO",
+    "LocalizedStringDTO": "highlevel:LocalizedStringDTO",
+    "localized": {
+      "@id": "highlevel:localized"
+    },
+    "MultipleChoiceOptionDTO": "highlevel:MultipleChoiceOptionDTO",
+    "MultipleChoiceQuestionDetailsDTO": "highlevel:MultipleChoiceQuestionDetailsDTO",
+    "QuestionDetailsDTO": "highlevel:QuestionDetailsDTO",
+    "textQuestionDetails": {
+      "@id": "highlevel:textQuestionDetails"
+    },
+    "multipleChoiceQuestionDetails": {
+      "@id": "highlevel:multipleChoiceQuestionDetails"
+    },
+    "LeadFormQuestionDTO": "highlevel:LeadFormQuestionDTO",
+    "questionDetails": {
+      "@id": "highlevel:questionDetails"
+    },
+    "predefinedField": {
+      "@id": "highlevel:predefinedField",
+      "@type": "xsd:string"
+    },
+    "PostSubmissionCallToActionTargetDTO": "highlevel:PostSubmissionCallToActionTargetDTO",
+    "landingPageUrl": {
+      "@id": "highlevel:landingPageUrl",
+      "@type": "xsd:string"
+    },
+    "PostSubmissionCallToActionDTO": "highlevel:PostSubmissionCallToActionDTO",
+    "callToActionTarget": {
+      "@id": "highlevel:callToActionTarget"
+    },
+    "PostSubmissionInfoDTO": "highlevel:PostSubmissionInfoDTO",
+    "message": {
+      "@id": "highlevel:message"
+    },
+    "callToAction": {
+      "@id": "highlevel:callToAction"
+    },
+    "ConsentDTO": "highlevel:ConsentDTO",
+    "checkRequired": {
+      "@id": "highlevel:checkRequired",
+      "@type": "xsd:boolean"
+    },
+    "consent": {
+      "@id": "highlevel:consent"
+    },
+    "LegalInfoDTO": "highlevel:LegalInfoDTO",
+    "consents": {
+      "@id": "highlevel:consents",
+      "@container": "@list"
+    },
+    "legalDisclaimer": {
+      "@id": "highlevel:legalDisclaimer"
+    },
+    "LeadFormContentDTO": "highlevel:LeadFormContentDTO",
+    "postSubmissionInfo": {
+      "@id": "highlevel:postSubmissionInfo"
+    },
+    "legalInfo": {
+      "@id": "highlevel:legalInfo"
+    },
+    "HiddenFieldDTO": "highlevel:HiddenFieldDTO",
+    "LinkedInCreateLeadFormBodyDTO": "highlevel:LinkedInCreateLeadFormBodyDTO",
+    "owner": {
+      "@id": "highlevel:owner"
+    },
+    "creationLocale": {
+      "@id": "highlevel:creationLocale"
+    },
+    "state": {
+      "@id": "highlevel:state",
+      "@type": "xsd:string"
+    },
+    "hiddenFields": {
+      "@id": "highlevel:hiddenFields",
+      "@container": "@list"
+    },
+    "LinkedInUpdateAdStatusBodyDTO": "highlevel:LinkedInUpdateAdStatusBodyDTO"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "HighLevel API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects HighLevel's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-09-22) from openapi/_original/highlevel-ad-manager-openapi.json.",
+  "dcterms:created": "2026-09-22",
+  "dcterms:source": [
+    "openapi/_original/highlevel-ad-manager-openapi.json"
+  ]
+}

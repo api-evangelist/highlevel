@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-contacts-business-update-schema.json",
+  "title": "ContactsBusinessUpdate",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-contacts-openapi.json#/components/schemas/ContactsBusinessUpdate",
+  "type": "object",
+  "properties": {
+    "locationId": {
+      "type": "string"
+    },
+    "ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 50
+      }
+    },
+    "businessId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "locationId",
+    "ids",
+    "businessId"
+  ]
+}

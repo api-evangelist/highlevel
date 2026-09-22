@@ -1,0 +1,1876 @@
+openapi: 3.2.0
+info:
+  title: Highlevel Actions API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Actions across 2 of this provider''s published API definitions: highlevel-conversation-ai-openapi.json, highlevel-voice-ai-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Actions
+  description: Documentation for AI Employees API
+paths:
+  /conversation-ai/agents/{agentId}/actions:
+    post:
+      operationId: create-action
+      summary: Attach Action to Agent
+      description: Creates and attach a new action for an AI agent. Actions define specific tasks or behaviors that the agent can perform, such as booking appointments, sending follow-ups, or collecting information.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: agentId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActionDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - conversation-ai.write
+      tags:
+      - Actions
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /conversation-ai/agents/{agentId}/actions/list:
+    get:
+      operationId: list-actions
+      summary: List Actions for an Agent
+      description: List for actions for an agent
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: agentId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchActionsForEmployeeResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - conversation-ai.readonly
+      tags:
+      - Actions
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /conversation-ai/agents/{agentId}/actions/{actionId}:
+    get:
+      operationId: get-action-by-id
+      summary: Get Action by ID
+      description: Retrieves detailed information about a specific action using its unique identifier. Returns the action configuration, associated agents, and performance metrics.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: actionId
+        required: true
+        in: path
+        description: The unique identifier of the action ID Attached to the agent
+        schema:
+          type: string
+      - name: agentId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchActionDetailsResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - conversation-ai.readonly
+      tags:
+      - Actions
+    put:
+      operationId: update-action
+      summary: Update Action
+      description: Updates an existing action's configuration. This includes modifying the action name, description, trigger conditions, and behavior settings.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: actionId
+        required: true
+        in: path
+        description: The unique identifier of the action ID Attached to the agent
+        schema:
+          type: string
+      - name: agentId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActionDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - conversation-ai.write
+      tags:
+      - Actions
+    delete:
+      operationId: delete-action
+      summary: Remove Action from Agent
+      description: Permanently deletes an action. This will remove the action from all associated agents and cannot be undone.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: actionId
+        required: true
+        in: path
+        description: The unique identifier of the action ID Attached to the agent
+        schema:
+          type: string
+      - name: agentId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - conversation-ai.write
+      tags:
+      - Actions
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /conversation-ai/agents/{agentId}/followup-settings:
+    patch:
+      operationId: update-followup-settings
+      summary: Update Followup Settings
+      description: Update the followup settings for an action
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: agentId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFollowupSettingsDTO'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - conversation-ai.write
+      tags:
+      - Actions
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /voice-ai/actions:
+    post:
+      operationId: create-action
+      summary: Create Agent Action
+      description: Create a new action for a voice AI agent. Actions define specific behaviors and capabilities for the agent during calls.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSingleActionDTO'
+      responses:
+        '201':
+          description: Action created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Actions
+      security:
+      - bearer:
+        - voice-ai-agent-goals.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /voice-ai/actions/{actionId}:
+    put:
+      operationId: update-action
+      summary: Update Agent Action
+      description: Update an existing action for a voice AI agent. Modifies the behavior and configuration of an agent action.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: actionId
+        required: true
+        in: path
+        description: Unique identifier for the action
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSingleActionDTO'
+      responses:
+        '200':
+          description: Action updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Actions
+      security:
+      - bearer:
+        - voice-ai-agent-goals.write
+    get:
+      operationId: get-action
+      summary: Get Agent Action
+      description: Retrieve details of a specific action by its ID. Returns the action configuration including actionParameters.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: actionId
+        required: true
+        in: path
+        description: Unique identifier for the action
+        schema:
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID
+        schema:
+          example: LOC123456789ABCDEF
+          type: string
+      responses:
+        '200':
+          description: Action details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetActionResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Actions
+      security:
+      - bearer:
+        - voice-ai-agent-goals.readonly
+    delete:
+      operationId: delete-action
+      summary: Delete Agent Action
+      description: Delete an existing action from a voice AI agent. This permanently removes the action and its configuration.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: actionId
+        required: true
+        in: path
+        description: Unique identifier for the action
+        schema:
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location ID
+        schema:
+          example: LOC123456789ABCDEF
+          type: string
+      - name: agentId
+        required: true
+        in: query
+        description: Agent ID the action is attached to
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Action deleted successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Actions
+      security:
+      - bearer:
+        - voice-ai-agent-goals.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+components:
+  schemas:
+    humanHandOverDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: true
+          description: Whether human handover action is enabled
+        triggerCondition:
+          type: string
+          example: When the user requests to speak with a human agent or expresses frustration
+          description: Condition that triggers human handover
+        examples:
+          example:
+          - speak to human
+          - talk to agent
+          - need help from person
+          description: Example phrases that trigger human handover (required when handoverType is custom or contactRequest)
+          type: array
+          items:
+            type: string
+        assignToUserId:
+          type: string
+          example: user123
+          description: ID of the user to assign the conversation to
+        skipAssignToUser:
+          type: boolean
+          example: false
+          description: Whether to skip assigning to a specific user
+        createTask:
+          type: boolean
+          example: true
+          description: Whether to create a task when handing over
+        reactivateEnabled:
+          type: boolean
+          example: true
+          description: Whether the agent can be reactivated after handover
+        sleepTimeUnit:
+          type: string
+          enum:
+          - days
+          - hours
+          - minutes
+          example: hours
+          description: Time unit for reactivation delay (required when reactivateEnabled is true)
+        sleepTime:
+          type: number
+          example: 24
+          description: Time duration before reactivation (required when reactivateEnabled is true)
+        finalMessage:
+          type: string
+          example: I am transferring you to a human agent who will assist you shortly.
+          description: Final message sent when handing over to human
+        tags:
+          example:
+          - escalated
+          - human-requested
+          description: Tags to apply during handover
+          type: array
+          items:
+            type: string
+        handoverType:
+          type: string
+          enum:
+          - contactRequest
+          - lackOfInformation
+          - failedToResolveIssue
+          - custom
+          example: contactRequest
+          description: Type of human handover detection
+      required:
+      - enabled
+      - triggerCondition
+      - reactivateEnabled
+      - finalMessage
+      - handoverType
+    transferBotDto:
+      type: object
+      properties:
+        transferBotType:
+          type: string
+          enum:
+          - Default
+          - Custom
+          example: Custom
+          description: Type of transfer - Default or Custom
+        transferToBot:
+          type: string
+          example: employee789
+          description: ID of the bot/agent to transfer to
+        enabled:
+          type: boolean
+          example: true
+          description: Whether this transfer action is enabled
+        transferBotTriggerCondition:
+          type: string
+          example: When the user asks to speak with sales or needs pricing information
+          description: Condition that triggers the transfer (required for Custom type)
+        transferBotExamples:
+          example:
+          - talk to sales
+          - pricing information
+          - speak to specialist
+          description: Example phrases that trigger transfer (required for Custom type, minimum 2)
+          type: array
+          items:
+            type: string
+      required:
+      - transferBotType
+      - transferToBot
+      - enabled
+    updateContactFieldDto:
+      type: object
+      properties:
+        contactFieldId:
+          type: string
+          example: '123'
+          description: ID of the contact field in Contacts Table
+        description:
+          type: string
+          example: Business Name
+          description: Description of the contact field in Contacts Table
+        contactUpdateExamples:
+          example:
+          - Example 1
+          default: []
+          description: Contact update examples in Contacts Table. Not required when using standard fields, Monetory or Date Custom fields.
+          type: array
+          items:
+            type: string
+      required:
+      - contactFieldId
+      - description
+    WorkingHours:
+      type: object
+      properties:
+        dayOfTheWeek:
+          type: number
+          example: 1
+          description: Day of the week (0=Sunday, 1=Monday, etc.)
+        intervals:
+          description: Time intervals for this day
+          type: array
+          items:
+            $ref: '#/components/schemas/Interval'
+      required:
+      - dayOfTheWeek
+    updateActionResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Updated action details
+          allOf:
+          - $ref: '#/components/schemas/ActionDataDTO'
+        success:
+          type: boolean
+          example: true
+          description: Success status of the request
+      required:
+      - data
+      - success
+    ActionDataDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: actionId123
+          description: Unique identifier for the action
+        name:
+          type: string
+          example: Trigger Workflow
+          description: Name of the action
+        type:
+          type: string
+          enum:
+          - triggerWorkflow
+          - updateContactField
+          - appointmentBooking
+          - stopBot
+          - humanHandOver
+          - advancedFollowup
+          - transferBot
+          example: triggerWorkflow
+          description: Type of the action
+        agentId:
+          type: string
+          example: agentId123
+          description: Agent ID where the action belongs
+        details:
+          description: Action-specific details. The structure depends on the action type. For TRIGGER_WORKFLOW use triggerWorkflowDto, for UPDATE_CONTACT_FIELD use updateContactFieldDto, for APPOINTMENT_BOOKING use appointmentBookingDto, for STOP_BOT use stopBotDto, for HUMAN_HAND_OVER use humanHandOverDto, for ADVANCED_FOLLOWUP use advancedFollowupDto, and for TRANSFER_BOT use transferBotDto.
+          oneOf:
+          - $ref: '#/components/schemas/triggerWorkflowDto'
+          - $ref: '#/components/schemas/updateContactFieldDto'
+          - $ref: '#/components/schemas/appointmentBookingDto'
+          - $ref: '#/components/schemas/stopBotDto'
+          - $ref: '#/components/schemas/humanHandOverDto'
+          - $ref: '#/components/schemas/advancedFollowupDto'
+          - $ref: '#/components/schemas/transferBotDto'
+      required:
+      - id
+      - name
+      - type
+      - details
+    Interval:
+      type: object
+      properties:
+        startHour:
+          type: number
+          example: 9
+          description: Start hour (24-hour format)
+        startMinute:
+          type: number
+          example: 0
+          description: Start minute
+        endHour:
+          type: number
+          example: 17
+          description: End hour (24-hour format)
+        endMinute:
+          type: number
+          example: 30
+          description: End minute
+      required:
+      - startHour
+      - startMinute
+      - endHour
+      - endMinute
+    fetchActionDetailsResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Action details
+          allOf:
+          - $ref: '#/components/schemas/ActionDataDTO'
+        success:
+          type: boolean
+          example: true
+          description: Success status of the request
+      required:
+      - data
+      - success
+    advancedFollowupDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: true
+          description: Whether advanced followup is enabled
+        scenarioId:
+          type: string
+          example: contactIsBusy
+          enum:
+          - contactStoppedReplying
+          - contactIsBusy
+          - contactRequested
+          description: ID of the followup scenario
+        followupSequence:
+          description: Sequence of followup actions to perform
+          type: array
+          items:
+            $ref: '#/components/schemas/FollowupSequence'
+        followupSettings:
+          description: Additional settings for followup behavior
+          allOf:
+          - $ref: '#/components/schemas/FollowupSettings'
+      required:
+      - enabled
+      - scenarioId
+      - followupSequence
+    appointmentBookingDto:
+      type: object
+      properties:
+        actionId:
+          type: string
+          example: action123
+          description: Optional action ID reference
+        calendarId:
+          type: string
+          example: calendar123
+          description: Calendar ID for appointment booking
+        onlySendLink:
+          type: boolean
+          example: false
+          description: If true, only sends the appointment link without booking
+        triggerWorkflow:
+          type: boolean
+          example: true
+          description: Whether to trigger a workflow after booking (cannot be true when onlySendLink is true)
+        workflowIds:
+          example:
+          - workflow123
+          description: Workflow IDs to trigger after booking (required when triggerWorkflow is true)
+          type: array
+          items:
+            type: string
+        sleepAfterBooking:
+          type: boolean
+          example: true
+          description: Whether to put the agent to sleep after booking (cannot be true when onlySendLink is true)
+        sleepTimeUnit:
+          type: string
+          enum:
+          - days
+          - hours
+          - minutes
+          example: hours
+          description: Unit for sleep time (required when sleepAfterBooking is true)
+        sleepTime:
+          type: number
+          example: 24
+          description: Sleep duration (required when sleepAfterBooking is true)
+        transferBot:
+          type: boolean
+          example: false
+          description: Whether to transfer to another agent after booking (cannot be true when onlySendLink is true)
+        transferAgent:
+          type: string
+          example: employee456
+          description: Agent ID to transfer to (required when transferBot is true)
+        rescheduleEnabled:
+          type: boolean
+          default: false
+          example: true
+          description: Whether to allow appointment rescheduling (cannot be true when onlySendLink is true)
+        cancelEnabled:
+          type: boolean
+          default: false
+          example: true
+          description: Whether to allow appointment cancellation (cannot be true when onlySendLink is true)
+      required:
+      - calendarId
+      - onlySendLink
+      - triggerWorkflow
+      - sleepAfterBooking
+      - transferBot
+      - rescheduleEnabled
+      - cancelEnabled
+    UpdateFollowupSettingsDTO:
+      type: object
+      properties:
+        actionIds:
+          example:
+          - edxcfghbnjkimd
+          type: array
+          items:
+            type: string
+        followupSettings:
+          $ref: '#/components/schemas/FollowupSettings'
+      required:
+      - actionIds
+      - followupSettings
+    fetchActionsForEmployeeResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Grouped actions by type
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionDataDTO'
+        success:
+          type: boolean
+          example: true
+          description: Success status of the request
+      required:
+      - data
+      - success
+    deleteActionResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Deleted action information
+          allOf:
+          - $ref: '#/components/schemas/DeleteActionDataDTO'
+        success:
+          type: boolean
+          example: true
+          description: Success status of the request
+      required:
+      - data
+      - success
+    triggerWorkflowDto:
+      type: object
+      properties:
+        workflowIds:
+          example:
+          - workflow123
+          - workflow456
+          description: Array of workflow IDs to trigger
+          type: array
+          items:
+            type: string
+        triggerCondition:
+          type: string
+          example: When user requests appointment
+          description: Condition that triggers the workflow
+        triggerMessage:
+          type: string
+          example: Workflow triggered successfully
+          description: Optional message to send when triggering the workflow
+      required:
+      - workflowIds
+      - triggerCondition
+    stopBotDto:
+      type: object
+      properties:
+        stopBotDetectionType:
+          type: string
+          enum:
+          - Goodbye
+          - Custom
+          example: Custom
+          description: Type of stop bot detection - Goodbye or Custom
+        stopBotTriggerCondition:
+          type: string
+          example: When the user says they no longer need assistance or want to end the conversation
+          description: Condition that triggers stopping the bot
+        reactivateEnabled:
+          type: boolean
+          example: true
+          description: Whether the bot can be reactivated after being stopped
+        sleepTimeUnit:
+          type: string
+          enum:
+          - days
+          - hours
+          - minutes
+          example: hours
+          description: Time unit for reactivation delay (required when reactivateEnabled is true)
+        sleepTime:
+          type: number
+          example: 24
+          description: Time duration before reactivation (required when reactivateEnabled is true)
+        enabled:
+          type: boolean
+          example: true
+          description: Whether this action is enabled for the agent
+        stopBotExamples:
+          example:
+          - goodbye
+          - thank you
+          - no more questions
+          description: Example phrases that trigger stop bot action (minimum 2 required)
+          type: array
+          items:
+            type: string
+        finalMessage:
+          type: string
+          example: Thank you for contacting us. Have a great day!
+          description: Final message sent when stopping the bot
+        tags:
+          example:
+          - resolved
+          - no-response
+          description: Tags to apply when stopping the bot
+          type: array
+          items:
+            type: string
+      required:
+      - stopBotDetectionType
+      - stopBotTriggerCondition
+      - reactivateEnabled
+      - enabled
+      - stopBotExamples
+      - finalMessage
+    DeleteActionDataDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: actionId123
+          description: ID of the deleted action
+      required:
+      - id
+    FollowupSequence:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: Unique identifier for this followup step
+        followupTimeUnit:
+          type: string
+          enum:
+          - days
+          - hours
+          - minutes
+          example: hours
+          description: Time unit for followup delay
+        followupTime:
+          type: number
+          example: 2
+          description: 'Time duration before followup (max: 60 minutes, 24 hours, or 180 days depending on unit)'
+        aiEnabledMessage:
+          type: boolean
+          example: true
+          default: true
+          description: Whether to use AI to generate the followup message
+        triggerWorkflow:
+          type: boolean
+          example: false
+          default: false
+          description: Whether to trigger a workflow during this followup
+        customMessage:
+          type: string
+          example: Hi! Just following up on our previous conversation. Do you have any questions?
+          description: Custom message to send (when aiEnabledMessage is false)
+        workflowId:
+          type: string
+          example: workflow789
+          description: Workflow ID to trigger (when triggerWorkflow is true)
+        contactRequested:
+          type: boolean
+          example: false
+          description: Whether contact was requested in this followup
+      required:
+      - id
+      - followupTimeUnit
+      - followupTime
+    CreateActionDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          example: triggerWorkflow
+          enum:
+          - triggerWorkflow
+          - updateContactField
+          - appointmentBooking
+          - stopBot
+          - humanHandOver
+          - advancedFollowup
+          - transferBot
+        name:
+          type: string
+          example: Trigger a Workflow
+        details:
+          description: Action-specific details. The structure depends on the action type. For TRIGGER_WORKFLOW use triggerWorkflowDto, for UPDATE_CONTACT_FIELD use updateContactFieldDto, for APPOINTMENT_BOOKING use appointmentBookingDto, for STOP_BOT use stopBotDto, for HUMAN_HAND_OVER use humanHandOverDto, for ADVANCED_FOLLOWUP use advancedFollowupDto, and for TRANSFER_BOT use transferBotDto.
+          oneOf:
+          - $ref: '#/components/schemas/triggerWorkflowDto'
+          - $ref: '#/components/schemas/updateContactFieldDto'
+          - $ref: '#/components/schemas/appointmentBookingDto'
+          - $ref: '#/components/schemas/stopBotDto'
+          - $ref: '#/components/schemas/humanHandOverDto'
+          - $ref: '#/components/schemas/advancedFollowupDto'
+          - $ref: '#/components/schemas/transferBotDto'
+      required:
+      - type
+      - name
+      - details
+    createActionResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Created action details
+          allOf:
+          - $ref: '#/components/schemas/ActionDataDTO'
+        success:
+          type: boolean
+          example: true
+          description: Success status of the request
+      required:
+      - data
+      - success
+    FollowupSettings:
+      type: object
+      properties:
+        dynamicChannelSwitching:
+          type: boolean
+          example: true
+          default: true
+          description: Whether to dynamically switch channels for followups
+        followUpHours:
+          type: boolean
+          example: true
+          description: Whether to respect working hours for followups
+        workingHours:
+          description: Working hours configuration for followups
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingHours'
+        timezoneToUse:
+          type: string
+          enum:
+          - contact
+          - business
+          description: Timezone to use for followups, contact or location
+      required:
+      - dynamicChannelSwitching
+    CustomActionApiDetailsDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: API endpoint URL
+          example: https://api.example.com/orders
+        method:
+          type: string
+          description: HTTP method
+          example: GET
+          enum:
+          - POST
+          - GET
+        authenticationRequired:
+          type: boolean
+          description: Whether authentication is required
+          example: true
+        authenticationValue:
+          type: string
+          description: Authentication token or API key (required if authenticationRequired is true)
+          example: token123
+        headers:
+          description: HTTP headers to include
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomActionHeaderDTO'
+        parameters:
+          description: API parameters to send
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomActionParameterDTO'
+      required:
+      - url
+      - method
+    KnowledgeBaseParameters:
+      type: object
+      properties:
+        triggerPrompt:
+          type: string
+          description: When to query the knowledge base
+          example: When caller asks about pricing
+        knowledgeBaseId:
+          type: string
+          description: Knowledge base ID to query
+          example: 507f1f77bcf86cd799439011
+      required:
+      - triggerPrompt
+      - knowledgeBaseId
+    InCallDataExtractionActionParameters:
+      type: object
+      properties:
+        contactFieldId:
+          type: string
+          description: ID of the contact field to be updated with the extracted data
+          example: 507f1f77bcf86cd799439011
+        description:
+          type: string
+          description: Description of what data to extract
+          example: Caller's phone number
+        examples:
+          description: Example values to help Agent understand the expected format. At least one example is required, maximum 5 examples allowed.
+          example:
+          - '+1234567890'
+          - '+9876543210'
+          type: array
+          items:
+            type: string
+        overwriteExistingValue:
+          type: boolean
+          description: Whether to overwrite existing field value if already set, default is false
+          example: false
+          default: false
+      required:
+      - contactFieldId
+      - description
+      - examples
+    SMSParameters:
+      type: object
+      properties:
+        triggerPrompt:
+          type: string
+          description: When to send the SMS
+          example: When caller asks for booking confirmation
+        triggerMessage:
+          type: string
+          description: Message to tell the caller
+          example: I'll send you a confirmation text
+        messageBody:
+          type: string
+          description: SMS message content to send
+          example: Your appointment is confirmed for tomorrow at 2 PM
+      required:
+      - triggerPrompt
+      - triggerMessage
+      - messageBody
+    AppointmentBookingActionParameters:
+      type: object
+      properties:
+        calendarId:
+          type: string
+          description: Calendar ID to book appointments in
+          example: 507f1f77bcf86cd799439011
+        daysOfOfferingDates:
+          type: number
+          description: Number of days ahead to offer booking dates
+          example: 3
+        slotsPerDay:
+          type: number
+          description: Number of available slots per day
+          example: 3
+        hoursBetweenSlots:
+          type: number
+          description: Hours between available slots
+          example: 1
+      required:
+      - calendarId
+      - daysOfOfferingDates
+      - slotsPerDay
+      - hoursBetweenSlots
+    UpdateSingleActionDTO:
+      type: object
+      properties:
+        agentId:
+          type: string
+          description: Agent ID to attach the action to
+          example: 507f1f77bcf86cd799439011
+        locationId:
+          type: string
+          description: Location ID
+          example: 507f1f77bcf86cd799439012
+        actionType:
+          type: string
+          description: Type of action
+          enum:
+          - CALL_TRANSFER
+          - DATA_EXTRACTION
+          - IN_CALL_DATA_EXTRACTION
+          - WORKFLOW_TRIGGER
+          - SMS
+          - APPOINTMENT_BOOKING
+          - CUSTOM_ACTION
+          - KNOWLEDGE_BASE
+          example: CALL_TRANSFER
+        name:
+          type: string
+          description: Human-readable name for this action
+          example: Transfer to Manager
+        actionParameters:
+          description: Action parameters - structure varies by actionType
+          oneOf:
+          - $ref: '#/components/schemas/CallTransferActionParameters'
+          - $ref: '#/components/schemas/DataExtractionActionParameters'
+          - $ref: '#/components/schemas/InCallDataExtractionActionParameters'
+          - $ref: '#/components/schemas/WorkflowTriggerParameters'
+          - $ref: '#/components/schemas/SMSParameters'
+          - $ref: '#/components/schemas/AppointmentBookingActionParameters'
+          - $ref: '#/components/schemas/CustomActionParameters'
+          - $ref: '#/components/schemas/KnowledgeBaseParameters'
+          examples:
+            callTransfer:
+              summary: Call Transfer Action
+              value:
+                transferToType: number
+                transferToValue: '+12345678901'
+                triggerMessage: Let me transfer you to a manager right away
+                hearWhisperMessage: true
+            dataExtraction:
+              summary: Data Extraction Action
+              value:
+                contactFieldId: 507f1f77bcf86cd799439011
+                description: Caller's phone number
+                examples:
+                - '+1234567890'
+                - '+9876543210'
+                overwriteExistingValue: false
+            workflowTrigger:
+              summary: Workflow Trigger Action
+              value:
+                triggerPrompt: When caller requests a quote
+                triggerMessage: Let me start that process for you
+                workflowId: 507f1f77bcf86cd799439011
+            sms:
+              summary: SMS Action
+              value:
+                triggerPrompt: When caller asks for booking confirmation
+                triggerMessage: I'll send you a confirmation text
+                messageBody: Your appointment is confirmed for tomorrow at 2 PM
+            appointmentBooking:
+              summary: Appointment Booking Action
+              value:
+                calendarId: 507f1f77bcf86cd799439011
+                daysOfOfferingDates: 3
+                slotsPerDay: 3
+                hoursBetweenSlots: 1
+            customAction:
+              summary: Custom Action
+              value:
+                triggerPrompt: When caller provides order number
+                triggerMessage: Let me check that order status
+                apiDetails:
+                  url: https://api.example.com/orders
+                  method: GET
+                  authenticationRequired: true
+                  authenticationValue: token123
+                  headers:
+                  - key: Content-Type
+                    value: application/json
+                  parameters:
+                  - name: orderId
+                    description: Order ID to look up
+                    type: string
+                    example: ORD-12345
+                responsePathsToExtract:
+                - data.orderId
+                - status
+            knowledgeBase:
+              summary: Knowledge Base Action
+              value:
+                triggerPrompt: When caller asks about pricing
+                knowledgeBaseId: 507f1f77bcf86cd799439011
+      required:
+      - agentId
+      - locationId
+      - actionType
+      - name
+      - actionParameters
+    WorkflowTriggerParameters:
+      type: object
+      properties:
+        triggerPrompt:
+          type: string
+          description: When to trigger this workflow
+          example: When caller requests a quote
+        triggerMessage:
+          type: string
+          description: Message to tell the caller
+          example: Let me start that process for you
+        workflowId:
+          type: string
+          description: Workflow ID to trigger
+          example: 507f1f77bcf86cd799439011
+      required:
+      - triggerPrompt
+      - triggerMessage
+      - workflowId
+    CallTransferActionParameters:
+      type: object
+      properties:
+        triggerPrompt:
+          type: string
+          description: When to trigger this action during the call
+          example: When the caller asks to speak to a manager
+        transferToType:
+          type: string
+          description: Type of transfer destination (currently only "number" is supported)
+          enum:
+          - number
+          example: number
+        transferToValue:
+          type: string
+          description: Phone number to transfer to. Must start with +, include country code, contain only numbers, and be 11-16 characters long (e.g., +12345678901).
+          example: '+12345678901'
+        triggerMessage:
+          type: string
+          description: Message to tell the caller before transferring
+          example: Let me transfer you to a manager right away
+        hearWhisperMessage:
+          type: boolean
+          description: Whether to play whisper message to the receiving party
+          example: true
+      required:
+      - triggerPrompt
+      - transferToType
+      - transferToValue
+      - triggerMessage
+    UpdateActionResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the created action
+          example: 507f1f77bcf86cd799439011
+        actionType:
+          type: string
+          description: Type of action
+          enum:
+          - CALL_TRANSFER
+          - DATA_EXTRACTION
+          - IN_CALL_DATA_EXTRACTION
+          - WORKFLOW_TRIGGER
+          - SMS
+          - APPOINTMENT_BOOKING
+          - CUSTOM_ACTION
+          - KNOWLEDGE_BASE
+          example: CALL_TRANSFER
+        name:
+          type: string
+          description: Human-readable name for this action
+          example: Transfer to Manager
+        actionParameters:
+          description: Action parameters - structure varies by actionType
+          oneOf:
+          - $ref: '#/components/schemas/CallTransferActionParameters'
+          - $ref: '#/components/schemas/DataExtractionActionParameters'
+          - $ref: '#/components/schemas/InCallDataExtractionActionParameters'
+          - $ref: '#/components/schemas/WorkflowTriggerParameters'
+          - $ref: '#/components/schemas/SMSParameters'
+          - $ref: '#/components/schemas/AppointmentBookingActionParameters'
+          - $ref: '#/components/schemas/CustomActionParameters'
+          - $ref: '#/components/schemas/KnowledgeBaseParameters'
+          examples:
+            callTransfer:
+              summary: Call Transfer Action Parameters
+              value:
+                transferToType: number
+                transferToValue: '+12345678901'
+                triggerMessage: Let me transfer you to a manager right away
+                hearWhisperMessage: true
+            dataExtraction:
+              summary: Data Extraction Action Parameters
+              value:
+                contactFieldId: 507f1f77bcf86cd799439011
+                description: Caller's phone number
+                examples:
+                - '+1234567890'
+                - '+9876543210'
+                overwriteExistingValue: false
+            workflowTrigger:
+              summary: Workflow Trigger Action Parameters
+              value:
+                triggerPrompt: When caller requests a quote
+                triggerMessage: Let me start that process for you
+                workflowId: 507f1f77bcf86cd799439011
+      required:
+      - id
+      - actionType
+      - name
+      - actionParameters
+    CreateSingleActionDTO:
+      type: object
+      properties:
+        agentId:
+          type: string
+          description: Agent ID to attach the action to
+          example: 507f1f77bcf86cd799439011
+        locationId:
+          type: string
+          description: Location ID
+          example: 507f1f77bcf86cd799439012
+        actionType:
+          type: string
+          description: Type of action
+          enum:
+          - CALL_TRANSFER
+          - DATA_EXTRACTION
+          - IN_CALL_DATA_EXTRACTION
+          - WORKFLOW_TRIGGER
+          - SMS
+          - APPOINTMENT_BOOKING
+          - CUSTOM_ACTION
+          - KNOWLEDGE_BASE
+          example: CALL_TRANSFER
+        name:
+          type: string
+          description: Human-readable name for this action
+          example: Transfer to Manager
+        actionParameters:
+          description: Action parameters - structure varies by actionType
+          oneOf:
+          - $ref: '#/components/schemas/CallTransferActionParameters'
+          - $ref: '#/components/schemas/DataExtractionActionParameters'
+          - $ref: '#/components/schemas/InCallDataExtractionActionParameters'
+          - $ref: '#/components/schemas/WorkflowTriggerParameters'
+          - $ref: '#/components/schemas/SMSParameters'
+          - $ref: '#/components/schemas/AppointmentBookingActionParameters'
+          - $ref: '#/components/schemas/CustomActionParameters'
+          - $ref: '#/components/schemas/KnowledgeBaseParameters'
+          examples:
+            callTransfer:
+              summary: Call Transfer Action
+              value:
+                transferToType: number
+                transferToValue: '+12345678901'
+                triggerMessage: Let me transfer you to a manager right away
+                hearWhisperMessage: true
+            dataExtraction:
+              summary: Data Extraction Action
+              value:
+                contactFieldId: 507f1f77bcf86cd799439011
+                description: Caller's phone number
+                examples:
+                - '+1234567890'
+                - '+9876543210'
+                overwriteExistingValue: false
+            workflowTrigger:
+              summary: Workflow Trigger Action
+              value:
+                triggerPrompt: When caller requests a quote
+                triggerMessage: Let me start that process for you
+                workflowId: 507f1f77bcf86cd799439011
+            sms:
+              summary: SMS Action
+              value:
+                triggerPrompt: When caller asks for booking confirmation
+                triggerMessage: I'll send you a confirmation text
+                messageBody: Your appointment is confirmed for tomorrow at 2 PM
+            appointmentBooking:
+              summary: Appointment Booking Action
+              value:
+                calendarId: 507f1f77bcf86cd799439011
+                daysOfOfferingDates: 3
+                slotsPerDay: 3
+                hoursBetweenSlots: 1
+            customAction:
+              summary: Custom Action
+              value:
+                triggerPrompt: When caller provides order number
+                triggerMessage: Let me check that order status
+                apiDetails:
+                  url: https://api.example.com/orders
+                  method: GET
+                  authenticationRequired: true
+                  authenticationValue: token123
+                  headers:
+                  - key: Content-Type
+                    value: application/json
+                  parameters:
+                  - name: orderId
+                    description: Order ID to look up
+                    type: string
+                    example: ORD-12345
+                responsePathsToExtract:
+                - data.orderId
+                - status
+            knowledgeBase:
+              summary: Knowledge Base Action
+              value:
+                triggerPrompt: When caller asks about pricing
+                knowledgeBaseId: 507f1f77bcf86cd799439011
+      required:
+      - agentId
+      - locationId
+      - actionType
+      - name
+      - actionParameters
+    CustomActionParameters:
+      type: object
+      properties:
+        triggerPrompt:
+          type: string
+          description: When to call the custom API
+          example: When caller provides order number
+        triggerMessage:
+          type: string
+          description: Message to tell the caller
+          example: Let me check that order status
+        apiDetails:
+          description: API endpoint configuration
+          allOf:
+          - $ref: '#/components/schemas/CustomActionApiDetailsDTO'
+        selectedPaths:
+          description: 'Selected response paths to extract from API response. Required: at least 1 value if the method is GET. Should be empty if the method is POST.'
+          example:
+          - data.orderId
+          - status
+          type: array
+          items:
+            type: string
+      required:
+      - triggerPrompt
+      - triggerMessage
+      - apiDetails
+    CreateActionResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the created action
+          example: 507f1f77bcf86cd799439011
+        actionType:
+          type: string
+          description: Type of action
+          enum:
+          - CALL_TRANSFER
+          - DATA_EXTRACTION
+          - IN_CALL_DATA_EXTRACTION
+          - WORKFLOW_TRIGGER
+          - SMS
+          - APPOINTMENT_BOOKING
+          - CUSTOM_ACTION
+          - KNOWLEDGE_BASE
+          example: CALL_TRANSFER
+        name:
+          type: string
+          description: Human-readable name for this action
+          example: Transfer to Manager
+        actionParameters:
+          description: Action parameters - structure varies by actionType
+          oneOf:
+          - $ref: '#/components/schemas/CallTransferActionParameters'
+          - $ref: '#/components/schemas/DataExtractionActionParameters'
+          - $ref: '#/components/schemas/InCallDataExtractionActionParameters'
+          - $ref: '#/components/schemas/WorkflowTriggerParameters'
+          - $ref: '#/components/schemas/SMSParameters'
+          - $ref: '#/components/schemas/AppointmentBookingActionParameters'
+          - $ref: '#/components/schemas/CustomActionParameters'
+          - $ref: '#/components/schemas/KnowledgeBaseParameters'
+          examples:
+            callTransfer:
+              summary: Call Transfer Action Parameters
+              value:
+                transferToType: number
+                transferToValue: '+12345678901'
+                triggerMessage: Let me transfer you to a manager right away
+                hearWhisperMessage: true
+            dataExtraction:
+              summary: Data Extraction Action Parameters
+              value:
+                contactFieldId: 507f1f77bcf86cd799439011
+                description: Caller's phone number
+                examples:
+                - '+1234567890'
+                - '+9876543210'
+                overwriteExistingValue: false
+            workflowTrigger:
+              summary: Workflow Trigger Action Parameters
+              value:
+                triggerPrompt: When caller requests a quote
+                triggerMessage: Let me start that process for you
+                workflowId: 507f1f77bcf86cd799439011
+      required:
+      - id
+      - actionType
+      - name
+      - actionParameters
+    GetActionResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the action
+          example: 507f1f77bcf86cd799439011
+        actionType:
+          type: string
+          description: Type of action
+          enum:
+          - CALL_TRANSFER
+          - DATA_EXTRACTION
+          - IN_CALL_DATA_EXTRACTION
+          - WORKFLOW_TRIGGER
+          - SMS
+          - APPOINTMENT_BOOKING
+          - CUSTOM_ACTION
+          - KNOWLEDGE_BASE
+          example: CALL_TRANSFER
+        name:
+          type: string
+          description: Human-readable name for this action
+          example: Transfer to Manager
+        actionParameters:
+          description: Action parameters - structure varies by actionType
+          oneOf:
+          - $ref: '#/components/schemas/CallTransferActionParameters'
+          - $ref: '#/components/schemas/DataExtractionActionParameters'
+          - $ref: '#/components/schemas/InCallDataExtractionActionParameters'
+          - $ref: '#/components/schemas/WorkflowTriggerParameters'
+          - $ref: '#/components/schemas/SMSParameters'
+          - $ref: '#/components/schemas/AppointmentBookingActionParameters'
+          - $ref: '#/components/schemas/CustomActionParameters'
+          - $ref: '#/components/schemas/KnowledgeBaseParameters'
+          examples:
+            callTransfer:
+              summary: Call Transfer Action Parameters
+              value:
+                transferToType: number
+                transferToValue: '+12345678901'
+                triggerMessage: Let me transfer you to a manager right away
+                hearWhisperMessage: true
+            dataExtraction:
+              summary: Data Extraction Action Parameters
+              value:
+                contactFieldId: 507f1f77bcf86cd799439011
+                description: Caller's phone number
+                examples:
+                - '+1234567890'
+                - '+9876543210'
+                overwriteExistingValue: false
+            workflowTrigger:
+              summary: Workflow Trigger Action Parameters
+              value:
+                triggerPrompt: When caller requests a quote
+                triggerMessage: Let me start that process for you
+                workflowId: 507f1f77bcf86cd799439011
+      required:
+      - id
+      - actionType
+      - name
+      - actionParameters
+    CustomActionHeaderDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: HTTP header name
+          example: id
+        value:
+          type: string
+          description: HTTP header value
+          example: '1234567890'
+      required:
+      - key
+      - value
+    CustomActionParameterDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Parameter name
+          example: orderId
+        description:
+          type: string
+          description: Parameter description
+          example: Order ID to look up
+        type:
+          type: string
+          description: Parameter type
+          example: string
+        example:
+          type: string
+          description: Example parameter value
+          example: ORD-12345
+      required:
+      - name
+    DataExtractionActionParameters:
+      type: object
+      properties:
+        contactFieldId:
+          type: string
+          description: ID of the contact field to be updated with the extracted data
+          example: 507f1f77bcf86cd799439011
+        description:
+          type: string
+          description: Description of what data to extract
+          example: Caller's phone number
+        examples:
+          description: Example values to help Agent understand the expected format. At least one example is required, maximum 5 examples allowed.
+          example:
+          - '+1234567890'
+          - '+9876543210'
+          type: array
+          items:
+            type: string
+        overwriteExistingValue:
+          type: boolean
+          description: Whether to overwrite existing field value if already set, default is false
+          example: false
+          default: false
+      required:
+      - contactFieldId
+      - description
+      - examples
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-refined-from:
+- highlevel-conversation-ai-openapi.json
+- highlevel-voice-ai-openapi.json
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

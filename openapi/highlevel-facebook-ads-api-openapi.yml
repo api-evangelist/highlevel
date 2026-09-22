@@ -1,0 +1,2211 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager Facebook Ads API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Facebook Ads
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/facebook/targeting/search:
+    get:
+      operationId: fb-search-targeting
+      summary: Search targeting options
+      description: Search Facebook geo-locations and interests for ad targeting
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: type
+        required: true
+        in: query
+        description: Targeting search type
+        schema:
+          example: interest
+          type: string
+      - name: query
+        required: true
+        in: query
+        description: Search query string
+        schema:
+          example: fitness
+          type: string
+      - name: searchType
+        required: false
+        in: query
+        description: Specific search subtype
+        schema:
+          example: adgeolocation
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer: []
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaigns/{campaignId}/publish:
+    post:
+      operationId: fb-publish-campaign
+      summary: Publish campaign
+      description: Publish a Facebook campaign and push it live to Facebook
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        description: Campaign identifier
+        schema:
+          example: '120208142050850608'
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishAdDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/pixels:
+    get:
+      operationId: fb-get-pixels
+      summary: Get conversion pixels
+      description: Retrieve Facebook conversion pixels for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: channel
+        required: false
+        in: query
+        description: Channel type
+        schema:
+          example: FACEBOOK
+          type: string
+      - name: pageId
+        required: false
+        in: query
+        description: Facebook page ID
+        schema:
+          example: '123456789'
+          type: string
+      - name: igUserId
+        required: false
+        in: query
+        description: Instagram user ID
+        schema:
+          example: ig_user_123
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Ads
+    put:
+      operationId: fb-upsert-pixel
+      summary: Upsert conversion pixel
+      description: Create or update a Facebook conversion pixel configuration
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertConversionPixelDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/custom-audience:
+    get:
+      operationId: fb-get-custom-audiences
+      summary: Get custom audiences
+      description: Retrieve Facebook custom audiences for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Audience list type
+        schema:
+          example: custom
+          enum:
+          - lookalike
+          - custom
+          - all
+          type: string
+      - name: source
+        required: false
+        in: query
+        description: Audience data source
+        schema:
+          example: ad_manager
+          enum:
+          - ad_manager
+          - integration
+          type: string
+      - name: adAccountId
+        required: true
+        in: query
+        description: Ad account identifier
+        schema:
+          example: act_123456
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/custom-audience/{audienceId}:
+    delete:
+      operationId: fb-delete-custom-audience
+      summary: Delete custom audience
+      description: Delete a Facebook custom audience by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Custom audience identifier
+        schema:
+          example: '23851234567890123'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+    put:
+      operationId: fb-update-custom-audience
+      summary: Update custom audience
+      description: Update name or description of a Facebook custom audience
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Custom audience identifier
+        schema:
+          example: '23851234567890123'
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FbUpdateAudienceBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+    get:
+      operationId: fb-get-custom-audience-by-id
+      summary: Get custom audience by ID
+      description: Retrieve a specific Facebook custom audience by its ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Custom audience identifier
+        schema:
+          example: '23851234567890123'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/custom-audience/{audienceId}/member:
+    put:
+      operationId: fb-add-custom-audience-member
+      summary: Add custom audience member
+      description: Add a member to a Facebook custom audience
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Custom audience identifier
+        schema:
+          example: '23851234567890123'
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomAudienceDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+    delete:
+      operationId: fb-remove-custom-audience-member
+      summary: Remove custom audience member
+      description: Remove a member from a Facebook custom audience
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Custom audience identifier
+        schema:
+          example: '23851234567890123'
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomAudienceDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/custom-audience/{audienceId}/member/batch:
+    put:
+      operationId: fb-batch-update-audience-members
+      summary: Batch update audience members
+      description: Add or remove members in bulk from a Facebook custom audience via CSV or smart lists
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: audienceId
+        required: true
+        in: path
+        description: Custom audience identifier
+        schema:
+          example: '23851234567890123'
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomAudienceBatchDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaign/{campaignId}:
+    get:
+      operationId: fb-get-campaign
+      summary: Get campaign with linked entities
+      description: Retrieve a Facebook campaign with its linked adsets and ads
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        description: Campaign identifier
+        schema:
+          example: '120208142050850608'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: fields
+        required: false
+        in: query
+        description: Comma-separated field names
+        schema:
+          example: adsets,ads
+          type: string
+      - name: source
+        required: false
+        in: query
+        description: Campaign data source
+        schema:
+          example: facebook
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/entity:
+    get:
+      operationId: fb-get-entity
+      summary: Get entities
+      description: Retrieve Facebook campaigns, adsets, or ads based on entity type
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: true
+        in: query
+        description: Integration source type
+        schema:
+          example: AD_MANAGER
+          enum:
+          - AD_MANAGER
+          - INTEGRATION
+          type: string
+      - name: next
+        required: false
+        in: query
+        description: Pagination cursor
+        schema:
+          example: cursor_abc
+          type: string
+      - name: fetchAll
+        required: false
+        in: query
+        description: Fetch all entities
+        schema:
+          example: 'true'
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: Campaign identifier
+        schema:
+          example: camp_123
+          type: string
+      - name: adSetId
+        required: false
+        in: query
+        description: Ad set identifier
+        schema:
+          example: adset_123
+          type: string
+      - name: entityType
+        required: true
+        in: query
+        description: Entity type to fetch
+        schema:
+          example: CAMPAIGN
+          enum:
+          - CAMPAIGN
+          - ADSET
+          - AD
+          type: string
+      - name: searchId
+        required: false
+        in: query
+        description: Search identifier
+        schema:
+          example: search_123
+          type: string
+      - name: selectedAdAccountId
+        required: false
+        in: query
+        description: Selected ad account ID
+        schema:
+          example: act_123456
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaigns:
+    put:
+      operationId: fb-upsert-campaign
+      summary: Upsert campaign
+      description: Create or update a Facebook campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertCampaignDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/adsets:
+    put:
+      operationId: fb-upsert-adset
+      summary: Upsert adset
+      description: Create or update a Facebook ad set
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertAdsetDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/ads-v2:
+    put:
+      operationId: fb-upsert-ad
+      summary: Upsert ad
+      description: Create or update a Facebook ad (v2)
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertAdDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaigns/{campaignId}/pause:
+    post:
+      operationId: fb-pause-campaign
+      summary: Pause campaign
+      description: Pause a running Facebook campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaigns/{campaignId}/resume:
+    post:
+      operationId: fb-resume-campaign
+      summary: Resume campaign
+      description: Resume a paused Facebook campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaigns/{campaignId}/duplicate:
+    post:
+      operationId: fb-duplicate-campaign
+      summary: Duplicate campaign
+      description: Duplicate an existing Facebook campaign
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/campaigns/{campaignId}:
+    delete:
+      operationId: fb-delete-campaign
+      summary: Delete campaign
+      description: Delete a Facebook campaign by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: campaignId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/adsets/{adsetId}/pause:
+    post:
+      operationId: fb-pause-adset
+      summary: Pause ad set
+      description: Pause a running Facebook ad set
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adsetId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/adsets/{adsetId}/resume:
+    post:
+      operationId: fb-resume-adset
+      summary: Resume ad set
+      description: Resume a paused Facebook ad set
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adsetId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/adsets/{adsetId}/duplicate:
+    post:
+      operationId: fb-duplicate-adset
+      summary: Duplicate ad set
+      description: Duplicate an existing Facebook ad set
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adsetId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/adsets/{adsetId}:
+    delete:
+      operationId: fb-delete-adset
+      summary: Delete ad set
+      description: Delete a Facebook ad set by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adsetId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/ads/{adId}/pause:
+    post:
+      operationId: fb-pause-ad
+      summary: Pause ad
+      description: Pause a running Facebook ad
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/ads/{adId}/resume:
+    post:
+      operationId: fb-resume-ad
+      summary: Resume ad
+      description: Resume a paused Facebook ad
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/ads/{adId}/duplicate:
+    post:
+      operationId: fb-duplicate-ad
+      summary: Duplicate ad
+      description: Duplicate an existing Facebook ad
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+  /ad-publishing/facebook/ads/{adId}:
+    delete:
+      operationId: fb-delete-ad
+      summary: Delete ad
+      description: Delete a Facebook ad by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Ads
+components:
+  schemas:
+    UpdateCustomAudienceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        contactId:
+          type: string
+          description: Contact identifier
+          example: contact_123
+        fbAdAccountId:
+          type: string
+          description: Facebook ad account ID
+          example: act_123456
+      required:
+      - locationId
+      - contactId
+    AudienceLocationGeometry:
+      type: object
+      properties:
+        location:
+          type: object
+          description: Geographic coordinates
+          example:
+            lat: 40.7128
+            lng: -74.006
+        location_type:
+          type: string
+          description: Geocoding result type
+          example: APPROXIMATE
+      required:
+      - location
+      - location_type
+    UpdateCustomAudienceBatchDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        csvPath:
+          type: string
+          description: CSV file path
+          example: /uploads/audience.csv
+        operationType:
+          type: string
+          description: Batch operation type
+          example: ADD
+        smartlistIds:
+          description: Smartlist IDs array
+          example:
+          - list_1
+          - list_2
+          type: array
+          items:
+            type: string
+        dynamicAudience:
+          type: string
+          description: Dynamic audience flag
+          example: 'true'
+      required:
+      - locationId
+      - operationType
+    AudienceLocaleDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Locale display name
+          example: English (US)
+        key:
+          type: number
+          description: Facebook locale key
+          example: 6
+      required:
+      - name
+      - key
+    PublishAdDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+      required:
+      - locationId
+    MediaDTO:
+      type: object
+      properties:
+        src:
+          type: string
+          description: Media source URL
+          example: https://example.com/image.jpg
+        thumbnailUrl:
+          type: string
+          description: Thumbnail URL (required when type is video)
+          example: https://example.com/thumb.jpg
+        selectedPoster:
+          type: number
+          description: Selected poster index (required when type is video)
+          example: 0
+        type:
+          type: string
+          description: Media content type
+          example: IMAGE
+          enum:
+          - image
+          - video
+        name:
+          type: string
+          description: Media file name
+          example: ad_image.jpg
+        headline:
+          type: string
+          description: Media headline
+          example: Great Offer
+        description:
+          type: string
+          description: Media description
+          example: Click to learn more
+        link:
+          type: string
+          description: Media destination link
+          example: https://example.com
+      required:
+      - src
+      - type
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
+    AudiencePlacementsDTO:
+      type: object
+      properties:
+        facebook:
+          description: Facebook placement positions
+          example:
+          - feed
+          - right_hand_column
+          - marketplace
+          type: array
+          items:
+            type: string
+        instagram:
+          description: Instagram placement positions
+          example:
+          - stream
+          - story
+          - explore
+          type: array
+          items:
+            type: string
+        messenger:
+          description: Messenger placement positions
+          example:
+          - messenger_home
+          type: array
+          items:
+            type: string
+    AudienceInterestDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Interest ID
+          example: '6003139266461'
+        name:
+          type: string
+          description: Interest name
+          example: Fitness and wellness
+        type:
+          type: string
+          description: Interest category type (defaults to "interests" if omitted)
+          example: interests
+      required:
+      - id
+      - name
+    FbUpdateAudienceBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+        name:
+          type: string
+          description: Audience name
+          example: My Custom Audience
+        description:
+          type: string
+          description: Audience description
+          example: Lookalike audience from website visitors
+      required:
+      - locationId
+      - name
+      - description
+    UpsertAdsetDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ad set identifier
+          example: adset_123
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Ad set name
+          example: Targeting Group A
+        pageId:
+          type: string
+          description: Facebook page ID
+          example: '123456789'
+        instagramActorId:
+          type: string
+          description: Instagram actor ID
+          example: ig_123
+        messagingPlatforms:
+          type: string
+          description: Messaging platforms
+          enum:
+          - WHATSAPP
+          - MESSENGER
+          - INSTAGRAM_DIRECT
+        whatsappNumber:
+          type: string
+          description: WhatsApp phone number
+          example: '+1234567890'
+        audience:
+          description: Targeting audience configuration including geo-locations, locales, placements, and custom audiences
+          allOf:
+          - $ref: '#/components/schemas/FacebookAudienceDTO'
+        budget:
+          description: Ad set budget config
+          allOf:
+          - $ref: '#/components/schemas/Budget'
+        conversionLocation:
+          type: string
+          description: Conversion location
+          example: website
+        customEventType:
+          type: string
+          description: Custom event type
+          example: Purchase
+        pixelId:
+          type: string
+          description: Conversion pixel ID
+          example: px_123
+        campaignId:
+          type: string
+          description: Parent campaign ID
+          example: camp_123
+      required:
+      - locationId
+      - campaignId
+    Budget:
+      type: object
+      properties:
+        budgetType:
+          type: string
+          description: Budget type
+          example: DAILY
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+          description: Budget amount
+          example: 1000
+        scheduleStartDate:
+          type: string
+          description: Schedule start date
+          example: '2024-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date
+          example: '2024-01-31'
+      required:
+      - budgetType
+      - amount
+    FacebookAudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geographic locations to target or exclude
+          example:
+          - key: US
+            name: United States
+            type: country
+            selectionType: include
+          - key: '2421836'
+            name: New York
+            type: city
+            selectionType: include
+            radius: 25
+            radiusUnit: mile
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceLocationDTO'
+        locales:
+          description: Language locales to target
+          example:
+          - name: English (US)
+            key: 6
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceLocaleDTO'
+        placements:
+          description: Ad placement positions per platform (only used when placementType is "manual")
+          allOf:
+          - $ref: '#/components/schemas/AudiencePlacementsDTO'
+        placementType:
+          type: string
+          description: Placement strategy — "auto" lets Facebook choose, "manual" uses the placements config
+          example: auto
+          enum:
+          - auto
+          - manual
+        lookalike:
+          description: Lookalike audiences to target
+          example:
+          - id: '23851234567890'
+            name: Lookalike - Website Visitors
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceCustomAudienceItemDTO'
+        retargeting:
+          description: Retargeting custom audiences to target
+          example:
+          - id: '23851234567891'
+            name: Website Visitors - Last 30 Days
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceCustomAudienceItemDTO'
+        interests:
+          description: Interest-based targeting criteria
+          example:
+          - id: '6003139266461'
+            name: Fitness and wellness
+            type: interests
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceInterestDTO'
+        age_min:
+          type: number
+          description: Minimum age for targeting
+          example: 18
+        age_max:
+          type: number
+          description: Maximum age for targeting
+          example: 65
+        genders:
+          description: Gender targeting (1 = male, 2 = female)
+          example:
+          - 1
+          - 2
+          type: array
+          items:
+            type: number
+      required:
+      - geo_locations
+    AudienceCustomAudienceItemDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Custom audience ID
+          example: '23851234567890'
+        name:
+          type: string
+          description: Custom audience name
+          example: Website Visitors - Last 30 Days
+      required:
+      - id
+      - name
+    UpsertAdDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ad identifier
+          example: ad_123
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Ad name
+          example: My Ad Creative
+        primaryText:
+          type: string
+          description: Ad primary text
+          example: Check out our offer!
+        headline:
+          type: string
+          description: Ad headline text
+          example: Great Deal
+        description:
+          type: string
+          description: Ad description text
+          example: Limited time offer
+        imageUrl:
+          type: string
+          description: Ad image URL
+          example: https://example.com/img.jpg
+        mediaType:
+          type: string
+          description: Ad media type
+          enum:
+          - SINGLE
+          - CAROUSEL
+        media:
+          description: Media items (images or videos) attached to the ad creative
+          example:
+          - src: https://example.com/image.jpg
+            thumbnailUrl: https://example.com/thumb.jpg
+            selectedPoster: 0
+            type: IMAGE
+            name: ad_image.jpg
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaDTO'
+        multiAdvertiserAds:
+          type: boolean
+          description: Enable multi-advertiser ads
+          example: false
+        campaignId:
+          type: string
+          description: Parent campaign ID
+          example: camp_123
+        adsetId:
+          type: string
+          description: Parent ad set ID
+          example: adset_123
+        cta:
+          type: string
+          description: Call to action type
+          example: LEARN_MORE
+        conversationFormId:
+          type: string
+          description: Conversation form ID
+          example: conv_123
+        destinationLink:
+          type: string
+          description: Destination link URL
+          example: https://example.com
+        destinationFormId:
+          type: string
+          description: Destination form ID
+          example: form_123
+      required:
+      - locationId
+      - campaignId
+      - adsetId
+    AudienceLocationDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Facebook location key
+          example: US
+        name:
+          type: string
+          description: Location display name
+          example: United States
+        type:
+          type: string
+          description: Geographic location type
+          example: country
+          enum:
+          - country
+          - city
+          - region
+          - country_group
+          - geo_market
+          - large_geo_area
+          - medium_geo_area
+          - small_geo_area
+          - subcity
+          - neighborhood
+          - zip
+          - address
+        selectionType:
+          type: string
+          description: Whether the location is included or excluded from targeting
+          example: include
+          enum:
+          - include
+          - exclude
+        radius:
+          type: number
+          description: Targeting radius around the location (for city/address types)
+          example: 25
+        radiusUnit:
+          type: string
+          description: Unit for the targeting radius
+          example: mi
+          enum:
+          - km
+          - mi
+        geometry:
+          description: Geometry data for address-based targeting
+          allOf:
+          - $ref: '#/components/schemas/AudienceLocationGeometry'
+      required:
+      - key
+      - name
+      - type
+      - selectionType
+    UpsertCampaignDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Campaign identifier
+          example: camp_123
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Campaign name
+          example: Summer Campaign
+        objective:
+          type: string
+          description: Campaign objective
+          example: LEAD_GENERATION
+          enum:
+          - OUTCOME_LEADS
+          - OUTCOME_TRAFFIC
+          - OUTCOME_ENGAGEMENT
+          - OUTCOME_SALES
+        specialAdCategories:
+          type: string
+          description: Special ad categories
+          enum:
+          - EMPLOYMENT
+          - CREDIT
+          - FINANCIAL_PRODUCTS_SERVICES
+          - HOUSING
+          - ISSUES_ELECTIONS_POLITICS
+          - ONLINE_GAMBLING_AND_GAMING
+          - NONE
+        source:
+          type: string
+          description: Campaign data source
+          example: facebook
+      required:
+      - locationId
+    UpsertConversionPixelDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        conversionPixelId:
+          type: string
+          description: Conversion pixel ID
+          example: px_123
+        name:
+          type: string
+          description: Pixel name
+          example: My Pixel
+        igUserId:
+          type: string
+          description: Instagram user ID
+          example: ig_user_123
+        type:
+          type: string
+          description: Pixel event type
+          example: LEAD_EVENT
+      required:
+      - locationId
+      - type
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

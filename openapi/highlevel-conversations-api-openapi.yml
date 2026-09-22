@@ -1,0 +1,499 @@
+openapi: 3.2.0
+info:
+  title: Conversations API
+  description: Documentation for Conversations API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Conversations
+  description: Documentation for Conversations API
+paths:
+  /conversations/{conversationId}:
+    get:
+      operationId: get-conversation
+      summary: Get Conversation
+      description: Get the conversation details based on the conversation ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: conversationId
+        required: true
+        in: path
+        description: Conversation ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversationByIdResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Conversations
+      security:
+      - bearer:
+        - conversations.readonly
+    put:
+      operationId: update-conversation
+      summary: Update Conversation
+      description: Update the conversation details based on the conversation ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: conversationId
+        required: true
+        in: path
+        description: Conversation ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateConversationDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConversationSuccessfulResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Conversations
+      security:
+      - bearer:
+        - conversations.write
+    delete:
+      operationId: delete-conversation
+      summary: Delete Conversation
+      description: Delete the conversation details based on the conversation ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: conversationId
+        required: true
+        in: path
+        description: Conversation ID as string
+        schema:
+          example: tDtDnQdgm2LXpyiqYvZ6
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteConversationSuccessfulResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Conversations
+      security:
+      - bearer:
+        - conversations.write
+  /conversations/:
+    post:
+      operationId: create-conversation
+      summary: Create Conversation
+      description: Creates a new conversation with the data provided
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConversationDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateConversationSuccessResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Conversations
+      security:
+      - bearer:
+        - conversations.write
+components:
+  schemas:
+    UpdateConversationDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        unreadCount:
+          type: number
+          description: Count of unread messages in the conversation
+          example: 1
+        starred:
+          type: boolean
+          description: Starred status of the conversation.
+          example: true
+        feedback:
+          type: object
+      required:
+      - locationId
+    CreateConversationDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        contactId:
+          type: string
+          description: Contact ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+      required:
+      - locationId
+      - contactId
+    GetConversationByIdResponse:
+      type: object
+      properties:
+        contactId:
+          type: string
+          description: Unique identifier of the contact associated with this conversation
+          example: ve9EPM428kjkvShlRW1KT
+        locationId:
+          type: string
+          description: Unique identifier of the business location where this conversation takes place
+          example: ve9EPM428kjkvShlRW1KT
+        deleted:
+          type: boolean
+          description: Flag indicating if this conversation has been moved to trash/deleted
+          example: false
+        inbox:
+          type: boolean
+          description: Flag indicating if this conversation is currently in the main inbox view
+          example: true
+        type:
+          type: number
+          description: 'Communication channel type for this conversation: 1 (Phone), 2 (Email), 3 (Facebook Messenger), 4 (Review), 5 (Group SMS), 6 (Internal Chat - coming soon)'
+        unreadCount:
+          type: number
+          description: Number of messages in this conversation that have not been read by the user
+          example: 1
+        assignedTo:
+          type: string
+          description: Unique identifier of the team member currently responsible for handling this conversation
+          example: ve9EPM428kjkvShlRW1KT
+        id:
+          type: string
+          description: Unique identifier for this specific conversation thread
+          example: ve9EPM428kjkvShlRW1KT
+        starred:
+          type: boolean
+          description: Flag indicating if this conversation has been marked as important/starred by the user
+          example: true
+      required:
+      - contactId
+      - locationId
+      - deleted
+      - inbox
+      - type
+      - unreadCount
+      - id
+    DeleteConversationSuccessfulResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Boolean value as the API response.
+          example: true
+      required:
+      - success
+    ConversationCreateResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the conversation
+          example: tDtDnQdgm2LXpyiqYvZ6
+        dateUpdated:
+          type: string
+          description: Date when the conversation was last updated
+          example: '2023-10-01T12:00:00Z'
+        dateAdded:
+          type: string
+          description: Date when the conversation was created
+          example: '2023-10-01T12:00:00Z'
+        deleted:
+          type: boolean
+          description: Flag indicating if this conversation has been deleted
+          example: false
+        contactId:
+          type: string
+          description: Unique identifier of the contact associated with this conversation
+          example: ve9EPM428kjkvShlRW1KT
+        locationId:
+          type: string
+          description: Unique identifier of the business location where this conversation takes place
+          example: ve9EPM428kjkvShlRW1KT
+        lastMessageDate:
+          type: string
+          description: Date of the last message in the conversation
+          example: '2023-10-01T12:00:00Z'
+        assignedTo:
+          type: string
+          description: Unique identifier of the team member assigned to this conversation
+          example: ve9EPM428kjkvShlRW1KT
+      required:
+      - id
+      - dateUpdated
+      - dateAdded
+      - deleted
+      - contactId
+      - locationId
+      - lastMessageDate
+    CreateConversationSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the API request was successful.
+          example: true
+        conversation:
+          description: Conversation data of the provided conversation ID.
+          allOf:
+          - $ref: '#/components/schemas/ConversationCreateResponseDto'
+      required:
+      - success
+      - conversation
+    GetConversationSuccessfulResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Boolean value as the API response.
+          example: true
+        conversation:
+          description: Conversation data of the provided conversation ID.
+          allOf:
+          - $ref: '#/components/schemas/ConversationDto'
+      required:
+      - success
+      - conversation
+    ConversationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Contact ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        locationId:
+          type: string
+          description: Location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        contactId:
+          type: string
+          description: Contact ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        assignedTo:
+          type: string
+          description: Assigned User ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        userId:
+          type: string
+          description: User ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        lastMessageBody:
+          type: string
+          description: Last message body as string
+          example: Hello, this is the message body
+        lastMessageDate:
+          type: string
+          description: Last message date as UTC
+          example: '1628008053263'
+        lastMessageType:
+          type: string
+          description: Type of the last message sent/received in the conversation.
+          enum:
+          - TYPE_CALL
+          - TYPE_SMS
+          - TYPE_RCS
+          - TYPE_EMAIL
+          - TYPE_SMS_REVIEW_REQUEST
+          - TYPE_WEBCHAT
+          - TYPE_SMS_NO_SHOW_REQUEST
+          - TYPE_CAMPAIGN_SMS
+          - TYPE_CAMPAIGN_CALL
+          - TYPE_CAMPAIGN_EMAIL
+          - TYPE_CAMPAIGN_VOICEMAIL
+          - TYPE_FACEBOOK
+          - TYPE_CAMPAIGN_FACEBOOK
+          - TYPE_CAMPAIGN_MANUAL_CALL
+          - TYPE_CAMPAIGN_MANUAL_SMS
+          - TYPE_GMB
+          - TYPE_CAMPAIGN_GMB
+          - TYPE_REVIEW
+          - TYPE_INSTAGRAM
+          - TYPE_WHATSAPP
+          - TYPE_CUSTOM_SMS
+          - TYPE_CUSTOM_EMAIL
+          - TYPE_CUSTOM_PROVIDER_SMS
+          - TYPE_CUSTOM_PROVIDER_EMAIL
+          - TYPE_IVR_CALL
+          - TYPE_ACTIVITY_CONTACT
+          - TYPE_ACTIVITY_INVOICE
+          - TYPE_ACTIVITY_PAYMENT
+          - TYPE_ACTIVITY_OPPORTUNITY
+          - TYPE_LIVE_CHAT
+          - TYPE_LIVE_CHAT_INFO_MESSAGE
+          - TYPE_ACTIVITY_APPOINTMENT
+          - TYPE_FACEBOOK_COMMENT
+          - TYPE_INSTAGRAM_COMMENT
+          - TYPE_CUSTOM_CALL
+          - TYPE_INTERNAL_COMMENT
+          - TYPE_ACTIVITY_EMPLOYEE_ACTION_LOG
+          - TYPE_TIKTOK
+          - TYPE_TIKTOK_COMMENT
+          - TYPE_ACTIVITY_WHATSAPP
+          - TYPE_FORM_SUBMISSION
+          - TYPE_SMS_REACTION
+          example: TYPE_CALL
+        unreadCount:
+          type: number
+          description: Count of unread messages in the conversation
+          example: 1
+        inbox:
+          type: boolean
+          description: Inbox status of the conversation.
+          example: true
+        starred:
+          type: boolean
+          description: Starred status of the conversation.
+          example: true
+        deleted:
+          type: boolean
+          description: Deleted status of the conversation.
+          example: false
+      required:
+      - locationId
+      - contactId
+      - deleted
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Conversations
+  tags:
+  - Conversations
+  - Search
+  - Preference Management
+  - Email
+  - Messages
+  - Providers

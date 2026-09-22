@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-send-message-body-dto-schema.json",
+  "title": "SendMessageBodyDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-conversations-openapi.json#/components/schemas/SendMessageBodyDto",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "SMS",
+        "RCS",
+        "Email",
+        "WhatsApp",
+        "IG",
+        "FB",
+        "Custom",
+        "Live_Chat",
+        "TIKTOK"
+      ],
+      "description": "Type of message being sent"
+    },
+    "subType": {
+      "type": "object",
+      "description": "Type of message being sent"
+    },
+    "contactId": {
+      "type": "string",
+      "description": "ID of the contact receiving the message"
+    },
+    "appointmentId": {
+      "type": "string",
+      "description": "ID of the associated appointment"
+    },
+    "attachments": {
+      "description": "Array of attachment URLs",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "emailFrom": {
+      "type": "string",
+      "description": "Email address to send from"
+    },
+    "emailCc": {
+      "description": "Array of CC email addresses",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "emailBcc": {
+      "description": "Array of BCC email addresses",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "html": {
+      "type": "string",
+      "description": "HTML content of the message"
+    },
+    "message": {
+      "type": "string",
+      "description": "Text content of the message"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line for email messages"
+    },
+    "replyMessageId": {
+      "type": "string",
+      "description": "ID of message being replied to"
+    },
+    "templateId": {
+      "type": "string",
+      "description": "ID of message template"
+    },
+    "threadId": {
+      "type": "string",
+      "description": "ID of message thread. For email messages, this is the message ID that contains multiple email messages in the thread"
+    },
+    "scheduledTimestamp": {
+      "type": "number",
+      "description": "UTC Timestamp (in seconds) at which the message should be scheduled"
+    },
+    "conversationProviderId": {
+      "type": "string",
+      "description": "ID of conversation provider"
+    },
+    "emailTo": {
+      "type": "string",
+      "description": "Email address to send to, if different from contact's primary email. This should be a valid email address associated with the contact."
+    },
+    "customSubtypeId": {
+      "type": "string",
+      "description": "Custom subtype ID for email unsubscription preferences. Only applies to email messages."
+    },
+    "emailReplyMode": {
+      "type": "string",
+      "enum": [
+        "reply",
+        "reply_all"
+      ],
+      "description": "Mode for email replies"
+    },
+    "fromNumber": {
+      "type": "string",
+      "description": "Phone number used as the sender number for outbound messages"
+    },
+    "toNumber": {
+      "type": "string",
+      "description": "Recipient phone number for outbound messages"
+    },
+    "forward": {
+      "description": "Forwarding configuration for emails",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ForwardConfigDto"
+        }
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Message status",
+      "enum": [
+        "delivered",
+        "failed",
+        "pending",
+        "read"
+      ]
+    },
+    "usesNativeSchedulingAi": {
+      "type": "boolean",
+      "description": "Whether the scheduled email uses native AI for the email scheduling "
+    },
+    "optimizationPeriod": {
+      "type": "string",
+      "description": "Optimization period in hours (24h, 48h, or 72h)",
+      "enum": [
+        "24h",
+        "48h",
+        "72h"
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "subType",
+    "contactId",
+    "status"
+  ],
+  "$defs": {
+    "ForwardConfigDto": {
+      "type": "object",
+      "properties": {
+        "isForwarded": {
+          "type": "boolean",
+          "description": "Specify if this is a forwarded email"
+        },
+        "forwardWholeThread": {
+          "type": "boolean",
+          "description": "Specify if forwarding the whole thread or just a single email"
+        },
+        "messageId": {
+          "type": "string",
+          "description": "Message ID of the email thread being forwarded (source) - REQUIRED for forwarding"
+        },
+        "emailMessageId": {
+          "type": "string",
+          "description": "Email Message ID of the specific email being forwarded (source) - Required for single email forward, ignored for thread forward"
+        },
+        "sourceContactId": {
+          "type": "string",
+          "description": "Contact ID where the forwarded email originated from (source) - Auto-populated if not provided"
+        },
+        "sourceConversationId": {
+          "type": "string",
+          "description": "Conversation ID where the forwarded email originated from (source) - Auto-populated if not provided"
+        },
+        "toEmail": {
+          "type": "string",
+          "description": "Email address to forward to (destination)"
+        },
+        "recipientContactId": {
+          "type": "string",
+          "description": "Contact ID of recipient when forwarding (destination)"
+        },
+        "recipientConversationId": {
+          "type": "string",
+          "description": "Conversation ID of recipient when forwarding (destination)"
+        }
+      },
+      "required": [
+        "isForwarded"
+      ]
+    }
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-coupon-response-dto-schema.json",
+  "title": "CreateCouponResponseDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-payments-openapi.json#/components/schemas/CreateCouponResponseDto",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Unique MongoDB identifier for the coupon"
+    },
+    "usageCount": {
+      "type": "number",
+      "description": "Number of times the coupon has been used"
+    },
+    "limitPerCustomer": {
+      "type": "number",
+      "description": "Maximum number of times a customer can use this coupon (0 for unlimited)"
+    },
+    "altId": {
+      "type": "string",
+      "description": "Location Id"
+    },
+    "altType": {
+      "type": "string",
+      "description": "Type of entity"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the coupon"
+    },
+    "code": {
+      "type": "string",
+      "description": "Redemption code for the coupon"
+    },
+    "discountType": {
+      "type": "string",
+      "description": "Type of discount (percentage or amount)",
+      "enum": [
+        "percentage",
+        "amount"
+      ]
+    },
+    "discountValue": {
+      "type": "number",
+      "description": "Value of the discount (percentage or fixed amount)"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the coupon",
+      "enum": [
+        "scheduled",
+        "active",
+        "expired"
+      ]
+    },
+    "startDate": {
+      "type": "string",
+      "description": "Date when the coupon becomes active"
+    },
+    "endDate": {
+      "type": "string",
+      "description": "End date when the coupon expires"
+    },
+    "applyToFuturePayments": {
+      "type": "boolean",
+      "description": "Indicates if the coupon applies to future recurring payments"
+    },
+    "applyToFuturePaymentsConfig": {
+      "description": "Configuration for how the coupon applies to future payments",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ApplyToFuturePaymentsConfigDto"
+        }
+      ]
+    },
+    "userId": {
+      "type": "string",
+      "description": "User ID associated with the coupon (if applicable)"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "Creation timestamp"
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "Last update timestamp"
+    },
+    "traceId": {
+      "type": "string",
+      "description": "Unique identifier for tracing this API request"
+    }
+  },
+  "required": [
+    "_id",
+    "usageCount",
+    "limitPerCustomer",
+    "altId",
+    "altType",
+    "name",
+    "code",
+    "discountType",
+    "discountValue",
+    "status",
+    "startDate",
+    "applyToFuturePayments",
+    "applyToFuturePaymentsConfig",
+    "createdAt",
+    "updatedAt",
+    "traceId"
+  ],
+  "$defs": {
+    "ApplyToFuturePaymentsConfigDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of future payments configuration",
+          "enum": [
+            "forever",
+            "fixed"
+          ]
+        },
+        "duration": {
+          "type": "number",
+          "description": "Duration value for fixed type configurations"
+        },
+        "durationType": {
+          "type": "string",
+          "description": "Duration type for fixed configurations (e.g. months)"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  }
+}

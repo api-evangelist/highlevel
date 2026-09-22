@@ -1,0 +1,269 @@
+openapi: 3.2.0
+info:
+  title: CUSTOM_OBJECTS Search Object Records API
+  description: Custom objects are completely customizable objects that allow you to store and manage information tailored to your unique business needs. With custom objects, you can create custom fields, establish relationships, and integrate them into workflows, providing flexibility beyond standard objects like Contacts, Opportunities or Companies.
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Search Object Records
+  description: Custom objects are completely customizable objects that allow you to store and manage information tailored to your unique business needs. With custom objects, you can create custom fields, establish relationships, and integrate them into workflows, providing flexibility beyond standard objects like Contacts, Opportunities or Companies.
+paths:
+  /objects/{schemaKey}/records/search:
+    post:
+      operationId: search-object-records
+      summary: Search Object Records
+      description: Supported Objects are custom objects and standard objects like "business". Documentation Link - https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-379336
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: schemaKey
+        required: false
+        in: path
+        description: custom object key
+        schema:
+          example: 632c34b4c9b7da3358ac9891
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRecordsBody'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchRecordResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Search Object Records
+      security:
+      - bearer:
+        - objects/record.readonly
+components:
+  schemas:
+    SearchRecordResponseDTO:
+      type: object
+      properties:
+        records:
+          description: Records
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordResponseDTO'
+        total:
+          type: number
+          description: Total Number of records
+          example: 20
+      required:
+      - total
+    RecordResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 661c06b4ffde146bdb469442
+          description: id of the record
+        owner:
+          description: Owner (User's id). Limited to 1 for now . Only supported for custom objects for now
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+        followers:
+          description: Follower (User's ids). Limited to 10 and supported for custom objects for now
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - v5cEPM428h8vShlRW1KT
+          type: array
+          items:
+            type: string
+        properties:
+          type: string
+          example:
+            customer_number: 1424
+            ticket_name: Customer not able login
+            phone_number: '+917000000000'
+            money:
+              currency: default
+              value: 100
+            type_of_ticket: doubt
+            section_of_app:
+            - contacts
+            - smartlist
+            recieved_on: '2024-07-11'
+            my_files:
+            - url: '---url_of_file---'
+            my_textbox_list.option_a: Value 1
+            my_textbox_list.option_b: Value 2
+          description: Properties of the record
+        createdAt:
+          type: string
+          description: Date and time when the object was added
+          format: date-time
+        updatedAt:
+          type: string
+          description: Date and time when the object was last updated
+          format: date-time
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        objectId:
+          type: string
+          description: ObjectId Id
+          example: 6d6f6e676f5f6576656e7473
+        objectKey:
+          type: string
+          description: ObjectId key
+          example: custom_objects.pet
+        createdBy:
+          description: Created By Meta
+          allOf:
+          - $ref: '#/components/schemas/CreatedByResponseDTO'
+        lastUpdatedBy:
+          description: Last Updated By Meta
+          allOf:
+          - $ref: '#/components/schemas/CreatedByResponseDTO'
+        searchAfter:
+          example:
+          - 1738683828372
+          - 67a235b49b289431bcf657f8
+          type: array
+          items:
+            type: number
+      required:
+      - id
+      - owner
+      - followers
+      - properties
+      - createdAt
+      - updatedAt
+      - locationId
+      - objectId
+      - objectKey
+      - createdBy
+      - lastUpdatedBy
+      - searchAfter
+    SearchRecordsBody:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        page:
+          type: number
+          description: Page
+          example: 1
+        pageLimit:
+          type: number
+          description: Page Limit
+          example: 10
+        query:
+          type: string
+          example: Buddy
+          description: Pass this query parameter to search using your searchable properties. For example, if you have a custom object called “Pets” and have configured “name” as a searchable property, you can pass name:Buddy to search for pets with the name “Buddy.”
+        searchAfter:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - page
+      - pageLimit
+      - query
+      - searchAfter
+    CreatedByResponseDTO:
+      type: object
+      properties:
+        channel:
+          type: string
+          description: Creation Channel
+          example: WEB_USER
+        createdAt:
+          type: string
+          description: Created At
+          example: '2025-01-02T09:35:39.032Z'
+        source:
+          type: string
+          description: From where the record was created
+          example: PUBLIC_API
+        sourceId:
+          type: string
+          description: User/Resource Id
+          example: 26653146-ec82-435d-8a99-84ecdb7fde13
+      required:
+      - channel
+      - createdAt
+      - source
+      - sourceId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Objects
+  tags:
+  - Custom Objects Schema
+  - Object Schema
+  - Sub-Account (Formerly Location)
+  - Records
+  - Search Object Records
+  - Search
+  - Tags
+  - Tasks Search
+  - Custom Field
+  - Custom Value
+  - Timezone
+  - Template
+  - ElasticSearch

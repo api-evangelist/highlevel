@@ -1,0 +1,640 @@
+openapi: 3.2.0
+info:
+  title: Products Reviews API
+  description: Documentation for products API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Reviews
+  description: Documentation for products API
+paths:
+  /products/reviews:
+    get:
+      operationId: get-product-reviews
+      summary: Fetch Product Reviews
+      description: API to fetch the Product Reviews
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: The maximum number of items to be included in a single page of results
+        schema:
+          default: 0
+          example: 20
+          type: number
+      - name: offset
+        required: false
+        in: query
+        description: The starting index of the page, indicating the position from which the results should be retrieved.
+        schema:
+          default: 0
+          example: 0
+          type: number
+      - name: sortField
+        required: false
+        in: query
+        description: The field upon which the sort should be applied
+        schema:
+          example: rating
+          enum:
+          - createdAt
+          - rating
+          type: string
+      - name: sortOrder
+        required: false
+        in: query
+        description: The order of sort which should be applied for the sortField
+        schema:
+          example: desc
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: rating
+        required: false
+        in: query
+        description: 'Key to filter the ratings '
+        schema:
+          example: 4
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: The start date for filtering reviews
+        schema:
+          example: '2023-01-01T00:00:00Z'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: The end date for filtering reviews
+        schema:
+          example: '2023-12-31T23:59:59Z'
+          type: string
+      - name: productId
+        required: false
+        in: query
+        description: Comma-separated list of product IDs
+        schema:
+          example: 60d21b4667d0d8992e610c88,60d21b4667d0d8992e610c89,60d21b4667d0d8992e610c8a
+          type: string
+      - name: storeId
+        required: false
+        in: query
+        description: Comma-separated list of store IDs
+        schema:
+          example: 60d21b4667d0d8992e610c85,60d21b4667d0d8992e610c86,60d21b4667d0d8992e610c87
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProductReviewsResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Reviews
+      security:
+      - Location-Access:
+        - products.readonly
+  /products/reviews/count:
+    get:
+      operationId: get-reviews-count
+      summary: Fetch Review Count as per status
+      description: API to fetch the Review Count as per status
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: rating
+        required: false
+        in: query
+        description: 'Key to filter the ratings '
+        schema:
+          example: 4
+          type: number
+      - name: startDate
+        required: false
+        in: query
+        description: The start date for filtering reviews
+        schema:
+          example: '2023-01-01T00:00:00Z'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: The end date for filtering reviews
+        schema:
+          example: '2023-12-31T23:59:59Z'
+          type: string
+      - name: productId
+        required: false
+        in: query
+        description: Comma-separated list of product IDs
+        schema:
+          example: 60d21b4667d0d8992e610c88,60d21b4667d0d8992e610c89,60d21b4667d0d8992e610c8a
+          type: string
+      - name: storeId
+        required: false
+        in: query
+        description: Comma-separated list of store IDs
+        schema:
+          example: 60d21b4667d0d8992e610c85,60d21b4667d0d8992e610c86,60d21b4667d0d8992e610c87
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountReviewsByStatusResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Reviews
+      security:
+      - Location-Access:
+        - products.readonly
+  /products/reviews/{reviewId}:
+    put:
+      operationId: update-product-review
+      summary: Update Product Reviews
+      description: Update status, reply, etc of a particular review
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: reviewId
+        required: true
+        in: path
+        description: Review Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductReviewDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductReviewsResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Reviews
+      security:
+      - Location-Access:
+        - products.write
+    delete:
+      operationId: delete-product-review
+      summary: Delete Product Review
+      description: Delete specific product review
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: reviewId
+        required: true
+        in: path
+        description: Review Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: productId
+        required: true
+        in: query
+        description: Product Id of the product
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProductReviewResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Reviews
+      security:
+      - Location-Access:
+        - products.write
+  /products/reviews/bulk-update:
+    post:
+      operationId: bulk-update-product-review
+      summary: Update Product Reviews
+      description: 'Update one or multiple product reviews: status, reply, etc.'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductReviewsDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductReviewsResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Reviews
+      security:
+      - Location-Access:
+        - products.write
+components:
+  schemas:
+    ListProductReviewsResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of Collections
+          items:
+            type: array
+          type: array
+        total:
+          type: number
+          description: The total count of the collections present, which is useful to calculate the pagination
+      required:
+      - data
+      - total
+    UpdateProductReviewsDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        reviews:
+          description: Array of Product Reviews
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateProductReviewObjectDto'
+        status:
+          type: object
+          description: Status of the review
+          example: approved
+      required:
+      - altId
+      - altType
+      - reviews
+      - status
+    DeleteProductReviewResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    UserDetailsDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the customer
+          example: John Doe
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          description: Email of the customer
+          example: example@example.com
+        phone:
+          type: string
+          description: Phone no of the customer
+          example: +1-555-555-5555
+        isCustomer:
+          type: boolean
+          description: Is the person an admin or customer
+          example: true
+      required:
+      - name
+      - email
+    UpdateProductReviewObjectDto:
+      type: object
+      properties:
+        reviewId:
+          type: string
+          description: Review Id
+          example: 6578278e879ad2646715ba9c
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9d
+        storeId:
+          type: string
+          description: Store Id
+          example: a1b2c3d4e5f6g7h8i9j0k1l2
+      required:
+      - reviewId
+      - productId
+      - storeId
+    ProductReviewDto:
+      type: object
+      properties:
+        headline:
+          type: string
+          description: Headline of the Review
+          example: Amazing product with great quality
+          minLength: 0
+          maxLength: 200
+        comment:
+          type: string
+          description: Detailed Review of the product
+          example: This product exceeded my expectations in terms of quality and performance. Highly recommended!
+          minLength: 0
+          maxLength: 5000
+        user:
+          description: User who is giving the review/reply
+          allOf:
+          - $ref: '#/components/schemas/UserDetailsDto'
+      required:
+      - headline
+      - comment
+      - user
+    UpdateProductReviewDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: string
+          description: Status of the review
+          example: approved
+        reply:
+          description: Reply of the review
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductReviewDto'
+        rating:
+          type: number
+          description: Rating of the product
+          example: '4.5'
+        headline:
+          type: string
+          description: Headline of the Review
+          example: Amazing product with great quality
+        detail:
+          type: string
+          description: Detailed Review of the product
+          example: The product is for sure a must and recommended buy
+      required:
+      - altId
+      - altType
+      - productId
+      - status
+    UpdateProductReviewsResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    CountReviewsByStatusResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of review status counts
+          items:
+            type: array
+          type: array
+      required:
+      - data
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Products
+  tags:
+  - Products
+  - Prices
+  - Store
+  - Collections
+  - Reviews

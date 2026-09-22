@@ -1,0 +1,575 @@
+openapi: 3.2.0
+info:
+  title: Knowledge Base API
+  description: Documentation for Knowledge Base API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Knowledge Base
+  description: Documentation for Knowledge Base API
+paths:
+  /knowledge-bases/{knowledgeBaseId}:
+    get:
+      operationId: getKnowledgeBaseById
+      summary: Get knowledge base by ID
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: knowledgeBaseId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Knowledge base by ID retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKnowledgeBaseByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+      tags:
+      - Knowledge Base
+      security:
+      - Location-Access: []
+    delete:
+      operationId: deleteKnowledgeBase
+      summary: Delete a knowledge base
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: knowledgeBaseId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Knowledge base deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteKnowledgeBaseResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+      tags:
+      - Knowledge Base
+      security:
+      - Location-Access: []
+  /knowledge-bases/{id}:
+    put:
+      operationId: updateKnowledgeBase
+      summary: Update a knowledge base
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateKnowledgeBaseDTO'
+      responses:
+        '200':
+          description: Knowledge base updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateKnowledgeBaseResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+      tags:
+      - Knowledge Base
+      security:
+      - Location-Access: []
+  /knowledge-bases/:
+    get:
+      operationId: listAllKnowledgeBasesPaginated
+      summary: Get all knowledge bases for a location by location Id (paginated)
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: query
+        required: false
+        in: query
+        description: search query for knowledge base name
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Maximum number of knowledge bases to return
+        schema:
+          default: 20
+          example: 20
+          type: number
+      - name: lastKnowledgeBaseId
+        required: false
+        in: query
+        description: ID of the last knowledge base from the previous page (for pagination)
+        schema:
+          example: ZwTB8S0yo0FIBY6OPZTD
+          type: string
+      responses:
+        '200':
+          description: Paginated knowledge bases retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllKnowledgeBasesPaginatedResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+      tags:
+      - Knowledge Base
+      security:
+      - Location-Access: []
+    post:
+      operationId: createKnowledgeBase
+      summary: Create a new knowledge base (max 15 knowledge bases per location)
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKnowledgeBaseDTO'
+      responses:
+        '201':
+          description: Knowledge base created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateKnowledgeBaseResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+      tags:
+      - Knowledge Base
+      security:
+      - Location-Access: []
+components:
+  schemas:
+    CreateKnowledgeBaseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        locationId:
+          type: string
+      required:
+      - name
+      - locationId
+    GetAllKnowledgeBasesPaginatedResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        data:
+          description: Paginated knowledge bases data
+          allOf:
+          - $ref: '#/components/schemas/GetAllKnowledgeBasesPaginatedDataDTO'
+      required:
+      - success
+      - data
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    KnowledgeBaseMetadataDTO:
+      type: object
+      properties:
+        faqs:
+          type: number
+          description: Number of FAQs in the knowledge base
+          example: 2
+        urls:
+          type: number
+          description: Number of URLs in the knowledge base
+          example: 64
+        richText:
+          type: number
+          description: Number of rich text documents in the knowledge base
+          example: 0
+        files:
+          type: number
+          description: Number of files in the knowledge base
+          example: 0
+        webSearches:
+          type: number
+          description: Number of web searche configs in the knowledge base
+          example: 0
+        tables:
+          type: number
+          description: Number of tables in the knowledge base
+          example: 0
+      required:
+      - faqs
+      - urls
+      - richText
+      - files
+      - webSearches
+      - tables
+    DeleteKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+      - success
+    GetKnowledgeBaseByIdDataDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Knowledge base ID
+          example: Arc9QRauPKkSuMJO8D0m
+        name:
+          type: string
+          description: Knowledge base name
+          example: KB for Bot Training
+        nameLowerCase:
+          type: string
+          description: Knowledge base name in lowercase
+          example: kb for bot training
+        locationId:
+          type: string
+          description: Location ID
+          example: qIyivCmsuEOSnyoFYEej
+        deleted:
+          type: boolean
+          description: Whether the knowledge base is deleted
+          example: false
+        createdAt:
+          type: string
+          description: Date when knowledge base was created
+          example: '2025-08-01T07:50:41.244Z'
+        updatedAt:
+          type: string
+          description: Date when knowledge base was last updated
+          example: '2025-08-01T10:05:58.694Z'
+        kbMetadata:
+          description: Knowledge base metadata with content counts
+          allOf:
+          - $ref: '#/components/schemas/KnowledgeBaseMetadataDTO'
+        isDefault:
+          type: boolean
+          description: Whether the knowledge base is default or not
+          example: false
+      required:
+      - id
+      - name
+      - nameLowerCase
+      - locationId
+      - deleted
+      - createdAt
+      - updatedAt
+      - kbMetadata
+    UnauthorizedDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 401
+        message:
+          type: string
+          example: 'Invalid token: access token is invalid'
+        error:
+          type: string
+          example: Unauthorized
+    UpdateKnowledgeBaseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: field to update the name of the knowledge base
+        description:
+          type: string
+          description: field to update the description of the knowledge base
+    CreateKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        data:
+          description: Created knowledge base details
+          allOf:
+          - $ref: '#/components/schemas/KnowledgeBaseDataDTO'
+      required:
+      - success
+      - data
+    UpdateKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+      - success
+    KnowledgeBaseDataDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Knowledge base ID
+          example: ZwTB8S0yo0FIBY6OPZTD
+        name:
+          type: string
+          description: Knowledge base name
+          example: KB for Bot Training
+        nameLowerCase:
+          type: string
+          description: Knowledge base name in lowercase
+          example: kb for bot training
+        locationId:
+          type: string
+          description: Location ID
+          example: qIyivCmsuEOSnyoFYEej
+        kbMetadata:
+          type: object
+          description: Knowledge base metadata
+          example: {}
+        deleted:
+          type: boolean
+          description: Whether the knowledge base is deleted
+          example: false
+        createdAt:
+          type: string
+          description: Date when knowledge base was created
+          example: '2025-08-02T20:26:57.057Z'
+        updatedAt:
+          type: string
+          description: Date when knowledge base was last updated
+          example: '2025-08-02T20:26:57.057Z'
+      required:
+      - id
+      - name
+      - nameLowerCase
+      - locationId
+      - kbMetadata
+      - deleted
+      - createdAt
+      - updatedAt
+    GetAllKnowledgeBasesPaginatedDataDTO:
+      type: object
+      properties:
+        knowledgeBases:
+          description: Array of knowledge bases
+          type: array
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseListItemDTO'
+        activeCount:
+          type: number
+          description: Total count of all active knowledge bases
+          example: 16
+        hasMore:
+          type: boolean
+          description: Whether there are more knowledge bases available
+          example: true
+        lastKnowledgeBaseId:
+          type: string
+          description: ID of the last knowledge base in this page (use for next page request)
+          example: ZwTB8S0yo0FIBY6OPZTD
+      required:
+      - knowledgeBases
+      - activeCount
+      - hasMore
+    GetKnowledgeBaseByIdResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        data:
+          description: Knowledge base details
+          allOf:
+          - $ref: '#/components/schemas/GetKnowledgeBaseByIdDataDTO'
+      required:
+      - success
+      - data
+    KnowledgeBaseListItemDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Knowledge base ID
+          example: ZwTB8S0yo0FIBY6OPZTD
+        name:
+          type: string
+          description: Knowledge base name
+          example: bot training kb
+        createdAt:
+          type: string
+          description: Date when knowledge base was created
+          example: '2025-08-02T20:26:57.057Z'
+      required:
+      - id
+      - name
+      - createdAt
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Knowledge Base
+  tags:
+  - Knowledge Base
+  - Faqs
+  - Web Crawler

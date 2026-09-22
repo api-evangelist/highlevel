@@ -1,0 +1,418 @@
+generated: '2026-09-22'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/highlevel-account-api-openapi.yml
+- openapi/highlevel-actions-api-openapi.yml
+- openapi/highlevel-affiliates-api-openapi.yml
+- openapi/highlevel-agents-api-openapi.yml
+- openapi/highlevel-app-billing-management-api-openapi.yml
+vocabulary:
+  name: HighLevel Domain Vocabulary
+  description: 'Terms declared by HighLevel''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-09-22'
+  terms:
+  - term: Account
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-account-api-openapi.yml
+  - term: Actions
+    definition: Documentation for AI Employees API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-actions-api-openapi.yml
+  - term: Affiliates
+    definition: Documentation for Affiliate Manager API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-affiliates-api-openapi.yml
+  - term: Agents
+    definition: Documentation for Agent Studio APIs
+    tags:
+    - Resource Group
+    source: openapi/highlevel-agents-api-openapi.yml
+  - term: App Billing Management
+    definition: Documentation for Marketplace API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-app-billing-management-api-openapi.yml
+  - term: App Management
+    definition: Documentation for Marketplace API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-app-management-api-openapi.yml
+  - term: Appointment Notes
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-appointment-notes-api-openapi.yml
+  - term: Appointments
+    definition: Documentation for Contacts API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-appointments-api-openapi.yml
+  - term: Associations
+    definition: Documentation for Associations API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-associations-api-openapi.yml
+  - term: Availability
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-availability-api-openapi.yml
+  - term: Blogs
+    definition: Documentation for Blogs
+    tags:
+    - Resource Group
+    source: openapi/highlevel-blogs-api-openapi.yml
+  - term: Brand Boards
+    definition: Documentation for Brand Boards API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-brand-boards-api-openapi.yml
+  - term: Bulk
+    definition: Documentation for Contacts API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-bulk-api-openapi.yml
+  - term: Businesses
+    definition: Documentation for business API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-businesses-api-openapi.yml
+  - term: Calendar Events
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-calendar-events-api-openapi.yml
+  - term: Calendar Groups
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-calendar-groups-api-openapi.yml
+  - term: Calendar Notifications
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-calendar-notifications-api-openapi.yml
+  - term: 'Calendar Resources: Rooms & Equipments'
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-calendar-resources-rooms-equipments-api-openapi.yml
+  - term: Calendars
+    definition: Documentation for Calendars API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-calendars-api-openapi.yml
+  - term: Campaigns
+    definition: Documentation for Contacts API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-campaigns-api-openapi.yml
+  - term: Category
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-category-api-openapi.yml
+  - term: Collections
+    definition: Documentation for products API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-collections-api-openapi.yml
+  - term: Commissions
+    definition: Documentation for Affiliate Manager API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-commissions-api-openapi.yml
+  - term: Companies
+    definition: Documentation for Companies API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-companies-api-openapi.yml
+  - term: Contacts
+    definition: Documentation for Contacts API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-contacts-api-openapi.yml
+  - term: Conversations
+    definition: Documentation for Conversations API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-conversations-api-openapi.yml
+  - term: Coupons
+    definition: Documentation for payments API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-coupons-api-openapi.yml
+  - term: Courses
+    definition: API Service for Courses and Memberships
+    tags:
+    - Resource Group
+    source: openapi/highlevel-courses-api-openapi.yml
+  - term: CSV
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-csv-api-openapi.yml
+  - term: Custom Field
+    definition: Documentation for Sub-Account (Formerly location) API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-custom-field-api-openapi.yml
+  - term: Custom Fields V2
+    definition: Custom fields are data points that allow you to capture and store specific information tailored to your business requirements.
+      You can create fields across field types like text, numeric, selection options and special fields like date/time or signature
+    tags:
+    - Resource Group
+    source: openapi/highlevel-custom-fields-v2-api-openapi.yml
+  - term: Custom Menu Links
+    definition: Documentation for Custom menus API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-custom-menu-links-api-openapi.yml
+  - term: Custom Provider
+    definition: Documentation for payments API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-custom-provider-api-openapi.yml
+  - term: Custom Value
+    definition: Documentation for Sub-Account (Formerly location) API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-custom-value-api-openapi.yml
+  - term: Dashboard
+    definition: Documentation for Voice AI API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-dashboard-api-openapi.yml
+  - term: Email
+    definition: Documentation for Conversations API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-email-api-openapi.yml
+  - term: Email Verification
+    definition: Documentation for Email ISV API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-email-verification-api-openapi.yml
+  - term: Estimate
+    definition: Documentation for invoice API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-estimate-api-openapi.yml
+  - term: External Auth Migration
+    definition: Documentation for Marketplace API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-external-auth-migration-api-openapi.yml
+  - term: Facebook Ads
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-facebook-ads-api-openapi.yml
+  - term: Facebook Integration
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-facebook-integration-api-openapi.yml
+  - term: Facebook Reporting
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-facebook-reporting-api-openapi.yml
+  - term: FAQs
+    definition: Documentation for Knowledge Base API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-faqs-api-openapi.yml
+  - term: Followers
+    definition: Documentation for Contacts API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-followers-api-openapi.yml
+  - term: Forms
+    definition: Documentation for forms API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-forms-api-openapi.yml
+  - term: Funnel
+    definition: Documentation for funnels API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-funnel-api-openapi.yml
+  - term: Generations
+    definition: Documentation for AI Employees API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-generations-api-openapi.yml
+  - term: Google Ads
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-google-ads-api-openapi.yml
+  - term: Google Integration
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-google-integration-api-openapi.yml
+  - term: Google Reporting
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-google-reporting-api-openapi.yml
+  - term: Integrations
+    definition: Documentation for payments API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-integrations-api-openapi.yml
+  - term: Invoice
+    definition: Documentation for invoice API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-invoice-api-openapi.yml
+  - term: Knowledge Base
+    definition: Documentation for Knowledge Base API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-knowledge-base-api-openapi.yml
+  - term: LinkedIn Ads
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-linkedin-ads-api-openapi.yml
+  - term: LinkedIn Integration
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-linkedin-integration-api-openapi.yml
+  - term: LinkedIn Reporting
+    definition: Documentation for Ad-publishing API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-linkedin-reporting-api-openapi.yml
+  - term: Lost reason
+    definition: Documentation for Opportunities API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-lost-reason-api-openapi.yml
+  - term: Medias
+    definition: Documentation for Files API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-medias-api-openapi.yml
+  - term: Messages
+    definition: Documentation for Conversations API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-messages-api-openapi.yml
+  - term: Notes
+    definition: Documentation for Contacts API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-notes-api-openapi.yml
+  - term: Number Pools
+    definition: Documentation for number pools management
+    tags:
+    - Resource Group
+    source: openapi/highlevel-number-pools-api-openapi.yml
+  - term: OAuth 2.0
+    definition: Documentation for OAuth 2.0 API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-2-0-api-openapi.yml
+  - term: Oauth | Facebook
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-facebook-api-openapi.yml
+  - term: Oauth | Google
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-google-api-openapi.yml
+  - term: Oauth | Instagram
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-instagram-api-openapi.yml
+  - term: Oauth | LinkedIn
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-linkedin-api-openapi.yml
+  - term: Oauth | Tiktok
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-tiktok-api-openapi.yml
+  - term: Oauth | Twitter
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-oauth-twitter-api-openapi.yml
+  - term: Object Schema
+    definition: Custom objects are completely customizable objects that allow you to store and manage information tailored to your unique business
+      needs. With custom objects, you can create custom fields, establish relationships, and integrate them into workflows, providing flexibility
+      beyond standard objects like Contacts, Opportunities or Companies.
+    tags:
+    - Resource Group
+    source: openapi/highlevel-object-schema-api-openapi.yml
+  - term: Opportunities
+    definition: Documentation for Opportunities API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-opportunities-api-openapi.yml
+  - term: Order fulfillments
+    definition: Documentation for payments API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-order-fulfillments-api-openapi.yml
+  - term: Order Notes
+    definition: Documentation for payments API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-order-notes-api-openapi.yml
+  - term: Orders
+    definition: Documentation for payments API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-orders-api-openapi.yml
+  - term: Payouts
+    definition: Documentation for Affiliate Manager API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-payouts-api-openapi.yml
+  - term: Phone Numbers
+    definition: Documentation for phone numbers management
+    tags:
+    - Resource Group
+    source: openapi/highlevel-phone-numbers-api-openapi.yml
+  - term: Pipelines
+    definition: Documentation for Opportunities API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-pipelines-api-openapi.yml
+  - term: Post
+    definition: Documentation for Social Media Posting API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-post-api-openapi.yml
+  - term: Preference Management
+    definition: Documentation for Conversations API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-preference-management-api-openapi.yml
+  - term: Prices
+    definition: Documentation for products API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-prices-api-openapi.yml
+  - term: Products
+    definition: Documentation for products API
+    tags:
+    - Resource Group
+    source: openapi/highlevel-products-api-openapi.yml

@@ -1,0 +1,1374 @@
+openapi: 3.2.0
+info:
+  title: Calendars API
+  description: Documentation for Calendars API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Calendars
+  description: Documentation for Calendars API
+paths:
+  /calendars/{calendarId}/free-slots:
+    get:
+      operationId: get-slots
+      summary: Get Free Slots
+      description: Get free slots for a calendar between a date range. Optionally a consumer can also request free slots in a particular timezone and also for a particular user.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: calendarId
+        required: true
+        in: path
+        description: Calendar Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      - name: startDate
+        required: true
+        in: query
+        description: Start Date (**⚠️ Important:** Date range cannot be more than 31 days)
+        schema:
+          example: 1548898600000
+          type: number
+      - name: endDate
+        required: true
+        in: query
+        description: End Date (**⚠️ Important:** Date range cannot be more than 31 days)
+        schema:
+          example: 1601490599999
+          type: number
+      - name: timezone
+        required: false
+        in: query
+        description: The timezone in which the free slots are returned
+        schema:
+          example: America/Chihuahua
+          type: string
+      - name: userId
+        required: false
+        in: query
+        description: The user for whom the free slots are returned
+        schema:
+          example: 082goXVW3lIExEQPOnd3
+          type: string
+      - name: userIds
+        required: false
+        in: query
+        description: The users for whom the free slots are returned
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Availability map keyed by date (YYYY-MM-DD)
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/SlotsSchema'
+                example:
+                  '2024-10-28':
+                    slots:
+                    - '2024-10-28T10:00:00-05:00'
+                    - '2024-10-28T11:00:00-05:00'
+                  '2024-10-29':
+                    slots:
+                    - '2024-10-29T10:00:00-05:00'
+                    - '2024-10-29T14:30:00-05:00'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendars
+      security:
+      - bearer:
+        - calendars.readonly
+  /calendars/{calendarId}:
+    put:
+      operationId: update-calendar
+      summary: Update Calendar
+      description: Update calendar by ID.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: calendarId
+        required: true
+        in: path
+        description: Calendar Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalendarUpdateDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarByIdSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendars
+      security:
+      - bearer:
+        - calendars.write
+    get:
+      operationId: get-calendar
+      summary: Get Calendar
+      description: Get calendar by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: calendarId
+        required: true
+        in: path
+        description: Calendar Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarByIdSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendars
+      security:
+      - bearer:
+        - calendars.readonly
+    delete:
+      operationId: delete-calendar
+      summary: Delete Calendar
+      description: Delete calendar by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: calendarId
+        required: true
+        in: path
+        description: Calendar Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarDeleteSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendars
+      security:
+      - bearer:
+        - calendars.write
+  /calendars/:
+    get:
+      operationId: get-calendars
+      summary: Get Calendars
+      description: Get all calendars in a location.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: groupId
+        required: false
+        in: query
+        description: Group Id
+        schema:
+          example: BqTwX8QFwXzpegMve9EQ
+          type: string
+      - name: showDrafted
+        required: false
+        in: query
+        description: Show drafted
+        schema:
+          default: true
+          example: false
+          type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarsGetSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendars
+      security:
+      - bearer:
+        - calendars.readonly
+    post:
+      operationId: create-calendar
+      summary: Create Calendar
+      description: Create calendar in a location.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalendarCreateDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarByIdSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendars
+      security:
+      - bearer:
+        - calendars.write
+components:
+  schemas:
+    LocationConfigurationResponse:
+      type: object
+      properties:
+        kind:
+          type: string
+          description: Type of meeting location. zoom_conference/google_conference/ms_teams_conference is not supported in event calendar type
+          example: custom
+          enum:
+          - custom
+          - zoom_conference
+          - google_conference
+          - inbound_call
+          - outbound_call
+          - physical
+          - booker
+          - ms_teams_conference
+        location:
+          type: string
+          description: Address for meeting location. Not applicable on "zoom_conference", "google_conference" and "ms_teams_conference" kind
+          examples:
+          - '+14455550132'
+          - http://meet.google.com/your-meeting-location
+        meetingId:
+          type: string
+          description: Unique ID used to select a specific meeting location
+          example: my_conference_id
+      required:
+      - kind
+    CalendarDTO:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: Should the created calendar be active or draft
+          default: true
+        notifications:
+          description: 🚨 Deprecated! Please use 'Calendar Notifications APIs' instead.
+          deprecated: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarNotification'
+        locationId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        groupId:
+          type: string
+          description: Group Id
+          example: BqTwX8QFwXzpegMve9EQ
+        teamMembers:
+          description: 'Team members are for calendars of type: Round Robin, Collective, Class, Service. Personal calendar must have exactly one team member.'
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMemberResponse'
+        eventType:
+          type: string
+          enum:
+          - RoundRobin_OptimizeForAvailability
+          - RoundRobin_OptimizeForEqualDistribution
+          default: RoundRobin_OptimizeForAvailability
+        name:
+          type: string
+          example: test calendar
+        description:
+          type: string
+          example: this is used for testing
+        slug:
+          type: string
+          example: test1
+        widgetSlug:
+          type: string
+          example: test1
+        calendarType:
+          type: string
+          enum:
+          - round_robin
+          - event
+          - class_booking
+          - collective
+          - service_booking
+          - personal
+        widgetType:
+          type: string
+          description: Calendar widget type. Choose "default" for "neo" and "classic" for "classic" layout.
+          example: classic
+          enum:
+          - default
+          - classic
+          default: classic
+        eventTitle:
+          type: string
+          default: '{{contact.name}}'
+        eventColor:
+          type: string
+          default: '#039be5'
+        meetingLocation:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.location` or `teamMembers[].locationConfigurations.location` instead.
+          deprecated: true
+          readOnly: true
+        locationConfigurations:
+          description: Meeting location configuration for event calendar
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationConfigurationResponse'
+        slotDuration:
+          type: number
+          description: This controls the duration of the meeting
+          default: 30
+        slotDurationUnit:
+          type: string
+          description: Unit for slot duration.
+          enum:
+          - mins
+          - hours
+        slotInterval:
+          type: number
+          description: Slot interval reflects the amount of time the between booking slots that will be shown in the calendar.
+          default: 30
+        slotIntervalUnit:
+          type: string
+          description: Unit for slot interval.
+          enum:
+          - mins
+          - hours
+        slotBuffer:
+          type: number
+          description: Slot-Buffer is additional time that can be added after an appointment, allowing for extra time to wrap up
+        slotBufferUnit:
+          type: string
+          description: Unit for slot buffer.
+          enum:
+          - mins
+          - hours
+        preBuffer:
+          type: number
+          description: Pre-Buffer is additional time that can be added before an appointment, allowing for extra time to get ready
+        preBufferUnit:
+          type: string
+          description: Unit for pre-buffer.
+          enum:
+          - mins
+          - hours
+        appoinmentPerSlot:
+          type: number
+          default: 1
+          description: Maximum bookings per slot (per user). Maximum seats per slot in case of Class Booking Calendar.
+        appoinmentPerDay:
+          type: number
+          description: Number of appointments that can be booked for a given day
+        allowBookingAfter:
+          type: number
+          description: Minimum scheduling notice for events
+        allowBookingAfterUnit:
+          type: string
+          description: Unit for minimum scheduling notice
+          enum:
+          - hours
+          - days
+          - weeks
+          - months
+          example: days
+        allowBookingFor:
+          type: number
+          description: Minimum number of days/weeks/months for which to allow booking events
+        allowBookingForUnit:
+          type: string
+          description: Unit for controlling the duration for which booking would be allowed for
+          enum:
+          - days
+          - weeks
+          - months
+          example: days
+        openHours:
+          description: This is only to set the standard availability. For custom availability, use the availabilities property
+          type: array
+          items:
+            $ref: '#/components/schemas/OpenHour'
+        enableRecurring:
+          type: boolean
+          description: Enable recurring appointments for the calendars. Please note that only one member should be added in the calendar to enable this
+          default: false
+        recurring:
+          $ref: '#/components/schemas/Recurring'
+        formId:
+          type: string
+        stickyContact:
+          type: boolean
+        isLivePaymentMode:
+          type: boolean
+        autoConfirm:
+          type: boolean
+          default: true
+        shouldSendAlertEmailsToAssignedMember:
+          type: boolean
+        alertEmail:
+          type: string
+        googleInvitationEmails:
+          type: boolean
+          default: false
+        allowReschedule:
+          type: boolean
+          default: true
+        allowCancellation:
+          type: boolean
+          default: true
+        shouldAssignContactToTeamMember:
+          type: boolean
+        shouldSkipAssigningContactForExisting:
+          type: boolean
+        notes:
+          type: string
+        pixelId:
+          type: string
+        formSubmitType:
+          type: string
+          default: ThankYouMessage
+          enum:
+          - RedirectURL
+          - ThankYouMessage
+        formSubmitRedirectURL:
+          type: string
+        formSubmitThanksMessage:
+          type: string
+        availabilityType:
+          type: number
+          description: 'Determines which availability type to consider:
+
+            - **1**: Only custom availabilities will be used.
+
+            - **0**: Only open hours will be used.
+
+            - **null**: Both custom availabilities and open hours will be considered.'
+          enum:
+          - 0
+          - 1
+        availabilities:
+          description: This is only to set the custom availability. For standard availability, use the openHours property
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+        guestType:
+          type: string
+          enum:
+          - count_only
+          - collect_detail
+        consentLabel:
+          type: string
+        calendarCoverImage:
+          type: string
+          example: https://path-to-image.com
+        lookBusyConfig:
+          description: Look Busy Configuration
+          allOf:
+          - $ref: '#/components/schemas/LookBusyConfiguration'
+        id:
+          type: string
+          example: 0TkCdp9PfvLeWKYRRvIz
+      required:
+      - locationId
+      - name
+      - id
+    Availability:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Formulate the date string in the format of `<YYYY-MM-DD in local timezone>T00:00:00.000Z`.
+          example: '2023-09-24T00:00:00.000Z'
+        hours:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hour'
+        deleted:
+          type: boolean
+          default: false
+      required:
+      - date
+      - hours
+    LocationConfiguration:
+      type: object
+      properties:
+        kind:
+          type: string
+          description: Type of meeting location. zoom_conference/google_conference/ms_teams_conference is not supported in event calendar type
+          example: custom
+          enum:
+          - custom
+          - zoom_conference
+          - google_conference
+          - inbound_call
+          - outbound_call
+          - physical
+          - booker
+          - ms_teams_conference
+        location:
+          type: string
+          description: Address for meeting location. Not applicable on "zoom_conference", "google_conference" and "ms_teams_conference" kind
+          examples:
+          - '+14455550132'
+          - http://meet.google.com/your-meeting-location
+      required:
+      - kind
+    Hour:
+      type: object
+      properties:
+        openHour:
+          type: number
+          minimum: 0
+          maximum: 23
+        openMinute:
+          type: number
+          minimum: 0
+          maximum: 60
+        closeHour:
+          type: number
+          minimum: 0
+          maximum: 23
+        closeMinute:
+          type: number
+          minimum: 0
+          maximum: 60
+      required:
+      - openHour
+      - openMinute
+      - closeHour
+      - closeMinute
+    CalendarCreateDTO:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: Should the created calendar be active or draft
+          default: true
+        notifications:
+          description: 🚨 Deprecated! Please use 'Calendar Notifications APIs' instead.
+          deprecated: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarNotification'
+        locationId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        groupId:
+          type: string
+          description: Group Id
+          example: BqTwX8QFwXzpegMve9EQ
+        teamMembers:
+          description: 'Team members are required for calendars of type: Round Robin, Collective, Class, Service. Personal calendar must have exactly one team member.'
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMember'
+        eventType:
+          type: string
+          enum:
+          - RoundRobin_OptimizeForAvailability
+          - RoundRobin_OptimizeForEqualDistribution
+          default: RoundRobin_OptimizeForAvailability
+        name:
+          type: string
+          example: test calendar
+        description:
+          type: string
+          example: this is used for testing
+        slug:
+          type: string
+          example: test1
+        widgetSlug:
+          type: string
+          example: test1
+        calendarType:
+          type: string
+          enum:
+          - round_robin
+          - event
+          - class_booking
+          - collective
+          - service_booking
+          - personal
+        widgetType:
+          type: string
+          description: Calendar widget type. Choose "default" for "neo" and "classic" for "classic" layout.
+          example: classic
+          enum:
+          - default
+          - classic
+          default: classic
+        eventTitle:
+          type: string
+          default: '{{contact.name}}'
+        eventColor:
+          type: string
+          default: '#039be5'
+        meetingLocation:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.location` or `teamMembers[].locationConfigurations.location` instead.
+          deprecated: true
+          readOnly: true
+        locationConfigurations:
+          description: Meeting location configuration for event calendar
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationConfiguration'
+        slotDuration:
+          type: number
+          description: This controls the duration of the meeting
+          default: 30
+        slotDurationUnit:
+          type: string
+          description: Unit for slot duration.
+          enum:
+          - mins
+          - hours
+        slotInterval:
+          type: number
+          description: Slot interval reflects the amount of time the between booking slots that will be shown in the calendar.
+          default: 30
+        slotIntervalUnit:
+          type: string
+          description: Unit for slot interval.
+          enum:
+          - mins
+          - hours
+        slotBuffer:
+          type: number
+          description: Slot-Buffer is additional time that can be added after an appointment, allowing for extra time to wrap up
+        slotBufferUnit:
+          type: string
+          description: Unit for slot buffer.
+          enum:
+          - mins
+          - hours
+        preBuffer:
+          type: number
+          description: Pre-Buffer is additional time that can be added before an appointment, allowing for extra time to get ready
+        preBufferUnit:
+          type: string
+          description: Unit for pre-buffer.
+          enum:
+          - mins
+          - hours
+        appoinmentPerSlot:
+          type: number
+          default: 1
+          description: Maximum bookings per slot (per user). Maximum seats per slot in case of Class Booking Calendar.
+        appoinmentPerDay:
+          type: number
+          description: Number of appointments that can be booked for a given day
+        allowBookingAfter:
+          type: number
+          description: Minimum scheduling notice for events
+        allowBookingAfterUnit:
+          type: string
+          description: Unit for minimum scheduling notice
+          enum:
+          - hours
+          - days
+          - weeks
+          - months
+          example: days
+        allowBookingFor:
+          type: number
+          description: Minimum number of days/weeks/months for which to allow booking events
+        allowBookingForUnit:
+          type: string
+          description: Unit for controlling the duration for which booking would be allowed for
+          enum:
+          - days
+          - weeks
+          - months
+          example: days
+        openHours:
+          description: This is only to set the standard availability. For custom availability, use the availabilities property
+          type: array
+          items:
+            $ref: '#/components/schemas/OpenHour'
+        enableRecurring:
+          type: boolean
+          description: Enable recurring appointments for the calendars. Please note that only one member should be added in the calendar to enable this
+          default: false
+        recurring:
+          $ref: '#/components/schemas/Recurring'
+        formId:
+          type: string
+        stickyContact:
+          type: boolean
+        isLivePaymentMode:
+          type: boolean
+        autoConfirm:
+          type: boolean
+          default: true
+        shouldSendAlertEmailsToAssignedMember:
+          type: boolean
+        alertEmail:
+          type: string
+        googleInvitationEmails:
+          type: boolean
+          default: false
+        allowReschedule:
+          type: boolean
+          default: true
+        allowCancellation:
+          type: boolean
+          default: true
+        shouldAssignContactToTeamMember:
+          type: boolean
+        shouldSkipAssigningContactForExisting:
+          type: boolean
+        notes:
+          type: string
+        pixelId:
+          type: string
+        formSubmitType:
+          type: string
+          default: ThankYouMessage
+          enum:
+          - RedirectURL
+          - ThankYouMessage
+        formSubmitRedirectURL:
+          type: string
+        formSubmitThanksMessage:
+          type: string
+        availabilityType:
+          type: number
+          description: 'Determines which availability type to consider:
+
+            - **1**: Only custom availabilities will be used.
+
+            - **0**: Only open hours will be used.
+
+            - **null**: Both custom availabilities and open hours will be considered.'
+          enum:
+          - 0
+          - 1
+        availabilities:
+          description: This is only to set the custom availability. For standard availability, use the openHours property
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+        guestType:
+          type: string
+          enum:
+          - count_only
+          - collect_detail
+        consentLabel:
+          type: string
+        calendarCoverImage:
+          type: string
+          example: https://path-to-image.com
+        lookBusyConfig:
+          description: Look Busy Configuration
+          allOf:
+          - $ref: '#/components/schemas/LookBusyConfiguration'
+      required:
+      - locationId
+      - name
+    CalendarsGetSuccessfulResponseDTO:
+      type: object
+      properties:
+        calendars:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarDTO'
+    CalendarNotification:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Calendar Notification
+          example: email
+          enum:
+          - email
+          default: email
+        shouldSendToContact:
+          type: boolean
+        shouldSendToGuest:
+          type: boolean
+        shouldSendToUser:
+          type: boolean
+        shouldSendToSelectedUsers:
+          type: boolean
+        selectedUsers:
+          type: string
+          description: Comma separated emails
+          example: user1@testemail.com,user2@testemail.com
+      required:
+      - shouldSendToContact
+      - shouldSendToGuest
+      - shouldSendToUser
+      - shouldSendToSelectedUsers
+      - selectedUsers
+    OpenHour:
+      type: object
+      properties:
+        daysOfTheWeek:
+          type: array
+          items:
+            type: number
+            maximum: 6
+            minimum: 0
+        hours:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hour'
+      required:
+      - daysOfTheWeek
+      - hours
+    CalendarDeleteSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success
+          example: 'true'
+      required:
+      - success
+    Recurring:
+      type: object
+      properties:
+        freq:
+          type: string
+          enum:
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+        count:
+          type: number
+          description: Number of recurrences
+          maximum: 24
+        bookingOption:
+          type: string
+          description: This setting contols what to do incase a recurring slot is unavailable
+          enum:
+          - skip
+          - continue
+          - book_next
+        bookingOverlapDefaultStatus:
+          type: string
+          description: This setting contols what to do incase a recurring slot is unavailable
+          enum:
+          - confirmed
+          - new
+    SlotsSchema:
+      type: object
+      properties:
+        slots:
+          example:
+          - '2024-10-28T10:00:00-05:00'
+          - '2024-10-28T11:00:00-05:00'
+          type: array
+          items:
+            type: string
+      required:
+      - slots
+    UpdateAvailability:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Formulate the date string in the format of `<YYYY-MM-DD in local timezone>T00:00:00.000Z`.
+          example: '2023-09-24T00:00:00.000Z'
+        hours:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hour'
+        deleted:
+          type: boolean
+          default: false
+        id:
+          type: string
+          description: The ID of the custom availability object. It is required while updating or deleting the existing custom date availability
+      required:
+      - date
+      - hours
+    CalendarUpdateDTO:
+      type: object
+      properties:
+        notifications:
+          description: 🚨 Deprecated! Please use 'Calendar Notifications APIs' instead.
+          deprecated: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarNotification'
+        groupId:
+          type: string
+          description: Group Id
+          example: BqTwX8QFwXzpegMve9EQ
+        teamMembers:
+          description: 'Team members are required for calendars of type: Round Robin, Collective, Class, Service. Personal calendar must have exactly one team member.'
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamMember'
+        eventType:
+          type: string
+          enum:
+          - RoundRobin_OptimizeForAvailability
+          - RoundRobin_OptimizeForEqualDistribution
+        name:
+          type: string
+          example: test calendar
+        description:
+          type: string
+          example: this is used for testing
+        slug:
+          type: string
+          example: test1
+        widgetSlug:
+          type: string
+          example: test1
+        widgetType:
+          type: string
+          description: Calendar widget type. Choose "default" for "neo" and "classic" for "classic" layout.
+          example: classic
+          enum:
+          - default
+          - classic
+          default: classic
+        eventTitle:
+          type: string
+        eventColor:
+          type: string
+          default: '#039be5'
+        locationConfigurations:
+          description: Meeting location configuration for event calendar
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationConfiguration'
+        meetingLocation:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.location` or `teamMembers[].locationConfigurations.location` instead.
+          deprecated: true
+          readOnly: true
+        slotDuration:
+          type: number
+          description: This controls the duration of the meeting
+          default: 30
+        slotDurationUnit:
+          type: string
+          description: Unit for slot duration.
+          enum:
+          - mins
+          - hours
+        preBufferUnit:
+          type: string
+          description: Unit for pre-buffer.
+          enum:
+          - mins
+          - hours
+        slotInterval:
+          type: number
+          description: Slot interval reflects the amount of time the between booking slots that will be shown in the calendar.
+          default: 30
+        slotIntervalUnit:
+          type: string
+          description: Unit for slot interval.
+          enum:
+          - mins
+          - hours
+        slotBuffer:
+          type: number
+          description: Slot-Buffer is additional time that can be added after an appointment, allowing for extra time to wrap up
+        preBuffer:
+          type: number
+          description: Pre-Buffer is additional time that can be added before an appointment, allowing for extra time to get ready
+        appoinmentPerSlot:
+          type: number
+        appoinmentPerDay:
+          type: number
+          description: Number of appointments that can be booked for a given day
+        allowBookingAfter:
+          type: number
+          description: Minimum scheduling notice for events
+        allowBookingAfterUnit:
+          type: string
+          description: Unit for minimum scheduling notice
+          enum:
+          - hours
+          - days
+          - weeks
+          - months
+          example: days
+        allowBookingFor:
+          type: number
+          description: Minimum number of days/weeks/months for which to allow booking events
+        allowBookingForUnit:
+          type: string
+          description: Unit for controlling the duration for which booking would be allowed for
+          enum:
+          - days
+          - weeks
+          - months
+          example: days
+        openHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpenHour'
+        enableRecurring:
+          type: boolean
+          description: Enable recurring appointments for the calendars. Please note that only one member should be added in the calendar to enable this
+          default: false
+        recurring:
+          $ref: '#/components/schemas/Recurring'
+        formId:
+          type: string
+        stickyContact:
+          type: boolean
+        isLivePaymentMode:
+          type: boolean
+        autoConfirm:
+          type: boolean
+        shouldSendAlertEmailsToAssignedMember:
+          type: boolean
+        alertEmail:
+          type: string
+        googleInvitationEmails:
+          type: boolean
+        allowReschedule:
+          type: boolean
+        allowCancellation:
+          type: boolean
+        shouldAssignContactToTeamMember:
+          type: boolean
+        shouldSkipAssigningContactForExisting:
+          type: boolean
+        notes:
+          type: string
+        pixelId:
+          type: string
+        formSubmitType:
+          type: string
+          default: ThankYouMessage
+          enum:
+          - RedirectURL
+          - ThankYouMessage
+        formSubmitRedirectURL:
+          type: string
+        formSubmitThanksMessage:
+          type: string
+        availabilityType:
+          type: number
+          description: 'Determines which availability type to consider:
+
+            - **1**: Only custom availabilities will be used.
+
+            - **0**: Only open hours will be used.
+
+            - **null**: Both the custom availabilities and open hours will be considered.'
+          enum:
+          - 0
+          - 1
+        availabilities:
+          description: This is only to set the custom availability. For standard availability, use the openHours property
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateAvailability'
+        guestType:
+          type: string
+          enum:
+          - count_only
+          - collect_detail
+        consentLabel:
+          type: string
+        calendarCoverImage:
+          type: string
+        lookBusyConfig:
+          description: Look Busy Configuration
+          allOf:
+          - $ref: '#/components/schemas/LookBusyConfiguration'
+        isActive:
+          type: boolean
+    TeamMember:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        priority:
+          type: number
+          default: 0.5
+          enum:
+          - 0
+          - 0.5
+          - 1
+        meetingLocationType:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.kind` instead.
+          deprecated: true
+          example: custom
+          default: custom
+          readOnly: true
+          enum:
+          - custom
+          - zoom
+          - gmeet
+          - phone
+          - address
+          - teams
+          - booker
+        meetingLocation:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.location` instead.
+          deprecated: true
+          readOnly: true
+        isPrimary:
+          type: boolean
+          description: Marks a user as primary. This property is required in case of collective booking calendars. Only one user can be primary.
+        locationConfigurations:
+          description: 'Meeting location configuration for event calendar.
+
+            - *Multiple locations are allowed only when one team member is selected.*
+
+            - *For **Class booking** and **Collective** calendars, only one location configuration is allowed for each team member.*'
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationConfiguration'
+      required:
+      - userId
+    TeamMemberResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        priority:
+          type: number
+          default: 0.5
+          enum:
+          - 0
+          - 0.5
+          - 1
+        meetingLocationType:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.kind` instead.
+          deprecated: true
+          example: custom
+          default: custom
+          readOnly: true
+          enum:
+          - custom
+          - zoom
+          - gmeet
+          - phone
+          - address
+          - teams
+          - booker
+        meetingLocation:
+          type: string
+          description: 🚨 Deprecated! Use `locationConfigurations.location` instead.
+          deprecated: true
+          readOnly: true
+        isPrimary:
+          type: boolean
+          description: Marks a user as primary. This property is required in case of collective booking calendars. Only one user can be primary.
+        locationConfigurations:
+          description: Meeting location configurations
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationConfigurationResponse'
+      required:
+      - userId
+    CalendarByIdSuccessfulResponseDTO:
+      type: object
+      properties:
+        calendar:
+          $ref: '#/components/schemas/CalendarDTO'
+      required:
+      - calendar
+    LookBusyConfiguration:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Apply Look Busy
+          example: true
+          default: false
+        LookBusyPercentage:
+          type: number
+          description: Percentage of slots that will be hidden
+      required:
+      - enabled
+      - LookBusyPercentage
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Calendars
+  tags:
+  - Calendars
+  - Calendar Groups
+  - Calendar Events
+  - Appointment Notes
+  - 'Calendar Resources: Rooms & Equipments'
+  - Calendar Notifications
+  - Availability

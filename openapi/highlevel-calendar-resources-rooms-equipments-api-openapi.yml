@@ -1,0 +1,487 @@
+openapi: 3.2.0
+info:
+  title: 'Calendars Calendar Resources: Rooms & Equipments API'
+  description: Documentation for Calendars API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: 'Calendar Resources: Rooms & Equipments'
+  description: Documentation for Calendars API
+paths:
+  /calendars/resources/{resourceType}/{id}:
+    get:
+      operationId: get-calendar-resource
+      summary: Get Calendar Resource
+      description: Get calendar resource by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: resourceType
+        required: true
+        in: path
+        description: Calendar Resource Type
+        schema:
+          enum:
+          - equipments
+          - rooms
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Calendar Resource ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Calendar resource fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarResourceByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - 'Calendar Resources: Rooms & Equipments'
+      security:
+      - Location-Access:
+        - calendars/resources.readonly
+    put:
+      operationId: update-calendar-resource
+      summary: Update Calendar Resource
+      description: Update calendar resource by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: resourceType
+        required: true
+        in: path
+        description: Calendar Resource Type
+        schema:
+          enum:
+          - equipments
+          - rooms
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Calendar Resource ID
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCalendarResourceDTO'
+      responses:
+        '200':
+          description: Calendar resource updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarResourceResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - 'Calendar Resources: Rooms & Equipments'
+      security:
+      - Location-Access:
+        - calendars/resources.write
+    delete:
+      operationId: delete-calendar-resource
+      summary: Delete Calendar Resource
+      description: Delete calendar resource by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: resourceType
+        required: true
+        in: path
+        description: Calendar Resource Type
+        schema:
+          enum:
+          - equipments
+          - rooms
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Calendar Resource ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Calendar resource deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceDeleteResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - 'Calendar Resources: Rooms & Equipments'
+      security:
+      - Location-Access:
+        - calendars/resources.write
+  /calendars/resources/{resourceType}:
+    get:
+      operationId: fetch-calendar-resources
+      summary: List Calendar Resources
+      description: List calendar resources by resource type and location ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: resourceType
+        required: true
+        in: path
+        description: Calendar Resource Type
+        schema:
+          enum:
+          - equipments
+          - rooms
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: number
+      - name: skip
+        required: true
+        in: query
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Calendar resources listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CalendarResourceByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - 'Calendar Resources: Rooms & Equipments'
+      security:
+      - Location-Access:
+        - calendars/resources.readonly
+    post:
+      operationId: create-calendar-resource
+      summary: Create Calendar Resource
+      description: Create calendar resource by resource type
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: resourceType
+        required: true
+        in: path
+        description: Calendar Resource Type
+        schema:
+          enum:
+          - equipments
+          - rooms
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCalendarResourceDTO'
+      responses:
+        '201':
+          description: Calendar resource created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarResourceByIdResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - 'Calendar Resources: Rooms & Equipments'
+      security:
+      - Location-Access:
+        - calendars/resources.write
+components:
+  schemas:
+    CalendarResourceByIdResponseDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID of the resource
+        name:
+          type: string
+          description: Name of the resource
+          example: yoga room
+        resourceType:
+          type: string
+          enum:
+          - equipments
+          - rooms
+        isActive:
+          type: boolean
+          description: Whether the resource is active
+        description:
+          type: string
+          description: Description of the resource
+        quantity:
+          type: number
+          description: Quantity of the resource
+        outOfService:
+          type: number
+          description: Indicates if the resource is out of service
+          example: 0
+        capacity:
+          type: number
+          description: Capacity of the resource
+          example: 85
+        calendarIds:
+          description: Calendar IDs
+          example:
+          - Jsj0xnlDDjw0SuvX1J13
+          - oCM5feFC86FAAbcO7lJK
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - name
+      - resourceType
+      - isActive
+      - calendarIds
+    CreateCalendarResourceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+          description: Quantity of the equipment.
+        outOfService:
+          type: number
+          description: Quantity of the out of service equipment.
+        capacity:
+          type: number
+          description: Capacity of the room.
+        calendarIds:
+          description: "Service calendar IDs to be mapped with the resource.\n\n    One equipment can only be mapped with one service calendar.\n    \nOne room can be mapped with multiple service calendars."
+          maxItems: 100
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - name
+      - description
+      - quantity
+      - outOfService
+      - capacity
+      - calendarIds
+    ResourceDeleteResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success
+          example: 'true'
+    UpdateCalendarResourceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+          description: Quantity of the equipment.
+        outOfService:
+          type: number
+          description: Quantity of the out of service equipment.
+        capacity:
+          type: number
+          description: Capacity of the room.
+        calendarIds:
+          description: "Service calendar IDs to be mapped with the resource.\n\n    One equipment can only be mapped with one service calendar.\n    \nOne room can be mapped with multiple service calendars."
+          maxItems: 100
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+    CalendarResourceResponseDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID of the resource
+        name:
+          type: string
+          description: Name of the resource
+          example: yoga room
+        resourceType:
+          type: string
+          enum:
+          - equipments
+          - rooms
+        isActive:
+          type: boolean
+          description: Whether the resource is active
+        description:
+          type: string
+          description: Description of the resource
+        quantity:
+          type: number
+          description: Quantity of the resource
+        outOfService:
+          type: number
+          description: Indicates if the resource is out of service
+          example: 0
+        capacity:
+          type: number
+          description: Capacity of the resource
+          example: 85
+      required:
+      - locationId
+      - name
+      - resourceType
+      - isActive
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Calendars
+  tags:
+  - Calendars
+  - Calendar Groups
+  - Calendar Events
+  - Appointment Notes
+  - 'Calendar Resources: Rooms & Equipments'
+  - Calendar Notifications
+  - Availability

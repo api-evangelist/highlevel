@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-get-conversation-by-id-response-schema.json",
+  "title": "GetConversationByIdResponse",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-conversations-openapi.json#/components/schemas/GetConversationByIdResponse",
+  "type": "object",
+  "properties": {
+    "contactId": {
+      "type": "string",
+      "description": "Unique identifier of the contact associated with this conversation"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Unique identifier of the business location where this conversation takes place"
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Flag indicating if this conversation has been moved to trash/deleted"
+    },
+    "inbox": {
+      "type": "boolean",
+      "description": "Flag indicating if this conversation is currently in the main inbox view"
+    },
+    "type": {
+      "type": "number",
+      "description": "Communication channel type for this conversation: 1 (Phone), 2 (Email), 3 (Facebook Messenger), 4 (Review), 5 (Group SMS), 6 (Internal Chat - coming soon)"
+    },
+    "unreadCount": {
+      "type": "number",
+      "description": "Number of messages in this conversation that have not been read by the user"
+    },
+    "assignedTo": {
+      "type": "string",
+      "description": "Unique identifier of the team member currently responsible for handling this conversation"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this specific conversation thread"
+    },
+    "starred": {
+      "type": "boolean",
+      "description": "Flag indicating if this conversation has been marked as important/starred by the user"
+    }
+  },
+  "required": [
+    "contactId",
+    "locationId",
+    "deleted",
+    "inbox",
+    "type",
+    "unreadCount",
+    "id"
+  ]
+}

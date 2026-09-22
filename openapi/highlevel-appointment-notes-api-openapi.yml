@@ -1,0 +1,322 @@
+openapi: 3.2.0
+info:
+  title: Calendars Appointment Notes API
+  description: Documentation for Calendars API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Appointment Notes
+  description: Documentation for Calendars API
+paths:
+  /calendars/appointments/{appointmentId}/notes:
+    get:
+      operationId: get-appointment-notes
+      summary: Get Notes
+      description: Get Appointment Notes
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: limit
+        required: true
+        in: query
+        description: Limit of notes to fetch
+        schema:
+          maximum: 20
+          example: 10
+          type: number
+      - name: offset
+        required: true
+        in: query
+        description: Offset of notes to fetch
+        schema:
+          minimum: 0
+          example: 0
+          type: number
+      - name: appointmentId
+        required: true
+        in: path
+        description: Appointment ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNotesListSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Appointment Notes
+      security:
+      - bearer:
+        - calendars/events.readonly
+    post:
+      operationId: create-appointment-note
+      summary: Create Note
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: appointmentId
+        required: true
+        in: path
+        description: Appointment ID
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotesDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCreateUpdateNoteSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Appointment Notes
+      security:
+      - bearer:
+        - calendars/events.write
+  /calendars/appointments/{appointmentId}/notes/{noteId}:
+    put:
+      operationId: update-appointment-note
+      summary: Update Note
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: appointmentId
+        required: true
+        in: path
+        description: Appointment ID
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotesDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCreateUpdateNoteSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Appointment Notes
+      security:
+      - bearer:
+        - calendars/events.write
+    delete:
+      operationId: delete-appointment-note
+      summary: Delete Note
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: appointmentId
+        required: true
+        in: path
+        description: Appointment ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteNoteSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Appointment Notes
+      security:
+      - bearer:
+        - calendars/events.write
+components:
+  schemas:
+    GetNoteSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: HGPcayliwcdoUFzvbTok
+        body:
+          type: string
+          example: lorem ipsum
+        userId:
+          type: string
+          example: TUcmRxWrjqzJS8EjkxNK
+        dateAdded:
+          type: string
+          example: '2021-07-08T12:02:11.285Z'
+        contactId:
+          type: string
+          example: TUcmRxWrjqzJS8EjkxNK
+        createdBy:
+          $ref: '#/components/schemas/NoteCreatedBySchema'
+    NotesDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: GCs5KuzPqTls7vWclkEV
+        body:
+          type: string
+          example: lorem ipsum
+          description: Note body
+          maxLength: 5000
+      required:
+      - body
+    NoteCreatedBySchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: TUcmRxWr
+        name:
+          type: string
+          example: John Doe
+    GetNotesListSuccessfulResponseDto:
+      type: object
+      properties:
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetNoteSchema'
+        hasMore:
+          type: boolean
+          example: true
+    GetCreateUpdateNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        note:
+          $ref: '#/components/schemas/GetNoteSchema'
+    DeleteNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Calendars
+  tags:
+  - Calendars
+  - Calendar Groups
+  - Calendar Events
+  - Appointment Notes
+  - 'Calendar Resources: Rooms & Equipments'
+  - Calendar Notifications
+  - Availability

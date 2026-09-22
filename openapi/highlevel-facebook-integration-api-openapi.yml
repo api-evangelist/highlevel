@@ -1,0 +1,1234 @@
+openapi: 3.2.0
+info:
+  title: Ad Manager Facebook Integration API
+  description: Documentation for Ad-publishing API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Facebook Integration
+  description: Documentation for Ad-publishing API
+paths:
+  /ad-publishing/facebook/me:
+    get:
+      operationId: fb-get-current-user
+      summary: Get current Facebook user
+      description: Retrieve the authenticated Facebook user profile for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/pages:
+    get:
+      operationId: fb-get-pages
+      summary: Get Facebook pages
+      description: Retrieve Facebook pages associated with the connected account
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: fetchExisting
+        required: false
+        in: query
+        description: Fetch existing pages flag
+        schema:
+          example: 'true'
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/page/{pageId}/instagram:
+    get:
+      operationId: fb-get-instagram-accounts
+      summary: Get Instagram accounts for page
+      description: Retrieve Instagram accounts linked to a specific Facebook page
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: pageId
+        required: true
+        in: path
+        description: Facebook page identifier
+        schema:
+          example: '103456789012345'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Integration type
+        schema:
+          example: INTEGRATION
+          enum:
+          - INTEGRATION
+          - AD_MANAGER
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/page/{pageId}/forms:
+    get:
+      operationId: fb-get-page-lead-forms
+      summary: Get page lead forms
+      description: Retrieve lead gen forms for a specific Facebook page
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: pageId
+        required: true
+        in: path
+        description: Facebook page identifier
+        schema:
+          example: '103456789012345'
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+    post:
+      operationId: fb-create-page-lead-form
+      summary: Create page lead form
+      description: Create a new lead gen form on a Facebook page
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: pageId
+        required: true
+        in: path
+        description: Facebook page identifier
+        schema:
+          example: '103456789012345'
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLeadFormDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/ad-accounts:
+    get:
+      operationId: fb-get-ad-accounts
+      summary: Get ad accounts
+      description: Retrieve Facebook ad accounts available for the connected user
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Account source type
+        schema:
+          example: AD_MANAGER
+          type: string
+      - name: next
+        required: false
+        in: query
+        description: Pagination cursor
+        schema:
+          example: cursor_abc
+          type: string
+      - name: fetchAll
+        required: false
+        in: query
+        description: Fetch all accounts
+        schema:
+          example: 'true'
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Results page limit
+        schema:
+          example: '25'
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/ad-accounts/{adAccountId}:
+    get:
+      operationId: fb-get-ad-account
+      summary: Get ad account details
+      description: Retrieve details of a specific Facebook ad account
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adAccountId
+        required: true
+        in: path
+        description: Ad account identifier
+        schema:
+          example: act_123456789
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+    delete:
+      operationId: fb-delete-ad-account
+      summary: Delete ad account
+      description: Remove a Facebook ad account connection from a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: adAccountId
+        required: true
+        in: path
+        description: Ad account identifier
+        schema:
+          example: act_123456789
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/conversation-forms:
+    get:
+      operationId: fb-get-conversation-forms
+      summary: Get conversation forms
+      description: Retrieve Facebook conversation lead forms for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+    post:
+      operationId: fb-create-conversation-form
+      summary: Create conversation form
+      description: Create a new Facebook conversation lead form
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConversationFormDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/integration:
+    post:
+      operationId: fb-create-integration
+      summary: Create Facebook integration
+      description: Create a Facebook ad integration for a location with page and ad account
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIntegrationDTO'
+      responses:
+        '201':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+    get:
+      operationId: fb-get-integration
+      summary: Get Facebook integration
+      description: Retrieve the Facebook ad integration details for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+    delete:
+      operationId: fb-delete-integration
+      summary: Delete Facebook integration
+      description: Remove the Facebook ad integration from a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationIdBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/page:
+    delete:
+      operationId: fb-delete-page
+      summary: Delete page connection
+      description: Remove a Facebook page connection from a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: loc_abc123
+          type: string
+      - name: pageId
+        required: true
+        in: query
+        description: Facebook page ID
+        schema:
+          example: '123456789'
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/page/default:
+    put:
+      operationId: fb-set-default-page
+      summary: Set default page
+      description: Set the default Facebook page for a location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FbSetDefaultPageBodyDTO'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.write
+      tags:
+      - Facebook Integration
+  /ad-publishing/facebook/lead-form/{leadFormId}:
+    get:
+      operationId: fb-get-lead-form
+      summary: Get lead form by ID
+      description: Retrieve a specific Facebook lead form by its ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: leadFormId
+        required: true
+        in: path
+        description: Lead form identifier
+        schema:
+          example: 507f1f77bcf86cd799439011
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: Location identifier
+        schema:
+          example: HChooFuiyPpVYzeJ4HMe
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - bearer:
+        - adPublishing.readonly
+      tags:
+      - Facebook Integration
+components:
+  schemas:
+    CustomDisclaimerCheckbox:
+      type: object
+      properties:
+        is_required:
+          type: boolean
+          description: Checkbox required flag
+          example: true
+        text:
+          type: string
+          description: Checkbox text label
+          example: I agree to terms
+        key:
+          type: string
+          description: Checkbox unique key
+          example: terms_checkbox
+      required:
+      - is_required
+      - text
+      - key
+    CustomDisclaimer:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Disclaimer title
+          example: Terms & Conditions
+        body:
+          type: string
+          description: Disclaimer body text
+          example: By submitting...
+        checkboxes:
+          description: Consent checkboxes the user must agree to before submitting the form
+          example:
+          - is_required: true
+            text: I agree to the Terms & Conditions
+            key: terms_checkbox
+          - is_required: false
+            text: I would like to receive marketing emails
+            key: marketing_optin
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDisclaimerCheckbox'
+      required:
+      - title
+      - body
+    WelcomeMessageQuestion:
+      type: object
+      properties:
+        question:
+          type: string
+          description: Question title text
+          example: How can we help?
+        response:
+          type: string
+          description: Auto-response message
+          example: Thanks for reaching out
+      required:
+      - question
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
+    CreateConversationFormDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Conversation form name
+          example: Welcome Form
+        text:
+          type: string
+          description: Welcome message text
+          example: Hi! How can we help?
+        questions:
+          description: Quick-reply questions shown in the welcome message of the conversation form
+          example:
+          - question: How can we help?
+            response: Thanks for reaching out! A team member will assist you shortly.
+          - question: I want to learn more
+            response: Great! Here is a link to our services.
+          type: array
+          items:
+            $ref: '#/components/schemas/WelcomeMessageQuestion'
+      required:
+      - locationId
+      - name
+      - text
+      - questions
+    GreetingCard:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Greeting card title
+          example: Welcome!
+        style:
+          type: string
+          description: Greeting card style
+          example: LIST_STYLE
+        content:
+          description: Greeting card content
+          example:
+          - Learn more about our services
+          type: array
+          items:
+            type: string
+      required:
+      - title
+      - style
+      - content
+    ThankYouPage:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Thank you page title
+          example: Thank You!
+        body:
+          type: string
+          description: Thank you page body
+          example: We will contact you soon
+        buttonText:
+          type: string
+          description: Button text label
+          example: Visit Website
+        buttonType:
+          type: string
+          description: Button action type
+          example: VIEW_WEBSITE
+        buttonLink:
+          type: string
+          description: Button destination link
+          example: https://example.com
+        businessPhone:
+          type: string
+          description: Business phone number
+          example: '+1234567890'
+        countryCode:
+          type: string
+          description: Phone country code
+          example: US
+      required:
+      - title
+      - body
+      - buttonText
+      - buttonType
+    CreateIntegrationDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        pageId:
+          type: string
+          description: Facebook page ID
+          example: '123456789'
+        adAccountId:
+          type: string
+          description: Ad account identifier
+          example: act_123456
+      required:
+      - locationId
+      - pageId
+    FormQuestion:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Question label text shown to the user
+          example: What is your name?
+        key:
+          type: string
+          description: Question key
+          example: name
+        type:
+          type: string
+          description: Question input type — use a prefilled type for standard fields or CUSTOM / SHORT_ANSWER for freeform questions
+          example: SHORT_ANSWER
+          enum:
+          - CUSTOM
+          - CITY
+          - COMPANY_NAME
+          - COUNTRY
+          - DATE_OF_BIRTH
+          - EMAIL
+          - FIRST_NAME
+          - FULL_NAME
+          - GENDER
+          - JOB_TITLE
+          - LAST_NAME
+          - MARITAL_STATUS
+          - MILITARY_STATUS
+          - PHONE
+          - POST_CODE
+          - RELATIONSHIP_STATUS
+          - STATE
+          - STREET_ADDRESS
+          - WORK_EMAIL
+          - WORK_PHONE_NUMBER
+          - ZIP
+          - SHORT_ANSWER
+        options:
+          description: Answer options for multiple-choice questions (only applies to CUSTOM type)
+          example:
+          - value: 'Yes'
+          - value: 'No'
+          type: array
+          items:
+            $ref: '#/components/schemas/FormQuestionOption'
+      required:
+      - key
+      - type
+    FbSetDefaultPageBodyDTO:
+      type: object
+      properties:
+        pageId:
+          type: string
+          description: Facebook page identifier
+          example: '103456789012345'
+      required:
+      - pageId
+    FormQuestionOption:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Option key
+          example: option 1
+        value:
+          type: string
+          description: Option value
+          example: Option 1
+      required:
+      - key
+      - value
+    CreateLeadFormDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Lead form type
+          example: MORE_VOLUME
+          enum:
+          - MORE_VOLUME
+          - HIGHER_INTENT
+        name:
+          type: string
+          description: Lead form name
+          example: Contact Form
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        greetingCard:
+          description: Greeting card config
+          allOf:
+          - $ref: '#/components/schemas/GreetingCard'
+        questions:
+          description: List of questions displayed on the lead form
+          example:
+          - key: full_name
+            type: FULL_NAME
+            options: []
+          - key: email_address
+            type: EMAIL
+            options: []
+          - key: are_you_interested
+            label: Are you interested?
+            type: CUSTOM
+            options:
+            - value: 'Yes'
+            - value: 'No'
+          type: array
+          items:
+            $ref: '#/components/schemas/FormQuestion'
+        questionPageHeadline:
+          type: string
+          description: Question page headline
+          example: Tell us about yourself
+        privacyPolicyLink:
+          type: string
+          description: Privacy policy URL
+          example: https://example.com/privacy
+        privacyPolicyText:
+          type: string
+          description: Privacy policy text
+          example: We respect your privacy
+        customDisclaimer:
+          description: Custom disclaimer config
+          allOf:
+          - $ref: '#/components/schemas/CustomDisclaimer'
+        thankYouPage:
+          description: Thank you page config
+          allOf:
+          - $ref: '#/components/schemas/ThankYouPage'
+      required:
+      - type
+      - name
+      - locationId
+      - questions
+      - privacyPolicyLink
+      - thankYouPage
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

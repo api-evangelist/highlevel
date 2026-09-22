@@ -1,0 +1,219 @@
+openapi: 3.2.0
+info:
+  title: Conversations Email API
+  description: Documentation for Conversations API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Email
+  description: Documentation for Conversations API
+paths:
+  /conversations/messages/email/{id}:
+    get:
+      operationId: get-email-by-id
+      summary: Get email by Id
+      parameters: []
+      responses:
+        '200':
+          description: Email object for the id given.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEmailMessageResponseDto'
+      tags:
+      - Email
+  /conversations/messages/email/{emailMessageId}/schedule:
+    delete:
+      operationId: cancel-scheduled-email-message
+      summary: Cancel a scheduled email message
+      description: Post the messageId for the API to delete a scheduled email message.
+      parameters:
+      - name: emailMessageId
+        required: true
+        in: path
+        description: Email Message Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      responses:
+        '200':
+          description: The scheduled email message was cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelScheduledResponseDto'
+      tags:
+      - Email
+components:
+  schemas:
+    GetEmailMessageResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        altId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+          description: External Id
+        threadId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+          description: Message Id or thread Id
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        dateAdded:
+          type: string
+          example: '2024-03-27T18:13:49.000Z'
+        subject:
+          type: string
+          example: Order confirm
+        body:
+          type: string
+          example: Hi there
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+        status:
+          type: string
+          enum:
+          - pending
+          - scheduled
+          - sent
+          - delivered
+          - read
+          - undelivered
+          - connected
+          - failed
+          - opened
+        contentType:
+          type: string
+          example: text/plain
+        attachments:
+          description: An array of attachment URLs.
+          type: array
+          items:
+            type: string
+        provider:
+          type: string
+          examples:
+          - Leadconnector Gmail
+          - mailgun
+          - smtp
+          - custom
+        from:
+          type: string
+          description: Name and Email Id of the sender
+        to:
+          description: List of email Ids of the receivers
+          type: array
+          items:
+            type: string
+        cc:
+          description: List of email Ids of the people in the cc field
+          type: array
+          items:
+            type: string
+        bcc:
+          description: List of email Ids of the people in the bcc field
+          type: array
+          items:
+            type: string
+        replyToMessageId:
+          type: string
+          description: In case of reply, email message Id of the reply to email
+        source:
+          type: string
+          enum:
+          - workflow
+          - bulk_actions
+          - campaign
+          - api
+          - app
+          description: Email source
+        conversationProviderId:
+          type: string
+          example: cI08i1Bls3iTB9bKgF01
+          description: Conversation provider ID
+      required:
+      - id
+      - threadId
+      - locationId
+      - contactId
+      - conversationId
+      - dateAdded
+      - body
+      - direction
+      - contentType
+      - from
+      - to
+    CancelScheduledResponseDto:
+      type: object
+      properties:
+        status:
+          type: number
+          description: HTTP Status code of the request
+          example: 404
+        message:
+          type: string
+          description: Error message of the request
+          example: Failed cancel the scheduled message
+      required:
+      - status
+      - message
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Conversations
+  tags:
+  - Conversations
+  - Search
+  - Preference Management
+  - Email
+  - Messages
+  - Providers

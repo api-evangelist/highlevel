@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-recurring-task-create-dto-schema.json",
+  "title": "RecurringTaskCreateDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-locations-openapi.json#/components/schemas/RecurringTaskCreateDTO",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Name of the task"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the task"
+    },
+    "contactIds": {
+      "description": "Contact Id",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "owners": {
+      "description": "Assigned To",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rruleOptions": {
+      "description": "Recurring rules",
+      "allOf": [
+        {
+          "$ref": "#/$defs/CustomRRulesOptions"
+        }
+      ]
+    },
+    "ignoreTaskCreation": {
+      "type": "boolean",
+      "description": "Create initial task or not"
+    }
+  },
+  "required": [
+    "title",
+    "rruleOptions"
+  ],
+  "$defs": {
+    "CustomRRulesOptions": {
+      "type": "object",
+      "properties": {
+        "intervalType": {
+          "type": "string",
+          "enum": [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly"
+          ]
+        },
+        "interval": {
+          "type": "number"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start Date"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "End Date"
+        },
+        "dayOfMonth": {
+          "type": "number",
+          "description": "1, 2, 3, ..., 27, 31"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": [
+            "MO",
+            "TU",
+            "WE",
+            "TH",
+            "FR",
+            "SA",
+            "SU"
+          ]
+        },
+        "monthOfYear": {
+          "type": "number",
+          "description": "1, 2, ....., 11, 12"
+        },
+        "count": {
+          "type": "number",
+          "description": "Max number of task executions"
+        },
+        "createTaskIfOverDue": {
+          "type": "boolean",
+          "description": "Create Task If Over Due"
+        },
+        "dueAfterSeconds": {
+          "type": "number",
+          "description": "Due after seconds"
+        }
+      },
+      "required": [
+        "intervalType",
+        "interval",
+        "startDate",
+        "dueAfterSeconds"
+      ]
+    }
+  }
+}

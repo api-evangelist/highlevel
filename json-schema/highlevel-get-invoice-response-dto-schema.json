@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-get-invoice-response-dto-schema.json",
+  "title": "GetInvoiceResponseDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-invoices-openapi.json#/components/schemas/GetInvoiceResponseDto",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Invoice Id"
+    },
+    "status": {
+      "type": "string",
+      "description": "Invoice Status",
+      "enum": [
+        "draft",
+        "sent",
+        "payment_processing",
+        "paid",
+        "void",
+        "partially_paid"
+      ]
+    },
+    "liveMode": {
+      "type": "boolean",
+      "description": "Live Mode"
+    },
+    "amountPaid": {
+      "type": "number",
+      "description": "Amount Paid"
+    },
+    "altId": {
+      "type": "string",
+      "description": "Location Id or Agency Id"
+    },
+    "altType": {
+      "type": "string",
+      "enum": [
+        "location"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the invoice"
+    },
+    "businessDetails": {
+      "type": "object",
+      "description": "Business Details"
+    },
+    "invoiceNumber": {
+      "type": "number",
+      "description": "Invoice Number"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency"
+    },
+    "contactDetails": {
+      "type": "object",
+      "description": "Contact Details"
+    },
+    "issueDate": {
+      "type": "string",
+      "description": "Issue date in YYYY-MM-DD format"
+    },
+    "dueDate": {
+      "type": "string",
+      "description": "Due date in YYYY-MM-DD format"
+    },
+    "discount": {
+      "type": "object",
+      "description": "Discount"
+    },
+    "invoiceItems": {
+      "description": "Invoice Items",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "total": {
+      "type": "number",
+      "description": "Total Amount"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title"
+    },
+    "amountDue": {
+      "type": "number",
+      "description": "Total Amount Due"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "created at"
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "updated at"
+    },
+    "automaticTaxesEnabled": {
+      "type": "boolean",
+      "description": "Automatic taxes enabled for the Invoice"
+    },
+    "automaticTaxesCalculated": {
+      "type": "boolean",
+      "description": "Is Automatic taxes calculated for the Invoice items"
+    },
+    "paymentSchedule": {
+      "type": "object",
+      "description": "split invoice into payment schedule summing up to full invoice amount"
+    },
+    "totalSummary": {
+      "$ref": "#/$defs/TotalSummaryDto"
+    },
+    "remindersConfiguration": {
+      "description": "Reminders Configuration",
+      "allOf": [
+        {
+          "$ref": "#/$defs/RemindersConfigurationDto"
+        }
+      ]
+    }
+  },
+  "required": [
+    "_id",
+    "status",
+    "liveMode",
+    "amountPaid",
+    "altId",
+    "altType",
+    "name",
+    "businessDetails",
+    "invoiceNumber",
+    "currency",
+    "contactDetails",
+    "issueDate",
+    "dueDate",
+    "invoiceItems",
+    "total",
+    "title",
+    "amountDue",
+    "createdAt",
+    "updatedAt",
+    "totalSummary"
+  ],
+  "$defs": {
+    "ReminderDto": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Flag indicating if the reminder is enabled or not"
+        },
+        "emailTemplate": {
+          "type": "string",
+          "description": "Email template to be used for sending reminders"
+        },
+        "smsTemplate": {
+          "type": "string",
+          "description": "SMS template to be used for sending reminders"
+        },
+        "emailSubject": {
+          "type": "string",
+          "description": "Subject of the reminder"
+        },
+        "reminderId": {
+          "type": "string",
+          "description": "Unique identifier for the reminder"
+        },
+        "reminderName": {
+          "type": "string",
+          "description": "Name of the reminder"
+        },
+        "reminderTime": {
+          "type": "string",
+          "description": "Time condition for the reminder",
+          "enum": [
+            "before",
+            "after"
+          ]
+        },
+        "intervalType": {
+          "type": "string",
+          "description": "Interval type for the reminder",
+          "enum": [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely",
+            "secondly"
+          ]
+        },
+        "maxReminders": {
+          "type": "number",
+          "description": "Maximum number of reminders that can be sent"
+        },
+        "reminderInvoiceCondition": {
+          "type": "string",
+          "description": "Condition for sending the reminder",
+          "enum": [
+            "invoice_sent",
+            "invoice_overdue"
+          ]
+        },
+        "reminderNumber": {
+          "type": "number",
+          "description": "frequency gap of the reminder to exeucte"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Business Hour Start Time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "Business Hour End Time"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "Timezone at which reminder will be sent"
+        }
+      },
+      "required": [
+        "enabled",
+        "emailTemplate",
+        "smsTemplate",
+        "emailSubject",
+        "reminderId",
+        "reminderName",
+        "reminderTime",
+        "intervalType",
+        "maxReminders",
+        "reminderInvoiceCondition",
+        "reminderNumber"
+      ]
+    },
+    "ReminderExecutionDetailsList": {
+      "type": "object",
+      "properties": {}
+    },
+    "ReminderSettingsDto": {
+      "type": "object",
+      "properties": {
+        "defaultEmailTemplateId": {
+          "type": "string",
+          "description": "default template Id of reminder"
+        },
+        "reminders": {
+          "description": "List of reminders",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReminderDto"
+          }
+        }
+      },
+      "required": [
+        "defaultEmailTemplateId",
+        "reminders"
+      ]
+    },
+    "RemindersConfigurationDto": {
+      "type": "object",
+      "properties": {
+        "reminderExecutionDetailsList": {
+          "description": "List of reminders",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReminderExecutionDetailsList"
+            }
+          ]
+        },
+        "reminderSettings": {
+          "description": "Reminder settings",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReminderSettingsDto"
+            }
+          ]
+        }
+      },
+      "required": [
+        "reminderExecutionDetailsList",
+        "reminderSettings"
+      ]
+    },
+    "TotalSummaryDto": {
+      "type": "object",
+      "properties": {
+        "subTotal": {
+          "type": "number",
+          "description": "subTotal"
+        },
+        "discount": {
+          "type": "number",
+          "description": "discount"
+        },
+        "tax": {
+          "type": "number",
+          "description": "tax"
+        }
+      },
+      "required": [
+        "subTotal",
+        "discount",
+        "tax"
+      ]
+    }
+  }
+}

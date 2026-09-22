@@ -1,0 +1,346 @@
+openapi: 3.2.0
+info:
+  title: Highlevel Followers API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Followers across 2 of this provider''s published API definitions: highlevel-contacts-openapi.json, highlevel-opportunities-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Followers
+  description: Documentation for Contacts API
+paths:
+  /contacts/{contactId}/followers:
+    post:
+      operationId: add-followers-contact
+      summary: Add Followers
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302Lunr
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowersDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAddFollowersSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Followers
+      security:
+      - bearer:
+        - contacts.write
+    delete:
+      operationId: remove-followers-contact
+      summary: Remove Followers
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: contactId
+        required: true
+        in: path
+        description: Contact Id
+        schema:
+          example: sx6wyHhbFdRXh302Lunr
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowersDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteFollowersSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Followers
+      security:
+      - bearer:
+        - contacts.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /opportunities/{id}/followers:
+    post:
+      operationId: add-followers-opportunity
+      summary: Add Followers
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: id
+        required: true
+        in: path
+        description: Opportunity Id
+        schema:
+          example: sx6wyHhbFdRXh302Lunr
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowersDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAddFollowersSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Followers
+      security:
+      - bearer:
+        - opportunities.write
+    delete:
+      operationId: remove-followers-opportunity
+      summary: Remove Followers
+      description: Allows removal of one or all followers from an opportunity.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: id
+        required: true
+        in: path
+        description: Opportunity Id
+        schema:
+          example: sx6wyHhbFdRXh302Lunr
+          type: string
+      - name: isRemoveAllFollowers
+        required: false
+        in: query
+        schema:
+          example: false
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FollowersDTO'
+      responses:
+        '200':
+          description: Followers successfully removed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteFollowersSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Followers
+      security:
+      - bearer:
+        - opportunities.write
+    servers:
+    - url: https://services.leadconnectorhq.com
+components:
+  schemas:
+    CreateAddFollowersSuccessfulResponseDto:
+      type: object
+      properties:
+        followers:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302LLss
+          type: array
+          items:
+            type: string
+        followersAdded:
+          example:
+          - Mx6wyHhbFdRXh302Luer
+          - Ka6wyHhbFdRXh302LLsAm
+          type: array
+          items:
+            type: string
+    FollowersDTO:
+      type: object
+      properties:
+        followers:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+      required:
+      - followers
+    DeleteFollowersSuccessfulResponseDto:
+      type: object
+      properties:
+        followers:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302LLss
+          type: array
+          items:
+            type: string
+        followersRemoved:
+          example:
+          - Mx6wyHhbFdRXh302Luer
+          - Ka6wyHhbFdRXh302LLsAm
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-refined-from:
+- highlevel-contacts-openapi.json
+- highlevel-opportunities-openapi.json
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

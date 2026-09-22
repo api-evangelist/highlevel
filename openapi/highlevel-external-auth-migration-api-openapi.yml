@@ -1,0 +1,216 @@
+openapi: 3.2.0
+info:
+  title: Developer marketplace External Auth Migration API
+  description: Documentation for Marketplace API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: External Auth Migration
+  description: Documentation for Marketplace API
+paths:
+  /marketplace/external-auth/migration:
+    post:
+      operationId: migrateConnection
+      summary: Migrate external authentication connection
+      description: Migrates an external authentication connection credentials (basic or oauth2) for a specific app and location. This endpoint validates the app configuration, stores credentials safely in CRM's native encrypted storage. With this the lifecycle of the token is managed by CRM.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MigrateConnectionDto'
+      responses:
+        '201':
+          description: Connection migrated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrateConnectionResponseDto'
+        '400':
+          description: Bad request - invalid input or auth type mismatch
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized - invalid or missing token
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: App not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - External Auth Migration
+      security:
+      - Location-Access:
+        - marketplace-external-auth-migration.write
+      - Location-Access-Only:
+        - marketplace-external-auth-migration.write
+components:
+  schemas:
+    MigrateConnectionDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - oauth2
+          - basic
+          example: oauth2
+          description: Type of authentication - basic or oauth2
+        locationId:
+          type: string
+          example: location_12345
+          description: Location ID
+        appId:
+          type: string
+          example: 507f1f77bcf86cd799439011
+          description: App ID
+        appVersionId:
+          type: string
+          example: 507f1f77bcf86cd799439012
+          description: App Version ID
+        accountId:
+          type: string
+          example: my-connection-identifier
+          description: Connection identifier
+        apiKey:
+          type: string
+          example: REDACTED_STRIPE_KEY
+          description: API Key (supported when type is basic)
+        basicCredentials:
+          type: object
+          example:
+            email: user@example.com
+            password: p@ssw0rd
+          description: Basic auth credentials as key/value pairs (supported when type is basic). Keys are validated against the app version externalAuthConfig.fields.
+        accessToken:
+          type: string
+          example: ya29.a0AfH6SMBx...
+          description: Access token (required when type is oauth2)
+        refreshToken:
+          type: string
+          example: 1//0gHq5F...
+          description: Refresh token (required when type is oauth2)
+        expiryIn:
+          type: number
+          example: 3600000
+          description: Access token expiry time in milliseconds (optional for oauth2)
+        expiryAt:
+          type: number
+          example: 1735689600000
+          description: Timestamp for access token expiry (optional for oauth2)
+        scopes:
+          example:
+          - contacts.readonly
+          - contacts.write
+          description: OAuth2 scopes (optional for oauth2)
+          type: array
+          items:
+            type: string
+        displayName:
+          type: string
+          example: My Connection Display Name
+          description: Display name for the connection (optional, defaults to accountId)
+        isDefault:
+          type: boolean
+          example: false
+          description: Whether this is the default connection for the location (optional, defaults to false)
+      required:
+      - type
+      - locationId
+      - appId
+      - appVersionId
+      - accountId
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 500
+        message:
+          type: string
+          description: Error message describing the internal server error
+          example: Internal Server Error
+    MigrateConnectionResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+          description: Indicates if the migration was successful
+        identifier:
+          type: string
+          example: migration_12345
+          description: Unique identifier for the migrated connection
+        message:
+          type: string
+          example: Connection migrated successfully
+          description: Message describing the result
+      required:
+      - success
+      - identifier
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Developer marketplace
+  tags:
+  - Marketplace
+  - App Management
+  - Wallet Charges
+  - App Billing Management
+  - External Auth Migration

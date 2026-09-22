@@ -1,0 +1,139 @@
+openapi: 3.2.0
+info:
+  title: Opportunities Pipelines API
+  description: Documentation for Opportunities API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Pipelines
+  description: Documentation for Opportunities API
+paths:
+  /opportunities/pipelines:
+    get:
+      operationId: get-pipelines
+      summary: Get Pipelines
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPipelinesSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Pipelines
+      security:
+      - bearer:
+        - opportunities.readonly
+components:
+  schemas:
+    GetPipelinesSuccessfulResponseDto:
+      type: object
+      properties:
+        pipelines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelinesResponseSchema'
+    PipelinesResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: aWdODOBVOlH1RUFKWQke
+        name:
+          type: string
+          example: new pipeline
+        stages:
+          type: array
+          items:
+            type: array
+        showInFunnel:
+          type: boolean
+          example: false
+        showInPieChart:
+          type: boolean
+          example: true
+        locationId:
+          type: string
+          example: dsjddjkndadqaja
+        colorRenderMode:
+          type: string
+          enum:
+          - dot
+          - bg-tint
+          - none
+          description: How pipeline/stage colors are rendered
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Opportunities
+  tags:
+  - Opportunities
+  - Search
+  - Pipelines
+  - Export
+  - Pipiline Search
+  - Lost reason
+  - Followers

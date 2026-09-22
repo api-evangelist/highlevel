@@ -1,0 +1,719 @@
+openapi: 3.2.0
+info:
+  title: Opportunities API
+  description: Documentation for Opportunities API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Opportunities
+  description: Documentation for Opportunities API
+paths:
+  /opportunities/{id}:
+    get:
+      operationId: get-opportunity
+      summary: Get Opportunity
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: id
+        required: true
+        in: path
+        description: Opportunity Id
+        schema:
+          example: yWQobCRIhRguQtD2llvk
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPostOpportunitySuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Opportunities
+      security:
+      - bearer:
+        - opportunities.readonly
+    delete:
+      operationId: delete-opportunity
+      summary: Delete Opportunity
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: id
+        required: true
+        in: path
+        description: Opportunity Id
+        schema:
+          example: yWQobCRIhRguQtD2llvk
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteUpdateOpportunitySuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Opportunities
+      security:
+      - bearer:
+        - opportunities.write
+    put:
+      operationId: update-opportunity
+      summary: Update Opportunity
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: id
+        required: true
+        in: path
+        description: Opportunity Id
+        schema:
+          example: yWQobCRIhRguQtD2llvk
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOpportunityDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPostOpportunitySuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Opportunities
+      security:
+      - bearer:
+        - opportunities.write
+  /opportunities/{id}/status:
+    put:
+      operationId: update-opportunity-status
+      summary: Update Opportunity Status
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: id
+        required: true
+        in: path
+        description: Opportunity Id
+        schema:
+          example: yWQobCRIhRguQtD2llvk
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStatusDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteUpdateOpportunitySuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Opportunities
+      security:
+      - bearer:
+        - opportunities.write
+  /opportunities/upsert:
+    post:
+      operationId: Upsert-opportunity
+      summary: Upsert Opportunity
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertOpportunityDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpsertOpportunitySuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Opportunities
+      security:
+      - bearer:
+        - opportunities.write
+  /opportunities/:
+    post:
+      operationId: create-opportunity
+      summary: Create Opportunity
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPostOpportunitySuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Opportunities
+      security:
+      - bearer:
+        - opportunities.write
+components:
+  schemas:
+    UpsertOpportunitySuccessfulResponseDto:
+      type: object
+      properties:
+        opportunity:
+          type: object
+          description: Updated / New Opportunity
+        new:
+          type: boolean
+          example: true
+      required:
+      - opportunity
+      - new
+    UpdateOpportunityDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+          description: pipeline Id
+          example: bCkKGpDsyPP4peuKowkG
+        name:
+          type: string
+          example: First Opps
+        pipelineStageId:
+          type: string
+          example: 7915dedc-8f18-44d5-8bc3-77c04e994a10
+        status:
+          type: string
+          enum:
+          - open
+          - won
+          - lost
+          - abandoned
+          - all
+        monetaryValue:
+          type: number
+          example: 220
+        assignedTo:
+          type: string
+          example: 082goXVW3lIExEQPOnd3
+        customFields:
+          type: array
+          description: Update custom fields to opportunities.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/customFieldsInputStringSchema'
+            - $ref: '#/components/schemas/customFieldsInputArraySchema'
+            - $ref: '#/components/schemas/customFieldsInputObjectSchema'
+    SearchOpportunitiesResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: yWQobCRIhRguQtD2llvk
+        name:
+          type: string
+          example: testing
+        monetaryValue:
+          type: number
+          example: 500
+        pipelineId:
+          type: string
+          example: VDm7RPYC2GLUvdpKmBfC
+        pipelineStageId:
+          type: string
+          example: e93ba61a-53b3-45e7-985a-c7732dbcdb69
+        assignedTo:
+          type: string
+          example: zT46WSCPbudrq4zhWMk6
+        status:
+          type: string
+          example: open
+        source:
+          type: string
+          example: ''
+        lastStatusChangeAt:
+          type: string
+          example: '2021-08-03T04:55:17.355Z'
+        lastStageChangeAt:
+          type: string
+          example: '2021-08-03T04:55:17.355Z'
+        lastActionDate:
+          type: string
+          example: '2021-08-03T04:55:17.355Z'
+        indexVersion:
+          type: string
+          example: 1
+        createdAt:
+          type: string
+          example: '2021-08-03T04:55:17.355Z'
+        updatedAt:
+          type: string
+          example: '2021-08-03T04:55:17.355Z'
+        contactId:
+          type: string
+          example: zT46WSCPbudrq4zhWMk6
+        locationId:
+          type: string
+          example: zT46WSCPbudrq4zhW
+        contact:
+          $ref: '#/components/schemas/SearchOpportunitiesContactResponseSchema'
+        notes:
+          type: array
+          items:
+            type: array
+        tasks:
+          type: array
+          items:
+            type: array
+        calendarEvents:
+          type: array
+          items:
+            type: array
+        lostReasonId:
+          type: string
+          example: zT46WSCPbudrq4zhWMk6
+        customFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldResponseSchema'
+        followers:
+          type: array
+          items:
+            type: array
+        externalObjectId:
+          type: string
+    UpsertOpportunityDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: opportunityId
+          example: yWQobCRIhRguQtD2llvk
+        pipelineId:
+          type: string
+          description: pipeline Id
+          example: bCkKGpDsyPP4peuKowkG
+        locationId:
+          type: string
+          description: locationId
+          example: CLu7BaljjqrEjBGKTNNe
+        followers:
+          description: contactId
+          example: LiKJ2vnRg5ETM8Z19K7
+          type: array
+          items:
+            type: string
+        isRemoveAllFollowers:
+          type: boolean
+          description: isRemoveAllFollowers
+          example: true
+        followersActionType:
+          type: string
+          description: followers action type
+          enum:
+          - add
+          - remove
+          example: add
+        name:
+          type: string
+          description: name
+          example: opportunity name
+        status:
+          type: string
+          enum:
+          - open
+          - won
+          - lost
+          - abandoned
+          - all
+        pipelineStageId:
+          type: string
+          example: 7915dedc-8f18-44d5-8bc3-77c04e994a10
+        monetaryValue:
+          type: object
+          example: 220
+        assignedTo:
+          type: string
+          example: 082goXVW3lIExEQPOnd3
+        lostReasonId:
+          type: string
+          description: lost reason Id
+          example: CLu7BaljjqrEjBGKTNNe
+      required:
+      - pipelineId
+      - locationId
+      - followers
+      - isRemoveAllFollowers
+      - followersActionType
+    UpdateStatusDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - open
+          - won
+          - lost
+          - abandoned
+          - all
+        lostReasonId:
+          type: string
+          description: lost reason Id
+          example: CLu7BaljjqrEjBGKTNNe
+      required:
+      - status
+    customFieldsInputStringSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+          description: Pass either `id` or `key` of custom field
+        key:
+          type: string
+          example: my_custom_field
+          description: Pass either `id` or `key` of custom field
+        field_value:
+          type: string
+          example: '9039160788'
+    DeleteUpdateOpportunitySuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    customFieldsInputArraySchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          example:
+          - test
+          - test2
+          type: array
+          items:
+            type: string
+      required:
+      - id
+    GetPostOpportunitySuccessfulResponseDto:
+      type: object
+      properties:
+        opportunity:
+          $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
+    CreateDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+          description: pipeline Id
+          example: VDm7RPYC2GLUvdpKmBfC
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          example: First Opps
+        pipelineStageId:
+          type: string
+          example: 7915dedc-8f18-44d5-8bc3-77c04e994a10
+        status:
+          type: string
+          enum:
+          - open
+          - won
+          - lost
+          - abandoned
+          - all
+        contactId:
+          type: string
+          example: mTkSCb1UBjb5tk4OvB69
+        monetaryValue:
+          type: number
+          example: 220
+        assignedTo:
+          type: string
+          example: 082goXVW3lIExEQPOnd3
+        customFields:
+          type: array
+          description: Add custom fields to opportunities.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/customFieldsInputStringSchema'
+            - $ref: '#/components/schemas/customFieldsInputArraySchema'
+            - $ref: '#/components/schemas/customFieldsInputObjectSchema'
+      required:
+      - pipelineId
+      - locationId
+      - name
+      - status
+      - contactId
+    customFieldsInputObjectSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          type: object
+          example: {}
+      required:
+      - id
+    CustomFieldResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: MgobCB14YMVKuE4Ka8p1
+        fieldValue:
+          description: The value of the custom field
+          oneOf:
+          - type: string
+          - type: object
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: object
+      required:
+      - id
+      - fieldValue
+    SearchOpportunitiesContactResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: byMEV0NQinDhq8ZfiOi2
+        name:
+          type: string
+          example: John Deo
+        companyName:
+          type: string
+          example: Tesla Inc
+        email:
+          type: string
+          example: john@deo.com
+        phone:
+          type: string
+          example: +1202-555-0107
+        tags:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Opportunities
+  tags:
+  - Opportunities
+  - Search
+  - Pipelines
+  - Export
+  - Pipiline Search
+  - Lost reason
+  - Followers

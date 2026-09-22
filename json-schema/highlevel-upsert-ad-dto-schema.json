@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-upsert-ad-dto-schema.json",
+  "title": "UpsertAdDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-ad-manager-openapi.json#/components/schemas/UpsertAdDTO",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Ad identifier"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Location identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Ad name"
+    },
+    "primaryText": {
+      "type": "string",
+      "description": "Ad primary text"
+    },
+    "headline": {
+      "type": "string",
+      "description": "Ad headline text"
+    },
+    "description": {
+      "type": "string",
+      "description": "Ad description text"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "Ad image URL"
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "Ad media type",
+      "enum": [
+        "SINGLE",
+        "CAROUSEL"
+      ]
+    },
+    "media": {
+      "description": "Media items (images or videos) attached to the ad creative",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MediaDTO"
+      }
+    },
+    "multiAdvertiserAds": {
+      "type": "boolean",
+      "description": "Enable multi-advertiser ads"
+    },
+    "campaignId": {
+      "type": "string",
+      "description": "Parent campaign ID"
+    },
+    "adsetId": {
+      "type": "string",
+      "description": "Parent ad set ID"
+    },
+    "cta": {
+      "type": "string",
+      "description": "Call to action type"
+    },
+    "conversationFormId": {
+      "type": "string",
+      "description": "Conversation form ID"
+    },
+    "destinationLink": {
+      "type": "string",
+      "description": "Destination link URL"
+    },
+    "destinationFormId": {
+      "type": "string",
+      "description": "Destination form ID"
+    }
+  },
+  "required": [
+    "locationId",
+    "campaignId",
+    "adsetId"
+  ],
+  "$defs": {
+    "MediaDTO": {
+      "type": "object",
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "Media source URL"
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "description": "Thumbnail URL (required when type is video)"
+        },
+        "selectedPoster": {
+          "type": "number",
+          "description": "Selected poster index (required when type is video)"
+        },
+        "type": {
+          "type": "string",
+          "description": "Media content type",
+          "enum": [
+            "image",
+            "video"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "Media file name"
+        },
+        "headline": {
+          "type": "string",
+          "description": "Media headline"
+        },
+        "description": {
+          "type": "string",
+          "description": "Media description"
+        },
+        "link": {
+          "type": "string",
+          "description": "Media destination link"
+        }
+      },
+      "required": [
+        "src",
+        "type"
+      ]
+    }
+  }
+}

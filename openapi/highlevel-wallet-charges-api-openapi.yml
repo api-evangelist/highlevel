@@ -1,0 +1,509 @@
+openapi: 3.2.0
+info:
+  title: Developer marketplace Wallet Charges API
+  description: Documentation for Marketplace API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Wallet Charges
+  description: Documentation for Marketplace API
+paths:
+  /marketplace/billing/charges:
+    post:
+      operationId: charge
+      summary: Create a new wallet charge
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RaiseChargeBodyDTO'
+      responses:
+        '201':
+          description: Charge created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates whether the charge was created successfully
+                    example: true
+                  chargeId:
+                    type: string
+                    description: Unique identifier of the created charge
+                    example: charge_123
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing the bad request
+                    example: Invalid request body
+                  statusCode:
+                    type: number
+                    description: HTTP status code
+                    example: 400
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Wallet Charges
+      security:
+      - Location-Access-Only:
+        - charges.write
+    get:
+      operationId: getCharges
+      summary: Get all wallet charges
+      parameters:
+      - name: meterId
+        required: false
+        in: query
+        description: Billing Meter ID (you can find this on your app's pricing page on the developer portal)
+        schema:
+          example: 680b97022b4a34420f5f9b93
+          type: string
+      - name: eventId
+        required: false
+        in: query
+        description: Event ID / Transaction ID
+        schema:
+          example: evt_abc123
+          type: string
+      - name: userId
+        required: false
+        in: query
+        description: Filter results by User ID that your server passed via API when the charge was created
+        schema:
+          example: user_abc123
+          type: string
+      - name: startDate
+        required: false
+        in: query
+        description: Filter results AFTER a specific date. Use this in combination with endDate to filter results in a specific time window.
+        schema:
+          example: '2025-03-26'
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        description: Filter results BEFORE a specific date. Use this in combination with startDate to filter results in a specific time window.
+        schema:
+          example: '2025-03-26'
+          type: string
+      - name: skip
+        required: false
+        in: query
+        description: Number of records to skip
+        schema:
+          example: 0
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Maximum number of records to return
+        schema:
+          example: 10
+          type: number
+      responses:
+        '200':
+          description: Returns list of wallet charges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  charges:
+                    type: array
+                    description: List of wallet charges
+                    example: []
+                    items:
+                      type: object
+                      properties:
+                        refunded:
+                          type: boolean
+                          description: Value is 'true' if the charge has subsequently been refunded.
+                          example: false
+                        currency:
+                          type: string
+                          description: Currency of the transaction. We currently support USD only.
+                          example: USD
+                        appId:
+                          type: string
+                          description: App ID
+                          example: 6578278e879ad2646715ba9c
+                        meterId:
+                          type: string
+                          description: Billing Meter ID (you can find this on your app's pricing page)
+                          example: 680b97022b4a34420f5f9b93
+                        chargeId:
+                          type: string
+                          description: Charge ID
+                          example: charge_123
+                        entityType:
+                          type: string
+                          description: Indicates who was charged? Currently, we support charges for 'location' only
+                          example: location
+                        entityId:
+                          type: string
+                          description: If the entityType is Location, entityld would be locationld.
+                          example: ve9EPM428h8vShlRW1KT
+                        amountCharged:
+                          type: number
+                          description: Total amount charged
+                          example: 0.1
+                        pricePerUnit:
+                          type: number
+                          description: Price per unit for the charge
+                          example: 0.01
+                        transactionType:
+                          type: string
+                          description: This can be one of two values - 'charge' or 'refund'
+                          example: charge
+                        units:
+                          type: number
+                          description: Number of units that the sub-account was charged for
+                          example: 10
+                        meta:
+                          type: object
+                          description: meta object contains details that were sent while creating the charge via the API - eventID, description, eventTime, userld
+                          example:
+                            eventId: evt_abc123
+                            description: Charge for 10 SMS messages
+                        createdAt:
+                          type: string
+                          format: date-time
+                          description: Timestamp when the charge was created in our system
+                          example: '2025-03-26T00:00:00.000Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          description: Timestamp when the charge was last updated in our system
+                          example: '2025-03-26T00:00:00.000Z'
+                  count:
+                    type: number
+                    description: Total number of charges
+                    example: 100
+                    deprecated: true
+                  pagination:
+                    type: object
+                    description: Pagination metadata for the charges list
+                    example:
+                      total: 100
+                      skip: 0
+                      limit: 10
+                    properties:
+                      total:
+                        type: number
+                        description: Total number of charges
+                        example: 100
+                      skip:
+                        type: number
+                        description: Number of records to skip
+                        example: 0
+                      limit:
+                        type: number
+                        description: Maximum number of records to return
+                        example: 10
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Wallet Charges
+      security:
+      - Location-Access-Only:
+        - charges.readonly
+  /marketplace/billing/charges/{chargeId}:
+    delete:
+      operationId: deleteCharge
+      summary: Delete a wallet charge
+      parameters:
+      - name: chargeId
+        required: true
+        in: path
+        description: ID of the charge to delete
+        schema:
+          example: charge_123
+          type: string
+      responses:
+        '200':
+          description: Charge deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates whether the charge was deleted successfully
+                    example: true
+        '404':
+          description: Charge not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing why the charge was not found
+                    example: Charge not found
+                  statusCode:
+                    type: number
+                    description: HTTP status code
+                    example: 404
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Wallet Charges
+      security:
+      - Location-Access-Only:
+        - charges.write
+    get:
+      operationId: getSpecificCharge
+      summary: Get specific wallet charge details
+      parameters:
+      - name: chargeId
+        required: true
+        in: path
+        description: ID of the charge to retrieve
+        schema:
+          example: charge_123
+          type: string
+      responses:
+        '200':
+          description: Returns charge details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refunded:
+                    type: boolean
+                    description: Value is 'true' if the charge has subsequently been refunded.
+                    example: false
+                  currency:
+                    type: string
+                    description: Currency of the transaction. We currently support USD only.
+                    example: USD
+                  appId:
+                    type: string
+                    description: App ID
+                    example: 6578278e879ad2646715ba9c
+                  meterId:
+                    type: string
+                    description: Billing Meter ID (you can find this on your app's pricing page)
+                    example: 680b97022b4a34420f5f9b93
+                  chargeId:
+                    type: string
+                    description: Charge ID
+                    example: charge_123
+                  entityType:
+                    type: string
+                    description: Indicates who was charged? Currently, we support charges for 'location' only
+                    example: location
+                  entityId:
+                    type: string
+                    description: If the entityType is Location, entityld would be locationld.
+                    example: ve9EPM428h8vShlRW1KT
+                  amountCharged:
+                    type: number
+                    description: Total amount charged
+                    example: 0.1
+                  pricePerUnit:
+                    type: number
+                    description: Price per unit for the charge
+                    example: 0.01
+                  transactionType:
+                    type: string
+                    description: This can be one of two values - 'charge' or 'refund'
+                    example: charge
+                  units:
+                    type: number
+                    description: Number of units that the sub-account was charged for
+                    example: 10
+                  meta:
+                    type: object
+                    description: meta object contains details that were sent while creating the charge via the API - eventID, description, eventTime, userld
+                    example:
+                      eventId: evt_abc123
+                      description: Charge for 10 SMS messages
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the charge was created in our system
+                    example: '2025-03-26T00:00:00.000Z'
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the charge was last updated in our system
+                    example: '2025-03-26T00:00:00.000Z'
+        '404':
+          description: Charge not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing why the charge was not found
+                    example: Charge not found
+                  statusCode:
+                    type: number
+                    description: HTTP status code
+                    example: 404
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Wallet Charges
+      security:
+      - Location-Access-Only:
+        - charges.readonly
+  /marketplace/billing/charges/has-funds:
+    get:
+      operationId: hasFunds
+      summary: Check if account has sufficient funds
+      parameters: []
+      responses:
+        '200':
+          description: Returns fund availability status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasFunds:
+                    type: boolean
+                    description: Indicates whether the sub-account has sufficient funds to be charged
+                    example: true
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Wallet Charges
+      security:
+      - Location-Access-Only:
+        - charges.readonly
+components:
+  schemas:
+    RaiseChargeBodyDTO:
+      type: object
+      properties:
+        appId:
+          type: string
+          description: App ID of the App
+          example: 6578278e879ad2646715ba9c
+        meterId:
+          type: string
+          description: Billing Meter ID (you can find this on your app's pricing page)
+          example: 680b97022b4a34420f5f9b93
+        eventId:
+          type: string
+          description: Event ID / Transaction ID on your server's side. This will help you maintain the reference of the event/transaction on your end that you charged the customer for.
+          example: evt_abc123
+        userId:
+          type: string
+          description: User ID
+          example: user_abc123
+        locationId:
+          type: string
+          description: ID of the Sub-Account to be charged
+          example: ve9EPM428h8vShlRW1KT
+        companyId:
+          type: string
+          description: ID of the Agency the Sub-account belongs to
+          example: company_abc123
+        description:
+          type: string
+          description: Description of the charge
+          example: Charge for sending 10 SMS messages
+        price:
+          type: number
+          description: Price per unit to charge
+          example: 0.01
+        units:
+          type: number
+          description: Number of units to charge
+          example: 10
+        eventTime:
+          type: string
+          description: The timestamp when the event/transaction was performed. If blank, the billing timestamp will be set as the event time. ISO8601 Format.
+          example: 2025-03-26T00:00:000Z
+      required:
+      - appId
+      - meterId
+      - eventId
+      - locationId
+      - companyId
+      - description
+      - units
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Developer marketplace
+  tags:
+  - Marketplace
+  - App Management
+  - Wallet Charges
+  - App Billing Management
+  - External Auth Migration

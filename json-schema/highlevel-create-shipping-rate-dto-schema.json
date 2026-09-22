@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-shipping-rate-dto-schema.json",
+  "title": "CreateShippingRateDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-store-openapi.json#/components/schemas/CreateShippingRateDto",
+  "type": "object",
+  "properties": {
+    "altId": {
+      "type": "string",
+      "description": "Location Id or Agency Id"
+    },
+    "altType": {
+      "type": "string",
+      "enum": [
+        "location"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the shipping zone"
+    },
+    "description": {
+      "type": "string",
+      "description": "Delivery description"
+    },
+    "currency": {
+      "type": "string",
+      "description": "The currency of the amount of the rate / handling fee"
+    },
+    "amount": {
+      "type": "number",
+      "description": "The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate)."
+    },
+    "conditionType": {
+      "type": "string",
+      "description": "Type of condition to provide the conditional pricing",
+      "enum": [
+        "none",
+        "price",
+        "weight"
+      ]
+    },
+    "minCondition": {
+      "type": "number",
+      "description": "Minimum condition for applying this price. set 0 or null if there is no minimum"
+    },
+    "maxCondition": {
+      "type": "number",
+      "description": "Maximum condition for applying this price. set 0 or null if there is no maximum"
+    },
+    "isCarrierRate": {
+      "type": "boolean",
+      "description": "is this a carrier rate"
+    },
+    "shippingCarrierId": {
+      "type": "string",
+      "description": "Shipping carrier id"
+    },
+    "percentageOfRateFee": {
+      "type": "number",
+      "description": "Percentage of rate fee if it is a carrier rate."
+    },
+    "shippingCarrierServices": {
+      "description": "An array of items",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ShippingCarrierServiceDto"
+      }
+    }
+  },
+  "required": [
+    "altId",
+    "altType",
+    "name",
+    "currency",
+    "amount",
+    "conditionType",
+    "minCondition",
+    "maxCondition",
+    "shippingCarrierId"
+  ],
+  "$defs": {
+    "ShippingCarrierServiceDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the shipping carrier service"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the shipping carrier service"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ]
+    }
+  }
+}

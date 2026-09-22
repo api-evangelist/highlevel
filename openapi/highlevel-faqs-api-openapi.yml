@@ -1,0 +1,508 @@
+openapi: 3.2.0
+info:
+  title: Knowledge Base Faqs API
+  description: Documentation for Knowledge Base API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: FAQs
+  description: Documentation for Knowledge Base API
+paths:
+  /knowledge-bases/faqs:
+    get:
+      operationId: list
+      summary: Get all FAQs by knowledge base with pagination support
+      description: Retrieves FAQs for a knowledge base. Supports pagination using limit and lastFaqId parameters.
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: knowledgeBaseId
+        required: true
+        in: query
+        description: knowledge base ID as string
+        schema:
+          example: 710KoEzy793Fxubft0bc
+          type: string
+      - name: locationId
+        required: true
+        in: query
+        description: location ID as string
+        schema:
+          example: qDZpF8GH3qvgJTmKCoL
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Limit the number of FAQs returned
+        schema:
+          default: 10
+          example: 10
+          type: number
+      - name: lastFaqId
+        required: false
+        in: query
+        description: Last FAQ ID for pagination (cursor-based)
+        schema:
+          example: 3rzeElC1FOVY91veVBkp
+          type: string
+      responses:
+        '200':
+          description: FAQs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFaqsResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - FAQs
+      security:
+      - Location-Access: []
+    post:
+      operationId: create
+      summary: Create a new FAQ inside knowledge base
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddFaqDTO'
+      responses:
+        '201':
+          description: FAQ created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFaqResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - FAQs
+      security:
+      - Location-Access: []
+  /knowledge-bases/faqs/{id}:
+    put:
+      operationId: update
+      summary: Update an existing knowledge base FAQ
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: id
+        required: true
+        in: path
+        description: faq ID as string
+        schema:
+          example: 710KoEzy793Fxubft0bc
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFaqBodyDTO'
+      responses:
+        '200':
+          description: FAQ updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateFaqResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - FAQs
+      security:
+      - Location-Access: []
+    delete:
+      operationId: delete
+      summary: Delete an existing knowledge base FAQ
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: id
+        required: true
+        in: path
+        description: faq ID as string
+        schema:
+          example: 710KoEzy793Fxubft0bc
+          type: string
+      responses:
+        '200':
+          description: FAQ deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteFaqResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorDTO'
+      tags:
+      - FAQs
+      security:
+      - Location-Access: []
+components:
+  schemas:
+    UpdateFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the update operation
+          example: true
+      required:
+      - success
+    FaqResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: FAQ ID as string
+          example: 3rzeElC1FOVY91veVBkp
+        question:
+          type: string
+          description: FAQ question
+          example: What is 1+2?
+        questionLowerCase:
+          type: string
+          description: FAQ question in lowercase
+          example: what is 1+2?
+        answer:
+          type: string
+          description: FAQ answer
+          example: '3'
+        knowledgeBaseId:
+          type: string
+          description: Knowledge base ID
+          example: I1rITlYLJofFosIqC4Np
+        locationId:
+          type: string
+          description: Location ID
+          example: qIyivCmsuEOSnyoFYEej
+        trainedUrlId:
+          type: string
+          description: Trained URL ID
+          example: 688e6b6d8a1887e6d94d1475
+        deleted:
+          type: boolean
+          description: Whether the FAQ is deleted
+          example: false
+        createdAt:
+          type: string
+          description: Date when FAQ was created
+          example: '2025-08-02T19:47:57.243Z'
+        updatedAt:
+          type: string
+          description: Date when FAQ was last updated
+          example: '2025-08-02T19:47:57.243Z'
+      required:
+      - id
+      - question
+      - questionLowerCase
+      - answer
+      - knowledgeBaseId
+      - locationId
+      - trainedUrlId
+      - deleted
+      - createdAt
+      - updatedAt
+    DeleteFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the delete operation
+          example: true
+      required:
+      - success
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    ListFaqsResponseDTO:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total count of all FAQs in the knowledge base
+          example: 150
+        faqs:
+          description: Array of FAQ objects
+          type: array
+          items:
+            $ref: '#/components/schemas/FaqResponseDTO'
+        lastFaqId:
+          type: string
+          description: Last FAQ ID for pagination (use as lastFaqId in next request)
+          example: 3rzeElC1FOVY91veVBkp
+        hasMore:
+          type: boolean
+          description: Whether there are more FAQs available
+          example: true
+      required:
+      - count
+      - faqs
+    UnprocessableDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 422
+        message:
+          example:
+          - Unprocessable Entity
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+          example: Unprocessable Entity
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: Internal Server Error
+    CreateFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        faq:
+          description: Created FAQ details
+          allOf:
+          - $ref: '#/components/schemas/FaqResponseDTO'
+      required:
+      - success
+      - faq
+    UnauthorizedDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 401
+        message:
+          type: string
+          example: 'Invalid token: access token is invalid'
+        error:
+          type: string
+          example: Unauthorized
+    UpdateFaqBodyDTO:
+      type: object
+      properties:
+        question:
+          type: string
+          description: faq question as a string
+          example: What is the capital of France?
+        answer:
+          type: string
+          description: faq answer as a string
+          example: The capital of France is Paris.
+      required:
+      - question
+      - answer
+    AddFaqDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: location ID as string
+          example: HqDZpF8GH3qvgJTmKCoL
+        question:
+          type: string
+          description: faq question as a string
+          example: What is the capital of France?
+        answer:
+          type: string
+          description: faq answer as a string
+          example: The capital of France is Paris.
+        knowledgeBaseId:
+          type: string
+          description: knowledge base ID as string
+          example: 710KoEzy793Fxubft0bc
+      required:
+      - locationId
+      - question
+      - answer
+      - knowledgeBaseId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Knowledge Base
+  tags:
+  - Knowledge Base
+  - Faqs
+  - Web Crawler

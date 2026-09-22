@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-get-txn-response-schema-schema.json",
+  "title": "GetTxnResponseSchema",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-payments-openapi.json#/components/schemas/GetTxnResponseSchema",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "The unique identifier for the transaction."
+    },
+    "altType": {
+      "type": "string",
+      "description": "AltType is the type of identifier."
+    },
+    "altId": {
+      "type": "string",
+      "description": "AltId is the unique identifier eg: location id."
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Contact id corresponding to the transaction."
+    },
+    "contactSnapshot": {
+      "type": "object",
+      "description": "Contact details of the transaction."
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency in which transaction was made."
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction value."
+    },
+    "status": {
+      "type": "object",
+      "description": "Transaction status."
+    },
+    "liveMode": {
+      "type": "boolean",
+      "description": "Transaction is in live / test mode."
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "The creation timestamp of the transaction."
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "The last update timestamp of the transaction."
+    },
+    "entityType": {
+      "type": "string",
+      "description": "Entity type of transaction (eg: order)."
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Entity id for the transaction. e.g: order id"
+    },
+    "entitySource": {
+      "description": "Entity source details for the transaction.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/OrderSource"
+        }
+      ]
+    },
+    "chargeId": {
+      "type": "string",
+      "description": "Charge id for transaction."
+    },
+    "chargeSnapshot": {
+      "type": "object",
+      "description": "Charge snapshot of transaction."
+    },
+    "invoiceId": {
+      "type": "string",
+      "description": "Invoice id for the transaction."
+    },
+    "subscriptionId": {
+      "type": "string",
+      "description": "Subscription id for transaction."
+    },
+    "paymentProvider": {
+      "type": "object",
+      "description": "Payment provider details of the transaction."
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "Ip address from where transaction was initiated."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Meta details of the transaction."
+    },
+    "markAsTest": {
+      "type": "boolean",
+      "description": "Is test transaction."
+    },
+    "isParent": {
+      "type": "boolean",
+      "description": "Is parent transaction."
+    },
+    "amountRefunded": {
+      "type": "number",
+      "description": "Transaction amount refunded."
+    },
+    "receiptId": {
+      "type": "string",
+      "description": "Receipt id for transaction."
+    },
+    "qboSynced": {
+      "type": "boolean",
+      "description": "Is transaction qbo synced."
+    },
+    "qboResponse": {
+      "type": "object",
+      "description": "Qbo details of the transaction."
+    },
+    "traceId": {
+      "type": "string",
+      "description": "Trace id of the transaction."
+    },
+    "mergedFromContactId": {
+      "type": "string",
+      "description": "ID of the contact that was merged from."
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "User ID who created the transaction."
+    }
+  },
+  "required": [
+    "_id",
+    "altType",
+    "altId",
+    "createdAt",
+    "updatedAt"
+  ],
+  "$defs": {
+    "OrderSource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "funnel",
+            "website",
+            "invoice",
+            "calendar",
+            "text2Pay",
+            "document_contracts",
+            "membership",
+            "mobile_app",
+            "communities",
+            "point_of_sale",
+            "manual",
+            "form",
+            "survey",
+            "payment_link",
+            "external"
+          ]
+        },
+        "subType": {
+          "type": "string",
+          "enum": [
+            "one_step_order_form",
+            "two_step_order_form",
+            "upsell",
+            "tap_to_pay",
+            "card_payment",
+            "store",
+            "contact_view",
+            "email_campaign",
+            "payments_dashboard",
+            "shopify",
+            "subscription_view",
+            "store_upsell",
+            "woocommerce",
+            "service",
+            "meeting",
+            "imported_csv",
+            "qr_code",
+            "saas_one_time",
+            "saas_subscription"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "meta": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ]
+    }
+  }
+}

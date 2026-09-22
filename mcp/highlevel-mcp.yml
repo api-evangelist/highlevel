@@ -1,0 +1,254 @@
+generated: '2026-09-22'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/highlevel-account-api-openapi.yml
+- openapi/highlevel-actions-api-openapi.yml
+- openapi/highlevel-affiliates-api-openapi.yml
+- openapi/highlevel-agents-api-openapi.yml
+- openapi/highlevel-app-billing-management-api-openapi.yml
+- openapi/highlevel-app-management-api-openapi.yml
+- openapi/highlevel-appointment-notes-api-openapi.yml
+- openapi/highlevel-appointments-api-openapi.yml
+- openapi/highlevel-associations-api-openapi.yml
+- openapi/highlevel-availability-api-openapi.yml
+- openapi/highlevel-blogs-api-openapi.yml
+- openapi/highlevel-brand-boards-api-openapi.yml
+- openapi/highlevel-bulk-api-openapi.yml
+- openapi/highlevel-businesses-api-openapi.yml
+- openapi/highlevel-calendar-events-api-openapi.yml
+- openapi/highlevel-calendar-groups-api-openapi.yml
+- openapi/highlevel-calendar-notifications-api-openapi.yml
+- openapi/highlevel-calendar-resources-rooms-equipments-api-openapi.yml
+- openapi/highlevel-calendars-api-openapi.yml
+- openapi/highlevel-campaigns-api-openapi.yml
+- openapi/highlevel-category-api-openapi.yml
+- openapi/highlevel-collections-api-openapi.yml
+- openapi/highlevel-commissions-api-openapi.yml
+- openapi/highlevel-companies-api-openapi.yml
+- openapi/highlevel-contacts-api-openapi.yml
+- openapi/highlevel-conversations-api-openapi.yml
+- openapi/highlevel-coupons-api-openapi.yml
+- openapi/highlevel-courses-api-openapi.yml
+- openapi/highlevel-csv-api-openapi.yml
+- openapi/highlevel-custom-field-api-openapi.yml
+- openapi/highlevel-custom-fields-v2-api-openapi.yml
+- openapi/highlevel-custom-menu-links-api-openapi.yml
+- openapi/highlevel-custom-provider-api-openapi.yml
+- openapi/highlevel-custom-value-api-openapi.yml
+- openapi/highlevel-dashboard-api-openapi.yml
+- openapi/highlevel-documents-api-openapi.yml
+- openapi/highlevel-email-api-openapi.yml
+- openapi/highlevel-email-verification-api-openapi.yml
+- openapi/highlevel-estimate-api-openapi.yml
+- openapi/highlevel-external-auth-migration-api-openapi.yml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: 'No MCP server was found. The pre-flight posted tools/list to /mcp on services.leadconnectorhq.com, api.gohighlevel.com, api.leadconnectorhq.com,
+  developers.gohighlevel.com; verdict opaque (https://services.leadconnectorhq.com/mcp answered 401: the edge authenticates before it routes,
+  which proves nothing either way). Candidate tools below are derived from the 561 operation(s) in the provider''s own OpenAPI (40 listed); they
+  describe what a server WOULD expose, not one that exists.'
+tools:
+- name: get_account
+  operationId: get-account
+  method: GET
+  path: /social-media-posting/{locationId}/accounts
+  description: Get Accounts
+- name: create_action
+  operationId: create-action
+  method: POST
+  path: /conversation-ai/agents/{agentId}/actions
+  description: Attach Action to Agent
+- name: list_affiliates
+  operationId: list-affiliates
+  method: GET
+  path: /affiliate-manager/{locationId}/affiliates
+  description: List Affiliates
+- name: create_agent
+  operationId: createAgent
+  method: POST
+  path: /agent-studio/agent
+  description: Create Agent
+- name: get_rebilling_config_for_app
+  operationId: get-rebilling-config-for-app
+  method: GET
+  path: /marketplace/app/{appId}/rebilling-config/location/{locationId}
+  description: Get rebilling config for an app subscription and usage plans
+- name: uninstall_application
+  operationId: uninstall-application
+  method: DELETE
+  path: /marketplace/app/{appId}/installations
+  description: Uninstall an application
+- name: get_appointment_notes
+  operationId: get-appointment-notes
+  method: GET
+  path: /calendars/appointments/{appointmentId}/notes
+  description: Get Notes
+- name: get_appointments_for_contact
+  operationId: get-appointments-for-contact
+  method: GET
+  path: /contacts/{contactId}/appointments
+  description: Get Appointments for Contact
+- name: get_association_key_by_key_name
+  operationId: get-association-key-by-key-name
+  method: GET
+  path: /associations/key/{key_name}
+  description: Get association key by key name
+- name: get_all_schedules
+  operationId: getAllSchedules
+  method: GET
+  path: /calendars/schedules/search
+  description: List user availability schedule
+- name: check_url_slug_exists
+  operationId: check-url-slug-exists
+  method: GET
+  path: /blogs/posts/url-slug-exists
+  description: Check url slug
+- name: get_brand_boards_by_location
+  operationId: getBrandBoardsByLocation
+  method: GET
+  path: /brand-boards/{locationId}
+  description: Get Brand Boards
+- name: add_remove_contact_from_business
+  operationId: add-remove-contact-from-business
+  method: POST
+  path: /contacts/bulk/business
+  description: Add/Remove Contacts From Business
+- name: update_business
+  operationId: update-business
+  method: PUT
+  path: /businesses/{businessId}
+  description: Update Business
+- name: create_appointment
+  operationId: create-appointment
+  method: POST
+  path: /calendars/events/appointments
+  description: Create appointment
+- name: get_groups
+  operationId: get-groups
+  method: GET
+  path: /calendars/groups
+  description: Get Groups
+- name: get_event_notification
+  operationId: get-event-notification
+  method: GET
+  path: /calendars/{calendarId}/notifications
+  description: Get notifications
+- name: get_calendar_resource
+  operationId: get-calendar-resource
+  method: GET
+  path: /calendars/resources/{resourceType}/{id}
+  description: Get Calendar Resource
+- name: get_slots
+  operationId: get-slots
+  method: GET
+  path: /calendars/{calendarId}/free-slots
+  description: Get Free Slots
+- name: add_contact_to_campaign
+  operationId: add-contact-to-campaign
+  method: POST
+  path: /contacts/{contactId}/campaigns/{campaignId}
+  description: Add Contact to Campaign
+- name: get_categories_location_id
+  operationId: get-categories-location-id
+  method: GET
+  path: /social-media-posting/{locationId}/categories
+  description: Get categories by location id
+- name: get_product_collection
+  operationId: get-product-collection
+  method: GET
+  path: /products/collections
+  description: Fetch Product Collections
+- name: list_commissions
+  operationId: list-commissions
+  method: GET
+  path: /affiliate-manager/{locationId}/commissions
+  description: List Commissions
+- name: get_company
+  operationId: get-company
+  method: GET
+  path: /companies/{companyId}
+  description: Get Company
+- name: get_contact
+  operationId: get-contact
+  method: GET
+  path: /contacts/{contactId}
+  description: Get Contact
+- name: get_conversation
+  operationId: get-conversation
+  method: GET
+  path: /conversations/{conversationId}
+  description: Get Conversation
+- name: list_coupons
+  operationId: list-coupons
+  method: GET
+  path: /payments/coupon/list
+  description: List Coupons
+- name: import_courses
+  operationId: import-courses
+  method: POST
+  path: /courses/courses-exporter/public/import
+  description: Import Courses
+- name: upload_csv
+  operationId: upload-csv
+  method: POST
+  path: /social-media-posting/{locationId}/csv
+  description: Upload CSV
+- name: get_custom_fields
+  operationId: get-custom-fields
+  method: GET
+  path: /locations/{locationId}/customFields
+  description: Get Custom Fields
+- name: get_custom_field_by_id
+  operationId: get-custom-field-by-id
+  method: GET
+  path: /custom-fields/{id}
+  description: Get Custom Field / Folder By Id
+- name: get_custom_menu_by_id
+  operationId: get-custom-menu-by-id
+  method: GET
+  path: /custom-menus/{customMenuId}
+  description: Get Custom Menu Link
+- name: create_integration
+  operationId: create-integration
+  method: POST
+  path: /payments/custom-provider/provider
+  description: Create new integration
+- name: get_custom_values
+  operationId: get-custom-values
+  method: GET
+  path: /locations/{locationId}/customValues
+  description: Get Custom Values
+- name: get_call_logs
+  operationId: get-call-logs
+  method: GET
+  path: /voice-ai/dashboard/call-logs
+  description: List Call Logs
+- name: list_documents_contracts
+  operationId: list-documents-contracts
+  method: GET
+  path: /proposals/document
+  description: List documents
+- name: get_email_by_id
+  operationId: get-email-by-id
+  method: GET
+  path: /conversations/messages/email/{id}
+  description: Get email by Id
+- name: verify_email
+  operationId: verify-email
+  method: POST
+  path: /email/verify
+  description: Email Verification
+- name: create_new_estimate
+  operationId: create-new-estimate
+  method: POST
+  path: /invoices/estimate
+  description: Create New Estimate
+- name: migrate_connection
+  operationId: migrateConnection
+  method: POST
+  path: /marketplace/external-auth/migration
+  description: Migrate external authentication connection

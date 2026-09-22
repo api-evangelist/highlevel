@@ -1,0 +1,189 @@
+openapi: 3.2.0
+info:
+  title: Opportunities Lost reason API
+  description: Documentation for Opportunities API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Lost reason
+  description: Documentation for Opportunities API
+paths:
+  /opportunities/lost-reason:
+    get:
+      operationId: get-lost-reason
+      summary: Get lost reason
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: lost reason name
+        schema:
+          example: lost reason
+          type: string
+      - name: deleted
+        required: false
+        in: query
+        description: deleted
+        schema:
+          default: false
+          example: false
+          type: boolean
+      - name: query
+        required: false
+        in: query
+        description: search query
+        schema:
+          example: dentist
+          type: string
+      - name: skip
+        required: false
+        in: query
+        description: skip
+        schema:
+          default: 0
+          example: 1
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: limit
+        schema:
+          default: 100
+          example: 10
+          type: number
+      - name: getCount
+        required: false
+        in: query
+        description: get count
+        schema:
+          example: field
+          type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LostReasonsResponseSchema'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Lost reason
+      security:
+      - bearer:
+        - opportunities.readonly
+components:
+  schemas:
+    LostReasonsResponseSchema:
+      type: object
+      properties:
+        lostReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/LostReasonResponseSchema'
+        total:
+          type: number
+          example: 100
+    LostReasonResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: lost reason id
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          description: lost reason name
+          example: lost reason
+        locationId:
+          type: string
+          description: location id
+          example: location_id
+        updatedAt:
+          format: date-time
+          type: string
+          description: updated at
+          example: '2023-06-19T12:04:22.488Z'
+        createdAt:
+          format: date-time
+          type: string
+          description: created at
+          example: '2023-06-19T12:04:22.488Z'
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Opportunities
+  tags:
+  - Opportunities
+  - Search
+  - Pipelines
+  - Export
+  - Pipiline Search
+  - Lost reason
+  - Followers

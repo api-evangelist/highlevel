@@ -1,0 +1,727 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-text2-pay-dto-schema.json",
+  "title": "Text2PayDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-invoices-openapi.json#/components/schemas/Text2PayDto",
+  "type": "object",
+  "properties": {
+    "altId": {
+      "type": "string",
+      "description": "location Id / company Id based on altType"
+    },
+    "altType": {
+      "type": "string",
+      "description": "Alt Type",
+      "enum": [
+        "location"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Invoice Name"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency code"
+    },
+    "items": {
+      "description": "An array of items for the invoice.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/InvoiceItemDto"
+      }
+    },
+    "termsNotes": {
+      "type": "string",
+      "description": "Terms notes, Also supports HTML markups"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title for the invoice"
+    },
+    "contactDetails": {
+      "description": "Contact information to send the invoice to",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ContactDetailsDto"
+        }
+      ]
+    },
+    "invoiceNumber": {
+      "type": "string",
+      "description": "Invoice Number"
+    },
+    "issueDate": {
+      "type": "string",
+      "description": "Issue date in YYYY-MM-DD format"
+    },
+    "dueDate": {
+      "type": "string",
+      "description": "Due date in YYYY-MM-DD format"
+    },
+    "sentTo": {
+      "$ref": "#/$defs/SentToDto"
+    },
+    "liveMode": {
+      "type": "boolean"
+    },
+    "automaticTaxesEnabled": {
+      "type": "boolean",
+      "description": "Automatic taxes enabled for the Invoice"
+    },
+    "paymentSchedule": {
+      "description": "split invoice into payment schedule summing up to full invoice amount",
+      "allOf": [
+        {
+          "$ref": "#/$defs/PaymentScheduleDto"
+        }
+      ]
+    },
+    "lateFeesConfiguration": {
+      "description": "late fees configuration",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LateFeesConfigurationDto"
+        }
+      ]
+    },
+    "tipsConfiguration": {
+      "description": "tips configuration for the invoice",
+      "allOf": [
+        {
+          "$ref": "#/$defs/TipsConfigurationDto"
+        }
+      ]
+    },
+    "invoiceNumberPrefix": {
+      "type": "string",
+      "description": "prefix for invoice number"
+    },
+    "paymentMethods": {
+      "description": "Payment Methods for Invoices",
+      "allOf": [
+        {
+          "$ref": "#/$defs/PaymentMethodDto"
+        }
+      ]
+    },
+    "attachments": {
+      "description": "attachments for the invoice",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AttachmentsDto"
+      }
+    },
+    "miscellaneousCharges": {
+      "description": "miscellaneous charges for the invoice",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ProcessingFeeDto"
+        }
+      ]
+    },
+    "id": {
+      "type": "string",
+      "description": "id of invoice to update. If skipped, a new invoice will be created"
+    },
+    "includeTermsNote": {
+      "type": "boolean",
+      "description": "include terms & notes with receipts"
+    },
+    "action": {
+      "type": "string",
+      "description": "create invoice in draft mode or send mode",
+      "enum": [
+        "draft",
+        "send"
+      ]
+    },
+    "userId": {
+      "type": "string",
+      "description": "id of user generating invoice"
+    },
+    "discount": {
+      "$ref": "#/$defs/DiscountDto"
+    },
+    "businessDetails": {
+      "$ref": "#/$defs/BusinessDetailsDto"
+    }
+  },
+  "required": [
+    "altId",
+    "altType",
+    "name",
+    "currency",
+    "items",
+    "contactDetails",
+    "issueDate",
+    "sentTo",
+    "liveMode",
+    "action",
+    "userId"
+  ],
+  "$defs": {
+    "AdditionalEmailsDto": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    },
+    "AddressDto": {
+      "type": "object",
+      "properties": {
+        "addressLine1": {
+          "type": "string",
+          "description": "Address Line 1"
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Address Line 2"
+        },
+        "city": {
+          "type": "string",
+          "description": "City"
+        },
+        "state": {
+          "type": "string",
+          "description": "State"
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "Country Code"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Postal Code"
+        }
+      }
+    },
+    "AttachmentsDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the file selected"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the file "
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the file"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the file"
+        },
+        "size": {
+          "type": "number",
+          "description": "Size of the file"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "url",
+        "type",
+        "size"
+      ]
+    },
+    "BusinessDetailsDto": {
+      "type": "object",
+      "properties": {
+        "logoUrl": {
+          "type": "string",
+          "description": "Business Logo URL"
+        },
+        "name": {
+          "type": "string",
+          "description": "Business Name"
+        },
+        "phoneNo": {
+          "type": "string",
+          "description": "Business Phone Number"
+        },
+        "address": {
+          "description": "Business Address",
+          "allOf": [
+            {
+              "$ref": "#/$defs/AddressDto"
+            }
+          ]
+        },
+        "website": {
+          "type": "string",
+          "description": "Business Website Link"
+        },
+        "customValues": {
+          "description": "Custom Values",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ContactDetailsDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Contact ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Contact Name"
+        },
+        "phoneNo": {
+          "type": "string",
+          "description": "Contact Phone Number"
+        },
+        "email": {
+          "type": "string",
+          "description": "Contact Email"
+        },
+        "additionalEmails": {
+          "description": "Secondary email addresses for the contact to be saved",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AdditionalEmailsDto"
+          }
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Contact Company Name"
+        },
+        "address": {
+          "$ref": "#/$defs/AddressDto"
+        },
+        "customFields": {
+          "description": "Custom Values",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "phoneNo",
+        "email"
+      ]
+    },
+    "DiscountDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Discount Value",
+          "default": 0
+        },
+        "type": {
+          "type": "string",
+          "description": "Discount type",
+          "enum": [
+            "percentage",
+            "fixed"
+          ],
+          "default": "percentage"
+        },
+        "validOnProductIds": {
+          "description": "Product Ids on which discount is applicable",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "InvoiceItemDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Invoice Item Name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Invoice descriptions"
+        },
+        "productId": {
+          "type": "string",
+          "description": "Product Id"
+        },
+        "priceId": {
+          "type": "string",
+          "description": "Price Id"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency"
+        },
+        "amount": {
+          "type": "number",
+          "description": "Product amount"
+        },
+        "qty": {
+          "type": "number",
+          "description": "Product Quantity"
+        },
+        "taxes": {
+          "description": "Tax",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ItemTaxDto"
+          }
+        },
+        "automaticTaxCategoryId": {
+          "type": "string",
+          "description": "Tax category id for calculating automatic tax"
+        },
+        "isSetupFeeItem": {
+          "type": "boolean",
+          "description": "Setupfee item, only created when 1st invoice of recurring schedule is generated"
+        },
+        "type": {
+          "type": "string",
+          "description": "Price type of the item",
+          "enum": [
+            "one_time",
+            "recurring"
+          ]
+        },
+        "taxInclusive": {
+          "type": "boolean",
+          "description": "true if item amount is tax inclusive",
+          "default": false
+        }
+      },
+      "required": [
+        "name",
+        "currency",
+        "amount",
+        "qty"
+      ]
+    },
+    "ItemTaxDto": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number"
+        },
+        "calculation": {
+          "type": "string",
+          "enum": [
+            "exclusive"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "taxId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "rate"
+      ]
+    },
+    "LateFeesConfigurationDto": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "description": "Enable late fees"
+        },
+        "value": {
+          "type": "number",
+          "description": "Late Fees Value"
+        },
+        "type": {
+          "type": "string",
+          "description": "Late Fees Type",
+          "enum": [
+            "fixed",
+            "percentage"
+          ]
+        },
+        "frequency": {
+          "description": "Late Fees Frequency",
+          "allOf": [
+            {
+              "$ref": "#/$defs/LateFeesFrequencyDto"
+            }
+          ]
+        },
+        "grace": {
+          "description": "Late Fees Grace",
+          "allOf": [
+            {
+              "$ref": "#/$defs/LateFeesGraceDto"
+            }
+          ]
+        },
+        "maxLateFees": {
+          "description": "Max late fees payable",
+          "allOf": [
+            {
+              "$ref": "#/$defs/LateFeesMaxFeesDto"
+            }
+          ]
+        }
+      },
+      "required": [
+        "enable",
+        "value",
+        "type",
+        "frequency"
+      ]
+    },
+    "LateFeesFrequencyDto": {
+      "type": "object",
+      "properties": {
+        "intervalCount": {
+          "type": "number",
+          "description": "Late fees interval count"
+        },
+        "interval": {
+          "type": "string",
+          "description": "Late fees interval",
+          "enum": [
+            "minute",
+            "hour",
+            "day",
+            "week",
+            "month",
+            "one_time"
+          ]
+        }
+      },
+      "required": [
+        "intervalCount",
+        "interval"
+      ]
+    },
+    "LateFeesGraceDto": {
+      "type": "object",
+      "properties": {
+        "intervalCount": {
+          "type": "number",
+          "description": "Late fees grace interval count"
+        },
+        "interval": {
+          "type": "string",
+          "description": "Late fees grace interval",
+          "enum": [
+            "day"
+          ]
+        }
+      },
+      "required": [
+        "intervalCount",
+        "interval"
+      ]
+    },
+    "LateFeesMaxFeesDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "fixed"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "description": "Max late fees to pay"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "PaymentMethodDto": {
+      "type": "object",
+      "properties": {
+        "stripe": {
+          "description": "Payment Method",
+          "allOf": [
+            {
+              "$ref": "#/$defs/StripePaymentMethodDto"
+            }
+          ]
+        }
+      },
+      "required": [
+        "stripe"
+      ]
+    },
+    "PaymentScheduleDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Payment schedule type",
+          "enum": [
+            "fixed",
+            "percentage"
+          ]
+        },
+        "schedules": {
+          "description": "payment schedule item",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "schedules"
+      ]
+    },
+    "ProcessingFeeDto": {
+      "type": "object",
+      "properties": {
+        "charges": {
+          "description": "charges for the processing fee",
+          "items": {
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "collectedMiscellaneousCharges": {
+          "type": "number",
+          "description": "collected miscellaneous charges"
+        },
+        "paidCharges": {
+          "description": "paid miscellaneous charges",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProcessingFeePaidChargeDto"
+          }
+        }
+      },
+      "required": [
+        "charges"
+      ]
+    },
+    "ProcessingFeePaidChargeDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of the processing fee"
+        },
+        "charge": {
+          "type": "number",
+          "description": "charge for the processing fee"
+        },
+        "amount": {
+          "type": "number",
+          "description": "amount of the processing fee"
+        },
+        "_id": {
+          "type": "string",
+          "description": "id of the processing fee"
+        }
+      },
+      "required": [
+        "name",
+        "charge",
+        "amount",
+        "_id"
+      ]
+    },
+    "SentToDto": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "Email Address",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "emailCc": {
+          "description": "cc to be kept in any sent out emails",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "emailBcc": {
+          "description": "bcc to be kept in any sent out emails",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "phoneNo": {
+          "description": "Contact Phone Number",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "email"
+      ]
+    },
+    "StripePaymentMethodDto": {
+      "type": "object",
+      "properties": {
+        "enableBankDebitOnly": {
+          "type": "boolean",
+          "description": "Enable Bank Debit Only"
+        }
+      },
+      "required": [
+        "enableBankDebitOnly"
+      ]
+    },
+    "TipsConfigurationDto": {
+      "type": "object",
+      "properties": {
+        "tipsPercentage": {
+          "description": "Percentage of tips allowed",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tipsEnabled": {
+          "type": "boolean",
+          "description": "Tips enabled status"
+        }
+      },
+      "required": [
+        "tipsPercentage",
+        "tipsEnabled"
+      ]
+    }
+  }
+}

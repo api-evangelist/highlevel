@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-upsert-adset-dto-schema.json",
+  "title": "UpsertAdsetDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-ad-manager-openapi.json#/components/schemas/UpsertAdsetDTO",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Ad set identifier"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Location identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Ad set name"
+    },
+    "pageId": {
+      "type": "string",
+      "description": "Facebook page ID"
+    },
+    "instagramActorId": {
+      "type": "string",
+      "description": "Instagram actor ID"
+    },
+    "messagingPlatforms": {
+      "type": "string",
+      "description": "Messaging platforms",
+      "enum": [
+        "WHATSAPP",
+        "MESSENGER",
+        "INSTAGRAM_DIRECT"
+      ]
+    },
+    "whatsappNumber": {
+      "type": "string",
+      "description": "WhatsApp phone number"
+    },
+    "audience": {
+      "description": "Targeting audience configuration including geo-locations, locales, placements, and custom audiences",
+      "allOf": [
+        {
+          "$ref": "#/$defs/FacebookAudienceDTO"
+        }
+      ]
+    },
+    "budget": {
+      "description": "Ad set budget config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/Budget"
+        }
+      ]
+    },
+    "conversionLocation": {
+      "type": "string",
+      "description": "Conversion location"
+    },
+    "customEventType": {
+      "type": "string",
+      "description": "Custom event type"
+    },
+    "pixelId": {
+      "type": "string",
+      "description": "Conversion pixel ID"
+    },
+    "campaignId": {
+      "type": "string",
+      "description": "Parent campaign ID"
+    }
+  },
+  "required": [
+    "locationId",
+    "campaignId"
+  ],
+  "$defs": {
+    "AudienceCustomAudienceItemDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Custom audience ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Custom audience name"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "AudienceInterestDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Interest ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Interest name"
+        },
+        "type": {
+          "type": "string",
+          "description": "Interest category type (defaults to \"interests\" if omitted)"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "AudienceLocaleDTO": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Locale display name"
+        },
+        "key": {
+          "type": "number",
+          "description": "Facebook locale key"
+        }
+      },
+      "required": [
+        "name",
+        "key"
+      ]
+    },
+    "AudienceLocationDTO": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Facebook location key"
+        },
+        "name": {
+          "type": "string",
+          "description": "Location display name"
+        },
+        "type": {
+          "type": "string",
+          "description": "Geographic location type",
+          "enum": [
+            "country",
+            "city",
+            "region",
+            "country_group",
+            "geo_market",
+            "large_geo_area",
+            "medium_geo_area",
+            "small_geo_area",
+            "subcity",
+            "neighborhood",
+            "zip",
+            "address"
+          ]
+        },
+        "selectionType": {
+          "type": "string",
+          "description": "Whether the location is included or excluded from targeting",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "radius": {
+          "type": "number",
+          "description": "Targeting radius around the location (for city/address types)"
+        },
+        "radiusUnit": {
+          "type": "string",
+          "description": "Unit for the targeting radius",
+          "enum": [
+            "km",
+            "mi"
+          ]
+        },
+        "geometry": {
+          "description": "Geometry data for address-based targeting",
+          "allOf": [
+            {
+              "$ref": "#/$defs/AudienceLocationGeometry"
+            }
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "name",
+        "type",
+        "selectionType"
+      ]
+    },
+    "AudienceLocationGeometry": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "object",
+          "description": "Geographic coordinates"
+        },
+        "location_type": {
+          "type": "string",
+          "description": "Geocoding result type"
+        }
+      },
+      "required": [
+        "location",
+        "location_type"
+      ]
+    },
+    "AudiencePlacementsDTO": {
+      "type": "object",
+      "properties": {
+        "facebook": {
+          "description": "Facebook placement positions",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "instagram": {
+          "description": "Instagram placement positions",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "messenger": {
+          "description": "Messenger placement positions",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Budget": {
+      "type": "object",
+      "properties": {
+        "budgetType": {
+          "type": "string",
+          "description": "Budget type",
+          "enum": [
+            "DAILY",
+            "LIFETIME"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "description": "Budget amount"
+        },
+        "scheduleStartDate": {
+          "type": "string",
+          "description": "Schedule start date"
+        },
+        "scheduleEndDate": {
+          "type": "string",
+          "description": "Schedule end date"
+        }
+      },
+      "required": [
+        "budgetType",
+        "amount"
+      ]
+    },
+    "FacebookAudienceDTO": {
+      "type": "object",
+      "properties": {
+        "geo_locations": {
+          "description": "Geographic locations to target or exclude",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceLocationDTO"
+          }
+        },
+        "locales": {
+          "description": "Language locales to target",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceLocaleDTO"
+          }
+        },
+        "placements": {
+          "description": "Ad placement positions per platform (only used when placementType is \"manual\")",
+          "allOf": [
+            {
+              "$ref": "#/$defs/AudiencePlacementsDTO"
+            }
+          ]
+        },
+        "placementType": {
+          "type": "string",
+          "description": "Placement strategy — \"auto\" lets Facebook choose, \"manual\" uses the placements config",
+          "enum": [
+            "auto",
+            "manual"
+          ]
+        },
+        "lookalike": {
+          "description": "Lookalike audiences to target",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceCustomAudienceItemDTO"
+          }
+        },
+        "retargeting": {
+          "description": "Retargeting custom audiences to target",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceCustomAudienceItemDTO"
+          }
+        },
+        "interests": {
+          "description": "Interest-based targeting criteria",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceInterestDTO"
+          }
+        },
+        "age_min": {
+          "type": "number",
+          "description": "Minimum age for targeting"
+        },
+        "age_max": {
+          "type": "number",
+          "description": "Maximum age for targeting"
+        },
+        "genders": {
+          "description": "Gender targeting (1 = male, 2 = female)",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "geo_locations"
+      ]
+    }
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-update-product-dto-schema.json",
+  "title": "UpdateProductDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-products-openapi.json#/components/schemas/UpdateProductDto",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the product."
+    },
+    "locationId": {
+      "type": "string",
+      "description": "The unique identifier for the location."
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief description of the product."
+    },
+    "productType": {
+      "type": "string",
+      "enum": [
+        "DIGITAL",
+        "PHYSICAL",
+        "SERVICE",
+        "PHYSICAL/DIGITAL"
+      ]
+    },
+    "image": {
+      "type": "string",
+      "description": "The URL for the product image."
+    },
+    "statementDescriptor": {
+      "type": "string",
+      "description": "The statement descriptor for the product."
+    },
+    "availableInStore": {
+      "type": "boolean",
+      "description": "Indicates whether the product is available in-store."
+    },
+    "medias": {
+      "description": "An array of medias for the product.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ProductMediaDto"
+      }
+    },
+    "variants": {
+      "description": "An array of variants for the product.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ProductVariantDto"
+      }
+    },
+    "collectionIds": {
+      "description": "An array of category Ids for the product",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "isTaxesEnabled": {
+      "type": "boolean",
+      "description": "Are there any taxes attached to the product. If this is true, taxes array cannot be empty.",
+      "default": false
+    },
+    "taxes": {
+      "description": "List of ids of Taxes attached to the Product. If taxes are passed, isTaxesEnabled should be true.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "automaticTaxCategoryId": {
+      "type": "string",
+      "description": "Tax category ID for Automatic taxes calculation."
+    },
+    "isLabelEnabled": {
+      "type": "boolean",
+      "description": "Is the product label enabled. If this is true, label object cannot be empty.",
+      "default": false
+    },
+    "label": {
+      "description": "Details for Product Label",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ProductLabelDto"
+        }
+      ]
+    },
+    "slug": {
+      "type": "string",
+      "description": "The slug using which the product navigation will be handled"
+    },
+    "seo": {
+      "description": "SEO data for the product that will be displayed in the preview",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ProductSEODto"
+        }
+      ]
+    },
+    "taxInclusive": {
+      "type": "boolean",
+      "description": "Whether the taxes should be included in the purchase price",
+      "default": false
+    },
+    "prices": {
+      "description": "The prices of the product",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "locationId",
+    "productType"
+  ],
+  "$defs": {
+    "ProductLabelDto": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The content for the product label."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date in YYYY-MM-DDTHH:mm:ssZ format"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Start date in YYYY-MM-DDTHH:mm:ssZ format"
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "ProductMediaDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the media."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the media file."
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL where the media file is stored."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the media file (e.g., image, video will be supporting soon).",
+          "enum": [
+            "image",
+            "video"
+          ]
+        },
+        "isFeatured": {
+          "type": "boolean",
+          "description": "Indicates whether the media is featured."
+        },
+        "priceIds": {
+          "description": "Mongo ObjectIds of the prices for which the media is assigned",
+          "type": "array",
+          "items": {
+            "type": "array"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "url",
+        "type"
+      ]
+    },
+    "ProductSEODto": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "SEO title"
+        },
+        "description": {
+          "type": "string",
+          "description": "SEO description"
+        }
+      }
+    },
+    "ProductVariantDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier for the variant."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the variant."
+        },
+        "options": {
+          "description": "An array of options for the variant.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProductVariantOptionDto"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "options"
+      ]
+    },
+    "ProductVariantOptionDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the option."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+generated: '2026-09-22'
+method: probed
+generator: harvest-sibling-contracts.py
+source: https://raw.githubusercontent.com/GoHighLevel/highlevel-api-docs/main/apps/conversations.json
+found_on: https://github.com/GoHighLevel/highlevel-api-docs
+operations: gh:conversations.json
+version: 3.0.0
+ownership: sibling of a contract the pass accepted on the same host; URL names the
+  provider

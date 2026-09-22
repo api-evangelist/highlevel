@@ -1,0 +1,472 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-location-dto-schema.json",
+  "title": "CreateLocationDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-locations-openapi.json#/components/schemas/CreateLocationDto",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name for the sub-account/location"
+    },
+    "phone": {
+      "type": "string",
+      "description": "The phone number of the business for which sub-account is created with the appropriate country-code"
+    },
+    "companyId": {
+      "type": "string",
+      "description": "Company/Agency Id"
+    },
+    "address": {
+      "type": "string",
+      "description": "The address of the business for which sub-account is created"
+    },
+    "city": {
+      "type": "string",
+      "description": "The city where the business is located for which sub-account is created"
+    },
+    "state": {
+      "type": "string",
+      "description": "The state in which the business operates for which sub-account is created"
+    },
+    "country": {
+      "type": "string",
+      "description": "The 2 letter country-code in which the business is present for which sub-account is created",
+      "enum": [
+        "AF",
+        "AX",
+        "AL",
+        "DZ",
+        "AS",
+        "AD",
+        "AO",
+        "AI",
+        "AQ",
+        "AG",
+        "AR",
+        "AM",
+        "AW",
+        "AU",
+        "AT",
+        "AZ",
+        "BS",
+        "BH",
+        "BD",
+        "BB",
+        "BY",
+        "BE",
+        "BZ",
+        "BJ",
+        "BM",
+        "BT",
+        "BO",
+        "BA",
+        "BW",
+        "BV",
+        "BR",
+        "IO",
+        "BN",
+        "BG",
+        "BF",
+        "BI",
+        "KH",
+        "CM",
+        "CA",
+        "CV",
+        "KY",
+        "CF",
+        "TD",
+        "CL",
+        "CN",
+        "CX",
+        "CC",
+        "CO",
+        "KM",
+        "CG",
+        "CD",
+        "CK",
+        "CR",
+        "CI",
+        "HR",
+        "CU",
+        "CY",
+        "CZ",
+        "DK",
+        "DJ",
+        "DM",
+        "DO",
+        "EC",
+        "EG",
+        "SV",
+        "GQ",
+        "ER",
+        "EE",
+        "ET",
+        "FK",
+        "FO",
+        "FJ",
+        "FI",
+        "FR",
+        "GF",
+        "PF",
+        "TF",
+        "GA",
+        "GM",
+        "GE",
+        "DE",
+        "GH",
+        "GI",
+        "GR",
+        "GL",
+        "GD",
+        "GP",
+        "GU",
+        "GT",
+        "GG",
+        "GN",
+        "GW",
+        "GY",
+        "HT",
+        "HM",
+        "VA",
+        "HN",
+        "HK",
+        "HU",
+        "IS",
+        "IN",
+        "ID",
+        "IR",
+        "IQ",
+        "IE",
+        "IM",
+        "IL",
+        "IT",
+        "JM",
+        "JP",
+        "JE",
+        "JO",
+        "KZ",
+        "KE",
+        "KI",
+        "KP",
+        "KR",
+        "XK",
+        "KW",
+        "KG",
+        "LA",
+        "LV",
+        "LB",
+        "LS",
+        "LR",
+        "LY",
+        "LI",
+        "LT",
+        "LU",
+        "MO",
+        "MK",
+        "MG",
+        "MW",
+        "MY",
+        "MV",
+        "ML",
+        "MT",
+        "MH",
+        "MQ",
+        "MR",
+        "MU",
+        "YT",
+        "MX",
+        "FM",
+        "MD",
+        "MC",
+        "MN",
+        "ME",
+        "MS",
+        "MA",
+        "MZ",
+        "MM",
+        "NA",
+        "NR",
+        "NP",
+        "NL",
+        "AN",
+        "NC",
+        "NZ",
+        "NI",
+        "NE",
+        "NG",
+        "NU",
+        "NF",
+        "MP",
+        "NO",
+        "OM",
+        "PK",
+        "PW",
+        "PS",
+        "PA",
+        "PG",
+        "PY",
+        "PE",
+        "PH",
+        "PN",
+        "PL",
+        "PT",
+        "PR",
+        "QA",
+        "RE",
+        "RO",
+        "RU",
+        "RW",
+        "SH",
+        "KN",
+        "LC",
+        "MF",
+        "PM",
+        "VC",
+        "WS",
+        "SM",
+        "ST",
+        "SA",
+        "SN",
+        "RS",
+        "SC",
+        "SL",
+        "SG",
+        "SX",
+        "SK",
+        "SI",
+        "SB",
+        "SO",
+        "ZA",
+        "GS",
+        "ES",
+        "LK",
+        "SD",
+        "SR",
+        "SJ",
+        "SZ",
+        "SE",
+        "CH",
+        "SY",
+        "TW",
+        "TJ",
+        "TZ",
+        "TH",
+        "TL",
+        "TG",
+        "TK",
+        "TO",
+        "TT",
+        "TN",
+        "TR",
+        "TM",
+        "TC",
+        "TV",
+        "UG",
+        "GB",
+        "UA",
+        "AE",
+        "US",
+        "UM",
+        "UY",
+        "UZ",
+        "VU",
+        "VE",
+        "VN",
+        "VG",
+        "VI",
+        "WF",
+        "EH",
+        "YE",
+        "ZM",
+        "ZW"
+      ]
+    },
+    "postalCode": {
+      "type": "string",
+      "description": "The postal code of the business for which sub-account is created"
+    },
+    "website": {
+      "type": "string",
+      "description": "The website of the business for which sub-account is created"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "The timezone of the business for which sub-account is created"
+    },
+    "prospectInfo": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ProspectInfoDto"
+        }
+      ]
+    },
+    "settings": {
+      "description": "The default settings for location",
+      "allOf": [
+        {
+          "$ref": "#/$defs/SettingsSchema"
+        }
+      ]
+    },
+    "social": {
+      "description": "The social media links for location",
+      "allOf": [
+        {
+          "$ref": "#/$defs/SocialSchema"
+        }
+      ]
+    },
+    "twilio": {
+      "description": "The twilio credentials for location",
+      "allOf": [
+        {
+          "$ref": "#/$defs/TwilioSchema"
+        }
+      ]
+    },
+    "mailgun": {
+      "description": "The mailgun credentials for location",
+      "allOf": [
+        {
+          "$ref": "#/$defs/MailgunSchema"
+        }
+      ]
+    },
+    "snapshotId": {
+      "type": "string",
+      "description": "The snapshot ID to be loaded into the location."
+    }
+  },
+  "required": [
+    "name",
+    "companyId"
+  ],
+  "$defs": {
+    "MailgunSchema": {
+      "type": "object",
+      "properties": {
+        "apiKey": {
+          "type": "string",
+          "description": "API key provided by Mailgun"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain connected with Mailgun"
+        }
+      },
+      "required": [
+        "apiKey",
+        "domain"
+      ]
+    },
+    "ProspectInfoDto": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First name of the prospect"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the prospect"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the prospect"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "SettingsSchema": {
+      "type": "object",
+      "properties": {
+        "allowDuplicateContact": {
+          "type": "boolean"
+        },
+        "allowDuplicateOpportunity": {
+          "type": "boolean"
+        },
+        "allowFacebookNameMerge": {
+          "type": "boolean"
+        },
+        "disableContactTimezone": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SocialSchema": {
+      "type": "object",
+      "properties": {
+        "facebookUrl": {
+          "type": "string",
+          "description": "Facebook URL"
+        },
+        "googlePlus": {
+          "type": "string",
+          "description": "Googleplus URL"
+        },
+        "linkedIn": {
+          "type": "string",
+          "description": "LinkedIn URL"
+        },
+        "foursquare": {
+          "type": "string",
+          "description": "Foursquare URL"
+        },
+        "twitter": {
+          "type": "string",
+          "description": "Twitter URL"
+        },
+        "yelp": {
+          "type": "string",
+          "description": "Yelp URL"
+        },
+        "instagram": {
+          "type": "string",
+          "description": "Instagram URL"
+        },
+        "youtube": {
+          "type": "string",
+          "description": "Instagram URL"
+        },
+        "pinterest": {
+          "type": "string",
+          "description": "Instagram URL"
+        },
+        "blogRss": {
+          "type": "string",
+          "description": "Instagram URL"
+        },
+        "googlePlacesId": {
+          "type": "string",
+          "description": "Google Business Places ID"
+        }
+      }
+    },
+    "TwilioSchema": {
+      "type": "object",
+      "properties": {
+        "sid": {
+          "type": "string",
+          "description": "SID provided by Twilio"
+        },
+        "authToken": {
+          "type": "string",
+          "description": "Auth token provided by Twilio"
+        }
+      },
+      "required": [
+        "sid",
+        "authToken"
+      ]
+    }
+  }
+}

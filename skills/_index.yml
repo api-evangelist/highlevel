@@ -1,0 +1,12 @@
+generated: '2026-09-22'
+method: generated
+generator: extract-docs-artifacts.py skills (local)
+source: openapi/saas-api.json
+skills:
+- file: skills/highlevel-enable-saas-for-location.md
+  name: highlevel-enable-saas-for-location
+  api: openapi/saas-api.json
+  operations:
+  - locations
+  - enable-saas-location
+  - get-location-subscription

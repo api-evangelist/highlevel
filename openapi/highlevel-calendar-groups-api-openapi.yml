@@ -1,0 +1,449 @@
+openapi: 3.2.0
+info:
+  title: Calendars Calendar Groups API
+  description: Documentation for Calendars API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Calendar Groups
+  description: Documentation for Calendars API
+paths:
+  /calendars/groups:
+    get:
+      operationId: get-groups
+      summary: Get Groups
+      description: Get all calendar groups in a location.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllGroupsSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendar Groups
+      security:
+      - bearer:
+        - calendars/groups.readonly
+    post:
+      operationId: create-calendar-group
+      summary: Create Calendar Group
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreateDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupCreateSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendar Groups
+      security:
+      - bearer:
+        - calendars/groups.write
+  /calendars/groups/validate-slug:
+    post:
+      operationId: validate-groups-slug
+      summary: Validate group slug
+      description: Validate if group slug is available or not.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateGroupSlugPostBody'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateGroupSlugSuccessResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendar Groups
+      security:
+      - bearer:
+        - calendars/groups.write
+  /calendars/groups/{groupId}:
+    delete:
+      operationId: delete-group
+      summary: Delete Group
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: groupId
+        required: true
+        in: path
+        description: Group Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendar Groups
+      security:
+      - bearer:
+        - calendars/groups.write
+    put:
+      operationId: edit-group
+      summary: Update Group
+      description: Update Group by group ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: groupId
+        required: true
+        in: path
+        description: Group Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupCreateSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendar Groups
+      security:
+      - bearer:
+        - calendars/groups.write
+  /calendars/groups/{groupId}/status:
+    put:
+      operationId: disable-group
+      summary: Disable Group
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: groupId
+        required: true
+        in: path
+        description: Group Id
+        schema:
+          example: ocQHyuzHvysMo5N5VsXc
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupStatusUpdateParams'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupSuccessfulResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Calendar Groups
+      security:
+      - bearer:
+        - calendars/groups.write
+components:
+  schemas:
+    GroupCreateSuccessfulResponseDTO:
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/GroupDTO'
+    GroupDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        name:
+          type: string
+          example: group a
+        description:
+          type: string
+          example: group description
+        slug:
+          type: string
+          example: 15-mins
+        isActive:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+      required:
+      - locationId
+      - name
+      - description
+      - slug
+    ValidateGroupSlugPostBody:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        slug:
+          type: string
+          description: Slug
+          example: calendar-1
+      required:
+      - locationId
+      - slug
+    GroupStatusUpdateParams:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: Is Active?
+          example: true
+      required:
+      - isActive
+    GroupSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success
+          example: 'true'
+    GroupCreateDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        name:
+          type: string
+          example: group a
+        description:
+          type: string
+          example: group description
+        slug:
+          type: string
+          example: 15-mins
+        isActive:
+          type: boolean
+          example: true
+      required:
+      - locationId
+      - name
+      - description
+      - slug
+    ValidateGroupSlugSuccessResponseDTO:
+      type: object
+      properties:
+        available:
+          type: boolean
+      required:
+      - available
+    AllGroupsSuccessfulResponseDTO:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDTO'
+    GroupUpdateDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: group a
+        description:
+          type: string
+          example: group description
+        slug:
+          type: string
+          example: 15-mins
+      required:
+      - name
+      - description
+      - slug
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Calendars
+  tags:
+  - Calendars
+  - Calendar Groups
+  - Calendar Events
+  - Appointment Notes
+  - 'Calendar Resources: Rooms & Equipments'
+  - Calendar Notifications
+  - Availability

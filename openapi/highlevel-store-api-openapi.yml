@@ -1,0 +1,323 @@
+openapi: 3.2.0
+info:
+  title: Products Store API
+  description: Documentation for products API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Store
+  description: Documentation for products API
+paths:
+  /products/store/{storeId}/stats:
+    get:
+      operationId: get-product-store-stats
+      summary: Fetch Product Store Stats
+      description: API to fetch the total number of products, included in the store, and excluded from the store and other stats
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: storeId
+        required: true
+        in: path
+        description: Products related to the store
+        schema:
+          example: 3SwdhCu3svxI8AKsPJt6
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: The name of the product for searching.
+        schema:
+          example: Awesome product
+          type: string
+      - name: collectionIds
+        required: false
+        in: query
+        description: Filter by product collection Ids. Supports comma separated values
+        schema:
+          example: 65c2789a812e52f9bd6ec577,65c2789a812e52de9a6ec576
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductStatsResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Store
+      security:
+      - Location-Access:
+        - products.readonly
+  /products/store/{storeId}:
+    post:
+      operationId: update-store-status
+      summary: Action to include/exclude the product in store
+      description: API to update the status of products in a particular store
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: storeId
+        required: true
+        in: path
+        description: Products related to the store
+        schema:
+          example: 3SwdhCu3svxI8AKsPJt6
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductStoreDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductStoreResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Store
+      security:
+      - Location-Access:
+        - products.write
+  /products/store/{storeId}/priority:
+    post:
+      operationId: update-display-priority
+      summary: Update product display priorities in store
+      description: API to set the display priority of products in a store
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: storeId
+        required: true
+        in: path
+        description: Products related to the store
+        schema:
+          example: 3SwdhCu3svxI8AKsPJt6
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDisplayPriorityBodyDto'
+      responses:
+        '200':
+          description: Successfully updated display priorities
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Store
+      security:
+      - Location-Access: []
+components:
+  schemas:
+    UpdateProductStoreDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        action:
+          type: string
+          description: Action to include or exclude the product from the store
+          example: include
+          enum:
+          - include
+          - exclude
+        productIds:
+          description: Array of product IDs
+          example:
+          - productId1
+          - productId2
+          type: array
+          items:
+            type: string
+      required:
+      - altId
+      - altType
+      - action
+      - productIds
+    UpdateDisplayPriorityBodyDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        products:
+          description: Array of products with their display priorities
+          items:
+            type: array
+          type: array
+      required:
+      - altId
+      - altType
+      - products
+    UpdateProductStoreResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    GetProductStatsResponseDto:
+      type: object
+      properties:
+        totalProducts:
+          type: number
+          description: Total number of products
+          example: 100
+        includedInStore:
+          type: number
+          description: Number of products included in the store
+          example: 80
+        excludedFromStore:
+          type: number
+          description: Number of products excluded from the store
+          example: 20
+      required:
+      - totalProducts
+      - includedInStore
+      - excludedFromStore
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Products
+  tags:
+  - Products
+  - Prices
+  - Store
+  - Collections
+  - Reviews

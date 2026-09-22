@@ -1,0 +1,684 @@
+openapi: 3.2.0
+info:
+  title: Store Shipping Zone Rates API
+  description: Documentation for store API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Shipping Zone Rates
+paths:
+  /store/shipping-zone/{shippingZoneId}/shipping-rate:
+    post:
+      operationId: create-shipping-rate
+      summary: Create Shipping Rate
+      description: The "Create Shipping Rate" API allows adding a new shipping rate.
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: shippingZoneId
+        required: true
+        in: path
+        description: ID of the item that needs to be returned
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShippingRateDto'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateShippingRateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Shipping Zone Rates
+      security:
+      - Location-Access: []
+    get:
+      operationId: list-shipping-rates
+      summary: List Shipping Rates
+      description: The "List Shipping Rate" API allows to retrieve a list of shipping rate.
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: shippingZoneId
+        required: true
+        in: path
+        description: ID of the item that needs to be returned
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: The maximum number of items to be included in a single page of results
+        schema:
+          default: 0
+          example: 20
+          type: number
+      - name: offset
+        required: false
+        in: query
+        description: The starting index of the page, indicating the position from which the results should be retrieved.
+        schema:
+          default: 0
+          example: 0
+          type: number
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListShippingRateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Shipping Zone Rates
+      security:
+      - Location-Access: []
+  /store/shipping-zone/{shippingZoneId}/shipping-rate/{shippingRateId}:
+    get:
+      operationId: get-shipping-rates
+      summary: Get Shipping Rate
+      description: The "List Shipping Rate" API allows to retrieve a paginated list of shipping rate.
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: shippingZoneId
+        required: true
+        in: path
+        description: ID of the shipping zone
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: shippingRateId
+        required: true
+        in: path
+        description: ID of the shipping rate that needs to be returned
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetShippingRateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Shipping Zone Rates
+      security:
+      - Location-Access: []
+    put:
+      operationId: update-shipping-rate
+      summary: Update Shipping Rate
+      description: The "update Shipping Rate" API allows update a shipping rate to the system.
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: shippingZoneId
+        required: true
+        in: path
+        description: ID of the shipping zone
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: shippingRateId
+        required: true
+        in: path
+        description: ID of the shipping rate that needs to be returned
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShippingRateDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateShippingRateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Shipping Zone Rates
+      security:
+      - Location-Access: []
+    delete:
+      operationId: delete-shipping-rate
+      summary: Delete shipping rate
+      description: Delete specific shipping rate with Id :shippingRateId
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: shippingZoneId
+        required: true
+        in: path
+        description: ID of the shipping zone
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: shippingRateId
+        required: true
+        in: path
+        description: ID of the shipping rate that needs to be returned
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteShippingRateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Shipping Zone Rates
+      security:
+      - Location-Access: []
+components:
+  schemas:
+    CreateShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - status
+      - data
+    ListShippingRateResponseDto:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total number of items
+          example: 20
+        data:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - total
+      - data
+    DeleteShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    UpdateShippingRateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping zone
+          example: North zone
+        description:
+          type: string
+          description: Delivery description
+          example: Ships next day
+        currency:
+          type: string
+          description: The currency of the amount of the rate / handling fee
+          example: USD
+        amount:
+          type: number
+          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
+          example: 99.99
+        conditionType:
+          type: string
+          description: Type of condition to provide the conditional pricing
+          enum:
+          - none
+          - price
+          - weight
+          example: price
+        minCondition:
+          type: number
+          description: Minimum condition for applying this price. set 0 or null if there is no minimum
+          example: 99.99
+        maxCondition:
+          type: number
+          description: Maximum condition for applying this price. set 0 or null if there is no maximum
+          example: 99.99
+        isCarrierRate:
+          type: boolean
+          description: is this a carrier rate
+          example: true
+        shippingCarrierId:
+          type: string
+          description: Shipping carrier id
+          example: 655b33a82209e60b6adb87a5
+        percentageOfRateFee:
+          type: number
+          description: Percentage of rate fee if it is a carrier rate.
+          example: 10.99
+        shippingCarrierServices:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierServiceDto'
+    GetShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - status
+      - data
+    UpdateShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - status
+      - data
+    ShippingCarrierServiceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the shipping carrier service
+          example: Priority Mail Express International
+        value:
+          type: string
+          description: Value of the shipping carrier service
+          example: PriorityMailExpressInternational
+      required:
+      - name
+      - value
+    ShippingRateSchema:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping zone
+          example: North zone
+        description:
+          type: string
+          description: Delivery description
+          example: Ships next day
+        currency:
+          type: string
+          description: The currency of the amount of the rate / handling fee
+          example: USD
+        amount:
+          type: number
+          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
+          example: 99.99
+        conditionType:
+          type: string
+          description: Type of condition to provide the conditional pricing
+          enum:
+          - none
+          - price
+          - weight
+          example: price
+        minCondition:
+          type: number
+          description: Minimum condition for applying this price. set 0 or null if there is no minimum
+          example: 99.99
+        maxCondition:
+          type: number
+          description: Maximum condition for applying this price. set 0 or null if there is no maximum
+          example: 99.99
+        isCarrierRate:
+          type: boolean
+          description: is this a carrier rate
+          example: true
+        shippingCarrierId:
+          type: string
+          description: Shipping carrier id
+          example: 655b33a82209e60b6adb87a5
+        percentageOfRateFee:
+          type: number
+          description: Percentage of rate fee if it is a carrier rate.
+          example: 10.99
+        shippingCarrierServices:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierServiceDto'
+        _id:
+          type: string
+          description: The unique identifier for the product.
+          example: 655b33a82209e60b6adb87a5
+        shippingZoneId:
+          type: string
+          description: The unique identifier for the shipping zone.
+          example: 655b33a82209e60b6adb87a5
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - altId
+      - altType
+      - name
+      - currency
+      - amount
+      - conditionType
+      - minCondition
+      - maxCondition
+      - shippingCarrierId
+      - _id
+      - shippingZoneId
+      - createdAt
+      - updatedAt
+    CreateShippingRateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping zone
+          example: North zone
+        description:
+          type: string
+          description: Delivery description
+          example: Ships next day
+        currency:
+          type: string
+          description: The currency of the amount of the rate / handling fee
+          example: USD
+        amount:
+          type: number
+          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
+          example: 99.99
+        conditionType:
+          type: string
+          description: Type of condition to provide the conditional pricing
+          enum:
+          - none
+          - price
+          - weight
+          example: price
+        minCondition:
+          type: number
+          description: Minimum condition for applying this price. set 0 or null if there is no minimum
+          example: 99.99
+        maxCondition:
+          type: number
+          description: Maximum condition for applying this price. set 0 or null if there is no maximum
+          example: 99.99
+        isCarrierRate:
+          type: boolean
+          description: is this a carrier rate
+          example: true
+        shippingCarrierId:
+          type: string
+          description: Shipping carrier id
+          example: 655b33a82209e60b6adb87a5
+        percentageOfRateFee:
+          type: number
+          description: Percentage of rate fee if it is a carrier rate.
+          example: 10.99
+        shippingCarrierServices:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierServiceDto'
+      required:
+      - altId
+      - altType
+      - name
+      - currency
+      - amount
+      - conditionType
+      - minCondition
+      - maxCondition
+      - shippingCarrierId
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http

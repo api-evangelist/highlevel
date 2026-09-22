@@ -1,0 +1,545 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-calendar-create-dto-schema.json",
+  "title": "CalendarCreateDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-calendars-openapi.json#/components/schemas/CalendarCreateDTO",
+  "type": "object",
+  "properties": {
+    "isActive": {
+      "type": "boolean",
+      "description": "Should the created calendar be active or draft",
+      "default": true
+    },
+    "notifications": {
+      "description": "🚨 Deprecated! Please use 'Calendar Notifications APIs' instead.",
+      "deprecated": true,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CalendarNotification"
+      }
+    },
+    "locationId": {
+      "type": "string"
+    },
+    "groupId": {
+      "type": "string",
+      "description": "Group Id"
+    },
+    "teamMembers": {
+      "description": "Team members are required for calendars of type: Round Robin, Collective, Class, Service. Personal calendar must have exactly one team member.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TeamMember"
+      }
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "RoundRobin_OptimizeForAvailability",
+        "RoundRobin_OptimizeForEqualDistribution"
+      ],
+      "default": "RoundRobin_OptimizeForAvailability"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "widgetSlug": {
+      "type": "string"
+    },
+    "calendarType": {
+      "type": "string",
+      "enum": [
+        "round_robin",
+        "event",
+        "class_booking",
+        "collective",
+        "service_booking",
+        "personal"
+      ]
+    },
+    "widgetType": {
+      "type": "string",
+      "description": "Calendar widget type. Choose \"default\" for \"neo\" and \"classic\" for \"classic\" layout.",
+      "enum": [
+        "default",
+        "classic"
+      ],
+      "default": "classic"
+    },
+    "eventTitle": {
+      "type": "string",
+      "default": "{{contact.name}}"
+    },
+    "eventColor": {
+      "type": "string",
+      "default": "#039be5"
+    },
+    "meetingLocation": {
+      "type": "string",
+      "description": "🚨 Deprecated! Use `locationConfigurations.location` or `teamMembers[].locationConfigurations.location` instead.",
+      "deprecated": true,
+      "readOnly": true
+    },
+    "locationConfigurations": {
+      "description": "Meeting location configuration for event calendar",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LocationConfiguration"
+      }
+    },
+    "slotDuration": {
+      "type": "number",
+      "description": "This controls the duration of the meeting",
+      "default": 30
+    },
+    "slotDurationUnit": {
+      "type": "string",
+      "description": "Unit for slot duration.",
+      "enum": [
+        "mins",
+        "hours"
+      ]
+    },
+    "slotInterval": {
+      "type": "number",
+      "description": "Slot interval reflects the amount of time the between booking slots that will be shown in the calendar.",
+      "default": 30
+    },
+    "slotIntervalUnit": {
+      "type": "string",
+      "description": "Unit for slot interval.",
+      "enum": [
+        "mins",
+        "hours"
+      ]
+    },
+    "slotBuffer": {
+      "type": "number",
+      "description": "Slot-Buffer is additional time that can be added after an appointment, allowing for extra time to wrap up"
+    },
+    "slotBufferUnit": {
+      "type": "string",
+      "description": "Unit for slot buffer.",
+      "enum": [
+        "mins",
+        "hours"
+      ]
+    },
+    "preBuffer": {
+      "type": "number",
+      "description": "Pre-Buffer is additional time that can be added before an appointment, allowing for extra time to get ready"
+    },
+    "preBufferUnit": {
+      "type": "string",
+      "description": "Unit for pre-buffer.",
+      "enum": [
+        "mins",
+        "hours"
+      ]
+    },
+    "appoinmentPerSlot": {
+      "type": "number",
+      "default": 1,
+      "description": "Maximum bookings per slot (per user). Maximum seats per slot in case of Class Booking Calendar."
+    },
+    "appoinmentPerDay": {
+      "type": "number",
+      "description": "Number of appointments that can be booked for a given day"
+    },
+    "allowBookingAfter": {
+      "type": "number",
+      "description": "Minimum scheduling notice for events"
+    },
+    "allowBookingAfterUnit": {
+      "type": "string",
+      "description": "Unit for minimum scheduling notice",
+      "enum": [
+        "hours",
+        "days",
+        "weeks",
+        "months"
+      ]
+    },
+    "allowBookingFor": {
+      "type": "number",
+      "description": "Minimum number of days/weeks/months for which to allow booking events"
+    },
+    "allowBookingForUnit": {
+      "type": "string",
+      "description": "Unit for controlling the duration for which booking would be allowed for",
+      "enum": [
+        "days",
+        "weeks",
+        "months"
+      ]
+    },
+    "openHours": {
+      "description": "This is only to set the standard availability. For custom availability, use the availabilities property",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/OpenHour"
+      }
+    },
+    "enableRecurring": {
+      "type": "boolean",
+      "description": "Enable recurring appointments for the calendars. Please note that only one member should be added in the calendar to enable this",
+      "default": false
+    },
+    "recurring": {
+      "$ref": "#/$defs/Recurring"
+    },
+    "formId": {
+      "type": "string"
+    },
+    "stickyContact": {
+      "type": "boolean"
+    },
+    "isLivePaymentMode": {
+      "type": "boolean"
+    },
+    "autoConfirm": {
+      "type": "boolean",
+      "default": true
+    },
+    "shouldSendAlertEmailsToAssignedMember": {
+      "type": "boolean"
+    },
+    "alertEmail": {
+      "type": "string"
+    },
+    "googleInvitationEmails": {
+      "type": "boolean",
+      "default": false
+    },
+    "allowReschedule": {
+      "type": "boolean",
+      "default": true
+    },
+    "allowCancellation": {
+      "type": "boolean",
+      "default": true
+    },
+    "shouldAssignContactToTeamMember": {
+      "type": "boolean"
+    },
+    "shouldSkipAssigningContactForExisting": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "pixelId": {
+      "type": "string"
+    },
+    "formSubmitType": {
+      "type": "string",
+      "default": "ThankYouMessage",
+      "enum": [
+        "RedirectURL",
+        "ThankYouMessage"
+      ]
+    },
+    "formSubmitRedirectURL": {
+      "type": "string"
+    },
+    "formSubmitThanksMessage": {
+      "type": "string"
+    },
+    "availabilityType": {
+      "type": "number",
+      "description": "Determines which availability type to consider:\n- **1**: Only custom availabilities will be used.\n- **0**: Only open hours will be used.\n- **null**: Both custom availabilities and open hours will be considered.",
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "availabilities": {
+      "description": "This is only to set the custom availability. For standard availability, use the openHours property",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Availability"
+      }
+    },
+    "guestType": {
+      "type": "string",
+      "enum": [
+        "count_only",
+        "collect_detail"
+      ]
+    },
+    "consentLabel": {
+      "type": "string"
+    },
+    "calendarCoverImage": {
+      "type": "string"
+    },
+    "lookBusyConfig": {
+      "description": "Look Busy Configuration",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LookBusyConfiguration"
+        }
+      ]
+    }
+  },
+  "required": [
+    "locationId",
+    "name"
+  ],
+  "$defs": {
+    "Availability": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "Formulate the date string in the format of `<YYYY-MM-DD in local timezone>T00:00:00.000Z`."
+        },
+        "hours": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hour"
+          }
+        },
+        "deleted": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "date",
+        "hours"
+      ]
+    },
+    "CalendarNotification": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Calendar Notification",
+          "enum": [
+            "email"
+          ],
+          "default": "email"
+        },
+        "shouldSendToContact": {
+          "type": "boolean"
+        },
+        "shouldSendToGuest": {
+          "type": "boolean"
+        },
+        "shouldSendToUser": {
+          "type": "boolean"
+        },
+        "shouldSendToSelectedUsers": {
+          "type": "boolean"
+        },
+        "selectedUsers": {
+          "type": "string",
+          "description": "Comma separated emails"
+        }
+      },
+      "required": [
+        "shouldSendToContact",
+        "shouldSendToGuest",
+        "shouldSendToUser",
+        "shouldSendToSelectedUsers",
+        "selectedUsers"
+      ]
+    },
+    "Hour": {
+      "type": "object",
+      "properties": {
+        "openHour": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 23
+        },
+        "openMinute": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+        },
+        "closeHour": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 23
+        },
+        "closeMinute": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+        }
+      },
+      "required": [
+        "openHour",
+        "openMinute",
+        "closeHour",
+        "closeMinute"
+      ]
+    },
+    "LocationConfiguration": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Type of meeting location. zoom_conference/google_conference/ms_teams_conference is not supported in event calendar type",
+          "enum": [
+            "custom",
+            "zoom_conference",
+            "google_conference",
+            "inbound_call",
+            "outbound_call",
+            "physical",
+            "booker",
+            "ms_teams_conference"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "description": "Address for meeting location. Not applicable on \"zoom_conference\", \"google_conference\" and \"ms_teams_conference\" kind"
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "LookBusyConfiguration": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Apply Look Busy",
+          "default": false
+        },
+        "LookBusyPercentage": {
+          "type": "number",
+          "description": "Percentage of slots that will be hidden"
+        }
+      },
+      "required": [
+        "enabled",
+        "LookBusyPercentage"
+      ]
+    },
+    "OpenHour": {
+      "type": "object",
+      "properties": {
+        "daysOfTheWeek": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maximum": 6,
+            "minimum": 0
+          }
+        },
+        "hours": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hour"
+          }
+        }
+      },
+      "required": [
+        "daysOfTheWeek",
+        "hours"
+      ]
+    },
+    "Recurring": {
+      "type": "object",
+      "properties": {
+        "freq": {
+          "type": "string",
+          "enum": [
+            "DAILY",
+            "WEEKLY",
+            "MONTHLY"
+          ]
+        },
+        "count": {
+          "type": "number",
+          "description": "Number of recurrences",
+          "maximum": 24
+        },
+        "bookingOption": {
+          "type": "string",
+          "description": "This setting contols what to do incase a recurring slot is unavailable",
+          "enum": [
+            "skip",
+            "continue",
+            "book_next"
+          ]
+        },
+        "bookingOverlapDefaultStatus": {
+          "type": "string",
+          "description": "This setting contols what to do incase a recurring slot is unavailable",
+          "enum": [
+            "confirmed",
+            "new"
+          ]
+        }
+      }
+    },
+    "TeamMember": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "number",
+          "default": 0.5,
+          "enum": [
+            0,
+            0.5,
+            1
+          ]
+        },
+        "meetingLocationType": {
+          "type": "string",
+          "description": "🚨 Deprecated! Use `locationConfigurations.kind` instead.",
+          "deprecated": true,
+          "default": "custom",
+          "readOnly": true,
+          "enum": [
+            "custom",
+            "zoom",
+            "gmeet",
+            "phone",
+            "address",
+            "teams",
+            "booker"
+          ]
+        },
+        "meetingLocation": {
+          "type": "string",
+          "description": "🚨 Deprecated! Use `locationConfigurations.location` instead.",
+          "deprecated": true,
+          "readOnly": true
+        },
+        "isPrimary": {
+          "type": "boolean",
+          "description": "Marks a user as primary. This property is required in case of collective booking calendars. Only one user can be primary."
+        },
+        "locationConfigurations": {
+          "description": "Meeting location configuration for event calendar.\n- *Multiple locations are allowed only when one team member is selected.*\n- *For **Class booking** and **Collective** calendars, only one location configuration is allowed for each team member.*",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LocationConfiguration"
+          }
+        }
+      },
+      "required": [
+        "userId"
+      ]
+    }
+  }
+}

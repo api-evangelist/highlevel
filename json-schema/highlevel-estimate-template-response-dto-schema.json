@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-estimate-template-response-dto-schema.json",
+  "title": "EstimateTemplateResponseDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-invoices-openapi.json#/components/schemas/EstimateTemplateResponseDTO",
+  "type": "object",
+  "properties": {
+    "altId": {
+      "type": "string",
+      "description": "Location Id or Agency Id"
+    },
+    "altType": {
+      "type": "string",
+      "enum": [
+        "location"
+      ]
+    },
+    "_id": {
+      "type": "string",
+      "description": "Unique identifier"
+    },
+    "liveMode": {
+      "type": "boolean",
+      "description": "Indicates if it is in live mode"
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Indicates if deleted"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency code"
+    },
+    "businessDetails": {
+      "description": "Business details associated with the estimate",
+      "allOf": [
+        {
+          "$ref": "#/$defs/BusinessDetails"
+        }
+      ]
+    },
+    "items": {
+      "description": "An array of items",
+      "type": "array",
+      "items": {
+        "type": "array"
+      }
+    },
+    "discount": {
+      "description": "Discount details for the estimate template",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DiscountDto"
+        }
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title"
+    },
+    "estimateNumberPrefix": {
+      "type": "string",
+      "description": "Estimate number prefix"
+    },
+    "attachments": {
+      "description": "Attachments",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AttachmentsDto"
+      }
+    },
+    "updatedBy": {
+      "type": "string",
+      "description": "User Id of who last updated"
+    },
+    "total": {
+      "type": "number",
+      "description": "Total amount"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "Timestamp when created"
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "Timestamp when last updated"
+    },
+    "__v": {
+      "type": "number",
+      "description": "Version number"
+    },
+    "automaticTaxesEnabled": {
+      "type": "boolean",
+      "description": "Indicates if automatic taxes are enabled for this estimate"
+    },
+    "termsNotes": {
+      "type": "string",
+      "description": "Terms and conditions for the estimate, supports HTML markup"
+    }
+  },
+  "required": [
+    "altId",
+    "altType",
+    "_id",
+    "liveMode",
+    "deleted",
+    "name",
+    "currency",
+    "businessDetails",
+    "items",
+    "discount",
+    "total",
+    "createdAt",
+    "updatedAt",
+    "__v",
+    "automaticTaxesEnabled"
+  ],
+  "$defs": {
+    "AttachmentsDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the file selected"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the file "
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the file"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the file"
+        },
+        "size": {
+          "type": "number",
+          "description": "Size of the file"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "url",
+        "type",
+        "size"
+      ]
+    },
+    "BusinessDetails": {
+      "type": "object",
+      "properties": {}
+    },
+    "DiscountDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Discount Value",
+          "default": 0
+        },
+        "type": {
+          "type": "string",
+          "description": "Discount type",
+          "enum": [
+            "percentage",
+            "fixed"
+          ],
+          "default": "percentage"
+        },
+        "validOnProductIds": {
+          "description": "Product Ids on which discount is applicable",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  }
+}

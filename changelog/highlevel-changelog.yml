@@ -1,0 +1,76 @@
+generated: '2026-09-22'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://marketplace.gohighlevel.com/docs/Versioning/index.html
+sources:
+- https://marketplace.gohighlevel.com/docs/Versioning/index.html
+- https://marketplace.gohighlevel.com/docs/Changelog/index.html
+entries:
+- breaking: true
+  highlights:
+  - GET /marketplace/app/{appId}/rebilling-config/location/{locationId} endpoint deprecated
+  date: '2026-09-10'
+- breaking: false
+  highlights:
+  - POST /affiliate-manager/affiliate-campaign/{locationId}/affiliate/{affiliateId}/move-campaign endpoint added
+  - PUT /affiliate-manager/affiliate-campaign/{locationId}/affiliate/{affiliateId}/referral-id endpoint added
+  - PUT /affiliate-manager/affiliate-campaign/{locationId}/campaign/{campaignId}/affiliate/{affiliateId}/suspension endpoint added
+  - GET /affiliate-manager/affiliate-campaign/{locationId}/referral-id/validate endpoint added
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - GET /affiliate-manager/{locationId}/affiliates ⚠️ for the query request parameter limit , the max was set to 100.00
+  - ⚠️ for the query request parameter limit , the min was set to 0.00
+  - ⚠️ for the query request parameter skip , the min was set to 0.00
+  - ⚠️ the affiliates/items/createdBy response's property type changed from object to any for status 200
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - POST /affiliate-manager/{locationId}/affiliates endpoint added
+  - GET /affiliate-manager/{locationId}/affiliates/{affiliateId} ⚠️ the createdBy response's property type change
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - GET /ad-publishing/facebook/custom-audience/{audienceId} added the media type application/json for the response with the status 200
+  - PUT /ad-publishing/facebook/custom-audience/{audienceId} added the media type application/json for the response with the status 200
+  - DELETE /ad-publishing/facebook/custom-audience/{audienceId}/member added the media type application/json for the response with the status
+    200
+  - PUT /ad-publishing/facebook/custom-audience/{audienceId}/member added the media type application/json for the response with the status 200
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - PUT /ad-publishing/facebook/custom-audience/{audienceId}/member/batch added the media type application/json for the response with the status
+    200
+  - GET /ad-publishing/facebook/entity added the media type application/json for the response with the status 200
+  - DELETE /ad-publishing/facebook/integration added the media type application/json for the response with the status 200
+  - GET /ad-publishing/facebook/integration added the media type application/json for the response with the status 200
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - POST /ad-publishing/facebook/integration ⚠️ removed the success response with the status 201
+  - added the success response with the status 200
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - GET /ad-publishing/facebook/lead-form/{leadFormId} added the media type application/json for the response with the status 200
+  - GET /ad-publishing/facebook/me added the media type application/json for the response with the status 200
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - DELETE /ad-publishing/facebook/page added the media type application/json for the response with the status 200
+  - PUT /ad-publishing/facebook/page/default added the media type application/json for the response with the status 200
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - 'GET /ad-publishing/facebook/page/{pageId}/forms ⚠️ added #/components/schemas/FacebookPublishedLeadFormDTO, #/components/schemas/FacebookDraftLeadFormDTO
+    to the oneOf[subschema #1]/items/ response property oneOf list for the response status 200'
+  - '⚠️ the oneOf[subschema #1]/items/ response''s property type changed from object to any for status 200'
+  date: '2026-09-07'
+- breaking: false
+  highlights:
+  - POST /ad-publishing/facebook/page/{pageId}/forms added the media type application/json for the response with the status 201
+  - GET /ad-publishing/facebook/page/{pageId}/instagram added the media type application/json for the response with the status 200
+  date: '2026-09-07'
+current_version: v3
+note: Versioning scheme includes date-based versions and named versions (current v3).
+docs: https://marketplace.gohighlevel.com/docs/Versioning/index.html

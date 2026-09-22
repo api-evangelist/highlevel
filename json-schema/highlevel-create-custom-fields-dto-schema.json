@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-custom-fields-dto-schema.json",
+  "title": "CreateCustomFieldsDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-locations-openapi.json#/components/schemas/CreateCustomFieldsDTO",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "dataType": {
+      "type": "string"
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "acceptedFormat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "isMultipleFile": {
+      "type": "boolean"
+    },
+    "maxNumberOfFiles": {
+      "type": "number"
+    },
+    "textBoxListOptions": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/textBoxListOptionsSchema"
+          },
+          {
+            "$ref": "#/$defs/textBoxListOptionsSchema"
+          }
+        ]
+      }
+    },
+    "position": {
+      "type": "number",
+      "default": 0
+    },
+    "model": {
+      "type": "string",
+      "description": "Model of the custom field you want to create",
+      "enum": [
+        "contact",
+        "opportunity"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "dataType"
+  ],
+  "$defs": {
+    "textBoxListOptionsSchema": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "prefillValue": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

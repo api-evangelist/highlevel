@@ -1,0 +1,658 @@
+openapi: 3.2.0
+info:
+  title: Payments Subscriptions API
+  description: Documentation for payments API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Subscriptions
+  description: Documentation for payments API
+paths:
+  /payments/subscriptions:
+    get:
+      operationId: list-subscriptions
+      summary: List Subscriptions
+      description: The "List Subscriptions" API allows to retrieve a paginated list of subscriptions. Customize your results by filtering subscriptions based on name, alt type, subscription status, payment mode, date range, type of source, contact, subscription id, entity id, contact or paginate through the list using the provided query parameters. This endpoint provides a straightforward way to explore and retrieve subscription information.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: 'AltId is the unique identifier e.g: location id.'
+        schema:
+          example: 3SwdhCu3svxI8AKsPJt6
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: AltType is the type of identifier.
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      - name: entityId
+        required: false
+        in: query
+        description: Entity id for filtering of subscriptions.
+        schema:
+          example: 61dd0fe9c077f73e67f78803
+          type: string
+      - name: paymentMode
+        required: false
+        in: query
+        description: Mode of payment.
+        schema:
+          example: live
+          type: string
+      - name: startAt
+        required: false
+        in: query
+        description: Starting interval of subscriptions.
+        schema:
+          example: '2024-02-01'
+          type: string
+      - name: endAt
+        required: false
+        in: query
+        description: Closing interval of subscriptions.
+        schema:
+          example: '2024-02-13'
+          type: string
+      - name: entitySourceType
+        required: false
+        in: query
+        description: Source of the subscriptions.
+        schema:
+          example: funnel
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: The name of the subscription for searching.
+        schema:
+          example: Awesome subscription
+          type: string
+      - name: contactId
+        required: false
+        in: query
+        description: Contact ID for the subscription
+        schema:
+          example: AmuzcoPBpgKeccNsFlib
+          type: string
+      - name: id
+        required: false
+        in: query
+        description: Subscription id for filtering of subscriptions.
+        schema:
+          example: 64bf78af39118e4011926cba
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: The maximum number of items to be included in a single page of results
+        schema:
+          default: 10
+          example: 20
+          type: number
+      - name: offset
+        required: false
+        in: query
+        description: The starting index of the page, indicating the position from which the results should be retrieved.
+        schema:
+          default: 0
+          example: 0
+          type: number
+      - name: getPaymentsCollectedCount
+        required: false
+        in: query
+        description: Get the total payments collected for the subscription.
+        schema:
+          example: 'true'
+          type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSubscriptionResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Subscriptions
+      security:
+      - Location-Access:
+        - payments/subscriptions.readonly
+  /payments/subscriptions/{subscriptionId}:
+    get:
+      operationId: get-subscription-by-id
+      summary: Get Subscription by ID
+      description: The "Get Subscription by ID" API allows to retrieve information for a specific subscription using its unique identifier. Use this endpoint to fetch details for a single subscription based on the provided subscription ID.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: subscriptionId
+        required: true
+        in: path
+        description: ID of the subscription that needs to be returned
+        schema:
+          example: 6322e9c9e39fc14ab3ed7042
+          type: string
+      - name: altId
+        required: true
+        in: query
+        description: 'AltId is the unique identifier e.g: location id.'
+        schema:
+          example: 3SwdhCu3svxI8AKsPJt6
+          type: string
+      - name: altType
+        required: true
+        in: query
+        description: AltType is the type of identifier.
+        schema:
+          example: location
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSubscriptionResponseSchema'
+        '400':
+          description: Subscription not found
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Subscriptions
+      security:
+      - Location-Access:
+        - payments/subscriptions.readonly
+components:
+  schemas:
+    SubscriptionResponseSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the subscription.
+          example: 64bf78af39118e4011926cba
+        altId:
+          type: string
+          description: 'AltId is the unique identifier eg: location id.'
+          example: 3SwdhCu3svxI8AKsPJt6
+        altType:
+          type: string
+          example: location
+          description: AltType is the type of identifier.
+          enum:
+          - location
+        contactId:
+          type: string
+          example: XPLSw2SVagl12LMDeTmQ
+          description: Contact id corresponding to the subscription.
+        contactName:
+          type: string
+          example: James Bond
+          description: Contact name corresponding to the subscription.
+        contactEmail:
+          type: string
+          example: james.bond@gohighlevel.com
+          description: Contact email corresponding to the subscription.
+        currency:
+          type: string
+          example: USD
+          description: Currency in which subscription occurred.
+        amount:
+          type: number
+          example: '100'
+          description: Subscription value.
+        status:
+          type: object
+          description: The status of the subscription (e.g., succeeded).
+          example: active
+        liveMode:
+          type: boolean
+          example: 'false'
+          description: Subscription is in live / test mode.
+        entityType:
+          type: string
+          example: order
+          description: 'Entity type of subscription (eg: order).'
+        entityId:
+          type: string
+          example: 62f4db0f3059ecee61379012
+          description: 'Entity id for the subscription. e.g: order id'
+        entitySourceType:
+          type: string
+          example: funnel
+          description: 'Entity source type of subscription (eg: funnel).'
+        entitySourceName:
+          type: string
+          example: Attribution Funnel
+          description: Entity source name for the subscription.
+        entitySourceId:
+          type: string
+          description: Entity source id for the subscription.
+          example: bevrkPbLaDNXFaqfLKMm
+        entitySourceMeta:
+          type: object
+          description: Meta content for the entity source of subscription.
+          example: '{ domain: "app.gohighlevel.com", pageId:  "sxC4lNhFIavEnLZh5KhC", pageUrl:  "/v2/preview/sxC4lNhFIavEnLZh5KhC", stepId: "7d303d1f-cb85-403d-b548-bf01de5c7bb0" }'
+        subscriptionId:
+          type: string
+          example: I-0UE609H8E43P
+          description: Subscription id for subscription.
+        subscriptionSnapshot:
+          type: object
+          description: Snapshot of subscription.
+          example: '{ status: "ACTIVE", status_update_time: "2022-08-16T11:06:53Z", id: "I-0UE609H8E43P", plan_id: "P-82K11750F0313430KMLRGE6Y", start_time: "2022-08-16T11:05:31Z", quantity: 1 }'
+        paymentProviderType:
+          type: string
+          example: stripe
+          description: Payment provider for subscription.
+        paymentProviderConnectedAccount:
+          type: string
+          example: ATn0CqrzrWS5ak185Bsb1xCpyzBDOZ8WdRxyFotppLYePTDhiuQ49H5QXO_L-4HKk1GBn7f9_QhbNK2s
+          description: Payment provider connected account id for subscription.
+        ipAddress:
+          type: string
+          example: 103.100.16.82
+          description: Ip address from where subscription was initiated.
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the subscription.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The update timestamp of the subscription.
+          example: '2023-11-20T10:23:36.515Z'
+        createdBy:
+          type: string
+          example: user123
+          description: User ID who created the subscription.
+      required:
+      - _id
+      - altId
+      - altType
+      - status
+      - entitySourceType
+      - createdAt
+      - updatedAt
+    ListSubscriptionResponseDto:
+      type: object
+      properties:
+        data:
+          description: An array of subscriptions
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionResponseSchema'
+        totalCount:
+          type: number
+          description: total subscriptions count
+      required:
+      - data
+      - totalCount
+    GetSubscriptionResponseSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the subscription.
+          example: 64bf78af39118e4011926cba
+        altType:
+          type: object
+          example: location
+          description: AltType is the type of identifier.
+        altId:
+          type: string
+          description: 'AltId is the unique identifier eg: location id.'
+          example: 3SwdhCu3svxI8AKsPJt6
+        contactId:
+          type: string
+          example: XPLSw2SVagl12LMDeTmQ
+          description: Contact id corresponding to the subscription.
+        contactSnapshot:
+          type: object
+          description: Contact details of the subscriber.
+          example: '{ last_name: "Mcclain", type: "lead", first_name_lower_case: "rogan", email: "anish+11@gohighlevel.com", last_name_lower_case: "mcclain", location_id: "o6241QsiRwUIJHyjuhos", company_name: "Jordan and Cox Trading"}'
+        coupon:
+          type: object
+          description: Coupon details of the subscription.
+          example: '{ _id: "6374c6926d119a393fe1e556", usageCount: 5260, altId: "jVFIxsMY19D94nOSIOEO", altType: "location", name: "FREE-100%", code: "FREE100", discountType: "percentage", discountValue: 100 }'
+        currency:
+          type: string
+          example: USD
+          description: Currency in which subscription was made.
+        amount:
+          type: number
+          example: '100'
+          description: Subscription value.
+        status:
+          type: object
+          example: active
+          description: Subscription status.
+        liveMode:
+          type: boolean
+          example: 'false'
+          description: Subscription is in live / test mode.
+        entityType:
+          type: string
+          example: order
+          description: 'Entity type of subscription (eg: order).'
+        entityId:
+          type: string
+          example: 62f4db0f3059ecee61379012
+          description: 'Entity id for the subscription. e.g: order id'
+        entitySource:
+          description: Entity source details for the subscription.
+          example: '{ type: "funnel", id: "lx6ROqruHGVQD2PZwFxK", subType: "upsell", name: "test funnel" }'
+          allOf:
+          - $ref: '#/components/schemas/OrderSource'
+        subscriptionId:
+          type: string
+          example: I-0UE609H8E43P
+          description: Subscription id for subscription.
+        subscriptionSnapshot:
+          type: object
+          description: Snapshot of subscription.
+          example: '{ status: "ACTIVE", status_update_time: "2022-08-16T11:06:53Z", id: "I-0UE609H8E43P", plan_id: "P-82K11750F0313430KMLRGE6Y", start_time: "2022-08-16T11:05:31Z", quantity: 1 }'
+        paymentProvider:
+          type: object
+          description: Payment provider details for the subscription.
+          example: '{ type: "paypal", connectedAccount: { _id: "64410debdc8f3b0503523abb", merchantClientId: "AeXtjrxdgsJiCPwQt5jML5pH-0mwmLs-tH7ub4Uo3IrDKvRl34FvJy8niI6E1wmS_pryIRdNllyVl58b" } }'
+        ipAddress:
+          type: string
+          example: 103.100.16.82
+          description: Ip address from where subscription was initiated.
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the subscription.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the subscription.
+          example: '2024-01-23T09:57:04.846Z'
+        meta:
+          type: object
+          description: Meta details of the subscription.
+          example: '{ collection: "transactionsv2", id: "6320652f0f664b6632006920" }'
+        markAsTest:
+          type: boolean
+          description: Is test subscription.
+          example: 'false'
+        schedule:
+          description: Scedule details for the subscription.
+          example: '{ collection: "transactionsv2", id: "6320652f0f664b6632006920" }'
+          allOf:
+          - $ref: '#/components/schemas/ScheduleOptionsDto'
+        autoPayment:
+          type: object
+          description: Auto payment details of the subscription.
+          example: '{ customerId: "908879612", paymentMethodId: "908646635" }'
+        recurringProduct:
+          type: object
+          description: Recurring product details of the subscription.
+          example: '{ locationId: "Z4Bxl8J4SaPEPLq9IQ8g", funnel: "bQHJWKcyjiKjk4BHv91g", step: "2281a993-8a75-4b48-9912-571f29c99a74", name: "Sofa Set" }'
+        canceledAt:
+          format: date-time
+          type: string
+          description: Cancellation timestamp of the subscription.
+          example: '2023-11-20T10:23:36.515Z'
+        canceledBy:
+          type: string
+          example: qUuXUiB2AiA2DIthEicP
+          description: User id who cancelled the subscription.
+        traceId:
+          type: string
+          description: Trace id of the subscription.
+          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+        createdBy:
+          type: string
+          example: user123
+          description: User ID who created the subscription.
+      required:
+      - _id
+      - altType
+      - altId
+      - createdAt
+      - updatedAt
+    OrderSource:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - funnel
+          - website
+          - invoice
+          - calendar
+          - text2Pay
+          - document_contracts
+          - membership
+          - mobile_app
+          - communities
+          - point_of_sale
+          - manual
+          - form
+          - survey
+          - payment_link
+          - external
+        subType:
+          type: string
+          enum:
+          - one_step_order_form
+          - two_step_order_form
+          - upsell
+          - tap_to_pay
+          - card_payment
+          - store
+          - contact_view
+          - email_campaign
+          - payments_dashboard
+          - shopify
+          - subscription_view
+          - store_upsell
+          - woocommerce
+          - service
+          - meeting
+          - imported_csv
+          - qr_code
+          - saas_one_time
+          - saas_subscription
+        id:
+          type: string
+        name:
+          type: string
+        meta:
+          type: object
+      required:
+      - type
+      - id
+    ScheduleOptionsDto:
+      type: object
+      properties:
+        executeAt:
+          type: string
+        rrule:
+          $ref: '#/components/schemas/CustomRRuleOptionsDto'
+    CustomRRuleOptionsDto:
+      type: object
+      properties:
+        intervalType:
+          type: string
+          enum:
+          - yearly
+          - monthly
+          - weekly
+          - daily
+          - hourly
+          - minutely
+          - secondly
+          example: monthly
+        interval:
+          type: number
+          example: 2
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DD format
+          example: '2023-01-01'
+        startTime:
+          type: string
+          description: Start time in HH:mm:ss format
+          example: '20:45:00'
+        endDate:
+          type: string
+          description: End date in YYYY-MM-DD format
+          example: '2029-11-01'
+        endTime:
+          type: string
+          description: End time in HH:mm:ss format
+          example: '18:45:00'
+        dayOfMonth:
+          type: number
+          description: -1, 1, 2, 3, ..., 27, 28
+          example: 15
+        dayOfWeek:
+          type: string
+          enum:
+          - mo
+          - tu
+          - we
+          - th
+          - fr
+          - sa
+          - su
+          example: mo
+        numOfWeek:
+          type: number
+          description: -1, 1, 2, 3, 4
+          example: -1
+        monthOfYear:
+          type: string
+          enum:
+          - jan
+          - feb
+          - mar
+          - apr
+          - may
+          - jun
+          - jul
+          - aug
+          - sep
+          - oct
+          - nov
+          - dec
+          example: jan
+        count:
+          type: number
+          description: Max number of task executions
+          example: 10
+        daysBefore:
+          type: number
+          description: Execute task number of days before
+          example: 5
+      required:
+      - intervalType
+      - interval
+      - startDate
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Payments
+  tags:
+  - Payments
+  - Integrations
+  - Orders
+  - Order fulfillments
+  - Order Notes
+  - Transactions
+  - Subscriptions
+  - Coupons
+  - Custom Provider

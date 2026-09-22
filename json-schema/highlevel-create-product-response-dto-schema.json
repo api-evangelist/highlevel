@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-product-response-dto-schema.json",
+  "title": "CreateProductResponseDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-products-openapi.json#/components/schemas/CreateProductResponseDto",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "The unique identifier for the product."
+    },
+    "description": {
+      "type": "string",
+      "description": "product description"
+    },
+    "variants": {
+      "description": "An array of variants for the product.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ProductVariantDto"
+      }
+    },
+    "locationId": {
+      "type": "string",
+      "description": "The unique identifier for the location."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the product."
+    },
+    "productType": {
+      "type": "string",
+      "description": "The type of the product (e.g., PHYSICAL)."
+    },
+    "availableInStore": {
+      "type": "boolean",
+      "description": "Indicates whether the product is available in-store."
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "The creation timestamp of the product."
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string",
+      "description": "The last update timestamp of the product."
+    },
+    "statementDescriptor": {
+      "type": "string",
+      "description": "The statement descriptor for the product."
+    },
+    "image": {
+      "type": "string",
+      "description": "The URL for the product image."
+    },
+    "collectionIds": {
+      "description": "An array of category Ids for the product",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "isTaxesEnabled": {
+      "type": "boolean",
+      "description": "The field indicates whether taxes are enabled for the product or not.",
+      "default": false
+    },
+    "taxes": {
+      "description": "An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "automaticTaxCategoryId": {
+      "type": "string",
+      "description": "Tax category ID for Automatic taxes calculation."
+    },
+    "label": {
+      "description": "The Product label details",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ProductLabelDto"
+        }
+      ]
+    },
+    "slug": {
+      "type": "string",
+      "description": "The slug of the product by which the product will be navigated"
+    }
+  },
+  "required": [
+    "_id",
+    "locationId",
+    "name",
+    "productType",
+    "createdAt",
+    "updatedAt"
+  ],
+  "$defs": {
+    "ProductLabelDto": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The content for the product label."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date in YYYY-MM-DDTHH:mm:ssZ format"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Start date in YYYY-MM-DDTHH:mm:ssZ format"
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "ProductVariantDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier for the variant."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the variant."
+        },
+        "options": {
+          "description": "An array of options for the variant.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProductVariantOptionDto"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "options"
+      ]
+    },
+    "ProductVariantOptionDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the option."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    }
+  }
+}

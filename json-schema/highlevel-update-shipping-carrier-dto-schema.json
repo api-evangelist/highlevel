@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-update-shipping-carrier-dto-schema.json",
+  "title": "UpdateShippingCarrierDto",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-store-openapi.json#/components/schemas/UpdateShippingCarrierDto",
+  "type": "object",
+  "properties": {
+    "altId": {
+      "type": "string",
+      "description": "Location Id or Agency Id"
+    },
+    "altType": {
+      "type": "string",
+      "enum": [
+        "location"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the shipping carrier"
+    },
+    "callbackUrl": {
+      "type": "string",
+      "description": "The URL endpoint that GHL needs to retrieve shipping rates. This must be a public URL."
+    },
+    "services": {
+      "description": "An array of available shipping carrier services",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ShippingCarrierServiceDto"
+      }
+    },
+    "allowsMultipleServiceSelection": {
+      "type": "boolean",
+      "description": "The seller can choose multiple services while creating shipping rates if this is true."
+    }
+  },
+  "$defs": {
+    "ShippingCarrierServiceDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the shipping carrier service"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the shipping carrier service"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ]
+    }
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-create-lead-form-dto-schema.json",
+  "title": "CreateLeadFormDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-ad-manager-openapi.json#/components/schemas/CreateLeadFormDTO",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Lead form type",
+      "enum": [
+        "MORE_VOLUME",
+        "HIGHER_INTENT"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Lead form name"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Location identifier"
+    },
+    "greetingCard": {
+      "description": "Greeting card config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/GreetingCard"
+        }
+      ]
+    },
+    "questions": {
+      "description": "List of questions displayed on the lead form",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FormQuestion"
+      }
+    },
+    "questionPageHeadline": {
+      "type": "string",
+      "description": "Question page headline"
+    },
+    "privacyPolicyLink": {
+      "type": "string",
+      "description": "Privacy policy URL"
+    },
+    "privacyPolicyText": {
+      "type": "string",
+      "description": "Privacy policy text"
+    },
+    "customDisclaimer": {
+      "description": "Custom disclaimer config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/CustomDisclaimer"
+        }
+      ]
+    },
+    "thankYouPage": {
+      "description": "Thank you page config",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ThankYouPage"
+        }
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "name",
+    "locationId",
+    "questions",
+    "privacyPolicyLink",
+    "thankYouPage"
+  ],
+  "$defs": {
+    "CustomDisclaimer": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Disclaimer title"
+        },
+        "body": {
+          "type": "string",
+          "description": "Disclaimer body text"
+        },
+        "checkboxes": {
+          "description": "Consent checkboxes the user must agree to before submitting the form",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CustomDisclaimerCheckbox"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ]
+    },
+    "CustomDisclaimerCheckbox": {
+      "type": "object",
+      "properties": {
+        "is_required": {
+          "type": "boolean",
+          "description": "Checkbox required flag"
+        },
+        "text": {
+          "type": "string",
+          "description": "Checkbox text label"
+        },
+        "key": {
+          "type": "string",
+          "description": "Checkbox unique key"
+        }
+      },
+      "required": [
+        "is_required",
+        "text",
+        "key"
+      ]
+    },
+    "FormQuestion": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Question label text shown to the user"
+        },
+        "key": {
+          "type": "string",
+          "description": "Question key"
+        },
+        "type": {
+          "type": "string",
+          "description": "Question input type — use a prefilled type for standard fields or CUSTOM / SHORT_ANSWER for freeform questions",
+          "enum": [
+            "CUSTOM",
+            "CITY",
+            "COMPANY_NAME",
+            "COUNTRY",
+            "DATE_OF_BIRTH",
+            "EMAIL",
+            "FIRST_NAME",
+            "FULL_NAME",
+            "GENDER",
+            "JOB_TITLE",
+            "LAST_NAME",
+            "MARITAL_STATUS",
+            "MILITARY_STATUS",
+            "PHONE",
+            "POST_CODE",
+            "RELATIONSHIP_STATUS",
+            "STATE",
+            "STREET_ADDRESS",
+            "WORK_EMAIL",
+            "WORK_PHONE_NUMBER",
+            "ZIP",
+            "SHORT_ANSWER"
+          ]
+        },
+        "options": {
+          "description": "Answer options for multiple-choice questions (only applies to CUSTOM type)",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FormQuestionOption"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "type"
+      ]
+    },
+    "FormQuestionOption": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Option key"
+        },
+        "value": {
+          "type": "string",
+          "description": "Option value"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
+    "GreetingCard": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Greeting card title"
+        },
+        "style": {
+          "type": "string",
+          "description": "Greeting card style"
+        },
+        "content": {
+          "description": "Greeting card content",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "style",
+        "content"
+      ]
+    },
+    "ThankYouPage": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Thank you page title"
+        },
+        "body": {
+          "type": "string",
+          "description": "Thank you page body"
+        },
+        "buttonText": {
+          "type": "string",
+          "description": "Button text label"
+        },
+        "buttonType": {
+          "type": "string",
+          "description": "Button action type"
+        },
+        "buttonLink": {
+          "type": "string",
+          "description": "Button destination link"
+        },
+        "businessPhone": {
+          "type": "string",
+          "description": "Business phone number"
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "Phone country code"
+        }
+      },
+      "required": [
+        "title",
+        "body",
+        "buttonText",
+        "buttonType"
+      ]
+    }
+  }
+}

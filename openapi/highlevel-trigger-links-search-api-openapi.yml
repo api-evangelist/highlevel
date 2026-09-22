@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: Trigger Links Search API
+  description: Documentation for links API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Trigger Links Search
+  description: Documentation for links API
+paths:
+  /links/search:
+    get:
+      operationId: search-trigger-links
+      summary: Search Trigger Links
+      description: Get list of links by searching
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-04-15'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: ABCHkzuJQ8ZMd4Te84GK
+          type: string
+      - name: query
+        required: false
+        in: query
+        description: Search query as a string
+        schema:
+          example: Search string
+          type: string
+      - name: skip
+        required: false
+        in: query
+        description: Numbers of query results to skip
+        schema:
+          default: 0
+          example: 1
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Limit on number of search results
+        schema:
+          default: 20
+          example: 10
+          type: number
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLinksSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedDTO'
+      tags:
+      - Trigger Links Search
+      security:
+      - bearer: []
+components:
+  schemas:
+    LinkSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: n4AriwEnFrGh3tu08W0U
+        name:
+          type: string
+          example: first tag
+        redirectTo:
+          type: string
+          example: https://www.google.com/
+        fieldKey:
+          type: string
+          example: '{{trigger_link.n4AriwEnFrGh3tu08W0U}}'
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+    GetLinksSuccessfulResponseDto:
+      type: object
+      properties:
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkSchema'
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Trigger Links
+  tags:
+  - Trigger Links
+  - Trigger Links Search
+  - Trigger Links Redirection

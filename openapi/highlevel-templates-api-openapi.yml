@@ -1,0 +1,878 @@
+openapi: 3.2.0
+info:
+  title: Highlevel Templates API
+  version: '1.0'
+  contact: {}
+  description: 'Operations tagged Templates across 2 of this provider''s published API definitions: highlevel-emails-openapi.json, highlevel-proposals-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Templates
+  description: Documentation for emails API
+paths:
+  /emails/builder:
+    post:
+      operationId: create-template
+      summary: Create a new template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBuilderDto'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBuilderSuccesfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - Location-Access:
+        - emails/builder.write
+      tags:
+      - Templates
+    get:
+      operationId: fetch-template
+      summary: Fetch email templates
+      description: Fetch email templates by location id
+      parameters:
+      - name: locationId
+        required: true
+        in: query
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          default: 10
+          type: string
+      - name: offset
+        required: false
+        in: query
+        schema:
+          default: 0
+          type: string
+      - name: search
+        required: false
+        in: query
+        schema:
+          default: ''
+          type: string
+      - name: sortByDate
+        required: false
+        in: query
+        schema:
+          default: desc
+          type: string
+      - name: archived
+        required: false
+        in: query
+        schema:
+          default: false
+          type: string
+      - name: builderVersion
+        required: false
+        in: query
+        schema:
+          default: '2'
+          enum:
+          - '1'
+          - '2'
+          type: string
+      - name: name
+        required: false
+        in: query
+        schema:
+          default: ''
+          type: string
+      - name: parentId
+        required: false
+        in: query
+        schema:
+          default: ''
+          type: string
+      - name: originId
+        required: false
+        in: query
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: templatesOnly
+        required: false
+        in: query
+        schema:
+          default: false
+          type: string
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchBuilderSuccesfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - Location-Access:
+        - emails/builder.readonly
+      tags:
+      - Templates
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /emails/builder/{locationId}/{templateId}:
+    delete:
+      operationId: delete-template
+      summary: Delete a template
+      parameters:
+      - name: locationId
+        required: true
+        in: path
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: templateId
+        required: true
+        in: path
+        example: zYy3YOUuHxgomU1uYJty
+        schema:
+          type: string
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteBuilderSuccesfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - Location-Access: []
+      tags:
+      - Templates
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /emails/builder/data:
+    post:
+      operationId: update-template
+      summary: Update a template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveBuilderDataDto'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuilderUpdateSuccessfulDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      security:
+      - Location-Access:
+        - emails/builder.write
+      tags:
+      - Templates
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /proposals/templates:
+    get:
+      operationId: list-documents-contracts-templates
+      summary: List templates
+      description: List document contract templates for a location
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        schema:
+          example: jhg64gjhb436fv
+          type: string
+      - name: dateFrom
+        required: false
+        in: query
+        description: Date start from (ISO 8601)
+        schema:
+          example: '2025-02-03T18:30:00.000Z'
+          type: string
+      - name: dateTo
+        required: false
+        in: query
+        description: Date to (ISO 8601)
+        schema:
+          example: '2025-02-14T18:29:59.999Z'
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: 'Comma-separated template types. Valid values: proposal, estimate, contentLibrary'
+        schema:
+          example: proposal,estimate
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: Template Name
+        schema:
+          example: Template Name
+          type: string
+      - name: isPublicDocument
+        required: false
+        in: query
+        description: If the docForm is a DocForm
+        schema:
+          example: false
+          type: boolean
+      - name: userId
+        required: false
+        in: query
+        description: User Id, required when isPublicDocument is true
+        schema:
+          example: '1234567890'
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Limit
+        schema:
+          example: '10'
+          type: string
+      - name: skip
+        required: false
+        in: query
+        description: Skip
+        schema:
+          example: '0'
+          type: string
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      responses:
+        '200':
+          description: Templates fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListPaginationResponseDTO'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+      security:
+      - Location-Access: []
+      - Agency-Access: []
+      tags:
+      - Templates
+    servers:
+    - url: https://services.leadconnectorhq.com
+  /proposals/templates/send:
+    post:
+      operationId: send-documents-contracts-template
+      summary: Send template
+      description: Send template to a client
+      parameters:
+      - name: Authorization
+        in: header
+        description: Access Token
+        required: true
+        schema:
+          type: string
+          example: Bearer 9c48df2694a849b6089f9d0d3513efe
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendDocumentFromPublicApiBodyDto'
+      responses:
+        '200':
+          description: Document sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendTemplateResponseDto'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestDTO'
+      security:
+      - Location-Access: []
+      - Agency-Access: []
+      tags:
+      - Templates
+    servers:
+    - url: https://services.leadconnectorhq.com
+components:
+  schemas:
+    IBuilderJsonMapper:
+      type: object
+      properties:
+        elements:
+          type: array
+          items:
+            type: string
+        attrs:
+          type: object
+        templateSettings:
+          $ref: '#/components/schemas/TemplateSettings'
+      required:
+      - elements
+      - attrs
+      - templateSettings
+    SaveBuilderDataDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        templateId:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        updatedBy:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        dnd:
+          example: '{elements:[], attrs:{}, templateSettings:{}}'
+          allOf:
+          - $ref: '#/components/schemas/IBuilderJsonMapper'
+        html:
+          type: string
+          example: ''
+        editorType:
+          type: string
+          enum:
+          - html
+          - builder
+        previewText:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        isPlainText:
+          type: boolean
+          example: 'false'
+      required:
+      - locationId
+      - templateId
+      - updatedBy
+      - dnd
+      - html
+      - editorType
+    TemplateSettings:
+      type: object
+      properties: {}
+    FetchBuilderSuccesfulResponseDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: New Template
+          description: template name
+        updatedBy:
+          type: string
+          example: John Doe
+          description: updated by
+        isPlainText:
+          type: boolean
+          example: 'false'
+          description: plain text based template
+        lastUpdated:
+          type: string
+          example: '2024-11-12T12:34:36.070Z'
+          description: last updated
+        dateAdded:
+          type: string
+          example: '2024-11-12T12:34:36.070Z'
+          description: date added
+        previewUrl:
+          type: string
+          example: https://example.com
+          description: preview url
+        id:
+          type: string
+          example: 67334b231f2fad724062f52b5
+          description: id
+        version:
+          type: string
+          example: '1'
+          description: version
+        templateType:
+          type: string
+          example: builder
+          description: type
+    CreateBuilderSuccesfulResponseDto:
+      type: object
+      properties:
+        redirect:
+          type: string
+          example: 66e811229245fc098765590
+          description: template id
+        traceId:
+          type: string
+          example: 0c52e980-41f6-4be7-8c4b-e2c5a13dc3c2
+          description: trace id
+      required:
+      - redirect
+      - traceId
+    DeleteBuilderSuccesfulResponseDto:
+      type: object
+      properties:
+        ok:
+          type: string
+          example: 'true'
+          description: ok
+        traceId:
+          type: string
+          example: 0c52e980-41f6-4be7-8c4b-32332ss
+          description: trace id
+    CreateBuilderDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        title:
+          type: string
+          example: template title
+        type:
+          type: string
+          enum:
+          - html
+          - folder
+          - import
+          - builder
+          - blank
+        updatedBy:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        builderVersion:
+          type: string
+          enum:
+          - '1'
+          - '2'
+          default: '2'
+        name:
+          type: string
+          example: Template1
+        parentId:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        templateDataUrl:
+          type: string
+          example: ''
+        importProvider:
+          type: string
+          enum:
+          - mailchimp
+          - active_campaign
+          - kajabi
+        importURL:
+          type: string
+          example: https://tplshare.com/fhYJ3Mi
+        templateSource:
+          type: string
+          example: template_library
+        isPlainText:
+          type: boolean
+          example: false
+      required:
+      - locationId
+      - type
+      - importProvider
+    BuilderUpdateSuccessfulDTO:
+      type: object
+      properties:
+        ok:
+          type: string
+          example: 'true'
+          description: ok
+        traceId:
+          type: string
+          example: 0c52e980-41f6-4be7-8c4b-32332ss
+          description: trace id
+        previewUrl:
+          type: string
+          example: https://example.com
+          description: preview url
+        templateDownloadUrl:
+          type: string
+          example: https://example.com
+          description: template data download url
+    SendTemplateResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status
+          example: true
+        links:
+          description: Links for all recipients
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposalEstimateLinksDto'
+      required:
+      - success
+      - links
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    ProposalEstimateLinksDto:
+      type: object
+      properties:
+        referenceId:
+          type: string
+          description: Reference ID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        documentId:
+          type: string
+          description: Document ID
+          example: c1e87a91-93b2-4b78-821f-85cf0e1f925b
+        recipientId:
+          type: string
+          description: Recipient ID
+          example: u240JcS0E5qE0ziHnwMm
+        entityName:
+          type: string
+          enum:
+          - contacts
+          - users
+          description: Entity name that the recipient belongs to
+          example: contacts
+        recipientCategory:
+          type: string
+          enum:
+          - recipient
+          - cc
+          - bcc
+          description: Recipient category (recipient, cc, or bcc)
+          example: recipient
+        documentRevision:
+          type: number
+          description: Document revision number
+          example: 1
+        createdBy:
+          type: string
+          description: Created by user ID
+          example: b6d8fa28-1112-4dc7-b9d2-f22b75a477ea
+        deleted:
+          type: boolean
+          description: Whether the document is deleted
+          example: false
+      required:
+      - referenceId
+      - documentId
+      - recipientId
+      - entityName
+      - recipientCategory
+      - documentRevision
+      - createdBy
+      - deleted
+    SendDocumentFromPublicApiBodyDto:
+      type: object
+      properties:
+        templateId:
+          type: string
+          description: Template Id
+          example: hTlkh7t8gujsahgg93
+        userId:
+          type: string
+          description: User Id
+          example: hTlkh7t8gujsahgg93
+        sendDocument:
+          type: boolean
+          description: Send Document
+          example: true
+        locationId:
+          type: string
+          description: Location Id
+          example: hTlkh7t8gujsahgg93
+        contactId:
+          type: string
+          description: Contact Id
+          example: hTlkh7t8gujsahgg93
+        opportunityId:
+          type: string
+          description: Opportunity Id
+          example: hTlkh7t8gujsahgg93
+      required:
+      - templateId
+      - userId
+      - locationId
+      - contactId
+    TemplateListPaginationResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Array of templates
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListResponseDTO'
+        total:
+          type: number
+          example: 2
+          description: Total number of templates
+        traceId:
+          type: string
+          example: d5656876-86a5-46fb-84df-788f1da7937a
+          description: Trace ID for request tracking
+      required:
+      - data
+      - total
+    TemplateListResponseDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 685d11c371c22e636e9c04b2
+          description: Template ID
+        deleted:
+          type: boolean
+          example: false
+          description: Whether the template is deleted
+        version:
+          type: number
+          example: 2
+          description: Template version
+        name:
+          type: string
+          example: New Template
+          description: Template name
+        locationId:
+          type: string
+          example: 5rORm9p7RtxWQPzBIbTG
+          description: Location ID
+        type:
+          type: string
+          example: proposal
+          description: Template type
+          enum:
+          - proposal
+          - estimate
+          - contentLibrary
+        updatedBy:
+          type: string
+          example: K9PSPnWjfNoE8DCf5LJZ
+          description: User ID who last updated the template
+        isPublicDocument:
+          type: boolean
+          example: true
+          description: Whether the template is a public document
+        createdAt:
+          type: string
+          example: '2025-06-26T09:24:19.305Z'
+          description: Template creation date
+        updatedAt:
+          type: string
+          example: '2025-06-26T09:27:32.119Z'
+          description: Template last update date
+        id:
+          type: string
+          example: 685d11c371c22e636e9c04b2
+          description: Template ID (alias for _id)
+        documentCount:
+          type: number
+          example: 0
+          description: Document count (only present when isPublicDocument is true)
+        docFormUrl:
+          type: string
+          example: https://staging.sendlink.co/documents/doc-form/685d11c371c22e636e9c04b2?locale=en_US
+          description: Document form URL (only present when isPublicDocument is true)
+      required:
+      - _id
+      - deleted
+      - version
+      - name
+      - locationId
+      - type
+      - updatedBy
+      - isPublicDocument
+      - createdAt
+      - updatedAt
+      - id
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+x-refined-from:
+- highlevel-emails-openapi.json
+- highlevel-proposals-openapi.json
+x-tagGroups:
+  name: Ad Manager
+  tags:
+  - Facebook Integration
+  - Facebook Ads
+  - Facebook Reporting
+  - Google Integration
+  - Google Ads
+  - Google Reporting
+  - LinkedIn Integration
+  - LinkedIn Ads
+  - LinkedIn Reporting
+  - Reselling
+  - Snapshots

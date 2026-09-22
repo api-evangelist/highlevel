@@ -1,0 +1,477 @@
+openapi: 3.2.0
+info:
+  title: Social Media Posting Oauth | LinkedIn API
+  description: Documentation for Social Media Posting API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Oauth | LinkedIn
+  description: Documentation for Social Media Posting API
+paths:
+  /social-media-posting/oauth/linkedin/start:
+    get:
+      operationId: start-linkedin-oauth
+      summary: Starts OAuth For LinkedIn Account
+      description: 'Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to LinkedIn login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function.
+
+        ### Sample code to listen to event data:
+
+        window.addEventListener(''message'',
+
+        function(e) {
+
+        if (e.data && e.data.page === ''social_media_posting'') {
+
+        const { actionType, page, platform, placement, accountId, reconnectAccounts } = e.data
+
+        }
+
+        },
+
+        false)
+
+        ### Event Data Response:
+
+        {
+
+        actionType: string, Ex: "close"
+
+        page: string, Ex: "social-media-posting"
+
+        platform: string, Ex: "linkedin"
+
+        placement: string, Ex: "placement"
+
+        accountId: string, Ex: "658a9b6833b91e0ecb8f3958"
+
+        reconnectAccounts: string[]] Ex: ["658a9b6833b91e0ecb834acd", "efd2daa9b6833b91e0ecb8f3511"]
+
+        }
+
+        ### The accountId retrieved from above data can be used to fetch LinkedIn account details using below API -
+
+        API: ''/social-media-posting/oauth/linkedin/accounts/:accountId''
+
+
+        Method: GET'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        example: w37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: userId
+        required: true
+        in: query
+        description: User Id
+        example: u37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Page
+        example: integration
+        schema:
+          type: string
+      - name: reconnect
+        required: false
+        in: query
+        description: Reconnect
+        example: integration
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Oauth | LinkedIn
+      security:
+      - bearer: []
+  /social-media-posting/oauth/{locationId}/linkedin/accounts/{accountId}:
+    get:
+      operationId: get-linkedin-page-profile
+      summary: Get Linkedin pages and profile
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Account Location Id
+        example: w37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: accountId
+        required: true
+        in: path
+        description: Account Id
+        example: w37swmmLbA02zgqKPpxITe
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLinkedInAccountsResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Oauth | LinkedIn
+      security:
+      - bearer: []
+    post:
+      operationId: attach-linkedin-page-profile
+      summary: Attach linkedin pages and profile
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Account Location Id
+        example: w37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: accountId
+        required: true
+        in: path
+        description: Account Id
+        example: w37swmmLbA02zgqKPpxITe
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachLinkedinAccountDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialMediaLinkedInAccountResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Oauth | LinkedIn
+      security:
+      - bearer: []
+components:
+  schemas:
+    AttachLinkedinAccountDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - page
+          - group
+          - profile
+          - location
+          - business
+        originId:
+          type: string
+          example: 244405****11687
+        name:
+          type: string
+          example: JOHN_DEO
+        avatar:
+          type: string
+        urn:
+          type: string
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+    SocialMediaLinkedInAccountSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 65f2d989a4f2f1e5322c3856
+        oAuthId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        oldId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        locationId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        originId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        platform:
+          type: object
+          example: linkedin
+        type:
+          type: object
+          description: 'type must be one of the following values: page, profile'
+          example: profile
+        name:
+          type: string
+          example: Profile Name
+        avatar:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        meta:
+          type: object
+          example:
+            pageId: u37swmmLbA02zgqKPpxITe2
+            page:
+              id: u37swmmLbA02zgqKPpxITe2
+              name: Account Name
+              avatar: u37swmmLbA02zgqKPpxITe2
+            storeCode: '122'
+            isVerified: 'true'
+            verified: true
+            protected: true
+            locationId: u37swmmLbA02zgqKPpxITe2
+            accountId: u37swmmLbA02zgqKPpxITe2
+            openId: u37swmmLbA02zgqKPpxITe2
+            urn: u37swmmLbA02zgqKPpxITe2
+            username: testUser
+            storefrontAddress:
+              regionCode: '30021'
+              languageCode: E001
+              postalCode: '1221'
+              administrativeArea: Down Town
+              locality: Louis Street
+              addressLines:
+              - '207'
+              - county
+        active:
+          type: boolean
+          example: true
+        deleted:
+          type: boolean
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: created date
+          example: '2024-03-14T11:03:37.015Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: updated date
+          example: '2024-03-14T11:03:37.015Z'
+    GetLinkedInAccountsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched LinkedIn Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetLinkedInAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    GetLinkedInAccountSchema:
+      type: object
+      properties:
+        pages:
+          description: LinkedIn Pages
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedInPageSchema'
+        profile:
+          description: LinkedIn Profile Details
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedInProfileSchema'
+    LinkedInProfileSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id
+          example: w37swmmLbA02zgqKPpxITe
+        name:
+          type: string
+          description: Name of profile
+          example: Profile Name
+        avatar:
+          type: string
+          description: Profile avatar
+          example: w37swmmLbA02zgqKPpxITe
+        urn:
+          type: string
+          description: URN
+        isConnected:
+          type: boolean
+          description: is connected to app
+          example: true
+    SocialMediaLinkedInAccountResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Added LinkedIn Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaLinkedInAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    LinkedInPageSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Page ID
+          example: w37swmmLbA02zgqKPpxITe
+        name:
+          type: string
+          description: LinkedIn Page Name
+          example: Sample Name
+        avatar:
+          type: string
+          description: Profile Avatar url
+          example: w37swmmLbA02zgqKPpxITe
+        urn:
+          type: string
+          description: URN
+        isConnected:
+          type: boolean
+          description: is connected to app
+          example: true
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Social Planner
+  tags:
+  - Oauth | Google
+  - Post
+  - Account
+  - Oauth | Facebook
+  - Oauth | Instagram
+  - Oauth | LinkedIn
+  - Oauth | Twitter
+  - CSV
+  - Oauth | Tiktok
+  - Category
+  - Tag
+  - Statistics

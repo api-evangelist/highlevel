@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-set-accounts-dto-schema.json",
+  "title": "SetAccountsDTO",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-social-media-posting-openapi.json#/components/schemas/SetAccountsDTO",
+  "type": "object",
+  "properties": {
+    "accountIds": {
+      "description": "Account Ids",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "filePath": {
+      "type": "string",
+      "description": "File path"
+    },
+    "rowsCount": {
+      "type": "number",
+      "description": "Entires Count. rowcCount must be between 1 and number of posts in CSV"
+    },
+    "fileName": {
+      "type": "string",
+      "description": "Name of file"
+    },
+    "approver": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string",
+      "description": "User ID"
+    }
+  },
+  "required": [
+    "accountIds",
+    "filePath",
+    "rowsCount",
+    "fileName"
+  ]
+}

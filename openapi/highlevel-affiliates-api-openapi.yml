@@ -1,0 +1,514 @@
+openapi: 3.2.0
+info:
+  title: Affiliate Manager Affiliates API
+  description: Documentation for Affiliate Manager API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Affiliates
+  description: Documentation for Affiliate Manager API
+paths:
+  /affiliate-manager/{locationId}/affiliates:
+    get:
+      operationId: list-affiliates
+      summary: List Affiliates
+      description: Retrieve the list of affiliates for a location.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: query
+        required: false
+        in: query
+        schema:
+          example: John
+          type: string
+      - name: active
+        required: false
+        in: query
+        schema:
+          default: false
+          example: true
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        schema:
+          example: 63d376de11be1d26d38f7369
+          type: string
+      - name: skip
+        required: false
+        in: query
+        schema:
+          default: 0
+          example: 1
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Maximum number of records to return. Maximum allowed value is 100.
+        schema:
+          default: 10
+          example: 10
+          type: number
+      - name: fromDate
+        required: false
+        in: query
+        schema:
+          example: '2023-10-01'
+          type: string
+      - name: toDate
+        required: false
+        in: query
+        schema:
+          example: '2023-10-01'
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAffiliatesResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Affiliates
+      security:
+      - bearer:
+        - affiliate-manager.readonly
+  /affiliate-manager/{locationId}/affiliates/{affiliateId}:
+    get:
+      operationId: get-affiliate
+      summary: Get Affiliate
+      description: Retrieve a single affiliate by id for a location.
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+          example: '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      - name: affiliateId
+        required: true
+        in: path
+        description: Affiliate Id
+        schema:
+          example: ve9EPM428h8vShlRW1KT
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffiliateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Affiliates
+      security:
+      - bearer:
+        - affiliate-manager.readonly
+components:
+  schemas:
+    OAuthAffiliateListItemResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Affiliate id
+          example: 63d147176c5bbc30e9e091a4
+        firstName:
+          type: string
+          description: Affiliate first name
+          example: John
+        lastName:
+          type: string
+          description: Affiliate last name
+          example: Doe
+        phone:
+          type: string
+          description: Affiliate phone number
+          example: +1 888 888-8888
+        deleted:
+          type: boolean
+          description: Whether the affiliate is deleted
+          example: false
+        locationId:
+          type: string
+          description: Location id
+          example: ve9EPM428h8vShlRW1KT
+        active:
+          type: boolean
+          description: Whether the affiliate is active
+          example: true
+        address:
+          type: string
+          description: Affiliate address
+          example: 123 Main St
+        avatar:
+          type: string
+          description: Affiliate avatar URL
+          example: https://example.com/avatar.png
+        createdAt:
+          type: string
+          description: Created at timestamp
+          example: '2024-06-16T00:00:00.000Z'
+        createdBy:
+          type: object
+          description: Created by audit info
+        facebookUrl:
+          type: string
+          description: Facebook URL
+          example: https://facebook.com/johndoe
+        instagramUrl:
+          type: string
+          description: Instagram URL
+          example: https://instagram.com/johndoe
+        linkedInUrl:
+          type: string
+          description: LinkedIn URL
+          example: https://linkedin.com/in/johndoe
+        twitterUrl:
+          type: string
+          description: Twitter URL
+          example: https://twitter.com/johndoe
+        youtubeUrl:
+          type: string
+          description: YouTube URL
+          example: https://youtube.com/channel
+        websiteUrl:
+          type: string
+          description: Website URL
+          example: https://example.com
+        contactId:
+          type: string
+          description: Contact id associated with the affiliate
+          example: ve9EPM428h8vShlRW1KT
+        campaignIds:
+          description: Campaign ids
+          example:
+          - 650173614761b33c46d33b19
+          type: array
+          items:
+            type: string
+        vatId:
+          type: string
+          description: VAT ID
+          example: VAT123
+        updatedAt:
+          type: string
+          description: Updated at timestamp
+          example: '2024-06-16T00:00:00.000Z'
+        w8Form:
+          type: string
+          description: W8 form URL
+        w9Form:
+          type: string
+          description: W9 form URL
+        lastUpdatedBy:
+          type: object
+          description: Last updated by audit info
+        email:
+          type: string
+          description: Affiliate email
+          example: john.doe@example.com
+        revenue:
+          type: number
+          description: Affiliate revenue
+          example: 1250.5
+        customer:
+          type: number
+          description: Customer count
+          example: 15
+        lead:
+          type: number
+          description: Lead count
+          example: 5
+        droppedCustomer:
+          type: number
+          description: Dropped customer count
+          example: 2
+        clickCount:
+          type: number
+          description: Click count
+          example: 100
+        paid:
+          type: number
+          description: Paid amount
+          example: 500
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        owned:
+          type: number
+          description: Owned amount
+          example: 750
+      required:
+      - _id
+      - locationId
+      - email
+    ListAffiliatesResponseDto:
+      type: object
+      properties:
+        affiliates:
+          description: Affiliate list
+          type: array
+          items:
+            $ref: '#/components/schemas/OAuthAffiliateListItemResponseDto'
+        meta:
+          description: Pagination metadata
+          allOf:
+          - $ref: '#/components/schemas/AffiliateListMetaResponseDto'
+      required:
+      - affiliates
+      - meta
+    GetAffiliateResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Affiliate id
+          example: 63d147176c5bbc30e9e091a4
+        firstName:
+          type: string
+          description: Affiliate first name
+          example: John
+        lastName:
+          type: string
+          description: Affiliate last name
+          example: Doe
+        phone:
+          type: string
+          description: Affiliate phone number
+          example: +1 888 888-8888
+        deleted:
+          type: boolean
+          description: Whether the affiliate is deleted
+          example: false
+        locationId:
+          type: string
+          description: Location id
+          example: ve9EPM428h8vShlRW1KT
+        active:
+          type: boolean
+          description: Whether the affiliate is active
+          example: true
+        address:
+          type: string
+          description: Affiliate address
+          example: 123 Main St
+        avatar:
+          type: string
+          description: Affiliate avatar URL
+          example: https://example.com/avatar.png
+        createdAt:
+          type: string
+          description: Created at timestamp
+          example: '2024-06-16T00:00:00.000Z'
+        createdBy:
+          type: object
+          description: Created by audit info
+        facebookUrl:
+          type: string
+          description: Facebook URL
+          example: https://facebook.com/johndoe
+        instagramUrl:
+          type: string
+          description: Instagram URL
+          example: https://instagram.com/johndoe
+        linkedInUrl:
+          type: string
+          description: LinkedIn URL
+          example: https://linkedin.com/in/johndoe
+        twitterUrl:
+          type: string
+          description: Twitter URL
+          example: https://twitter.com/johndoe
+        youtubeUrl:
+          type: string
+          description: YouTube URL
+          example: https://youtube.com/channel
+        websiteUrl:
+          type: string
+          description: Website URL
+          example: https://example.com
+        contactId:
+          type: string
+          description: Contact id associated with the affiliate
+          example: ve9EPM428h8vShlRW1KT
+        campaignIds:
+          description: Campaign ids
+          example:
+          - 650173614761b33c46d33b19
+          type: array
+          items:
+            type: string
+        vatId:
+          type: string
+          description: VAT ID
+          example: VAT123
+        updatedAt:
+          type: string
+          description: Updated at timestamp
+          example: '2024-06-16T00:00:00.000Z'
+        w8Form:
+          type: string
+          description: W8 form URL
+        w9Form:
+          type: string
+          description: W9 form URL
+        lastUpdatedBy:
+          type: object
+          description: Last updated by audit info
+        email:
+          type: string
+          description: Affiliate email
+          example: john.doe@example.com
+        revenue:
+          type: number
+          description: Affiliate revenue
+          example: 1250.5
+        customer:
+          type: number
+          description: Customer count
+          example: 15
+        lead:
+          type: number
+          description: Lead count
+          example: 5
+        droppedCustomer:
+          type: number
+          description: Dropped customer count
+          example: 2
+        clickCount:
+          type: number
+          description: Click count
+          example: 100
+        paid:
+          type: number
+          description: Paid amount
+          example: 500
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        owned:
+          type: number
+          description: Owned amount
+          example: 750
+      required:
+      - _id
+      - locationId
+      - email
+    AffiliateListMetaResponseDto:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total affiliates matching the applied filters
+          example: 42
+      required:
+      - count
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Affiliate Manager
+  tags:
+  - affiliate-manager
+  - Affiliates
+  - Payouts
+  - Commissions

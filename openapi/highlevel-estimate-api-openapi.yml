@@ -1,0 +1,2430 @@
+openapi: 3.2.0
+info:
+  title: Invoice Estimate API
+  description: Documentation for invoice API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Estimate
+  description: Documentation for invoice API
+paths:
+  /invoices/estimate:
+    post:
+      operationId: create-new-estimate
+      summary: Create New Estimate
+      description: Create a new estimate with the provided details
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEstimatesDto'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+  /invoices/estimate/{estimateId}:
+    put:
+      operationId: update-estimate
+      summary: Update Estimate
+      description: Update an existing estimate with new details
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: estimateId
+        required: true
+        in: path
+        description: Estimate Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEstimateDto'
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+    delete:
+      operationId: delete-estimate
+      summary: Delete Estimate
+      description: Delete an existing estimate
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: estimateId
+        required: true
+        in: path
+        description: Estimate Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AltDto'
+      responses:
+        '200':
+          description: Successfully Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+  /invoices/estimate/number/generate:
+    get:
+      operationId: generate-estimate-number
+      summary: Generate Estimate Number
+      description: Get the next estimate number for the given location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateEstimateNumberResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.readonly
+      - Agency-Access:
+        - invoices/estimate.readonly
+  /invoices/estimate/{estimateId}/send:
+    post:
+      operationId: send-estimate
+      summary: Send Estimate
+      description: API to send estimate by estimate id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: estimateId
+        required: true
+        in: path
+        description: Estimate Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEstimateDto'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+  /invoices/estimate/{estimateId}/invoice:
+    post:
+      operationId: create-invoice-from-estimate
+      summary: Create Invoice from Estimate
+      description: Create a new invoice from an existing estimate
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: estimateId
+        required: true
+        in: path
+        description: Estimate Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceFromEstimateDto'
+      responses:
+        '200':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInvoiceFromEstimateResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+  /invoices/estimate/list:
+    get:
+      operationId: list-estimates
+      summary: List Estimates
+      description: Get a paginated list of estimates
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: startAt
+        required: false
+        in: query
+        description: startAt in YYYY-MM-DD format
+        schema:
+          example: '2023-01-01'
+          type: string
+      - name: endAt
+        required: false
+        in: query
+        description: endAt in YYYY-MM-DD format
+        schema:
+          example: '2023-01-01'
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: search text for estimates name
+        schema:
+          example: Home services estimate
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: estimate status
+        schema:
+          example: sent
+          enum:
+          - all
+          - draft
+          - sent
+          - accepted
+          - declined
+          - invoiced
+          - viewed
+          type: string
+      - name: contactId
+        required: false
+        in: query
+        description: Contact ID for the estimate
+        schema:
+          example: AmuzcoPBpgKeccNsFlib
+          type: string
+      - name: limit
+        required: true
+        in: query
+        description: Limit the number of items to return
+        schema:
+          example: 10
+          type: string
+      - name: offset
+        required: true
+        in: query
+        description: Number of items to skip
+        schema:
+          example: 10
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEstimatesResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.readonly
+      - Agency-Access:
+        - invoices/estimate.readonly
+  /invoices/estimate/stats/last-visited-at:
+    patch:
+      operationId: update-estimate-last-visited-at
+      summary: Update estimate last visited at
+      description: API to update estimate last visited at by estimate id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstimateIdParam'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access: []
+      - Agency-Access: []
+  /invoices/estimate/template:
+    get:
+      operationId: list-estimate-templates
+      summary: List Estimate Templates
+      description: Get a list of estimate templates or a specific template by ID
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: To search for an estimate template by id / name
+        schema:
+          example: Alex
+          type: string
+      - name: limit
+        required: true
+        in: query
+        description: Limit the number of items to return
+        schema:
+          example: 10
+          type: string
+      - name: offset
+        required: true
+        in: query
+        description: Number of items to skip
+        schema:
+          example: 10
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEstimateTemplateResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.readonly
+      - Agency-Access:
+        - invoices/estimate.readonly
+    post:
+      operationId: create-estimate-template
+      summary: Create Estimate Template
+      description: Create a new estimate template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstimateTemplatesDto'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateTemplateResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+  /invoices/estimate/template/{templateId}:
+    put:
+      operationId: update-estimate-template
+      summary: Update Estimate Template
+      description: Update an existing estimate template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstimateTemplatesDto'
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateTemplateResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+    delete:
+      operationId: delete-estimate-template
+      summary: Delete Estimate Template
+      description: Delete an existing estimate template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: templateId
+        required: true
+        in: path
+        description: Template Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AltDto'
+      responses:
+        '200':
+          description: Successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateTemplateResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.write
+      - Agency-Access:
+        - invoices/estimate.write
+  /invoices/estimate/template/preview:
+    get:
+      operationId: preview-estimate-template
+      summary: Preview Estimate Template
+      description: Get a preview of an estimate template
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: altId
+        required: true
+        in: query
+        description: Location Id or Agency Id
+        schema:
+          example: 6578278e879ad2646715ba9c
+          type: string
+      - name: altType
+        required: true
+        in: query
+        schema:
+          enum:
+          - location
+          type: string
+      - name: templateId
+        required: true
+        in: query
+        description: Template Id
+        schema:
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateTemplateResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Estimate
+      security:
+      - Location-Access:
+        - invoices/estimate.readonly
+      - Agency-Access:
+        - invoices/estimate.readonly
+components:
+  schemas:
+    EstimateLineItemDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Invoice Item Name
+          example: ABC Product
+        description:
+          type: string
+          description: Invoice descriptions
+          example: ABC Corp.
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9c
+        priceId:
+          type: string
+          description: Price Id
+          example: 6578278e879ad2646715ba9c
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        amount:
+          type: number
+          description: Product amount
+          example: 999
+        qty:
+          type: number
+          description: Product Quantity
+          example: 1
+        taxes:
+          description: Tax
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemTaxDto'
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category id for calculating automatic tax
+          example: 6578278e879ad2646715ba9c
+        isSetupFeeItem:
+          type: boolean
+          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
+        type:
+          type: string
+          description: Price type of the item
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        taxInclusive:
+          type: boolean
+          description: true if item amount is tax inclusive
+          example: true
+          default: false
+        attachments:
+          description: Attachments for the line item
+          example:
+          - https://example.com/file1.jpg
+          - https://example.com/file2.png
+          type: array
+          items:
+            type: string
+      required:
+      - name
+      - currency
+      - amount
+      - qty
+    BusinessDetailsDto:
+      type: object
+      properties:
+        logoUrl:
+          type: string
+          description: Business Logo URL
+          example: https://example.com/logo.png
+        name:
+          type: string
+          description: Business Name
+          example: ABC Corp.
+        phoneNo:
+          type: string
+          description: Business Phone Number
+          example: +1-214-559-6993
+        address:
+          description: Business Address
+          example: 9931 Beechwood, TX
+          allOf:
+          - $ref: '#/components/schemas/AddressDto'
+        website:
+          type: string
+          description: Business Website Link
+          example: wwww.example.com
+        customValues:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+    AdditionalEmailsDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: alex@example.com
+      required:
+      - email
+    ContactDetails:
+      type: object
+      properties: {}
+    ListEstimatesResponseDTO:
+      type: object
+      properties:
+        estimates:
+          description: List of estimates
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total number of estimates
+        traceId:
+          type: string
+          description: Unique identifier for tracing the request
+      required:
+      - estimates
+      - total
+      - traceId
+    UpdateEstimateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Estimate Name
+          example: Home Service Estimate
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        items:
+          description: An array of items for the estimate.
+          type: array
+          items:
+            $ref: '#/components/schemas/EstimateLineItemDto'
+        liveMode:
+          type: boolean
+          description: livemode for estimate
+          example: true
+          default: true
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+          description: Terms notes, Also supports HTML markups
+          example: <p>This is a default terms.</p>
+        title:
+          type: string
+          description: Title for the estimate
+          example: ESTIMATE
+        contactDetails:
+          description: Contact information to send the estimate to
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        estimateNumber:
+          type: number
+          description: Estimate Number, if not specified will take in the next valid estimate number
+          example: 1001
+        issueDate:
+          type: string
+          description: issue date estimate
+          example: '2024-08-07'
+        expiryDate:
+          type: string
+          description: expiry date estimate
+          example: '2024-08-10'
+        sentTo:
+          description: Email and sent to details for the estimate
+          allOf:
+          - $ref: '#/components/schemas/SentToDto'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Estimate
+          example: true
+          default: false
+        meta:
+          type: object
+          description: Meta data for the estimate
+          example:
+            key: value
+        sendEstimateDetails:
+          description: When sending estimate directly while saving
+          allOf:
+          - $ref: '#/components/schemas/SendEstimateDto'
+        frequencySettings:
+          description: frequency settings for the estimate
+          allOf:
+          - $ref: '#/components/schemas/FrequencySettingsDto'
+        estimateNumberPrefix:
+          type: string
+          description: Prefix for the estimate number
+          example: EST-
+          default: EST-
+        userId:
+          type: string
+          description: User Id
+          example: 6578278e879ad2646715ba9c
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        autoInvoice:
+          description: Auto invoice for the estimate
+          example:
+            enabled: true
+            directPayments: true
+          allOf:
+          - $ref: '#/components/schemas/AutoInvoicingDto'
+        miscellaneousCharges:
+          description: miscellaneous charges for the estimate
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+        paymentScheduleConfig:
+          description: Payment Schedule Config for the estimate
+          allOf:
+          - $ref: '#/components/schemas/PaymentScheduleConfigDto'
+        estimateStatus:
+          type: string
+          description: Estimate Status
+          example: sent
+          enum:
+          - all
+          - draft
+          - sent
+          - accepted
+          - declined
+          - invoiced
+          - viewed
+      required:
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+      - discount
+      - contactDetails
+      - frequencySettings
+    CreateInvoiceFromEstimateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        markAsInvoiced:
+          type: boolean
+          description: Mark Estimate as Invoiced
+          example: true
+        version:
+          type: string
+          description: Version of the update request
+          example: v2
+          enum:
+          - v1
+          - v2
+      required:
+      - altId
+      - altType
+      - markAsInvoiced
+    AltDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+      required:
+      - altId
+      - altType
+    InvoiceSettingsSenderConfigurationDto:
+      type: object
+      properties:
+        fromName:
+          type: string
+          description: Sender name to be used while sending email notification
+          example: Alex
+        fromEmail:
+          type: string
+          description: Email id to be used while sending email notification
+          example: alex@example.com
+    PaymentScheduleDateConfigDto:
+      type: object
+      properties:
+        depositDateType:
+          type: string
+          description: Deposit date type
+          example: estimate_accepted
+          enum:
+          - estimate_accepted
+          - custom
+        scheduleDateType:
+          type: string
+          description: Payment Schedule Date Type
+          example: regular_interval
+          enum:
+          - regular_interval
+          - custom
+      required:
+      - depositDateType
+      - scheduleDateType
+    AttachmentsDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the file selected
+          example: 6241712be68f7a98102ba272
+        name:
+          type: string
+          description: 'Name of the file '
+          example: Electronics.pdf
+        url:
+          type: string
+          description: URL of the file
+          example: https://example.com/digital-delivery
+        type:
+          type: string
+          description: Type of the file
+        size:
+          type: number
+          description: Size of the file
+          example: 10000
+      required:
+      - id
+      - name
+      - url
+      - type
+      - size
+    SendEstimateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        action:
+          type: string
+          enum:
+          - sms_and_email
+          - send_manually
+          - email
+          - sms
+        liveMode:
+          type: boolean
+          description: livemode for estimate
+          example: true
+        userId:
+          type: string
+          description: Please ensure that the UserId corresponds to an authorized personnel, either by an employee ID or agency ID, to access this location. This account will serve as the primary channel for all future communications and updates.
+          example: 6578278e879ad2646715ba9c
+        sentFrom:
+          description: sender details for invoice, valid only if invoice is not sent manually
+          allOf:
+          - $ref: '#/components/schemas/InvoiceSettingsSenderConfigurationDto'
+        estimateName:
+          type: string
+          description: estimate name
+          example: Estimate
+      required:
+      - altId
+      - altType
+      - action
+      - liveMode
+      - userId
+    PaymentScheduleConfigDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Payment Schedule Type
+          example: fixed
+          enum:
+          - fixed
+          - percentage
+        dateConfig:
+          description: Due date type configuration
+          allOf:
+          - $ref: '#/components/schemas/PaymentScheduleDateConfigDto'
+        schedules:
+          description: Payment Schedule Items
+          items:
+            type: array
+          type: array
+      required:
+      - type
+      - dateConfig
+      - schedules
+    EstimateResponseDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        _id:
+          type: string
+          description: Unique identifier
+          example: 67ac9a51106ee8311e911XXXX
+        liveMode:
+          type: boolean
+          description: Indicates if it is in live mode
+          example: true
+        deleted:
+          type: boolean
+          description: Indicates if deleted
+          example: false
+        name:
+          type: string
+          description: Name
+          example: Estimate Name
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        businessDetails:
+          description: Business details associated with the estimate
+          example:
+            logoUrl: your_image-url
+            name: Business name
+            address:
+              addressLine1: address line 1
+              city: Test City
+              state: State Name
+              countryCode: US
+              postalCode: '12345'
+            phoneNo: +1 1234567890
+            website: www.example.com
+            customValues:
+            - name: Test
+              fieldKey: '{{custom_values.test}}'
+              id: 5DYTWoiQvWiIJZXX44XXX
+              value: Test's Custom Value
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetails'
+        items:
+          description: An array of items
+          example:
+          - taxes: []
+            taxInclusive: false
+            _id: 67ac9a51106ee8311e911XXXX
+            description: <p>Futuristic anti-gravity racing</p>
+            currency: USD
+            productId: 67ac9a51106ee8311e911XXXX
+            priceId: 67ac9a51106ee8311e911XXXX
+            amount: 9.99
+            qty: 1
+            name: TEST
+            type: one_time
+          - taxes:
+            - _id: 67ac9a51106ee8311e911XXXX
+              name: TaxTwo
+              rate: 8.5
+              calculation: exclusive
+            taxInclusive: true
+            _id: 67ac9a51106ee8311e911XXXX
+            productId: 67ac9a51106ee8311e911XXXX
+            priceId: 67ac9a51106ee8311e911XXXX
+            currency: USD
+            name: TEST2
+            qty: 1
+            amount: 500
+            description: ''
+            type: recurring
+          type: array
+          items:
+            type: array
+        discount:
+          description: Discount details for the estimate template
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        title:
+          type: string
+          description: Title
+          example: ESTIMATE
+        estimateNumberPrefix:
+          type: string
+          description: Estimate number prefix
+          example: EST-
+        attachments:
+          description: Attachments
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        updatedBy:
+          type: string
+          description: User Id of who last updated
+          example: 3HIpOF9NIc5ltriQXXXX
+        total:
+          type: number
+          description: Total amount
+          example: 1222.03
+        createdAt:
+          format: date-time
+          type: string
+          description: Timestamp when created
+          example: '2025-02-12T13:17:47.416Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: Timestamp when last updated
+          example: '2025-02-12T13:17:47.416Z'
+        __v:
+          type: number
+          description: Version number
+          example: 0
+        automaticTaxesEnabled:
+          type: boolean
+          description: Indicates if automatic taxes are enabled for this estimate
+          example: false
+        termsNotes:
+          type: string
+          description: Terms and conditions for the estimate, supports HTML markup
+          example: <p>All services are subject to availability.</p>
+        companyId:
+          type: string
+          description: Company identifier associated with the estimate
+          example: COMP12345
+        contactDetails:
+          description: Contact details for the estimate
+          example:
+            id: jvzfKTNdE7OYXXXXXX
+            name: Contact Name
+            phoneNo: '+911111111114'
+            email: email@test.com
+            address:
+              countryCode: US
+          allOf:
+          - $ref: '#/components/schemas/ContactDetails'
+        issueDate:
+          format: date-time
+          type: string
+          description: Date when the estimate was issued
+          example: '2023-06-15T00:00:00.000Z'
+        expiryDate:
+          format: date-time
+          type: string
+          description: Date when the estimate expires
+          example: '2023-07-15T00:00:00.000Z'
+        sentBy:
+          type: string
+          description: User who sent the estimate
+          example: user@example.com
+        automaticTaxesCalculated:
+          type: boolean
+          description: Indicates if automatic taxes were calculated
+          example: true
+        meta:
+          type: object
+          description: Additional metadata associated with the estimate
+          example:
+            key: value
+        estimateActionHistory:
+          description: History of actions taken on the estimate
+          example:
+          - action: Created
+            timestamp: '2023-06-15T10:00:00.000Z'
+          type: array
+          items:
+            type: string
+        sentTo:
+          description: Recipient details for the estimate
+          example:
+            email:
+            - test@example.com
+            phoneNo:
+            - +1 99444444444
+          allOf:
+          - $ref: '#/components/schemas/SentTo'
+        frequencySettings:
+          description: Frequency settings for recurring estimates
+          examples:
+          - enabled: false
+          - enabled: true
+            schedule:
+              rrule:
+                intervalType: monthly
+                numOfWeek: 0
+                dayOfMonth: 1
+                interval: 1
+                startDate: '2025-02-12'
+                endType: after
+                count: '5'
+          - enabled: true
+            schedule:
+              rrule:
+                intervalType: monthly
+                numOfWeek: 0
+                dayOfMonth: 1
+                interval: 1
+                startDate: '2025-02-12'
+                endType: by
+                endDate: '2025-02-24'
+          - enabled: true
+            schedule:
+              rrule:
+                intervalType: monthly
+                numOfWeek: 0
+                dayOfMonth: 1
+                interval: 1
+                startDate: '2025-02-12'
+                endType: never
+          allOf:
+          - $ref: '#/components/schemas/FrequencySettingsDto'
+        lastVisitedAt:
+          format: date-time
+          type: string
+          description: Timestamp when the estimate was last visited
+          example: '2023-06-20T08:30:00.000Z'
+        totalamountInUSD:
+          type: number
+          description: Total amount in USD
+          example: 1500.75
+        autoInvoice:
+          description: Auto-invoice settings for the estimate
+          example:
+            enabled: true
+            directPayments: false
+          allOf:
+          - $ref: '#/components/schemas/AutoInvoice'
+        traceId:
+          type: string
+          description: Trace ID for logging and debugging
+          example: 010c7a01-857f-4619-970d-xyxyxyxy
+      required:
+      - altId
+      - altType
+      - _id
+      - liveMode
+      - deleted
+      - name
+      - currency
+      - businessDetails
+      - items
+      - discount
+      - total
+      - createdAt
+      - updatedAt
+      - __v
+      - automaticTaxesEnabled
+      - companyId
+      - contactDetails
+      - issueDate
+      - expiryDate
+      - automaticTaxesCalculated
+      - meta
+      - estimateActionHistory
+      - sentTo
+      - frequencySettings
+      - lastVisitedAt
+      - totalamountInUSD
+      - traceId
+    ProcessingFeeDto:
+      type: object
+      properties:
+        charges:
+          description: charges for the processing fee
+          items:
+            type: array
+          type: array
+        collectedMiscellaneousCharges:
+          type: number
+          description: collected miscellaneous charges
+          example: 10
+        paidCharges:
+          description: paid miscellaneous charges
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+      required:
+      - charges
+    EstimateTemplateResponseDTO:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        _id:
+          type: string
+          description: Unique identifier
+          example: 67ac9a51106ee8311e911XXXX
+        liveMode:
+          type: boolean
+          description: Indicates if it is in live mode
+          example: true
+        deleted:
+          type: boolean
+          description: Indicates if deleted
+          example: false
+        name:
+          type: string
+          description: Name
+          example: Estimate Name
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        businessDetails:
+          description: Business details associated with the estimate
+          example:
+            logoUrl: your_image-url
+            name: Business name
+            address:
+              addressLine1: address line 1
+              city: Test City
+              state: State Name
+              countryCode: US
+              postalCode: '12345'
+            phoneNo: +1 1234567890
+            website: www.example.com
+            customValues:
+            - name: Test
+              fieldKey: '{{custom_values.test}}'
+              id: 5DYTWoiQvWiIJZXX44XXX
+              value: Test's Custom Value
+          allOf:
+          - $ref: '#/components/schemas/BusinessDetails'
+        items:
+          description: An array of items
+          example:
+          - taxes: []
+            taxInclusive: false
+            _id: 67ac9a51106ee8311e911XXXX
+            description: <p>Futuristic anti-gravity racing</p>
+            currency: USD
+            productId: 67ac9a51106ee8311e911XXXX
+            priceId: 67ac9a51106ee8311e911XXXX
+            amount: 9.99
+            qty: 1
+            name: TEST
+            type: one_time
+          - taxes:
+            - _id: 67ac9a51106ee8311e911XXXX
+              name: TaxTwo
+              rate: 8.5
+              calculation: exclusive
+            taxInclusive: true
+            _id: 67ac9a51106ee8311e911XXXX
+            productId: 67ac9a51106ee8311e911XXXX
+            priceId: 67ac9a51106ee8311e911XXXX
+            currency: USD
+            name: TEST2
+            qty: 1
+            amount: 500
+            description: ''
+            type: recurring
+          type: array
+          items:
+            type: array
+        discount:
+          description: Discount details for the estimate template
+          example:
+            type: percentage
+            value: 0
+          allOf:
+          - $ref: '#/components/schemas/DiscountDto'
+        title:
+          type: string
+          description: Title
+          example: ESTIMATE
+        estimateNumberPrefix:
+          type: string
+          description: Estimate number prefix
+          example: EST-
+        attachments:
+          description: Attachments
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        updatedBy:
+          type: string
+          description: User Id of who last updated
+          example: 3HIpOF9NIc5ltriQXXXX
+        total:
+          type: number
+          description: Total amount
+          example: 1222.03
+        createdAt:
+          format: date-time
+          type: string
+          description: Timestamp when created
+          example: '2025-02-12T13:17:47.416Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: Timestamp when last updated
+          example: '2025-02-12T13:17:47.416Z'
+        __v:
+          type: number
+          description: Version number
+          example: 0
+        automaticTaxesEnabled:
+          type: boolean
+          description: Indicates if automatic taxes are enabled for this estimate
+          example: false
+        termsNotes:
+          type: string
+          description: Terms and conditions for the estimate, supports HTML markup
+          example: <p>All services are subject to availability.</p>
+      required:
+      - altId
+      - altType
+      - _id
+      - liveMode
+      - deleted
+      - name
+      - currency
+      - businessDetails
+      - items
+      - discount
+      - total
+      - createdAt
+      - updatedAt
+      - __v
+      - automaticTaxesEnabled
+    CreateEstimatesDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Estimate Name
+          example: Home Service Estimate
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        items:
+          description: An array of items for the estimate.
+          type: array
+          items:
+            $ref: '#/components/schemas/EstimateLineItemDto'
+        liveMode:
+          type: boolean
+          description: livemode for estimate
+          example: true
+          default: true
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+          description: Terms notes, Also supports HTML markups
+          example: <p>This is a default terms.</p>
+        title:
+          type: string
+          description: Title for the estimate
+          example: ESTIMATE
+        contactDetails:
+          description: Contact information to send the estimate to
+          allOf:
+          - $ref: '#/components/schemas/ContactDetailsDto'
+        estimateNumber:
+          type: number
+          description: Estimate Number, if not specified will take in the next valid estimate number
+          example: 1001
+        issueDate:
+          type: string
+          description: issue date estimate
+          example: '2024-08-07'
+        expiryDate:
+          type: string
+          description: expiry date estimate
+          example: '2024-08-10'
+        sentTo:
+          description: Email and sent to details for the estimate
+          allOf:
+          - $ref: '#/components/schemas/SentToDto'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Estimate
+          example: true
+          default: false
+        meta:
+          type: object
+          description: Meta data for the estimate
+          example:
+            key: value
+        sendEstimateDetails:
+          description: When sending estimate directly while saving
+          allOf:
+          - $ref: '#/components/schemas/SendEstimateDto'
+        frequencySettings:
+          description: frequency settings for the estimate
+          allOf:
+          - $ref: '#/components/schemas/FrequencySettingsDto'
+        estimateNumberPrefix:
+          type: string
+          description: Prefix for the estimate number
+          example: EST-
+          default: EST-
+        userId:
+          type: string
+          description: User Id
+          example: 6578278e879ad2646715ba9c
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        autoInvoice:
+          description: Auto invoice for the estimate
+          example:
+            enabled: true
+            directPayments: true
+          allOf:
+          - $ref: '#/components/schemas/AutoInvoicingDto'
+        miscellaneousCharges:
+          description: miscellaneous charges for the estimate
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+        paymentScheduleConfig:
+          description: Payment Schedule Config for the estimate
+          allOf:
+          - $ref: '#/components/schemas/PaymentScheduleConfigDto'
+      required:
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+      - discount
+      - contactDetails
+      - frequencySettings
+    ScheduleOptionsDto:
+      type: object
+      properties:
+        executeAt:
+          type: string
+        rrule:
+          $ref: '#/components/schemas/CustomRRuleOptionsDto'
+    AutoInvoicingDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Enable Auto Invoice
+          example: true
+        directPayments:
+          type: boolean
+          description: Direct Payments
+          example: true
+      required:
+      - enabled
+    ListEstimateTemplateResponseDTO:
+      type: object
+      properties:
+        data:
+          description: List of estimate templates
+          type: array
+          items:
+            type: string
+        totalCount:
+          type: number
+          description: Total number of estimate templates available
+        traceId:
+          type: string
+          description: Unique identifier for tracing the request
+      required:
+      - data
+      - totalCount
+      - traceId
+    GenerateEstimateNumberResponse:
+      type: object
+      properties:
+        estimateNumber:
+          type: number
+        traceId:
+          type: string
+      required:
+      - estimateNumber
+      - traceId
+    DiscountDto:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Discount Value
+          example: 10
+          default: 0
+        type:
+          type: string
+          description: Discount type
+          enum:
+          - percentage
+          - fixed
+          example: percentage
+          default: percentage
+        validOnProductIds:
+          description: Product Ids on which discount is applicable
+          example: '[ ''6579751d56f60276e5bd4154'' ]'
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    SentToDto:
+      type: object
+      properties:
+        email:
+          description: Email Address
+          example:
+          - alex@example.com
+          type: array
+          items:
+            type: string
+        emailCc:
+          description: cc to be kept in any sent out emails
+          example:
+          - alex@example.com
+          type: array
+          items:
+            type: string
+        emailBcc:
+          description: bcc to be kept in any sent out emails
+          example:
+          - alex@example.com
+          type: array
+          items:
+            type: string
+        phoneNo:
+          description: Contact Phone Number
+          example:
+          - +1-214-559-6993
+          type: array
+          items:
+            type: string
+      required:
+      - email
+    ProcessingFeePaidChargeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the processing fee
+          example: Processing Fee
+        charge:
+          type: number
+          description: charge for the processing fee
+          example: 10
+        amount:
+          type: number
+          description: amount of the processing fee
+          example: 10
+        _id:
+          type: string
+          description: id of the processing fee
+          example: 673d01d7d547648a8dab6211
+      required:
+      - name
+      - charge
+      - amount
+      - _id
+    SentTo:
+      type: object
+      properties: {}
+    AddressDto:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address Line 1
+          example: 9931 Beechwood
+        addressLine2:
+          type: string
+          description: Address Line 2
+          example: Beechwood
+        city:
+          type: string
+          description: City
+          example: St. Houston
+        state:
+          type: string
+          description: State
+          example: TX
+        countryCode:
+          type: string
+          description: Country Code
+          example: US
+        postalCode:
+          type: string
+          description: Postal Code
+          example: 559-6993
+    EstimateIdParam:
+      type: object
+      properties:
+        estimateId:
+          type: string
+          description: Estimate Id
+          example: 5f9d6d8b1b2d2c001f2d9e4b
+      required:
+      - estimateId
+    BusinessDetails:
+      type: object
+      properties: {}
+    EstimateTemplatesDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Estimate Name
+          example: Home Service Estimate Template
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        items:
+          description: An array of items for the estimate.
+          items:
+            type: array
+          type: array
+        liveMode:
+          type: boolean
+          description: livemode for estimate
+          example: true
+          default: true
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
+          type: string
+          description: Terms notes, Also supports HTML markups
+          example: <p>This is a default terms.</p>
+        title:
+          type: string
+          description: Title for the estimate
+          example: ESTIMATE
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Estimate
+          example: true
+          default: false
+        meta:
+          type: object
+          description: Meta data for the estimate
+          example:
+            key: value
+        sendEstimateDetails:
+          description: When sending estimate directly while saving
+          allOf:
+          - $ref: '#/components/schemas/SendEstimateDto'
+        estimateNumberPrefix:
+          type: string
+          description: Prefix for the estimate number
+          example: EST-
+          default: EST-
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentsDto'
+        miscellaneousCharges:
+          description: miscellaneous charges for the estimate
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+      required:
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
+      - discount
+    ContactDetailsDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Contact ID
+          example: 6578278e879ad2646715ba9c
+        name:
+          type: string
+          description: Contact Name
+          example: Alex
+        phoneNo:
+          type: string
+          description: Contact Phone Number
+          example: '+1234567890'
+        email:
+          type: string
+          description: Contact Email
+          example: alex@example.com
+        additionalEmails:
+          description: Secondary email addresses for the contact to be saved
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalEmailsDto'
+        companyName:
+          type: string
+          description: Contact Company Name
+          example: ABC Corp.
+        address:
+          $ref: '#/components/schemas/AddressDto'
+        customFields:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - phoneNo
+      - email
+    CreateInvoiceFromEstimateResponseDTO:
+      type: object
+      properties:
+        estimate:
+          description: Estimate details
+          allOf:
+          - $ref: '#/components/schemas/EstimateResponseDto'
+        invoice:
+          description: Invoice details
+          allOf:
+          - $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+      required:
+      - estimate
+      - invoice
+    FrequencySettingsDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: enabled for the frequency settings
+          example: true
+        schedule:
+          description: schedule setting for the estimate
+          allOf:
+          - $ref: '#/components/schemas/ScheduleOptionsDto'
+      required:
+      - enabled
+      - schedule
+    AutoInvoice:
+      type: object
+      properties: {}
+    DefaultInvoiceResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Invoice Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: string
+          description: Invoice Status
+          example: draft
+          enum:
+          - draft
+          - sent
+          - payment_processing
+          - paid
+          - void
+          - partially_paid
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        amountPaid:
+          type: number
+          description: Amount Paid
+          example: 0
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        businessDetails:
+          type: object
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          type: object
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+        issueDate:
+          type: string
+          description: Issue date in YYYY-MM-DD format
+          example: '2023-01-01'
+        dueDate:
+          type: string
+          description: Due date in YYYY-MM-DD format
+          example: '2023-01-01'
+        discount:
+          type: object
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+        invoiceItems:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        amountDue:
+          type: number
+          description: Total Amount Due
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        automaticTaxesCalculated:
+          type: boolean
+          description: Is Automatic taxes calculated for the Invoice items
+          example: true
+        paymentSchedule:
+          type: object
+          description: split invoice into payment schedule summing up to full invoice amount
+      required:
+      - _id
+      - status
+      - liveMode
+      - amountPaid
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - invoiceNumber
+      - currency
+      - contactDetails
+      - issueDate
+      - dueDate
+      - invoiceItems
+      - total
+      - title
+      - amountDue
+      - createdAt
+      - updatedAt
+    ItemTaxDto:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+        calculation:
+          type: string
+          enum:
+          - exclusive
+        description:
+          type: string
+        taxId:
+          type: string
+      required:
+      - _id
+      - name
+      - rate
+    CustomRRuleOptionsDto:
+      type: object
+      properties:
+        intervalType:
+          type: string
+          enum:
+          - yearly
+          - monthly
+          - weekly
+          - daily
+          - hourly
+          - minutely
+          - secondly
+          example: monthly
+        interval:
+          type: number
+          example: 2
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DD format
+          example: '2023-01-01'
+        startTime:
+          type: string
+          description: Start time in HH:mm:ss format
+          example: '20:45:00'
+        endDate:
+          type: string
+          description: End date in YYYY-MM-DD format
+          example: '2029-11-01'
+        endTime:
+          type: string
+          description: End time in HH:mm:ss format
+          example: '18:45:00'
+        dayOfMonth:
+          type: number
+          description: -1, 1, 2, 3, ..., 27, 28
+          example: 15
+        dayOfWeek:
+          type: string
+          enum:
+          - mo
+          - tu
+          - we
+          - th
+          - fr
+          - sa
+          - su
+          example: mo
+        numOfWeek:
+          type: number
+          description: -1, 1, 2, 3, 4
+          example: -1
+        monthOfYear:
+          type: string
+          enum:
+          - jan
+          - feb
+          - mar
+          - apr
+          - may
+          - jun
+          - jul
+          - aug
+          - sep
+          - oct
+          - nov
+          - dec
+          example: jan
+        count:
+          type: number
+          description: Max number of task executions
+          example: 10
+        daysBefore:
+          type: number
+          description: Execute task number of days before
+          example: 5
+        useStartAsPrimaryUserAccepted:
+          type: boolean
+          description: Start as primary user accepted date
+          example: true
+        endType:
+          type: string
+          description: End type like after, by, count
+          example: by
+      required:
+      - intervalType
+      - interval
+      - startDate
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Invoice
+  tags:
+  - Invoice
+  - Template
+  - Schedule
+  - Text2Pay
+  - Estimate

@@ -1,0 +1,1452 @@
+openapi: 3.2.0
+info:
+  title: Sub-Account (Formerly Location) API
+  description: Documentation for Sub-Account (Formerly location) API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Sub-Account (Formerly Location)
+  description: Documentation for Sub-Account (Formerly location) API
+paths:
+  /locations/{locationId}:
+    get:
+      operationId: get-location
+      summary: Get Sub-Account (Formerly Location)
+      description: Get details of a Sub-Account (Formerly Location) by passing the sub-account id
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLocationByIdSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Sub-Account (Formerly Location)
+      security:
+      - Location-Access:
+        - locations.readonly
+      - Agency-Access:
+        - locations.readonly
+    put:
+      operationId: put-location
+      summary: Put Sub-Account (Formerly Location)
+      description: Update a Sub-Account (Formerly Location) based on the data provided
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLocationDto'
+      responses:
+        '200':
+          description: Successful update response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLocationSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Sub-Account (Formerly Location)
+      security:
+      - Agency-Access:
+        - locations.write
+    delete:
+      operationId: delete-location
+      summary: Delete Sub-Account (Formerly Location)
+      description: Delete a Sub-Account (Formerly Location) from the Agency
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: deleteTwilioAccount
+        required: true
+        in: query
+        description: Boolean value to indicate whether to delete Twilio Account or not
+        example: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationDeletedSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Sub-Account (Formerly Location)
+      security:
+      - Agency-Access:
+        - locations.internal-access-only
+  /locations/:
+    post:
+      operationId: create-location
+      summary: Create Sub-Account (Formerly Location)
+      description: 'Create a new Sub-Account (Formerly Location) based on the data provided
+
+
+        !
+
+
+        This feature is only available on Agency Pro ($497) plan.'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocationDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateLocationSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Sub-Account (Formerly Location)
+      security:
+      - Agency-Access:
+        - locations.write
+components:
+  schemas:
+    CreateLocationDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Mark Shoes
+          description: The name for the sub-account/location
+        phone:
+          type: string
+          example: '+1410039940'
+          description: The phone number of the business for which sub-account is created with the appropriate country-code
+        companyId:
+          type: string
+          description: Company/Agency Id
+          example: UAXssdawIWAWD
+        address:
+          type: string
+          example: 4th fleet street
+          description: The address of the business for which sub-account is created
+        city:
+          type: string
+          example: New York
+          description: The city where the business is located for which sub-account is created
+        state:
+          type: string
+          example: Illinois
+          description: The state in which the business operates for which sub-account is created
+        country:
+          type: string
+          example: US
+          description: The 2 letter country-code in which the business is present for which sub-account is created
+          enum:
+          - AF
+          - AX
+          - AL
+          - DZ
+          - AS
+          - AD
+          - AO
+          - AI
+          - AQ
+          - AG
+          - AR
+          - AM
+          - AW
+          - AU
+          - AT
+          - AZ
+          - BS
+          - BH
+          - BD
+          - BB
+          - BY
+          - BE
+          - BZ
+          - BJ
+          - BM
+          - BT
+          - BO
+          - BA
+          - BW
+          - BV
+          - BR
+          - IO
+          - BN
+          - BG
+          - BF
+          - BI
+          - KH
+          - CM
+          - CA
+          - CV
+          - KY
+          - CF
+          - TD
+          - CL
+          - CN
+          - CX
+          - CC
+          - CO
+          - KM
+          - CG
+          - CD
+          - CK
+          - CR
+          - CI
+          - HR
+          - CU
+          - CY
+          - CZ
+          - DK
+          - DJ
+          - DM
+          - DO
+          - EC
+          - EG
+          - SV
+          - GQ
+          - ER
+          - EE
+          - ET
+          - FK
+          - FO
+          - FJ
+          - FI
+          - FR
+          - GF
+          - PF
+          - TF
+          - GA
+          - GM
+          - GE
+          - DE
+          - GH
+          - GI
+          - GR
+          - GL
+          - GD
+          - GP
+          - GU
+          - GT
+          - GG
+          - GN
+          - GW
+          - GY
+          - HT
+          - HM
+          - VA
+          - HN
+          - HK
+          - HU
+          - IS
+          - IN
+          - ID
+          - IR
+          - IQ
+          - IE
+          - IM
+          - IL
+          - IT
+          - JM
+          - JP
+          - JE
+          - JO
+          - KZ
+          - KE
+          - KI
+          - KP
+          - KR
+          - XK
+          - KW
+          - KG
+          - LA
+          - LV
+          - LB
+          - LS
+          - LR
+          - LY
+          - LI
+          - LT
+          - LU
+          - MO
+          - MK
+          - MG
+          - MW
+          - MY
+          - MV
+          - ML
+          - MT
+          - MH
+          - MQ
+          - MR
+          - MU
+          - YT
+          - MX
+          - FM
+          - MD
+          - MC
+          - MN
+          - ME
+          - MS
+          - MA
+          - MZ
+          - MM
+          - NA
+          - NR
+          - NP
+          - NL
+          - AN
+          - NC
+          - NZ
+          - NI
+          - NE
+          - NG
+          - NU
+          - NF
+          - MP
+          - 'NO'
+          - OM
+          - PK
+          - PW
+          - PS
+          - PA
+          - PG
+          - PY
+          - PE
+          - PH
+          - PN
+          - PL
+          - PT
+          - PR
+          - QA
+          - RE
+          - RO
+          - RU
+          - RW
+          - SH
+          - KN
+          - LC
+          - MF
+          - PM
+          - VC
+          - WS
+          - SM
+          - ST
+          - SA
+          - SN
+          - RS
+          - SC
+          - SL
+          - SG
+          - SX
+          - SK
+          - SI
+          - SB
+          - SO
+          - ZA
+          - GS
+          - ES
+          - LK
+          - SD
+          - SR
+          - SJ
+          - SZ
+          - SE
+          - CH
+          - SY
+          - TW
+          - TJ
+          - TZ
+          - TH
+          - TL
+          - TG
+          - TK
+          - TO
+          - TT
+          - TN
+          - TR
+          - TM
+          - TC
+          - TV
+          - UG
+          - GB
+          - UA
+          - AE
+          - US
+          - UM
+          - UY
+          - UZ
+          - VU
+          - VE
+          - VN
+          - VG
+          - VI
+          - WF
+          - EH
+          - YE
+          - ZM
+          - ZW
+        postalCode:
+          type: string
+          example: '567654'
+          description: The postal code of the business for which sub-account is created
+        website:
+          type: string
+          example: https://yourwebsite.com
+          description: The website of the business for which sub-account is created
+        timezone:
+          type: string
+          example: US/Central
+          description: The timezone of the business for which sub-account is created
+        prospectInfo:
+          example:
+            firstName: John
+            lastName: Doe
+            email: john.doe@mail.com
+          allOf:
+          - $ref: '#/components/schemas/ProspectInfoDto'
+        settings:
+          description: The default settings for location
+          allOf:
+          - $ref: '#/components/schemas/SettingsSchema'
+        social:
+          description: The social media links for location
+          allOf:
+          - $ref: '#/components/schemas/SocialSchema'
+        twilio:
+          description: The twilio credentials for location
+          allOf:
+          - $ref: '#/components/schemas/TwilioSchema'
+        mailgun:
+          description: The mailgun credentials for location
+          allOf:
+          - $ref: '#/components/schemas/MailgunSchema'
+        snapshotId:
+          type: string
+          description: The snapshot ID to be loaded into the location.
+          example: XXXXXXXXXXX
+      required:
+      - name
+      - companyId
+    SnapshotPutSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Snaptshot ID
+          example: XXXXXXXXXXX
+        override:
+          type: boolean
+          description: If you want override all conflicted assets then pass true. Default value is false.
+          example: false
+          default: false
+      required:
+      - id
+    CreateLocationSuccessfulResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        companyId:
+          type: string
+          description: Company/Agency Id
+          example: UAXssdawIWAWD
+        name:
+          type: string
+          example: Mark Shoes
+          description: The name for the sub-account/location
+        phone:
+          type: string
+          example: '+1410039940'
+          description: The phone number of the business for which sub-account is created
+        email:
+          type: string
+          example: john.doe@mail.com
+          description: The email for the sub-account/location
+        address:
+          type: string
+          example: 4th fleet street
+          description: The address of the business for which sub-account is created
+        city:
+          type: string
+          example: New York
+          description: The city where the business is located for which sub-account is created
+        state:
+          type: string
+          example: Illinois
+          description: The state in which the business operates for which sub-account is created
+        domain:
+          type: string
+          example: test.msgsndr.com
+        country:
+          type: string
+          example: US
+          description: The country in which the business is present for which sub-account is created
+          enum:
+          - AF
+          - AX
+          - AL
+          - DZ
+          - AS
+          - AD
+          - AO
+          - AI
+          - AQ
+          - AG
+          - AR
+          - AM
+          - AW
+          - AU
+          - AT
+          - AZ
+          - BS
+          - BH
+          - BD
+          - BB
+          - BY
+          - BE
+          - BZ
+          - BJ
+          - BM
+          - BT
+          - BO
+          - BA
+          - BW
+          - BV
+          - BR
+          - IO
+          - BN
+          - BG
+          - BF
+          - BI
+          - KH
+          - CM
+          - CA
+          - CV
+          - KY
+          - CF
+          - TD
+          - CL
+          - CN
+          - CX
+          - CC
+          - CO
+          - KM
+          - CG
+          - CD
+          - CK
+          - CR
+          - CI
+          - HR
+          - CU
+          - CY
+          - CZ
+          - DK
+          - DJ
+          - DM
+          - DO
+          - EC
+          - EG
+          - SV
+          - GQ
+          - ER
+          - EE
+          - ET
+          - FK
+          - FO
+          - FJ
+          - FI
+          - FR
+          - GF
+          - PF
+          - TF
+          - GA
+          - GM
+          - GE
+          - DE
+          - GH
+          - GI
+          - GR
+          - GL
+          - GD
+          - GP
+          - GU
+          - GT
+          - GG
+          - GN
+          - GW
+          - GY
+          - HT
+          - HM
+          - VA
+          - HN
+          - HK
+          - HU
+          - IS
+          - IN
+          - ID
+          - IR
+          - IQ
+          - IE
+          - IM
+          - IL
+          - IT
+          - JM
+          - JP
+          - JE
+          - JO
+          - KZ
+          - KE
+          - KI
+          - KP
+          - KR
+          - XK
+          - KW
+          - KG
+          - LA
+          - LV
+          - LB
+          - LS
+          - LR
+          - LY
+          - LI
+          - LT
+          - LU
+          - MO
+          - MK
+          - MG
+          - MW
+          - MY
+          - MV
+          - ML
+          - MT
+          - MH
+          - MQ
+          - MR
+          - MU
+          - YT
+          - MX
+          - FM
+          - MD
+          - MC
+          - MN
+          - ME
+          - MS
+          - MA
+          - MZ
+          - MM
+          - NA
+          - NR
+          - NP
+          - NL
+          - AN
+          - NC
+          - NZ
+          - NI
+          - NE
+          - NG
+          - NU
+          - NF
+          - MP
+          - 'NO'
+          - OM
+          - PK
+          - PW
+          - PS
+          - PA
+          - PG
+          - PY
+          - PE
+          - PH
+          - PN
+          - PL
+          - PT
+          - PR
+          - QA
+          - RE
+          - RO
+          - RU
+          - RW
+          - SH
+          - KN
+          - LC
+          - MF
+          - PM
+          - VC
+          - WS
+          - SM
+          - ST
+          - SA
+          - SN
+          - RS
+          - SC
+          - SL
+          - SG
+          - SX
+          - SK
+          - SI
+          - SB
+          - SO
+          - ZA
+          - GS
+          - ES
+          - LK
+          - SD
+          - SR
+          - SJ
+          - SZ
+          - SE
+          - CH
+          - SY
+          - TW
+          - TJ
+          - TZ
+          - TH
+          - TL
+          - TG
+          - TK
+          - TO
+          - TT
+          - TN
+          - TR
+          - TM
+          - TC
+          - TV
+          - UG
+          - GB
+          - UA
+          - AE
+          - US
+          - UM
+          - UY
+          - UZ
+          - VU
+          - VE
+          - VN
+          - VG
+          - VI
+          - WF
+          - EH
+          - YE
+          - ZM
+          - ZW
+        postalCode:
+          type: string
+          example: '567654'
+          description: The postal code of the business for which sub-account is created
+        website:
+          type: string
+          example: https://yourwebsite.com
+          description: The website of the business for which sub-account is created
+        timezone:
+          type: string
+          example: US/Central
+          description: The timezone of the business for which sub-account is created
+        settings:
+          description: The default settings for location
+          allOf:
+          - $ref: '#/components/schemas/SettingsSchema'
+        social:
+          description: The social media links for location
+          allOf:
+          - $ref: '#/components/schemas/SocialSchema'
+    MailgunSchema:
+      type: object
+      properties:
+        apiKey:
+          type: string
+          description: API key provided by Mailgun
+          example: key-XXXXXXXXXXX
+        domain:
+          type: string
+          description: Domain connected with Mailgun
+          example: replies.yourdomain.com
+      required:
+      - apiKey
+      - domain
+    SocialSchema:
+      type: object
+      properties:
+        facebookUrl:
+          type: string
+          description: Facebook URL
+          example: https://www.facebook.com/
+        googlePlus:
+          type: string
+          description: Googleplus URL
+          example: https://www.googleplus.com/
+        linkedIn:
+          type: string
+          description: LinkedIn URL
+          example: https://www.linkedIn.com/
+        foursquare:
+          type: string
+          description: Foursquare URL
+          example: https://www.foursquare.com/
+        twitter:
+          type: string
+          description: Twitter URL
+          example: https://www.foutwitterrsquare.com/
+        yelp:
+          type: string
+          description: Yelp URL
+          example: https://www.yelp.com/
+        instagram:
+          type: string
+          description: Instagram URL
+          example: https://www.instagram.com/
+        youtube:
+          type: string
+          description: Instagram URL
+          example: https://www.youtube.com/
+        pinterest:
+          type: string
+          description: Instagram URL
+          example: https://www.pinterest.com/
+        blogRss:
+          type: string
+          description: Instagram URL
+          example: https://www.blogRss.com/
+        googlePlacesId:
+          type: string
+          description: Google Business Places ID
+          example: ChIJJGPdVbQTrjsRGUkefteUeFk
+    LocationDeletedSuccessfulResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the API
+          example: true
+        message:
+          type: string
+          description: Success message of the API
+          example: 'Deleted location with id: ve9EPM428h8vShlRW1KT'
+      required:
+      - success
+      - message
+    BusinessSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: dentist
+        address:
+          type: string
+          example: MIG 14, Delhi
+        city:
+          type: string
+          example: delhi
+        state:
+          type: string
+          example: delhi
+        country:
+          type: string
+          example: IN
+        postalCode:
+          type: string
+          example: '567654'
+        website:
+          type: string
+          example: https://gohighlevel.com/
+        timezone:
+          type: string
+          example: America/Chicago
+        logoUrl:
+          type: string
+          example: https://dummyimage.com/o/locationPhotos%2Fve9EPM428h8vShlRW1KT.jpeg
+    GetLocationByIdSuccessfulResponseDto:
+      type: object
+      properties:
+        location:
+          $ref: '#/components/schemas/GetLocationByIdSchema'
+    SettingsSchema:
+      type: object
+      properties:
+        allowDuplicateContact:
+          type: boolean
+          example: false
+        allowDuplicateOpportunity:
+          type: boolean
+          example: false
+        allowFacebookNameMerge:
+          type: boolean
+          example: false
+        disableContactTimezone:
+          type: boolean
+          example: false
+    GetLocationByIdSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        companyId:
+          type: string
+          example: 5DP4iH6HLkQsiKESj6rh
+        name:
+          type: string
+          example: dentist
+        domain:
+          type: string
+          example: test.msgsndr.com
+        address:
+          type: string
+          example: ganthi nagar, gyanbabu chauk motihati
+        city:
+          type: string
+          example: motihari
+        state:
+          type: string
+          example: Loca
+        logoUrl:
+          type: string
+          example: https://dummyimage.com/o/locationPhotos%2Fve9EPM428h8vShlRW1KT.jpeg
+        country:
+          type: string
+          example: IN
+        postalCode:
+          type: string
+          example: '567654'
+        website:
+          type: string
+          example: https://gohighlevel.com/
+        timezone:
+          type: string
+          example: America/Chicago
+        firstName:
+          type: string
+          example: Dr. Rane
+        lastName:
+          type: string
+          example: deo
+        email:
+          type: string
+          example: rane@due.com
+        phone:
+          type: string
+          example: '+919039160788'
+        business:
+          $ref: '#/components/schemas/BusinessSchema'
+        social:
+          $ref: '#/components/schemas/SocialSchema'
+        settings:
+          $ref: '#/components/schemas/SettingsSchema'
+        reseller:
+          type: object
+    UpdateLocationDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Mark Shoes
+          description: The name for the sub-account/location
+        phone:
+          type: string
+          example: '+1410039940'
+          description: The phone number of the business for which sub-account is created
+        companyId:
+          type: string
+          description: Company/Agency Id
+          example: UAXssdawIWAWD
+        address:
+          type: string
+          example: 4th fleet street
+          description: The address of the business for which sub-account is created
+        city:
+          type: string
+          example: New York
+          description: The city where the business is located for which sub-account is created
+        state:
+          type: string
+          example: Illinois
+          description: The state in which the business operates for which sub-account is created
+        country:
+          type: string
+          example: US
+          description: The country in which the business is present for which sub-account is created
+          enum:
+          - AF
+          - AX
+          - AL
+          - DZ
+          - AS
+          - AD
+          - AO
+          - AI
+          - AQ
+          - AG
+          - AR
+          - AM
+          - AW
+          - AU
+          - AT
+          - AZ
+          - BS
+          - BH
+          - BD
+          - BB
+          - BY
+          - BE
+          - BZ
+          - BJ
+          - BM
+          - BT
+          - BO
+          - BA
+          - BW
+          - BV
+          - BR
+          - IO
+          - BN
+          - BG
+          - BF
+          - BI
+          - KH
+          - CM
+          - CA
+          - CV
+          - KY
+          - CF
+          - TD
+          - CL
+          - CN
+          - CX
+          - CC
+          - CO
+          - KM
+          - CG
+          - CD
+          - CK
+          - CR
+          - CI
+          - HR
+          - CU
+          - CY
+          - CZ
+          - DK
+          - DJ
+          - DM
+          - DO
+          - EC
+          - EG
+          - SV
+          - GQ
+          - ER
+          - EE
+          - ET
+          - FK
+          - FO
+          - FJ
+          - FI
+          - FR
+          - GF
+          - PF
+          - TF
+          - GA
+          - GM
+          - GE
+          - DE
+          - GH
+          - GI
+          - GR
+          - GL
+          - GD
+          - GP
+          - GU
+          - GT
+          - GG
+          - GN
+          - GW
+          - GY
+          - HT
+          - HM
+          - VA
+          - HN
+          - HK
+          - HU
+          - IS
+          - IN
+          - ID
+          - IR
+          - IQ
+          - IE
+          - IM
+          - IL
+          - IT
+          - JM
+          - JP
+          - JE
+          - JO
+          - KZ
+          - KE
+          - KI
+          - KP
+          - KR
+          - XK
+          - KW
+          - KG
+          - LA
+          - LV
+          - LB
+          - LS
+          - LR
+          - LY
+          - LI
+          - LT
+          - LU
+          - MO
+          - MK
+          - MG
+          - MW
+          - MY
+          - MV
+          - ML
+          - MT
+          - MH
+          - MQ
+          - MR
+          - MU
+          - YT
+          - MX
+          - FM
+          - MD
+          - MC
+          - MN
+          - ME
+          - MS
+          - MA
+          - MZ
+          - MM
+          - NA
+          - NR
+          - NP
+          - NL
+          - AN
+          - NC
+          - NZ
+          - NI
+          - NE
+          - NG
+          - NU
+          - NF
+          - MP
+          - 'NO'
+          - OM
+          - PK
+          - PW
+          - PS
+          - PA
+          - PG
+          - PY
+          - PE
+          - PH
+          - PN
+          - PL
+          - PT
+          - PR
+          - QA
+          - RE
+          - RO
+          - RU
+          - RW
+          - SH
+          - KN
+          - LC
+          - MF
+          - PM
+          - VC
+          - WS
+          - SM
+          - ST
+          - SA
+          - SN
+          - RS
+          - SC
+          - SL
+          - SG
+          - SX
+          - SK
+          - SI
+          - SB
+          - SO
+          - ZA
+          - GS
+          - ES
+          - LK
+          - SD
+          - SR
+          - SJ
+          - SZ
+          - SE
+          - CH
+          - SY
+          - TW
+          - TJ
+          - TZ
+          - TH
+          - TL
+          - TG
+          - TK
+          - TO
+          - TT
+          - TN
+          - TR
+          - TM
+          - TC
+          - TV
+          - UG
+          - GB
+          - UA
+          - AE
+          - US
+          - UM
+          - UY
+          - UZ
+          - VU
+          - VE
+          - VN
+          - VG
+          - VI
+          - WF
+          - EH
+          - YE
+          - ZM
+          - ZW
+        postalCode:
+          type: string
+          example: '567654'
+          description: The postal code of the business for which sub-account is created
+        website:
+          type: string
+          example: https://yourwebsite.com
+          description: The website of the business for which sub-account is created
+        timezone:
+          type: string
+          example: US/Central
+          description: The timezone of the business for which sub-account is created
+        prospectInfo:
+          example:
+            firstName: John
+            lastName: Doe
+            email: john.doe@mail.com
+          allOf:
+          - $ref: '#/components/schemas/ProspectInfoDto'
+        settings:
+          description: The default settings for location
+          allOf:
+          - $ref: '#/components/schemas/SettingsSchema'
+        social:
+          description: The social media links for location
+          allOf:
+          - $ref: '#/components/schemas/SocialSchema'
+        twilio:
+          description: The twilio credentials for location
+          allOf:
+          - $ref: '#/components/schemas/TwilioSchema'
+        mailgun:
+          description: The mailgun credentials for location
+          allOf:
+          - $ref: '#/components/schemas/MailgunSchema'
+        snapshot:
+          description: The snapshot to be updated in the location.
+          allOf:
+          - $ref: '#/components/schemas/SnapshotPutSchema'
+      required:
+      - companyId
+    ProspectInfoDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the prospect
+          example: John
+        lastName:
+          type: string
+          description: Last name of the prospect
+          example: Doe
+        email:
+          type: string
+          description: Email of the prospect
+          example: john.doe@mail.com
+      required:
+      - firstName
+      - lastName
+      - email
+    TwilioSchema:
+      type: object
+      properties:
+        sid:
+          type: string
+          description: SID provided by Twilio
+          example: AC_XXXXXXXXXXX
+        authToken:
+          type: string
+          description: Auth token provided by Twilio
+          example: 77_XXXXXXXXXXX
+      required:
+      - sid
+      - authToken
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Sub-Account (Formerly location)
+  tags:
+  - Location
+  - Location Tags
+  - Custom Field
+  - Custom Value
+  - Template
+  - Tags Search
+  - Location Notes
+  - Location Tasks
+  - Recurring Tasks
+  - Location Search
+  - Custom Field Search
+  - Location Keys
+  - Labs
+  - Conversation Channel
+  - Search
+  - Sub-Account (Formerly Location)
+  - Tags
+  - Tasks Search
+  - Timezone
+  - ElasticSearch

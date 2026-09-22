@@ -1,0 +1,441 @@
+openapi: 3.2.0
+info:
+  title: Social Media Posting Oauth | Instagram API
+  description: Documentation for Social Media Posting API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Oauth | Instagram
+  description: Documentation for Social Media Posting API
+paths:
+  /social-media-posting/oauth/instagram/start:
+    get:
+      operationId: start-instagram-oauth
+      summary: Starts OAuth For Instagram Account
+      description: 'Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to Instagram login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function.
+
+        ### Sample code to listen to event data:
+
+        window.addEventListener(''message'',
+
+        function(e) {
+
+        if (e.data && e.data.page === ''social_media_posting'') {
+
+        const { actionType, page, platform, placement, accountId, reconnectAccounts } = e.data
+
+        }
+
+        },
+
+        false)
+
+        ### Event Data Response:
+
+        {
+
+        actionType: string, Ex: "close"
+
+        page: string, Ex: "social-media-posting"
+
+        platform: string, Ex: "instagram"
+
+        placement: string, Ex: "placement"
+
+        accountId: string, Ex: "658a9b6833b91e0ecb8f3958"
+
+        reconnectAccounts: string[]] Ex: ["658a9b6833b91e0ecb834acd", "efd2daa9b6833b91e0ecb8f3511"]
+
+        }
+
+        ### The accountId retrieved from above data can be used to fetch Instagram account details using below API -
+
+        API: ''/social-media-posting/oauth/instagram/accounts/:accountId''
+
+
+        Method: GET'
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location Id
+        example: w37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: userId
+        required: true
+        in: query
+        description: User Id
+        example: u37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Page
+        example: integration
+        schema:
+          type: string
+      - name: reconnect
+        required: false
+        in: query
+        description: Reconnect
+        example: 'true'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Oauth | Instagram
+      security:
+      - bearer:
+        - socialplanner/oauth.readonly
+  /social-media-posting/oauth/{locationId}/instagram/accounts/{accountId}:
+    get:
+      operationId: get-instagram-page-group
+      summary: Get Instagram Professional Accounts
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Account Location Id
+        example: w37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: accountId
+        required: true
+        in: path
+        description: Account Id
+        example: w37swmmLbA02zgqKPpxITe
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetInstagramAccountsResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Oauth | Instagram
+      security:
+      - bearer: []
+    post:
+      operationId: attach-instagram-page-group
+      summary: Attach Instagram Professional Accounts
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Account Location Id
+        example: w37swmmLbA02zgqKPpxITe2
+        schema:
+          type: string
+      - name: accountId
+        required: true
+        in: path
+        description: Account Id
+        example: w37swmmLbA02zgqKPpxITe
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachIGAccountDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialMediaInstagramAccountResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Oauth | Instagram
+      security:
+      - bearer: []
+components:
+  schemas:
+    GetInstagramAccountsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched Instagram Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetInstagramAccountsSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    InstagramAccountSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: idu37swmmLbA02zgqKPpxITe2
+        name:
+          type: string
+          example: Insta account
+        avatar:
+          type: string
+          example: avau37swmmLbA02zgqKPpxITe2
+        pageId:
+          type: string
+          example: pidu37swmmLbA02zgqKPpxITe2
+        isConnected:
+          type: boolean
+          example: true
+    SocialMediaInstagramAccountResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Added Instagram Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaInstagramAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    SocialMediaInstagramAccountSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 65f2d989a4f2f1e5322c3856
+        oAuthId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        oldId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        locationId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        originId:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        platform:
+          type: object
+          example: instagram
+        type:
+          type: object
+          example: profile
+        name:
+          type: string
+          example: Profile Name
+        avatar:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        meta:
+          type: object
+          example:
+            pageId: u37swmmLbA02zgqKPpxITe2
+            page:
+              id: u37swmmLbA02zgqKPpxITe2
+              name: Account Name
+              avatar: u37swmmLbA02zgqKPpxITe2
+            storeCode: '122'
+            isVerified: 'true'
+            verified: true
+            protected: true
+            locationId: u37swmmLbA02zgqKPpxITe2
+            accountId: u37swmmLbA02zgqKPpxITe2
+            openId: u37swmmLbA02zgqKPpxITe2
+            urn: u37swmmLbA02zgqKPpxITe2
+            username: testUser
+            storefrontAddress:
+              regionCode: '30021'
+              languageCode: E001
+              postalCode: '1221'
+              administrativeArea: Down Town
+              locality: Louis Street
+              addressLines:
+              - '207'
+              - county
+        active:
+          type: boolean
+          example: true
+        deleted:
+          type: boolean
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: created date
+          example: '2024-03-14T11:03:37.015Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: updated date
+          example: '2024-03-14T11:03:37.015Z'
+    AttachIGAccountDTO:
+      type: object
+      properties:
+        originId:
+          type: string
+          example: 244405****11687
+        name:
+          type: string
+          example: JOHN_DEO
+        avatar:
+          type: string
+        pageId:
+          type: string
+          example: 234234234242sd
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+      required:
+      - pageId
+    GetInstagramAccountsSchema:
+      type: object
+      properties:
+        accounts:
+          description: Instagram Account Details
+          type: array
+          items:
+            $ref: '#/components/schemas/InstagramAccountSchema'
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Social Planner
+  tags:
+  - Oauth | Google
+  - Post
+  - Account
+  - Oauth | Facebook
+  - Oauth | Instagram
+  - Oauth | LinkedIn
+  - Oauth | Twitter
+  - CSV
+  - Oauth | Tiktok
+  - Category
+  - Tag
+  - Statistics

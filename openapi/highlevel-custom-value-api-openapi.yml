@@ -1,0 +1,385 @@
+openapi: 3.2.0
+info:
+  title: Sub-Account (Formerly location) Custom Value API
+  description: Documentation for Sub-Account (Formerly location) API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Custom Value
+  description: Documentation for Sub-Account (Formerly location) API
+paths:
+  /locations/{locationId}/customValues:
+    get:
+      operationId: get-custom-values
+      summary: Get Custom Values
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomValuesListSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+      tags:
+      - Custom Value
+      security:
+      - bearer:
+        - locations/customValues.readonly
+    post:
+      operationId: create-custom-value
+      summary: Create Custom Value
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customValuesDTO'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomValueIdSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Value
+      security:
+      - bearer:
+        - locations/customValues.write
+  /locations/{locationId}/customValues/{id}:
+    get:
+      operationId: get-custom-value
+      summary: Get Custom Value
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Custom Value Id
+        example: kOBjMVAJhFuUeYIojVet
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomValueIdSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Value
+      security:
+      - bearer: []
+    put:
+      operationId: update-custom-value
+      summary: Update Custom Value
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Custom Value Id
+        example: kOBjMVAJhFuUeYIojVet
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customValuesDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomValueIdSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Value
+      security:
+      - bearer: []
+    delete:
+      operationId: delete-custom-value
+      summary: Delete Custom Value
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: path
+        description: Location Id
+        example: ve9EPM428h8vShlRW1KT
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Custom Value Id
+        example: kOBjMVAJhFuUeYIojVet
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomValueDeleteSuccessfulResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Value
+      security:
+      - bearer: []
+components:
+  schemas:
+    CustomValuesListSuccessfulResponseDto:
+      type: object
+      properties:
+        customValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomValueSchema'
+    CustomValueIdSuccessfulResponseDto:
+      type: object
+      properties:
+        customValue:
+          $ref: '#/components/schemas/CustomValueSchema'
+    CustomValueDeleteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    CustomValueSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: rWQ709Pb62syqGLceg1x
+        name:
+          type: string
+          example: Custom Field
+        fieldKey:
+          type: string
+          example: '{{ custom_values.custom_field }}'
+        value:
+          type: string
+          example: Value
+        locationId:
+          type: string
+          example: rWQ709Pb6dasyqGLceg1x
+    customValuesDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Custom Field Name
+        value:
+          type: string
+          example: Value
+      required:
+      - name
+      - value
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+x-tagGroups:
+  name: Sub-Account (Formerly location)
+  tags:
+  - Location
+  - Location Tags
+  - Custom Field
+  - Custom Value
+  - Template
+  - Tags Search
+  - Location Notes
+  - Location Tasks
+  - Recurring Tasks
+  - Location Search
+  - Custom Field Search
+  - Location Keys
+  - Labs
+  - Conversation Channel
+  - Search
+  - Sub-Account (Formerly Location)
+  - Tags
+  - Tasks Search
+  - Timezone
+  - ElasticSearch

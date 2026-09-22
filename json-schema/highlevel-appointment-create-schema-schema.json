@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/highlevel/main/json-schema/highlevel-appointment-create-schema-schema.json",
+  "title": "AppointmentCreateSchema",
+  "x-generated": "2026-09-22",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_original/highlevel-calendars-openapi.json#/components/schemas/AppointmentCreateSchema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title"
+    },
+    "meetingLocationType": {
+      "type": "string",
+      "description": "Meeting location type. \n- If `address` is provided in the request body, the `meetingLocationType` defaults to **custom**.",
+      "enum": [
+        "custom",
+        "zoom",
+        "gmeet",
+        "phone",
+        "address",
+        "ms_teams",
+        "google"
+      ]
+    },
+    "meetingLocationId": {
+      "type": "string",
+      "description": "The unique identifier for the meeting location.\n- This value can be found in `calendar.locationConfigurations`or `calendar.teamMembers[].locationConfigurations`",
+      "default": "default"
+    },
+    "overrideLocationConfig": {
+      "type": "boolean",
+      "description": "Flag to override location config\n- **false** - If only `meetingLocationId` is provided\n- **true** - If only `meetingLocationType` is provided\n"
+    },
+    "appointmentStatus": {
+      "type": "string",
+      "enum": [
+        "new",
+        "confirmed",
+        "cancelled",
+        "showed",
+        "noshow",
+        "invalid"
+      ]
+    },
+    "assignedUserId": {
+      "type": "string",
+      "description": "Assigned User Id"
+    },
+    "description": {
+      "type": "string",
+      "description": "Appointment Description"
+    },
+    "address": {
+      "type": "string",
+      "description": "Appointment Address"
+    },
+    "ignoreDateRange": {
+      "type": "boolean",
+      "description": "If set to true, the minimum scheduling notice and date range would be ignored"
+    },
+    "toNotify": {
+      "type": "boolean",
+      "description": "If set to false, the automations will not run"
+    },
+    "ignoreFreeSlotValidation": {
+      "type": "boolean",
+      "description": "If true the time slot validation would be avoided for any appointment creation (even the ignoreDateRange)"
+    },
+    "rrule": {
+      "type": "string",
+      "description": "RRULE as per the iCalendar (RFC 5545) specification for recurring events. DTSTART is not required, instance ids are calculated on the basis of startTime of the event. The rrule only be applied if ignoreFreeSlotValidation is true."
+    },
+    "calendarId": {
+      "type": "string",
+      "description": "Calendar Id"
+    },
+    "locationId": {
+      "type": "string",
+      "description": "Location Id"
+    },
+    "contactId": {
+      "type": "string",
+      "description": "Contact Id"
+    },
+    "startTime": {
+      "type": "string",
+      "description": "Start Time"
+    },
+    "endTime": {
+      "type": "string",
+      "description": "End Time"
+    }
+  },
+  "required": [
+    "calendarId",
+    "locationId",
+    "contactId",
+    "startTime"
+  ]
+}

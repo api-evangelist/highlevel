@@ -1,0 +1,24 @@
+generated: '2026-09-22'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://marketplace.gohighlevel.com/docs/other/rate-limits/index.html
+sources:
+- https://marketplace.gohighlevel.com/docs/other/rate-limits/index.html
+name: HighLevel rate limits
+limits:
+- name: Burst
+  limit_text: 100 API requests per 10 seconds
+  max: 100
+  window: 10 seconds
+- name: Daily
+  limit_text: 200,000 API requests per day
+  max: 200000
+  window: day
+headers:
+- X-RateLimit-Limit-Daily
+- X-RateLimit-Daily-Remaining
+- X-RateLimit-Interval-Milliseconds
+- X-RateLimit-Max
+- X-RateLimit-Remaining
+note: Exhaustion status not specified on the page.
+docs: https://marketplace.gohighlevel.com/docs/other/rate-limits/index.html

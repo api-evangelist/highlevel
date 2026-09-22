@@ -1,0 +1,705 @@
+openapi: 3.2.0
+info:
+  title: Payments Custom Provider API
+  description: Documentation for payments API
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://services.leadconnectorhq.com
+tags:
+- name: Custom Provider
+  description: Documentation for payments API
+paths:
+  /payments/custom-provider/provider:
+    post:
+      operationId: create-integration
+      summary: Create new integration
+      description: API to create a new association for an app and location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location id
+        schema:
+          example: Lk3nlfk4lxlelVEwcW
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomProvidersDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomProvidersResponseSchema'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Provider
+      security:
+      - Location-Access:
+        - payments/custom-provider.write
+    delete:
+      operationId: delete-integration
+      summary: Deleting an existing integration
+      description: API to delete an association for an app and location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location id
+        schema:
+          example: Lk3nlfk4lxlelVEwcW
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCustomProvidersResponseSchema'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Provider
+      security:
+      - Location-Access:
+        - payments/custom-provider.write
+  /payments/custom-provider/connect:
+    get:
+      operationId: fetch-config
+      summary: Fetch given provider config
+      description: API for fetching an existing payment config for given location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location id
+        schema:
+          example: Lk3nlfk4lxlelVEwcW
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomProvidersResponseSchema'
+        '400':
+          description: No such config exists for given locationId and marketplaceAppId
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Provider
+      security:
+      - Location-Access:
+        - payments/custom-provider.readonly
+    post:
+      operationId: create-config
+      summary: Create new provider config
+      description: API to create a new payment config for given location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location id
+        schema:
+          example: Lk3nlfk4lxlelVEwcW
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectCustomProvidersConfigDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectCustomProvidersResponseSchema'
+        '400':
+          description: No such config exists for given locationId and marketplaceAppId
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Provider
+      security:
+      - Location-Access:
+        - payments/custom-provider.write
+  /payments/custom-provider/disconnect:
+    post:
+      operationId: disconnect-config
+      summary: Disconnect existing provider config
+      description: API to disconnect an existing payment config for given location
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      - name: locationId
+        required: true
+        in: query
+        description: Location id
+        schema:
+          example: Lk3nlfk4lxlelVEwcW
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCustomProvidersConfigDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisconnectCustomProvidersResponseSchema'
+        '400':
+          description: No such config exists for given locationId and marketplaceAppId
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Provider
+      security:
+      - Location-Access:
+        - payments/custom-provider.write
+  /payments/custom-provider/capabilities:
+    put:
+      operationId: custom-provider-marketplace-app-update-capabilities
+      summary: Custom-provider marketplace app update capabilities
+      description: Toggle capabilities for the marketplace app tied to the OAuth client
+      parameters:
+      - name: Version
+        in: header
+        description: API Version
+        required: true
+        schema:
+          type: string
+          enum:
+          - '2021-07-28'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomProviderCapabilitiesDto'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCustomProviderCapabilitiesResponseSchema'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/BadRequestDTO
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnauthorizedDTO
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../common/common-schemas.json#/components/schemas/UnprocessableDTO
+      tags:
+      - Custom Provider
+      security:
+      - Location-Access:
+        - payments/custom-provider.write
+components:
+  schemas:
+    UpdateCustomProviderCapabilitiesResponseSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the custom provider capabilities are updated or not. true represents capabilities are updated
+          example: 'true'
+      required:
+      - success
+    CustomProviderKeys:
+      type: object
+      properties:
+        apiKey:
+          type: string
+          description: Api-key for custom payment provider config
+          example: y5ZQxryRFXZHvUJZdLeXXXXX
+        publishableKey:
+          type: string
+          description: Publishable-key for custom payment provider config
+          example: rzp_test_zPRoVMLOa0XXXX
+      required:
+      - apiKey
+      - publishableKey
+    ConnectCustomProvidersConfigDto:
+      type: object
+      properties:
+        live:
+          description: Live config containing api-key and publishable key for live payments
+          allOf:
+          - $ref: '#/components/schemas/CustomProviderKeys'
+        test:
+          description: Test config containing api-key and publishable-key for test payments
+          allOf:
+          - $ref: '#/components/schemas/CustomProviderKeys'
+      required:
+      - live
+      - test
+    CreateCustomProvidersResponseSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom provider
+          example: Company Paypal Integration
+        description:
+          type: string
+          description: Description of payment gateway. Shown on the payments integrations page as subtext
+          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
+        paymentsUrl:
+          type: string
+          description: This url will be loaded in iFrame to start a payment session.
+          example: https://testpayment.paypal.com
+        queryUrl:
+          type: string
+          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
+          example: https://testsubscription.paypal.com
+        imageUrl:
+          type: string
+          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
+          example: https://testsubscription.paypal.com
+        _id:
+          type: string
+          description: The unique identifier for the custom provider.
+          example: 662a44ad19a2a44d3cd9d749
+        locationId:
+          type: string
+          description: Location id
+          example: Lk3nlfk4lxlelVEwcW
+        marketplaceAppId:
+          type: string
+          description: The application id of marketplace
+          example: 65f0b217a05c774da7f1efa5
+        paymentProvider:
+          type: object
+          description: Payment provider details.
+          example: '{ live: { liveMode: true }, test: { liveMode: false, apiKey: "y5ZQxryRFXZHvUJZdLXXXXXX", publishableKey: "rzp_test_zPRoVMLOa0A9wo" }}'
+        deleted:
+          type: boolean
+          description: Whether the config is deleted or not. true represents config is deleted
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the custom provider.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the custom provider.
+          example: '2024-01-23T09:57:04.846Z'
+        traceId:
+          type: string
+          description: Trace id of the custom provider.
+          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+      required:
+      - name
+      - description
+      - paymentsUrl
+      - queryUrl
+      - imageUrl
+      - _id
+      - locationId
+      - marketplaceAppId
+      - deleted
+      - createdAt
+      - updatedAt
+    UpdateCustomProviderCapabilitiesDto:
+      type: object
+      properties:
+        supportsSubscriptionSchedules:
+          type: boolean
+          description: Whether the marketplace app supports subscription schedules or not
+          example: true
+        companyId:
+          type: string
+          description: Company id. Mandatory if locationId is not provided
+          example: Yjnwuduw83e8x30sm0
+        locationId:
+          type: string
+          description: Location / Sub-account id. Mandatory if companyId is not provided
+          example: Yjnwuduw83e8x30sm0
+      required:
+      - supportsSubscriptionSchedules
+    CreateCustomProvidersDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom provider
+          example: Company Paypal Integration
+        description:
+          type: string
+          description: Description of payment gateway. Shown on the payments integrations page as subtext
+          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
+        paymentsUrl:
+          type: string
+          description: This url will be loaded in iFrame to start a payment session.
+          example: https://testpayment.paypal.com
+        queryUrl:
+          type: string
+          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
+          example: https://testsubscription.paypal.com
+        imageUrl:
+          type: string
+          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
+          example: https://testsubscription.paypal.com
+        supportsSubscriptionSchedule:
+          type: boolean
+          description: Whether the config supports subscription schedule or not. true represents config supports subscription schedule
+          example: true
+      required:
+      - name
+      - description
+      - paymentsUrl
+      - queryUrl
+      - imageUrl
+      - supportsSubscriptionSchedule
+    DisconnectCustomProvidersResponseSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the custom provider config is disconnect or not. true represents config is disconnect
+          example: 'true'
+      required:
+      - success
+    DeleteCustomProvidersConfigDto:
+      type: object
+      properties:
+        liveMode:
+          type: boolean
+          description: Whether the config is for test mode or live mode. true represents config is for live payments
+          example: 'true'
+      required:
+      - liveMode
+    GetCustomProvidersResponseSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom provider
+          example: Company Paypal Integration
+        description:
+          type: string
+          description: Description of payment gateway. Shown on the payments integrations page as subtext
+          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
+        paymentsUrl:
+          type: string
+          description: This url will be loaded in iFrame to start a payment session.
+          example: https://testpayment.paypal.com
+        queryUrl:
+          type: string
+          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
+          example: https://testsubscription.paypal.com
+        imageUrl:
+          type: string
+          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
+          example: https://testsubscription.paypal.com
+        _id:
+          type: string
+          description: The unique identifier for the custom provider.
+          example: 662a44ad19a2a44d3cd9d749
+        locationId:
+          type: string
+          description: Location id
+          example: Lk3nlfk4lxlelVEwcW
+        marketplaceAppId:
+          type: string
+          description: The application id of marketplace
+          example: 65f0b217a05c774da7f1efa5
+        paymentProvider:
+          type: object
+          description: Payment provider details.
+          example: '{ live: { liveMode: true }, test: { liveMode: false, apiKey: "y5ZQxryRFXZHvUJZdLXXXXXX", publishableKey: "rzp_test_zPRoVMLOa0A9wo" }}'
+        deleted:
+          type: boolean
+          description: Whether the config is deleted or not. true represents config is deleted
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the custom provider.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the custom provider.
+          example: '2024-01-23T09:57:04.846Z'
+        traceId:
+          type: string
+          description: Trace id of the custom provider.
+          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+      required:
+      - name
+      - description
+      - paymentsUrl
+      - queryUrl
+      - imageUrl
+      - _id
+      - locationId
+      - marketplaceAppId
+      - deleted
+      - createdAt
+      - updatedAt
+    ConnectCustomProvidersResponseSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom provider
+          example: Company Paypal Integration
+        description:
+          type: string
+          description: Description of payment gateway. Shown on the payments integrations page as subtext
+          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
+        paymentsUrl:
+          type: string
+          description: This url will be loaded in iFrame to start a payment session.
+          example: https://testpayment.paypal.com
+        queryUrl:
+          type: string
+          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
+          example: https://testsubscription.paypal.com
+        imageUrl:
+          type: string
+          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
+          example: https://testsubscription.paypal.com
+        _id:
+          type: string
+          description: The unique identifier for the custom provider.
+          example: 662a44ad19a2a44d3cd9d749
+        locationId:
+          type: string
+          description: Location id
+          example: Lk3nlfk4lxlelVEwcW
+        marketplaceAppId:
+          type: string
+          description: The application id of marketplace
+          example: 65f0b217a05c774da7f1efa5
+        paymentProvider:
+          type: object
+          description: Payment provider details.
+          example: '{ live: { liveMode: true }, test: { liveMode: false, apiKey: "y5ZQxryRFXZHvUJZdLXXXXXX", publishableKey: "rzp_test_zPRoVMLOa0A9wo" }}'
+        deleted:
+          type: boolean
+          description: Whether the config is deleted or not. true represents config is deleted
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the custom provider.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the custom provider.
+          example: '2024-01-23T09:57:04.846Z'
+        traceId:
+          type: string
+          description: Trace id of the custom provider.
+          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+      required:
+      - name
+      - description
+      - paymentsUrl
+      - queryUrl
+      - imageUrl
+      - _id
+      - locationId
+      - marketplaceAppId
+      - deleted
+      - createdAt
+      - updatedAt
+    DeleteCustomProvidersResponseSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the custom provider config is disconnect or not. true represents config is disconnect
+          example: 'true'
+      required:
+      - success
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account (OR) Private Integration Token of Sub-Account.
+      type: http
+    Location-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Sub-Account.
+      type: http
+    Agency-Access:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency (OR) Private Integration Token of Agency.
+      type: http
+    Agency-Access-Only:
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: header
+      description: Use the Access Token generated with user type as Agency.
+      type: http
+x-tagGroups:
+  name: Payments
+  tags:
+  - Payments
+  - Integrations
+  - Orders
+  - Order fulfillments
+  - Order Notes
+  - Transactions
+  - Subscriptions
+  - Coupons
+  - Custom Provider
