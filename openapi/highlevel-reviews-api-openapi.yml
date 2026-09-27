@@ -412,20 +412,6 @@ paths:
         - products.write
 components:
   schemas:
-    ListProductReviewsResponseDto:
-      type: object
-      properties:
-        data:
-          description: Array of Collections
-          items:
-            type: array
-          type: array
-        total:
-          type: number
-          description: The total count of the collections present, which is useful to calculate the pagination
-      required:
-      - data
-      - total
     UpdateProductReviewsDto:
       type: object
       properties:
@@ -451,85 +437,6 @@ components:
       - altType
       - reviews
       - status
-    DeleteProductReviewResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
-    UserDetailsDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the customer
-          example: John Doe
-          minLength: 1
-          maxLength: 100
-        email:
-          type: string
-          description: Email of the customer
-          example: example@example.com
-        phone:
-          type: string
-          description: Phone no of the customer
-          example: +1-555-555-5555
-        isCustomer:
-          type: boolean
-          description: Is the person an admin or customer
-          example: true
-      required:
-      - name
-      - email
-    UpdateProductReviewObjectDto:
-      type: object
-      properties:
-        reviewId:
-          type: string
-          description: Review Id
-          example: 6578278e879ad2646715ba9c
-        productId:
-          type: string
-          description: Product Id
-          example: 6578278e879ad2646715ba9d
-        storeId:
-          type: string
-          description: Store Id
-          example: a1b2c3d4e5f6g7h8i9j0k1l2
-      required:
-      - reviewId
-      - productId
-      - storeId
-    ProductReviewDto:
-      type: object
-      properties:
-        headline:
-          type: string
-          description: Headline of the Review
-          example: Amazing product with great quality
-          minLength: 0
-          maxLength: 200
-        comment:
-          type: string
-          description: Detailed Review of the product
-          example: This product exceeded my expectations in terms of quality and performance. Highly recommended!
-          minLength: 0
-          maxLength: 5000
-        user:
-          description: User who is giving the review/reply
-          allOf:
-          - $ref: '#/components/schemas/UserDetailsDto'
-      required:
-      - headline
-      - comment
-      - user
     UpdateProductReviewDto:
       type: object
       properties:
@@ -571,7 +478,7 @@ components:
       - altType
       - productId
       - status
-    UpdateProductReviewsResponseDto:
+    DeleteProductReviewResponseDto:
       type: object
       properties:
         status:
@@ -594,6 +501,99 @@ components:
           type: array
       required:
       - data
+    UpdateProductReviewObjectDto:
+      type: object
+      properties:
+        reviewId:
+          type: string
+          description: Review Id
+          example: 6578278e879ad2646715ba9c
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9d
+        storeId:
+          type: string
+          description: Store Id
+          example: a1b2c3d4e5f6g7h8i9j0k1l2
+      required:
+      - reviewId
+      - productId
+      - storeId
+    ListProductReviewsResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of Collections
+          items:
+            type: array
+          type: array
+        total:
+          type: number
+          description: The total count of the collections present, which is useful to calculate the pagination
+      required:
+      - data
+      - total
+    UserDetailsDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the customer
+          example: John Doe
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          description: Email of the customer
+          example: example@example.com
+        phone:
+          type: string
+          description: Phone no of the customer
+          example: +1-555-555-5555
+        isCustomer:
+          type: boolean
+          description: Is the person an admin or customer
+          example: true
+      required:
+      - name
+      - email
+    UpdateProductReviewsResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    ProductReviewDto:
+      type: object
+      properties:
+        headline:
+          type: string
+          description: Headline of the Review
+          example: Amazing product with great quality
+          minLength: 0
+          maxLength: 200
+        comment:
+          type: string
+          description: Detailed Review of the product
+          example: This product exceeded my expectations in terms of quality and performance. Highly recommended!
+          minLength: 0
+          maxLength: 5000
+        user:
+          description: User who is giving the review/reply
+          allOf:
+          - $ref: '#/components/schemas/UserDetailsDto'
+      required:
+      - headline
+      - comment
+      - user
   securitySchemes:
     bearer:
       scheme: bearer

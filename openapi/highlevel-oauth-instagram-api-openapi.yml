@@ -238,70 +238,14 @@ paths:
       - bearer: []
 components:
   schemas:
-    GetInstagramAccountsResponseDTO:
+    GetInstagramAccountsSchema:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Fetched Instagram Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetInstagramAccountsSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    InstagramAccountSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: idu37swmmLbA02zgqKPpxITe2
-        name:
-          type: string
-          example: Insta account
-        avatar:
-          type: string
-          example: avau37swmmLbA02zgqKPpxITe2
-        pageId:
-          type: string
-          example: pidu37swmmLbA02zgqKPpxITe2
-        isConnected:
-          type: boolean
-          example: true
-    SocialMediaInstagramAccountResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Added Instagram Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/SocialMediaInstagramAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
+        accounts:
+          description: Instagram Account Details
+          type: array
+          items:
+            $ref: '#/components/schemas/InstagramAccountSchema'
     SocialMediaInstagramAccountSchema:
       type: object
       properties:
@@ -374,6 +318,52 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
+    GetInstagramAccountsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched Instagram Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetInstagramAccountsSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    SocialMediaInstagramAccountResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Added Instagram Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaInstagramAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
     AttachIGAccountDTO:
       type: object
       properties:
@@ -394,14 +384,24 @@ components:
           example: sdfdsfdsfEWEsdfsdsW32dd
       required:
       - pageId
-    GetInstagramAccountsSchema:
+    InstagramAccountSchema:
       type: object
       properties:
-        accounts:
-          description: Instagram Account Details
-          type: array
-          items:
-            $ref: '#/components/schemas/InstagramAccountSchema'
+        id:
+          type: string
+          example: idu37swmmLbA02zgqKPpxITe2
+        name:
+          type: string
+          example: Insta account
+        avatar:
+          type: string
+          example: avau37swmmLbA02zgqKPpxITe2
+        pageId:
+          type: string
+          example: pidu37swmmLbA02zgqKPpxITe2
+        isConnected:
+          type: boolean
+          example: true
   securitySchemes:
     bearer:
       scheme: bearer

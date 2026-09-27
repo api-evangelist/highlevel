@@ -375,6 +375,58 @@ paths:
       - Post
 components:
   schemas:
+    OgTagsSchema:
+      type: object
+      properties:
+        metaImage:
+          type: string
+          description: Meta Image
+          example: https://wwww.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
+        metaLink:
+          type: string
+          description: Meta Link
+    PostApprovalSchema:
+      type: object
+      properties:
+        approver:
+          type: string
+          description: Approver
+          example: iVrVJ2uoXNF0wzcBzgl5
+        requesterNote:
+          type: string
+          description: Requester Notes
+          example: Test suggestion
+        approverNote:
+          type: string
+          description: Approver Notes
+          example: Test suggestion
+        approvalStatus:
+          type: object
+          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
+          example: approved
+    CreatePostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Created Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/CreatePostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
     TiktokPostSchema:
       type: object
       properties:
@@ -406,82 +458,6 @@ components:
           type: boolean
           description: promote your brand
           example: true
-    GetPostSuccessfulResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Fetched Post
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetPostSuccessfulResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    FormatedApprovalDetails:
-      type: object
-      properties:
-        approver:
-          type: string
-          description: Approver
-          example: iVrVJ2uoXNF0wzcBzgl5
-        requesterNote:
-          type: string
-          description: Requester Notes
-          example: Test suggestion
-        approverNote:
-          type: string
-          description: Approver Notes
-          example: Test suggestion
-        approvalStatus:
-          type: object
-          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
-          example: approved
-        approverUser:
-          description: Approver User Details
-          allOf:
-          - $ref: '#/components/schemas/PostUserSchema'
-    StartDateSchema:
-      type: object
-      properties:
-        startDate:
-          description: Start Date
-          allOf:
-          - $ref: '#/components/schemas/DateSchema'
-        startTime:
-          description: Start Time
-          allOf:
-          - $ref: '#/components/schemas/TimeSchema'
-    UpdatePostSuccessfulResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Updated Post
-      required:
-      - success
-      - statusCode
-      - message
     PostCreateRequest:
       type: object
       properties:
@@ -555,58 +531,50 @@ components:
           example: sdfdsfdsfEWEsdfsdsW32dd
       required:
       - type
-    CreatePostSuccessfulResponseSchema:
+    GMBPostSchema:
       type: object
       properties:
-        post:
-          description: Post Data
+        gmbEventType:
+          type: string
+          example: STANDARD
+          description: 'gmbEventType must be one of the following values: STANDARD, EVENT, OFFER'
+        title:
+          type: string
+          description: Title
+          example: Event Title
+        offerTitle:
+          type: string
+          description: Offer Title
+          example: Hey
+        startDate:
+          description: Start Date
           allOf:
-          - $ref: '#/components/schemas/GetPostFormattedSchema'
-    OgTagsSchema:
-      type: object
-      properties:
-        metaImage:
-          type: string
-          description: Meta Image
-          example: https://wwww.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
-        metaLink:
-          type: string
-          description: Meta Link
-    PostSuccessfulResponseSchema:
-      type: object
-      properties:
-        posts:
-          description: Post Data
-          type: array
-          items:
-            $ref: '#/components/schemas/GetPostFormattedSchema'
-        count:
-          type: number
-          example: 6
-    DeletePostSuccessfulResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Deleted Post
-        results:
-          description: Requested Results
+          - $ref: '#/components/schemas/StartDateSchema'
+        endDate:
+          description: End Date
           allOf:
-          - $ref: '#/components/schemas/DeletePostSuccessfulResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    PostApprovalSchema:
+          - $ref: '#/components/schemas/EndDateSchema'
+        termsConditions:
+          type: string
+          description: Terms Condition Url
+          example: https://google.com/privacy
+        url:
+          type: string
+          description: Url
+          example: https://google.com
+        couponCode:
+          type: string
+          description: Coupon Code
+          example: BOGO-50
+        redeemOnlineUrl:
+          type: string
+          description: Redeem Online Url
+          example: https://google.com
+        actionType:
+          type: object
+          description: 'Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up'
+          example: book
+    FormatedApprovalDetails:
       type: object
       properties:
         approver:
@@ -625,32 +593,10 @@ components:
           type: object
           description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
           example: approved
-    DeletePostsDto:
-      type: object
-      properties:
-        postIds:
-          description: Requested Results
-          example:
-          - 662791ee3f216822d7da0c8c
-          type: array
-          items:
-            type: string
-    DateSchema:
-      type: object
-      properties:
-        year:
-          type: number
-          example: 2022
-        month:
-          type: number
-          example: 1
-        day:
-          type: number
-          example: 1
-      required:
-      - year
-      - month
-      - day
+        approverUser:
+          description: Approver User Details
+          allOf:
+          - $ref: '#/components/schemas/PostUserSchema'
     TimeSchema:
       type: object
       properties:
@@ -667,6 +613,46 @@ components:
       - hours
       - minutes
       - seconds
+    DeletePostsDto:
+      type: object
+      properties:
+        postIds:
+          description: Requested Results
+          example:
+          - 662791ee3f216822d7da0c8c
+          type: array
+          items:
+            type: string
+    PostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Fetched Posts
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/PostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    CreatePostSuccessfulResponseSchema:
+      type: object
+      properties:
+        post:
+          description: Post Data
+          allOf:
+          - $ref: '#/components/schemas/GetPostFormattedSchema'
     CreatePostDTO:
       type: object
       properties:
@@ -743,117 +729,44 @@ components:
       - type
       - accountIds
       - userId
-    EndDateSchema:
+    PostSuccessfulResponseSchema:
       type: object
       properties:
-        endDate:
-          description: End Date
+        posts:
+          description: Post Data
+          type: array
+          items:
+            $ref: '#/components/schemas/GetPostFormattedSchema'
+        count:
+          type: number
+          example: 6
+    StartDateSchema:
+      type: object
+      properties:
+        startDate:
+          description: Start Date
           allOf:
           - $ref: '#/components/schemas/DateSchema'
-        endTime:
-          description: End Time
+        startTime:
+          description: Start Time
           allOf:
           - $ref: '#/components/schemas/TimeSchema'
-    GetPostSuccessfulResponseSchema:
+    DateSchema:
       type: object
       properties:
-        post:
-          description: Post Data
-          allOf:
-          - $ref: '#/components/schemas/GetPostFormattedSchema'
-    SearchPostDTO:
-      type: object
-      properties:
-        type:
-          type: string
-          description: 'type must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress and deleted'
-          example: Filter type
-          default: all
-        accounts:
-          type: string
-          description: List of account Ids seperated by comma as a string
-          example: 660a83fc29deacac50033e2b_omaDY3RbWtTP511e808O_17841465964543589, 38bF83fc29deacac50033e2b_omaDY3RbWtr3P11e808O_17841465964543998
-        skip:
-          type: string
-          example: '1'
-          default: '0'
-        limit:
-          type: string
-          example: '10'
-          default: '10'
-        fromDate:
-          type: string
-          description: From Date
-          example: '2024-01-22T05:32:49.463Z'
-        toDate:
-          type: string
-          description: To Date
-          example: '2024-03-20T05:32:49.463Z'
-        includeUsers:
-          type: string
-          description: Include User Data
-          example: 'true'
-        postType:
-          type: object
-          description: 'Post Type must be one of the following values: - post, story, reel'
-          example: post
-      required:
-      - skip
-      - limit
-      - fromDate
-      - toDate
-      - includeUsers
-    DeletePostSuccessfulResponseSchema:
-      type: object
-      properties:
-        postId:
-          type: string
-    PostSuccessfulResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
+        year:
           type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Fetched Posts
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/PostSuccessfulResponseSchema'
+          example: 2022
+        month:
+          type: number
+          example: 1
+        day:
+          type: number
+          example: 1
       required:
-      - success
-      - statusCode
-      - message
-    PostMediaSchema:
-      type: object
-      properties:
-        url:
-          type: string
-          example: https://i0.wp.com/www.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
-        caption:
-          type: string
-          example: Caption 1
-        type:
-          type: string
-          example: video/mp4 or image/png
-        thumbnail:
-          type: string
-          example: https://storage.googleapis.com/test/test/media/test.jpeg
-        defaultThumb:
-          type: string
-          example: https://storage.googleapis.com/test/test/media/test.jpeg
-        id:
-          type: string
-          example: Edf3323fsfsdsd
-      required:
-      - url
+      - year
+      - month
+      - day
     BulkDeleteResponseDto:
       type: object
       properties:
@@ -879,49 +792,133 @@ components:
       - statusCode
       - message
       - results
-    GMBPostSchema:
+    DeletePostSuccessfulResponseSchema:
       type: object
       properties:
-        gmbEventType:
+        postId:
           type: string
-          example: STANDARD
-          description: 'gmbEventType must be one of the following values: STANDARD, EVENT, OFFER'
-        title:
-          type: string
-          description: Title
-          example: Event Title
-        offerTitle:
-          type: string
-          description: Offer Title
-          example: Hey
-        startDate:
-          description: Start Date
-          allOf:
-          - $ref: '#/components/schemas/StartDateSchema'
+    EndDateSchema:
+      type: object
+      properties:
         endDate:
           description: End Date
           allOf:
-          - $ref: '#/components/schemas/EndDateSchema'
-        termsConditions:
-          type: string
-          description: Terms Condition Url
-          example: https://google.com/privacy
+          - $ref: '#/components/schemas/DateSchema'
+        endTime:
+          description: End Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
+    GetPostSuccessfulResponseSchema:
+      type: object
+      properties:
+        post:
+          description: Post Data
+          allOf:
+          - $ref: '#/components/schemas/GetPostFormattedSchema'
+    PostMediaSchema:
+      type: object
+      properties:
         url:
           type: string
-          description: Url
-          example: https://google.com
-        couponCode:
+          example: https://i0.wp.com/www.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
+        caption:
           type: string
-          description: Coupon Code
-          example: BOGO-50
-        redeemOnlineUrl:
+          example: Caption 1
+        type:
           type: string
-          description: Redeem Online Url
-          example: https://google.com
-        actionType:
-          type: object
-          description: 'Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up'
-          example: book
+          example: video/mp4 or image/png
+        thumbnail:
+          type: string
+          example: https://storage.googleapis.com/test/test/media/test.jpeg
+        defaultThumb:
+          type: string
+          example: https://storage.googleapis.com/test/test/media/test.jpeg
+        id:
+          type: string
+          example: Edf3323fsfsdsd
+      required:
+      - url
+    PostUserSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User Id
+          example: 6284c43d519161e96cc09c13
+        title:
+          type: string
+          description: Title
+          example: Mr
+        firstName:
+          type: string
+          description: First name
+          example: Harry
+        lastName:
+          type: string
+          description: Last name
+          example: Spencer
+        profilePhoto:
+          type: string
+          description: Profile photo
+          example: https://storage.googleapis.com/user/kCrjKGHZQ2/profile/1dca8c-61c9-404d-a459-751fbcb.jpeg
+        phone:
+          type: string
+          description: Phone number
+          example: '901111119'
+        email:
+          type: string
+          description: Email Id
+          example: abc@xyc.com
+      required:
+      - id
+      - title
+      - firstName
+      - lastName
+      - profilePhoto
+      - phone
+      - email
+    UpdatePostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Updated Post
+      required:
+      - success
+      - statusCode
+      - message
+    GetPostSuccessfulResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetPostSuccessfulResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
     GetPostFormattedSchema:
       type: object
       properties:
@@ -1029,7 +1026,7 @@ components:
       - locationId
       - error
       - type
-    CreatePostSuccessfulResponseDTO:
+    DeletePostSuccessfulResponseDTO:
       type: object
       properties:
         success:
@@ -1039,58 +1036,61 @@ components:
         statusCode:
           type: number
           description: Status Code
-          example: 201
+          example: 200
         message:
           type: string
           description: Message
-          example: Created Post
+          example: Deleted Post
         results:
           description: Requested Results
           allOf:
-          - $ref: '#/components/schemas/CreatePostSuccessfulResponseSchema'
+          - $ref: '#/components/schemas/DeletePostSuccessfulResponseSchema'
       required:
       - success
       - statusCode
       - message
-    PostUserSchema:
+    SearchPostDTO:
       type: object
       properties:
-        id:
+        type:
           type: string
-          description: User Id
-          example: 6284c43d519161e96cc09c13
-        title:
+          description: 'type must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress and deleted'
+          example: Filter type
+          default: all
+        accounts:
           type: string
-          description: Title
-          example: Mr
-        firstName:
+          description: List of account Ids seperated by comma as a string
+          example: 660a83fc29deacac50033e2b_omaDY3RbWtTP511e808O_17841465964543589, 38bF83fc29deacac50033e2b_omaDY3RbWtr3P11e808O_17841465964543998
+        skip:
           type: string
-          description: First name
-          example: Harry
-        lastName:
+          example: '1'
+          default: '0'
+        limit:
           type: string
-          description: Last name
-          example: Spencer
-        profilePhoto:
+          example: '10'
+          default: '10'
+        fromDate:
           type: string
-          description: Profile photo
-          example: https://storage.googleapis.com/user/kCrjKGHZQ2/profile/1dca8c-61c9-404d-a459-751fbcb.jpeg
-        phone:
+          description: From Date
+          example: '2024-01-22T05:32:49.463Z'
+        toDate:
           type: string
-          description: Phone number
-          example: '901111119'
-        email:
+          description: To Date
+          example: '2024-03-20T05:32:49.463Z'
+        includeUsers:
           type: string
-          description: Email Id
-          example: abc@xyc.com
+          description: Include User Data
+          example: 'true'
+        postType:
+          type: object
+          description: 'Post Type must be one of the following values: - post, story, reel'
+          example: post
       required:
-      - id
-      - title
-      - firstName
-      - lastName
-      - profilePhoto
-      - phone
-      - email
+      - skip
+      - limit
+      - fromDate
+      - toDate
+      - includeUsers
   securitySchemes:
     bearer:
       scheme: bearer

@@ -442,557 +442,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    DeletePostResponseSchema:
-      type: object
-      properties:
-        postId:
-          type: string
-          description: Post Id
-      required:
-      - postId
-    IOgTagsSchema:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Tag url
-          example: https://knowledge.wharton.upenn.edu/article/impact-of-social-media/
-        ogDescription:
-          type: string
-          description: Tag description
-          example: Social media as we know it has barely
-        ogImage:
-          description: Tag description
-          allOf:
-          - $ref: '#/components/schemas/OgImageSchema'
-        ogTitle:
-          type: string
-          description: Tag Title
-          example: 'The Impact of Social Media: Is it Irreplaceable?'
-        ogUrl:
-          type: string
-          description: Tag Url
-          example: https://knowledge.wharton.upenn.edu/article/impact-of-social-media/
-        ogSiteName:
-          type: string
-          description: Site Name
-          example: Knowledge at Wharton
-        error:
-          type: string
-          description: Og Tag Error
-          example: InvalidLink
-    DeleteCsvResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Deleted Post
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/CSVResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    DeletePostResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Deleted Post
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/DeletePostResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    TiktokPostSchema:
-      type: object
-      properties:
-        privacyLevel:
-          type: object
-          description: 'privacy level is an enum and must be one of the following values: PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY'
-          example: PUBLIC_TO_EVERYONE
-        promoteOtherBrand:
-          type: boolean
-          description: promote other brand
-          example: true
-        enableComment:
-          type: boolean
-          description: enable comment
-          example: true
-        enableDuet:
-          type: boolean
-          description: enable duet
-          example: true
-        enableStitch:
-          type: boolean
-          description: enable stitch
-          example: true
-        videoDisclosure:
-          type: boolean
-          description: video disclosure
-          example: true
-        promoteYourBrand:
-          type: boolean
-          description: promote your brand
-          example: true
-    GetCsvPostResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Fetched CSV Post
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetCsvPostResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    StartDateSchema:
-      type: object
-      properties:
-        startDate:
-          description: Start Date
-          allOf:
-          - $ref: '#/components/schemas/DateSchema'
-        startTime:
-          description: Start Time
-          allOf:
-          - $ref: '#/components/schemas/TimeSchema'
-    CSVResponseSchema:
-      type: object
-      properties:
-        csv:
-          description: CSV Data
-          allOf:
-          - $ref: '#/components/schemas/CsvResponse'
-    GetUploadStatusResponseSchema:
-      type: object
-      properties:
-        csvs:
-          description: CSV Data
-          allOf:
-          - $ref: '#/components/schemas/CSVImportSchema'
-        count:
-          type: number
-          example: 6
-      required:
-      - csvs
-      - count
-    GetUploadStatusResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Fetched CSV Upload Status
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetUploadStatusResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    CSVImportSchema:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Csv Id
-          example: ve9EPM428h8vShlRW1KT
-        locationId:
-          type: string
-          description: locationId
-          example: iVrVJ2uoXNF0wzcBzgl5
-        fileName:
-          type: string
-          description: File Name
-          example: sample.csv
-        accountIds:
-          description: Account Ids
-          example:
-          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
-          type: array
-          items:
-            type: string
-        file:
-          type: string
-          description: File path
-          example: File
-        status:
-          type: string
-          description: 'status must be one of the following values: pending, in_progress, completed, failed, in_review, importing, deleted'
-          example: completed
-        count:
-          type: number
-          description: Posts count
-          example: 5
-        createdBy:
-          type: string
-          description: Created By Id
-          example: SDsdfdf45Dgs4w3ssss
-        traceId:
-          type: string
-          description: Trace Id
-          example: FSeSDsdfdf45Dgs4w3ssss
-        originId:
-          type: string
-          description: Origin Id
-          example: FSeSDsdfdf45Dgs4w3ssss
-        approver:
-          type: string
-          description: Approver Id
-          example: FSeSDsdfdf45Dgs4w3ssss
-        createdAt:
-          format: date-time
-          type: string
-          description: Date Created
-          example: '2023-08-02T00:00:00.000Z'
-      required:
-      - _id
-    DateSchema:
-      type: object
-      properties:
-        year:
-          type: number
-          example: 2022
-        month:
-          type: number
-          example: 1
-        day:
-          type: number
-          example: 1
-      required:
-      - year
-      - month
-      - day
-    UploadFileResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Uploaded CSV
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/UploadFileResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    TimeSchema:
-      type: object
-      properties:
-        hours:
-          type: number
-          example: 23
-        minutes:
-          type: number
-          example: 56
-        seconds:
-          type: number
-          example: 34
-      required:
-      - hours
-      - minutes
-      - seconds
-    CsvResponse:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: Location Name
-        fileName:
-          type: string
-          example: File Name
-        accountIds:
-          description: Account Ids
-          example:
-          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
-          type: array
-          items:
-            type: string
-        file:
-          type: string
-          example: File
-        status:
-          type: object
-          description: 'status must be one of the following values: pending, in_progress, completed, failed, in_review, importing, deleted'
-          example: completed
-        count:
-          type: number
-          example: 5
-        createdBy:
-          type: string
-          example: AccountId_SDsdfdf45Dgs4w3ssss
-        traceId:
-          type: string
-          example: FSeSDsdfdf45Dgs4w3ssss
-        originId:
-          type: string
-          example: FSeSDsdfdf45Dgs4w3ssss
-        approver:
-          type: string
-          example: FSeSDsdfdf45Dgs4w3ssss
-    UploadFileResponseSchema:
-      type: object
-      properties:
-        filePath:
-          type: string
-          example: omaDY3RbWtTP511e/social-import/d23d68c2-82c0-1db6e2.csv
-        rowsCount:
-          type: number
-          example: 6
-        fileName:
-          type: string
-          example: CSV Import Sample - CSV Import Sample.csv
-    EndDateSchema:
-      type: object
-      properties:
-        endDate:
-          description: End Date
-          allOf:
-          - $ref: '#/components/schemas/DateSchema'
-        endTime:
-          description: End Time
-          allOf:
-          - $ref: '#/components/schemas/TimeSchema'
-    SetAccountsDTO:
-      type: object
-      properties:
-        accountIds:
-          description: Account Ids
-          example:
-          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
-          type: array
-          items:
-            type: string
-        filePath:
-          type: string
-          description: File path
-          example: o6241QsiRwUIJHyjuhos/social-planner-import/a6d04a26-0401-4e52-8f48-dbb274050fab.csv
-        rowsCount:
-          type: number
-          description: Entires Count. rowcCount must be between 1 and number of posts in CSV
-          example: 1
-        fileName:
-          type: string
-          description: Name of file
-          example: test.csv
-        approver:
-          type: string
-          example: o6241QsiRwUIJHyjuhos
-        userId:
-          type: string
-          description: User ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
-      required:
-      - accountIds
-      - filePath
-      - rowsCount
-      - fileName
-    OgImageSchema:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Image url
-          example: https://knowledge.wharton.upenn.edu/wp-content/uploads/2019/07/072619_socialmedia_phonelikes-600x440.jpg
-        width:
-          type: number
-          description: Image width
-          example: 400
-        height:
-          type: number
-          description: Image height
-          example: 400
-        type:
-          type: string
-          description: Image Type
-          example: image/jpg
-    CSVPostSchema:
-      type: object
-      properties:
-        accountIds:
-          description: Account Ids
-          example:
-          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
-          type: array
-          items:
-            type: string
-        link:
-          description: OG Tag
-          allOf:
-          - $ref: '#/components/schemas/IOgTagsSchema'
-        medias:
-          description: Post Media List
-          type: array
-          items:
-            $ref: '#/components/schemas/CSVMediaResponseSchema'
-        scheduleDate:
-          type: string
-          example: '2022-11-23T05:53:00.000Z'
-        summary:
-          type: string
-          example: First post
-        followUpComment:
-          type: string
-          example: Initial Comment
-        type:
-          type: object
-          example: post
-        tiktokPostDetails:
-          description: Tiktok Post Details
-          allOf:
-          - $ref: '#/components/schemas/TiktokPostSchema'
-        gmbPostDetails:
-          description: GMB Post Details
-          allOf:
-          - $ref: '#/components/schemas/GMBPostSchema'
-        errorMessage:
-          type: string
-          description: Error Description
-    GetCsvPostResponseSchema:
-      type: object
-      properties:
-        csv:
-          description: CSV Data
-          allOf:
-          - $ref: '#/components/schemas/CSVImportSchema'
-        count:
-          type: number
-          example: 6
-        posts:
-          description: CSV Posts
-          type: array
-          items:
-            $ref: '#/components/schemas/CSVPostSchema'
-    GMBPostSchema:
-      type: object
-      properties:
-        gmbEventType:
-          type: string
-          example: STANDARD
-          description: 'gmbEventType must be one of the following values: STANDARD, EVENT, OFFER'
-        title:
-          type: string
-          description: Title
-          example: Event Title
-        offerTitle:
-          type: string
-          description: Offer Title
-          example: Hey
-        startDate:
-          description: Start Date
-          allOf:
-          - $ref: '#/components/schemas/StartDateSchema'
-        endDate:
-          description: End Date
-          allOf:
-          - $ref: '#/components/schemas/EndDateSchema'
-        termsConditions:
-          type: string
-          description: Terms Condition Url
-          example: https://google.com/privacy
-        url:
-          type: string
-          description: Url
-          example: https://google.com
-        couponCode:
-          type: string
-          description: Coupon Code
-          example: BOGO-50
-        redeemOnlineUrl:
-          type: string
-          description: Redeem Online Url
-          example: https://google.com
-        actionType:
-          type: object
-          description: 'Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up'
-          example: book
-    CSVDefaultDTO:
-      type: object
-      properties:
-        userId:
-          type: string
-          description: User ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
-    SetAccountsResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Accounts Set Successfully
-      required:
-      - success
-      - statusCode
-      - message
-    UploadCSVDTO:
-      type: object
-      properties:
-        file:
-          type: string
-          format: binary
     CSVMediaResponseSchema:
       type: object
       properties:
@@ -1093,6 +542,510 @@ components:
           type: string
           description: 'Media error. It can be one of the following values: imageSize, imageWidth'
           example: imageSize
+    CsvResponse:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: Location Name
+        fileName:
+          type: string
+          example: File Name
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        file:
+          type: string
+          example: File
+        status:
+          type: object
+          description: 'status must be one of the following values: pending, in_progress, completed, failed, in_review, importing, deleted'
+          example: completed
+        count:
+          type: number
+          example: 5
+        createdBy:
+          type: string
+          example: AccountId_SDsdfdf45Dgs4w3ssss
+        traceId:
+          type: string
+          example: FSeSDsdfdf45Dgs4w3ssss
+        originId:
+          type: string
+          example: FSeSDsdfdf45Dgs4w3ssss
+        approver:
+          type: string
+          example: FSeSDsdfdf45Dgs4w3ssss
+    TiktokPostSchema:
+      type: object
+      properties:
+        privacyLevel:
+          type: object
+          description: 'privacy level is an enum and must be one of the following values: PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY'
+          example: PUBLIC_TO_EVERYONE
+        promoteOtherBrand:
+          type: boolean
+          description: promote other brand
+          example: true
+        enableComment:
+          type: boolean
+          description: enable comment
+          example: true
+        enableDuet:
+          type: boolean
+          description: enable duet
+          example: true
+        enableStitch:
+          type: boolean
+          description: enable stitch
+          example: true
+        videoDisclosure:
+          type: boolean
+          description: video disclosure
+          example: true
+        promoteYourBrand:
+          type: boolean
+          description: promote your brand
+          example: true
+    UploadFileResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Uploaded CSV
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/UploadFileResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    DeletePostResponseSchema:
+      type: object
+      properties:
+        postId:
+          type: string
+          description: Post Id
+      required:
+      - postId
+    GMBPostSchema:
+      type: object
+      properties:
+        gmbEventType:
+          type: string
+          example: STANDARD
+          description: 'gmbEventType must be one of the following values: STANDARD, EVENT, OFFER'
+        title:
+          type: string
+          description: Title
+          example: Event Title
+        offerTitle:
+          type: string
+          description: Offer Title
+          example: Hey
+        startDate:
+          description: Start Date
+          allOf:
+          - $ref: '#/components/schemas/StartDateSchema'
+        endDate:
+          description: End Date
+          allOf:
+          - $ref: '#/components/schemas/EndDateSchema'
+        termsConditions:
+          type: string
+          description: Terms Condition Url
+          example: https://google.com/privacy
+        url:
+          type: string
+          description: Url
+          example: https://google.com
+        couponCode:
+          type: string
+          description: Coupon Code
+          example: BOGO-50
+        redeemOnlineUrl:
+          type: string
+          description: Redeem Online Url
+          example: https://google.com
+        actionType:
+          type: object
+          description: 'Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up'
+          example: book
+    DeleteCsvResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Deleted Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/CSVResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    TimeSchema:
+      type: object
+      properties:
+        hours:
+          type: number
+          example: 23
+        minutes:
+          type: number
+          example: 56
+        seconds:
+          type: number
+          example: 34
+      required:
+      - hours
+      - minutes
+      - seconds
+    SetAccountsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Accounts Set Successfully
+      required:
+      - success
+      - statusCode
+      - message
+    DeletePostResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Deleted Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/DeletePostResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    GetUploadStatusResponseSchema:
+      type: object
+      properties:
+        csvs:
+          description: CSV Data
+          allOf:
+          - $ref: '#/components/schemas/CSVImportSchema'
+        count:
+          type: number
+          example: 6
+      required:
+      - csvs
+      - count
+    GetCsvPostResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched CSV Post
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetCsvPostResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    StartDateSchema:
+      type: object
+      properties:
+        startDate:
+          description: Start Date
+          allOf:
+          - $ref: '#/components/schemas/DateSchema'
+        startTime:
+          description: Start Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
+    GetCsvPostResponseSchema:
+      type: object
+      properties:
+        csv:
+          description: CSV Data
+          allOf:
+          - $ref: '#/components/schemas/CSVImportSchema'
+        count:
+          type: number
+          example: 6
+        posts:
+          description: CSV Posts
+          type: array
+          items:
+            $ref: '#/components/schemas/CSVPostSchema'
+    DateSchema:
+      type: object
+      properties:
+        year:
+          type: number
+          example: 2022
+        month:
+          type: number
+          example: 1
+        day:
+          type: number
+          example: 1
+      required:
+      - year
+      - month
+      - day
+    CSVPostSchema:
+      type: object
+      properties:
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        link:
+          description: OG Tag
+          allOf:
+          - $ref: '#/components/schemas/IOgTagsSchema'
+        medias:
+          description: Post Media List
+          type: array
+          items:
+            $ref: '#/components/schemas/CSVMediaResponseSchema'
+        scheduleDate:
+          type: string
+          example: '2022-11-23T05:53:00.000Z'
+        summary:
+          type: string
+          example: First post
+        followUpComment:
+          type: string
+          example: Initial Comment
+        type:
+          type: object
+          example: post
+        tiktokPostDetails:
+          description: Tiktok Post Details
+          allOf:
+          - $ref: '#/components/schemas/TiktokPostSchema'
+        gmbPostDetails:
+          description: GMB Post Details
+          allOf:
+          - $ref: '#/components/schemas/GMBPostSchema'
+        errorMessage:
+          type: string
+          description: Error Description
+    IOgTagsSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Tag url
+          example: https://knowledge.wharton.upenn.edu/article/impact-of-social-media/
+        ogDescription:
+          type: string
+          description: Tag description
+          example: Social media as we know it has barely
+        ogImage:
+          description: Tag description
+          allOf:
+          - $ref: '#/components/schemas/OgImageSchema'
+        ogTitle:
+          type: string
+          description: Tag Title
+          example: 'The Impact of Social Media: Is it Irreplaceable?'
+        ogUrl:
+          type: string
+          description: Tag Url
+          example: https://knowledge.wharton.upenn.edu/article/impact-of-social-media/
+        ogSiteName:
+          type: string
+          description: Site Name
+          example: Knowledge at Wharton
+        error:
+          type: string
+          description: Og Tag Error
+          example: InvalidLink
+    CSVImportSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Csv Id
+          example: ve9EPM428h8vShlRW1KT
+        locationId:
+          type: string
+          description: locationId
+          example: iVrVJ2uoXNF0wzcBzgl5
+        fileName:
+          type: string
+          description: File Name
+          example: sample.csv
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        file:
+          type: string
+          description: File path
+          example: File
+        status:
+          type: string
+          description: 'status must be one of the following values: pending, in_progress, completed, failed, in_review, importing, deleted'
+          example: completed
+        count:
+          type: number
+          description: Posts count
+          example: 5
+        createdBy:
+          type: string
+          description: Created By Id
+          example: SDsdfdf45Dgs4w3ssss
+        traceId:
+          type: string
+          description: Trace Id
+          example: FSeSDsdfdf45Dgs4w3ssss
+        originId:
+          type: string
+          description: Origin Id
+          example: FSeSDsdfdf45Dgs4w3ssss
+        approver:
+          type: string
+          description: Approver Id
+          example: FSeSDsdfdf45Dgs4w3ssss
+        createdAt:
+          format: date-time
+          type: string
+          description: Date Created
+          example: '2023-08-02T00:00:00.000Z'
+      required:
+      - _id
+    OgImageSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Image url
+          example: https://knowledge.wharton.upenn.edu/wp-content/uploads/2019/07/072619_socialmedia_phonelikes-600x440.jpg
+        width:
+          type: number
+          description: Image width
+          example: 400
+        height:
+          type: number
+          description: Image height
+          example: 400
+        type:
+          type: string
+          description: Image Type
+          example: image/jpg
+    GetUploadStatusResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Fetched CSV Upload Status
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetUploadStatusResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    UploadFileResponseSchema:
+      type: object
+      properties:
+        filePath:
+          type: string
+          example: omaDY3RbWtTP511e/social-import/d23d68c2-82c0-1db6e2.csv
+        rowsCount:
+          type: number
+          example: 6
+        fileName:
+          type: string
+          example: CSV Import Sample - CSV Import Sample.csv
+    CSVResponseSchema:
+      type: object
+      properties:
+        csv:
+          description: CSV Data
+          allOf:
+          - $ref: '#/components/schemas/CsvResponse'
+    EndDateSchema:
+      type: object
+      properties:
+        endDate:
+          description: End Date
+          allOf:
+          - $ref: '#/components/schemas/DateSchema'
+        endTime:
+          description: End Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
     CsvPostStatusResponseDTO:
       type: object
       properties:
@@ -1112,6 +1065,53 @@ components:
       - success
       - statusCode
       - message
+    UploadCSVDTO:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+    SetAccountsDTO:
+      type: object
+      properties:
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        filePath:
+          type: string
+          description: File path
+          example: o6241QsiRwUIJHyjuhos/social-planner-import/a6d04a26-0401-4e52-8f48-dbb274050fab.csv
+        rowsCount:
+          type: number
+          description: Entires Count. rowcCount must be between 1 and number of posts in CSV
+          example: 1
+        fileName:
+          type: string
+          description: Name of file
+          example: test.csv
+        approver:
+          type: string
+          example: o6241QsiRwUIJHyjuhos
+        userId:
+          type: string
+          description: User ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+      required:
+      - accountIds
+      - filePath
+      - rowsCount
+      - fileName
+    CSVDefaultDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
   securitySchemes:
     bearer:
       scheme: bearer

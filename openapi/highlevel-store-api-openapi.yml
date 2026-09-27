@@ -225,6 +225,25 @@ components:
       - altType
       - action
       - productIds
+    GetProductStatsResponseDto:
+      type: object
+      properties:
+        totalProducts:
+          type: number
+          description: Total number of products
+          example: 100
+        includedInStore:
+          type: number
+          description: Number of products included in the store
+          example: 80
+        excludedFromStore:
+          type: number
+          description: Number of products excluded from the store
+          example: 20
+      required:
+      - totalProducts
+      - includedInStore
+      - excludedFromStore
     UpdateDisplayPriorityBodyDto:
       type: object
       properties:
@@ -258,25 +277,6 @@ components:
           example: Successfully created
       required:
       - status
-    GetProductStatsResponseDto:
-      type: object
-      properties:
-        totalProducts:
-          type: number
-          description: Total number of products
-          example: 100
-        includedInStore:
-          type: number
-          description: Number of products included in the store
-          example: 80
-        excludedFromStore:
-          type: number
-          description: Number of products excluded from the store
-          example: 20
-      required:
-      - totalProducts
-      - includedInStore
-      - excludedFromStore
   securitySchemes:
     bearer:
       scheme: bearer

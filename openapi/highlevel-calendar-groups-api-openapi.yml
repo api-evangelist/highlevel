@@ -287,11 +287,87 @@ paths:
         - calendars/groups.write
 components:
   schemas:
+    ValidateGroupSlugPostBody:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        slug:
+          type: string
+          description: Slug
+          example: calendar-1
+      required:
+      - locationId
+      - slug
+    GroupStatusUpdateParams:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: Is Active?
+          example: true
+      required:
+      - isActive
+    AllGroupsSuccessfulResponseDTO:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDTO'
+    GroupCreateDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ocQHyuzHvysMo5N5VsXc
+        name:
+          type: string
+          example: group a
+        description:
+          type: string
+          example: group description
+        slug:
+          type: string
+          example: 15-mins
+        isActive:
+          type: boolean
+          example: true
+      required:
+      - locationId
+      - name
+      - description
+      - slug
+    GroupUpdateDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: group a
+        description:
+          type: string
+          example: group description
+        slug:
+          type: string
+          example: 15-mins
+      required:
+      - name
+      - description
+      - slug
     GroupCreateSuccessfulResponseDTO:
       type: object
       properties:
         group:
           $ref: '#/components/schemas/GroupDTO'
+    ValidateGroupSlugSuccessResponseDTO:
+      type: object
+      properties:
+        available:
+          type: boolean
+      required:
+      - available
     GroupDTO:
       type: object
       properties:
@@ -318,29 +394,6 @@ components:
       - name
       - description
       - slug
-    ValidateGroupSlugPostBody:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        slug:
-          type: string
-          description: Slug
-          example: calendar-1
-      required:
-      - locationId
-      - slug
-    GroupStatusUpdateParams:
-      type: object
-      properties:
-        isActive:
-          type: boolean
-          description: Is Active?
-          example: true
-      required:
-      - isActive
     GroupSuccessfulResponseDTO:
       type: object
       properties:
@@ -348,59 +401,6 @@ components:
           type: boolean
           description: Success
           example: 'true'
-    GroupCreateDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: ocQHyuzHvysMo5N5VsXc
-        name:
-          type: string
-          example: group a
-        description:
-          type: string
-          example: group description
-        slug:
-          type: string
-          example: 15-mins
-        isActive:
-          type: boolean
-          example: true
-      required:
-      - locationId
-      - name
-      - description
-      - slug
-    ValidateGroupSlugSuccessResponseDTO:
-      type: object
-      properties:
-        available:
-          type: boolean
-      required:
-      - available
-    AllGroupsSuccessfulResponseDTO:
-      type: object
-      properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupDTO'
-    GroupUpdateDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          example: group a
-        description:
-          type: string
-          example: group description
-        slug:
-          type: string
-          example: 15-mins
-      required:
-      - name
-      - description
-      - slug
   securitySchemes:
     bearer:
       scheme: bearer

@@ -287,27 +287,6 @@ components:
       - contactId
       - email
       - subscription_action
-    UpdateCustomSubtypeDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the custom subtype (max 100 characters)
-          example: Newsletter Subscription
-          maxLength: 100
-        description:
-          type: string
-          description: Description of the custom subtype (max 100 characters)
-          example: Updated weekly newsletter subscription preferences
-          maxLength: 100
-        archived:
-          type: boolean
-          description: Whether the custom subtype is archived
-          example: false
-        resubscription_legal_form_id:
-          type: string
-          description: Resubscription legal form ID (optional when archiving)
-          example: form_123456
     SubscriptionActionDto:
       type: object
       properties:
@@ -339,6 +318,27 @@ components:
       required:
       - type
       - subtype_status
+    UpdateCustomSubtypeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the custom subtype (max 100 characters)
+          example: Newsletter Subscription
+          maxLength: 100
+        description:
+          type: string
+          description: Description of the custom subtype (max 100 characters)
+          example: Updated weekly newsletter subscription preferences
+          maxLength: 100
+        archived:
+          type: boolean
+          description: Whether the custom subtype is archived
+          example: false
+        resubscription_legal_form_id:
+          type: string
+          description: Resubscription legal form ID (optional when archiving)
+          example: form_123456
     CreateCustomSubtypeDto:
       type: object
       properties:

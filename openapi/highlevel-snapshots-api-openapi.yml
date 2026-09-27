@@ -233,34 +233,14 @@ paths:
       - Agency-Access: []
 components:
   schemas:
-    SnapshotsSchema:
+    GetSnapshotsSuccessfulResponseDto:
       type: object
       properties:
-        id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: Snapshot Id.
-        name:
-          type: string
-          example: Martial Arts Snapshot
-          description: Name of the snapshot
-        type:
-          type: string
-          example: own
-          description: Type of snapshot - own or imported.
-    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
-    GetSnapshotPushStatusSuccessfulResponseDTO:
-      type: object
-      properties:
-        data:
+        snapshots:
           type: array
           items:
-            $ref: '#/components/schemas/SnapshotStatusSchema'
-    SnapshotStatusSchemaWithAssets:
+            $ref: '#/components/schemas/SnapshotsSchema'
+    SnapshotStatusSchema:
       type: object
       properties:
         id:
@@ -275,25 +255,11 @@ components:
           type: string
           example: processing
           description: Status of snapshot push
-        completed:
-          example: '[''forms'', ''surveys'', ''funnels'', ''workflows'']'
-          description: List of completed assets
-          type: array
-          items:
-            type: string
-        pending:
-          example: '[''custom_fields'',''custom_values'',''tags'']'
-          description: List of pending assets
-          type: array
-          items:
-            type: string
-    GetSnapshotsSuccessfulResponseDto:
-      type: object
-      properties:
-        snapshots:
-          type: array
-          items:
-            $ref: '#/components/schemas/SnapshotsSchema'
+        dateAdded:
+          format: date-time
+          type: string
+          example: 10/28/2022, 6:24:54 PM
+          description: 'Timestamp of when snapshot processing starts for sub-account '
     CreateSnapshotShareLinkRequestDTO:
       type: object
       properties:
@@ -321,7 +287,34 @@ components:
       required:
       - snapshot_id
       - share_type
-    SnapshotStatusSchema:
+    SnapshotsSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: Snapshot Id.
+        name:
+          type: string
+          example: Martial Arts Snapshot
+          description: Name of the snapshot
+        type:
+          type: string
+          example: own
+          description: Type of snapshot - own or imported.
+    GetSnapshotPushStatusSuccessfulResponseDTO:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotStatusSchema'
+    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
+    SnapshotStatusSchemaWithAssets:
       type: object
       properties:
         id:
@@ -336,11 +329,18 @@ components:
           type: string
           example: processing
           description: Status of snapshot push
-        dateAdded:
-          format: date-time
-          type: string
-          example: 10/28/2022, 6:24:54 PM
-          description: 'Timestamp of when snapshot processing starts for sub-account '
+        completed:
+          example: '[''forms'', ''surveys'', ''funnels'', ''workflows'']'
+          description: List of completed assets
+          type: array
+          items:
+            type: string
+        pending:
+          example: '[''custom_fields'',''custom_values'',''tags'']'
+          description: List of pending assets
+          type: array
+          items:
+            type: string
     CreateSnapshotShareLinkSuccessfulResponseDTO:
       type: object
       properties:

@@ -320,15 +320,6 @@ paths:
       - Google Integration
 components:
   schemas:
-    LocationIdBodyDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: HChooFuiyPpVYzeJ4HMe
-      required:
-      - locationId
     CreateGoogleIntegrationDTO:
       type: object
       properties:
@@ -348,6 +339,15 @@ components:
       - locationId
       - adAccountId
       - mccId
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
   securitySchemes:
     bearer:
       scheme: bearer

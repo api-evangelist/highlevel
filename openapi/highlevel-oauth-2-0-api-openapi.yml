@@ -261,39 +261,6 @@ components:
       - _id
       - name
       - address
-    GetAccessCodebodyDto:
-      type: object
-      properties:
-        client_id:
-          type: string
-          description: The ID provided by GHL for your integration
-        client_secret:
-          type: string
-        grant_type:
-          type: string
-          enum:
-          - authorization_code
-          - refresh_token
-          - client_credentials
-        code:
-          type: string
-        refresh_token:
-          type: string
-        user_type:
-          type: string
-          description: The type of token to be requested
-          example: Location
-          enum:
-          - Company
-          - Location
-        redirect_uri:
-          type: string
-          description: The redirect URI for your application
-          example: https://myapp.com/oauth/callback/gohighlevel
-      required:
-      - client_id
-      - client_secret
-      - grant_type
     GetInstalledLocationsSuccessfulResponseDto:
       type: object
       properties:
@@ -309,46 +276,6 @@ components:
           type: boolean
           description: Boolean to control if user wants app to be automatically installed to future locations
           example: true
-    GetLocationAccessTokenSuccessfulResponseDto:
-      type: object
-      properties:
-        access_token:
-          type: string
-          example: ab12dc0ae1234a7898f9ff06d4f69gh
-          description: Location access token which can be used to authenticate & authorize API under following scope
-        token_type:
-          type: string
-          example: Bearer
-        expires_in:
-          type: number
-          example: 86399
-          description: Time in seconds remaining for token to expire
-        scope:
-          type: string
-          example: conversations/message.readonly conversations/message.write
-          description: Scopes the following accessToken have access to
-        locationId:
-          type: string
-          description: Location ID - Present only for Sub-Account Access Token
-          example: l1C08ntBrFjLS0elLIYU
-        planId:
-          type: string
-          description: Plan Id of the subscribed plan in paid apps.
-          example: l1C08ntBrFjLS0elLIYU
-        userId:
-          type: string
-          description: USER ID - Represent user id of person who performed installation
-          example: l1C08ntBrFjLS0elLIYU
-        appId:
-          type: string
-          description: App ID of the installed application
-          example: 6578278e879ad2646715ba9c
-        versionId:
-          type: string
-          description: Version ID of the installed app version
-          example: 6578278e879ad2646715ba9c
-      required:
-      - userId
     GetAccessCodeSuccessfulResponseDto:
       type: object
       properties:
@@ -404,6 +331,79 @@ components:
           type: boolean
           description: Boolean indicating if user approved all locations during bulk installation (only for company tokens)
           example: true
+      required:
+      - userId
+    GetAccessCodebodyDto:
+      type: object
+      properties:
+        client_id:
+          type: string
+          description: The ID provided by GHL for your integration
+        client_secret:
+          type: string
+        grant_type:
+          type: string
+          enum:
+          - authorization_code
+          - refresh_token
+          - client_credentials
+        code:
+          type: string
+        refresh_token:
+          type: string
+        user_type:
+          type: string
+          description: The type of token to be requested
+          example: Location
+          enum:
+          - Company
+          - Location
+        redirect_uri:
+          type: string
+          description: The redirect URI for your application
+          example: https://myapp.com/oauth/callback/gohighlevel
+      required:
+      - client_id
+      - client_secret
+      - grant_type
+    GetLocationAccessTokenSuccessfulResponseDto:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: ab12dc0ae1234a7898f9ff06d4f69gh
+          description: Location access token which can be used to authenticate & authorize API under following scope
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: number
+          example: 86399
+          description: Time in seconds remaining for token to expire
+        scope:
+          type: string
+          example: conversations/message.readonly conversations/message.write
+          description: Scopes the following accessToken have access to
+        locationId:
+          type: string
+          description: Location ID - Present only for Sub-Account Access Token
+          example: l1C08ntBrFjLS0elLIYU
+        planId:
+          type: string
+          description: Plan Id of the subscribed plan in paid apps.
+          example: l1C08ntBrFjLS0elLIYU
+        userId:
+          type: string
+          description: USER ID - Represent user id of person who performed installation
+          example: l1C08ntBrFjLS0elLIYU
+        appId:
+          type: string
+          description: App ID of the installed application
+          example: 6578278e879ad2646715ba9c
+        versionId:
+          type: string
+          description: Version ID of the installed app version
+          example: 6578278e879ad2646715ba9c
       required:
       - userId
   securitySchemes:

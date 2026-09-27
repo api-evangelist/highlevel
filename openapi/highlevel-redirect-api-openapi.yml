@@ -183,28 +183,18 @@ paths:
         - funnels/redirect.readonly
 components:
   schemas:
-    UpdateRedirectResponseDTO:
+    CreateRedirectParams:
       type: object
       properties:
-        data:
-          description: Data containing details of the updated redirect
-          allOf:
-          - $ref: '#/components/schemas/RedirectResponseDTO'
-      required:
-      - data
-    DeleteRedirectResponseDTO:
-      type: object
-      properties:
-        data:
-          type: object
-          example:
-            status: ok
-          description: Status of the delete operation
-      required:
-      - data
-    UpdateRedirectParams:
-      type: object
-      properties:
+        locationId:
+          type: string
+          example: 6p2RxpgtMKQwO3E6IUaT
+        domain:
+          type: string
+          example: example.com
+        path:
+          type: string
+          example: /Hello
         target:
           type: string
           example: https://www.google.com
@@ -216,33 +206,12 @@ components:
           - website
           - url
           - all
-        locationId:
-          type: string
-          example: 6p2RxpgtMKQwO3E6IUaT
       required:
+      - locationId
+      - domain
+      - path
       - target
       - action
-      - locationId
-    RedirectListResponseDTO:
-      type: object
-      properties:
-        data:
-          type: object
-          example:
-            count: 42
-            data: []
-          description: Object containing the count of redirects and an array of redirect data
-      required:
-      - data
-    CreateRedirectResponseDTO:
-      type: object
-      properties:
-        data:
-          description: Data containing details of the created redirect
-          allOf:
-          - $ref: '#/components/schemas/RedirectResponseDTO'
-      required:
-      - data
     RedirectResponseDTO:
       type: object
       properties:
@@ -287,18 +256,48 @@ components:
       - type
       - target
       - action
-    CreateRedirectParams:
+    UpdateRedirectResponseDTO:
       type: object
       properties:
-        locationId:
-          type: string
-          example: 6p2RxpgtMKQwO3E6IUaT
-        domain:
-          type: string
-          example: example.com
-        path:
-          type: string
-          example: /Hello
+        data:
+          description: Data containing details of the updated redirect
+          allOf:
+          - $ref: '#/components/schemas/RedirectResponseDTO'
+      required:
+      - data
+    RedirectListResponseDTO:
+      type: object
+      properties:
+        data:
+          type: object
+          example:
+            count: 42
+            data: []
+          description: Object containing the count of redirects and an array of redirect data
+      required:
+      - data
+    DeleteRedirectResponseDTO:
+      type: object
+      properties:
+        data:
+          type: object
+          example:
+            status: ok
+          description: Status of the delete operation
+      required:
+      - data
+    CreateRedirectResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Data containing details of the created redirect
+          allOf:
+          - $ref: '#/components/schemas/RedirectResponseDTO'
+      required:
+      - data
+    UpdateRedirectParams:
+      type: object
+      properties:
         target:
           type: string
           example: https://www.google.com
@@ -310,12 +309,13 @@ components:
           - website
           - url
           - all
+        locationId:
+          type: string
+          example: 6p2RxpgtMKQwO3E6IUaT
       required:
-      - locationId
-      - domain
-      - path
       - target
       - action
+      - locationId
   securitySchemes:
     bearer:
       scheme: bearer

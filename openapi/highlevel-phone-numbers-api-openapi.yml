@@ -450,6 +450,63 @@ paths:
       - Phone Numbers
 components:
   schemas:
+    PurchasePhoneNumberBodyDto:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          description: The phone number to purchase
+          example: '+18305551234'
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 country code of the number
+          example: US
+        numberType:
+          type: string
+          description: Type of phone number
+          example: local
+          enum:
+          - local
+          - tollFree
+          - mobile
+        addressSid:
+          type:
+          - string
+          - 'null'
+          description: Twilio address SID for compliance
+          example: AD1234567890abcdef1234567890abcde
+        bundleSid:
+          type:
+          - string
+          - 'null'
+          description: Twilio bundle SID for regulatory compliance
+          example: BU1234567890abcdef1234567890abcde
+        locality:
+          type:
+          - string
+          - 'null'
+          description: Locality where the number is being purchased
+          example: San Antonio
+        region:
+          type:
+          - string
+          - 'null'
+          description: Region where the number is being purchased
+          example: TX
+        fingerprintId:
+          type:
+          - string
+          - 'null'
+          description: Unique request ID for idempotency (fingerprint of the purchase request)
+          example: fp_abc123def456
+        skipLocationKYC:
+          type:
+          - boolean
+          - 'null'
+          description: Skip location-level KYC verification if agency-level compliance has already been verified
+          example: false
+      required:
+      - phoneNumber
     DetailedPhoneNumberDto:
       type: object
       properties:
@@ -585,6 +642,21 @@ components:
       - isDefaultNumber
       - linkedRingAllUsers
       - isGroupConversationEnabled
+    AvailableNumbersResponseDto:
+      type: object
+      properties:
+        fingerprintId:
+          type: string
+          description: Unique fingerprint ID for this search result, required when purchasing one of the returned numbers
+          example: '1773314252953'
+        numbers:
+          type: array
+          description: List of available phone numbers matching the search criteria
+          items:
+            $ref: '#/components/schemas/AvailablePhoneNumberDto'
+      required:
+      - fingerprintId
+      - numbers
     AvailablePhoneNumberDto:
       type: object
       properties:
@@ -691,78 +763,6 @@ components:
       - addressRequirements
       - beta
       - capabilities
-    AvailableNumbersResponseDto:
-      type: object
-      properties:
-        fingerprintId:
-          type: string
-          description: Unique fingerprint ID for this search result, required when purchasing one of the returned numbers
-          example: '1773314252953'
-        numbers:
-          type: array
-          description: List of available phone numbers matching the search criteria
-          items:
-            $ref: '#/components/schemas/AvailablePhoneNumberDto'
-      required:
-      - fingerprintId
-      - numbers
-    PurchasePhoneNumberBodyDto:
-      type: object
-      properties:
-        phoneNumber:
-          type: string
-          description: The phone number to purchase
-          example: '+18305551234'
-        countryCode:
-          type: string
-          description: ISO 3166-1 alpha-2 country code of the number
-          example: US
-        numberType:
-          type: string
-          description: Type of phone number
-          example: local
-          enum:
-          - local
-          - tollFree
-          - mobile
-        addressSid:
-          type:
-          - string
-          - 'null'
-          description: Twilio address SID for compliance
-          example: AD1234567890abcdef1234567890abcde
-        bundleSid:
-          type:
-          - string
-          - 'null'
-          description: Twilio bundle SID for regulatory compliance
-          example: BU1234567890abcdef1234567890abcde
-        locality:
-          type:
-          - string
-          - 'null'
-          description: Locality where the number is being purchased
-          example: San Antonio
-        region:
-          type:
-          - string
-          - 'null'
-          description: Region where the number is being purchased
-          example: TX
-        fingerprintId:
-          type:
-          - string
-          - 'null'
-          description: Unique request ID for idempotency (fingerprint of the purchase request)
-          example: fp_abc123def456
-        skipLocationKYC:
-          type:
-          - boolean
-          - 'null'
-          description: Skip location-level KYC verification if agency-level compliance has already been verified
-          example: false
-      required:
-      - phoneNumber
     TwilioAccountResponseDto:
       type: object
       properties:

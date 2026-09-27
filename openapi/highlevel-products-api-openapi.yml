@@ -486,45 +486,6 @@ paths:
         - products.readonly
 components:
   schemas:
-    ListProductsStats:
-      type: object
-      properties:
-        total:
-          type: number
-          description: Total number of products
-          example: 20
-      required:
-      - total
-    BulkUpdateResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
-    ProductLabelDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The content for the product label.
-          example: Featured
-        startDate:
-          type: string
-          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
-          example: '2024-06-26T05:43:35.000Z'
-        endDate:
-          type: string
-          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
-          example: '2024-06-30T05:43:39.000Z'
-      required:
-      - title
     BulkEditRequestDto:
       type: object
       properties:
@@ -545,20 +506,648 @@ components:
       - altId
       - altType
       - products
-    ProductVariantOptionDto:
+    BulkUpdateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        type:
+          type: string
+          enum:
+          - bulk-update-price
+          - bulk-update-availability
+          - bulk-update-product-collection
+          - bulk-delete-products
+          - bulk-update-currency
+          description: Type of bulk update operation
+          example: bulk-update-price
+        productIds:
+          example:
+          - 5f8d0d55b54764421b7156c1
+          description: Array of product IDs
+          type: array
+          items:
+            type: string
+        filters:
+          description: Filters to apply when selectAll is true
+          allOf:
+          - $ref: '#/components/schemas/BulkUpdateFilters'
+        price:
+          description: Price update configuration
+          allOf:
+          - $ref: '#/components/schemas/PriceUpdateField'
+        compareAtPrice:
+          description: Compare at price update configuration
+          allOf:
+          - $ref: '#/components/schemas/PriceUpdateField'
+        availability:
+          type: boolean
+          description: New availability status
+        collectionIds:
+          description: Array of collection IDs
+          type: array
+          items:
+            type: string
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+      required:
+      - altId
+      - altType
+      - type
+      - productIds
+    ProductVariantDto:
       type: object
       properties:
         id:
           type: string
-          description: The unique identifier for the option.
-          example: h4z7u0im2q8
+          description: A unique identifier for the variant.
+          example: 38s63qmxfr4
         name:
           type: string
-          description: The name of the option.
-          example: XL
+          description: The name of the variant.
+          example: Size
+        options:
+          description: An array of options for the variant.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantOptionDto'
       required:
       - id
       - name
+      - options
+    PriceDimensionsDto:
+      type: object
+      properties:
+        height:
+          type: number
+          description: Height of the price
+          example: 10
+        width:
+          type: number
+          description: Width of the price
+          example: 10
+        length:
+          type: number
+          description: Length of the price
+          example: 10
+        unit:
+          type: string
+          description: Unit of the price dimensions
+          example: cm
+          enum:
+          - cm
+          - in
+          - m
+      required:
+      - height
+      - width
+      - length
+      - unit
+    CreateProductDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the product.
+          example: Awesome Product
+        locationId:
+          type: string
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
+        description:
+          type: string
+          description: A brief description of the product.
+          example: Product description goes here.
+        productType:
+          type: string
+          enum:
+          - DIGITAL
+          - PHYSICAL
+          - SERVICE
+          - PHYSICAL/DIGITAL
+        image:
+          type: string
+          description: The URL for the product image.
+          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
+        statementDescriptor:
+          type: string
+          description: The statement descriptor for the product.
+          example: abcde
+        availableInStore:
+          type: boolean
+          description: Indicates whether the product is available in-store.
+          example: true
+        medias:
+          description: An array of medias for the product.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductMediaDto'
+        variants:
+          description: An array of variants for the product.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantDto'
+        collectionIds:
+          description: An array of category Ids for the product
+          example:
+          - 65d71377c326ea78e1c47df5
+          - 65d71377c326ea78e1c47d34
+          type: array
+          items:
+            type: string
+        isTaxesEnabled:
+          type: boolean
+          description: Are there any taxes attached to the product. If this is true, taxes array cannot be empty.
+          example: true
+          default: false
+        taxes:
+          description: List of ids of Taxes attached to the Product. If taxes are passed, isTaxesEnabled should be true.
+          example:
+          - 654492a4e6bef380114de15a
+          type: array
+          items:
+            type: string
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category ID for Automatic taxes calculation.
+          example: 65d71377c326ea78e1c47df5
+        isLabelEnabled:
+          type: boolean
+          description: Is the product label enabled. If this is true, label object cannot be empty.
+          example: true
+          default: false
+        label:
+          description: Details for Product Label
+          allOf:
+          - $ref: '#/components/schemas/ProductLabelDto'
+        slug:
+          type: string
+          description: The slug using which the product navigation will be handled
+          example: awesome-product
+        seo:
+          description: SEO data for the product that will be displayed in the preview
+          allOf:
+          - $ref: '#/components/schemas/ProductSEODto'
+        taxInclusive:
+          type: boolean
+          description: Whether the taxes should be included in the purchase price
+          example: true
+          default: false
+      required:
+      - name
+      - locationId
+      - productType
+    BulkUpdateFilters:
+      type: object
+      properties:
+        collectionIds:
+          description: Filter by collection IDs
+          example:
+          - 5f8d0d55b54764421b7156c1
+          - 5f8d0d55b54764421b7156c2
+          type: array
+          items:
+            type: string
+        productType:
+          type: string
+          description: Filter by product type
+          example: one-time
+        availableInStore:
+          type: boolean
+          description: Filter by availability status
+          example: true
+        search:
+          type: string
+          description: Filter by search term
+          example: blue t-shirt
+    CreateProductResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the product.
+          example: 655b33a82209e60b6adb87a5
+        description:
+          type: string
+          description: product description
+          example: This is a really awesome product
+        variants:
+          description: An array of variants for the product.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantDto'
+        locationId:
+          type: string
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
+        name:
+          type: string
+          description: The name of the product.
+          example: Awesome Product
+        productType:
+          type: string
+          description: The type of the product (e.g., PHYSICAL).
+          example: PHYSICAL
+        availableInStore:
+          type: boolean
+          description: Indicates whether the product is available in-store.
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the product.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the product.
+          example: '2024-01-23T09:57:04.846Z'
+        statementDescriptor:
+          type: string
+          description: The statement descriptor for the product.
+          example: abcde
+        image:
+          type: string
+          description: The URL for the product image.
+          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
+        collectionIds:
+          description: An array of category Ids for the product
+          example:
+          - 65d71377c326ea78e1c47df5
+          - 65d71377c326ea78e1c47d34
+          type: array
+          items:
+            type: string
+        isTaxesEnabled:
+          type: boolean
+          description: The field indicates whether taxes are enabled for the product or not.
+          example: true
+          default: false
+        taxes:
+          description: An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.
+          example:
+          - 654492a4e6bef380114de15a
+          type: array
+          items:
+            type: string
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category ID for Automatic taxes calculation.
+          example: 65d71377c326ea78e1c47df5
+        label:
+          description: The Product label details
+          allOf:
+          - $ref: '#/components/schemas/ProductLabelDto'
+        slug:
+          type: string
+          description: The slug of the product by which the product will be navigated
+          example: washing-machine
+      required:
+      - _id
+      - locationId
+      - name
+      - productType
+      - createdAt
+      - updatedAt
+    PriceUpdateField:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - INCREASE_BY_AMOUNT
+          - REDUCE_BY_AMOUNT
+          - SET_NEW_PRICE
+          - INCREASE_BY_PERCENTAGE
+          - REDUCE_BY_PERCENTAGE
+          description: Type of price update
+          example: INCREASE_BY_AMOUNT
+        value:
+          type: number
+          example: 100
+          description: Value to update (amount or percentage based on type)
+        roundToWhole:
+          type: boolean
+          description: Round to nearest whole number
+          example: true
+      required:
+      - type
+      - value
+    BulkEditProductDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Product ID
+          example: 64a1b2c3d4e5f67890123456
+        name:
+          type: string
+          description: Product name
+          example: Premium Product
+        description:
+          type: string
+          description: Product description
+          example: A high-quality premium product with excellent features and durability
+        image:
+          type: string
+          description: Product image
+          example: https://example.com/product-image.jpg
+        availableInStore:
+          type: boolean
+          description: Product availability in store
+          example: true
+        prices:
+          description: Array of price variants for the product
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkEditPriceDto'
+        collectionIds:
+          description: Collection IDs
+          example:
+          - 64a1b2c3d4e5f67890123458
+          - 64a1b2c3d4e5f67890123459
+          type: array
+          items:
+            type: string
+        isLabelEnabled:
+          type: boolean
+          description: Enable product label
+          example: true
+        isTaxesEnabled:
+          type: boolean
+          description: Enable taxes
+          example: true
+        seo:
+          description: SEO metadata for the product
+          allOf:
+          - $ref: '#/components/schemas/ProductSEODto'
+        slug:
+          type: string
+          description: Product URL slug
+          example: premium-product
+        automaticTaxCategoryId:
+          type: string
+          description: Automatic tax category ID
+          example: 64a1b2c3d4e5f67890123460
+        taxInclusive:
+          type: boolean
+          description: Tax inclusive pricing
+          example: false
+        taxes:
+          description: Product taxes
+          type: array
+          items:
+            type: object
+        medias:
+          description: Product media
+          type: array
+          items:
+            type: object
+        label:
+          type: object
+          description: Product label
+      required:
+      - _id
+    ProductLabelDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The content for the product label.
+          example: Featured
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2024-06-26T05:43:35.000Z'
+        endDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2024-06-30T05:43:39.000Z'
+      required:
+      - title
+    DeleteProductResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: returns true if the product is successfully deleted
+          example: true
+      required:
+      - status
+    UpdateProductResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the product.
+          example: 655b33a82209e60b6adb87a5
+        description:
+          type: string
+          description: product description
+          example: This is a really awesome product
+        variants:
+          description: An array of variants for the product.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantDto'
+        locationId:
+          type: string
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
+        name:
+          type: string
+          description: The name of the product.
+          example: Awesome Product
+        productType:
+          type: string
+          description: The type of the product (e.g., PHYSICAL).
+          example: PHYSICAL
+        availableInStore:
+          type: boolean
+          description: Indicates whether the product is available in-store.
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the product.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the product.
+          example: '2024-01-23T09:57:04.846Z'
+        statementDescriptor:
+          type: string
+          description: The statement descriptor for the product.
+          example: abcde
+        image:
+          type: string
+          description: The URL for the product image.
+          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
+        collectionIds:
+          description: An array of category Ids for the product
+          example:
+          - 65d71377c326ea78e1c47df5
+          - 65d71377c326ea78e1c47d34
+          type: array
+          items:
+            type: string
+        isTaxesEnabled:
+          type: boolean
+          description: The field indicates whether taxes are enabled for the product or not.
+          example: true
+          default: false
+        taxes:
+          description: An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.
+          example:
+          - 654492a4e6bef380114de15a
+          type: array
+          items:
+            type: string
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category ID for Automatic taxes calculation.
+          example: 65d71377c326ea78e1c47df5
+        label:
+          description: The Product label details
+          allOf:
+          - $ref: '#/components/schemas/ProductLabelDto'
+        slug:
+          type: string
+          description: The slug of the product by which the product will be navigated
+          example: washing-machine
+      required:
+      - _id
+      - locationId
+      - name
+      - productType
+      - createdAt
+      - updatedAt
+    BulkEditResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Products updated successfully
+          description: Success message
+        status:
+          type: boolean
+          example: true
+          description: Operation status
+        updatedCount:
+          type: number
+          example: 5
+          description: Number of products updated
+      required:
+      - message
+      - status
+      - updatedCount
+    DefaultProductResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the product.
+          example: 655b33a82209e60b6adb87a5
+        description:
+          type: string
+          description: product description
+          example: This is a really awesome product
+        variants:
+          description: An array of variants for the product.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantDto'
+        locationId:
+          type: string
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
+        name:
+          type: string
+          description: The name of the product.
+          example: Awesome Product
+        productType:
+          type: string
+          description: The type of the product (e.g., PHYSICAL).
+          example: PHYSICAL
+        availableInStore:
+          type: boolean
+          description: Indicates whether the product is available in-store.
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the product.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the product.
+          example: '2024-01-23T09:57:04.846Z'
+        statementDescriptor:
+          type: string
+          description: The statement descriptor for the product.
+          example: abcde
+        image:
+          type: string
+          description: The URL for the product image.
+          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
+        collectionIds:
+          description: An array of category Ids for the product
+          example:
+          - 65d71377c326ea78e1c47df5
+          - 65d71377c326ea78e1c47d34
+          type: array
+          items:
+            type: string
+        isTaxesEnabled:
+          type: boolean
+          description: The field indicates whether taxes are enabled for the product or not.
+          example: true
+          default: false
+        taxes:
+          description: An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.
+          example:
+          - 654492a4e6bef380114de15a
+          type: array
+          items:
+            type: string
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category ID for Automatic taxes calculation.
+          example: 65d71377c326ea78e1c47df5
+        label:
+          description: The Product label details
+          allOf:
+          - $ref: '#/components/schemas/ProductLabelDto'
+        slug:
+          type: string
+          description: The slug of the product by which the product will be navigated
+          example: washing-machine
+      required:
+      - _id
+      - locationId
+      - name
+      - productType
+      - createdAt
+      - updatedAt
+    ListProductsStats:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total number of products
+          example: 20
+      required:
+      - total
     GetProductResponseDto:
       type: object
       properties:
@@ -648,141 +1237,25 @@ components:
       - productType
       - createdAt
       - updatedAt
-    BulkEditPriceDto:
+    RecurringDto:
       type: object
       properties:
-        _id:
+        interval:
           type: string
-          description: Price ID
-          example: 64a1b2c3d4e5f67890123456
-        name:
-          type: string
-          description: Price name
-          example: Standard Plan
-        amount:
-          type: number
-          description: Price amount
-          example: 99.99
-        currency:
-          type: string
-          description: Price currency
-          example: USD
-        compareAtPrice:
-          type: number
-          description: Compare at price
-          example: 129.99
-        availableQuantity:
-          type: number
-          description: Available quantity
-          example: 100
-        trackInventory:
-          type: boolean
-          description: Track inventory
-          example: true
-        allowOutOfStockPurchases:
-          type: boolean
-          description: Allow out of stock purchases
-          example: false
-        sku:
-          type: string
-          description: SKU
-          example: SKU-001
-        trialPeriod:
-          type: number
-          description: Trial period in days
-          example: 7
-        totalCycles:
-          type: number
-          description: Total billing cycles
-          example: 12
-        setupFee:
-          type: number
-          description: Setup fee
-          example: 25
-        shippingOptions:
-          description: Shipping options
-          allOf:
-          - $ref: '#/components/schemas/ShippingOptionsDto'
-        recurring:
-          description: Recurring details
-          allOf:
-          - $ref: '#/components/schemas/RecurringDto'
-      required:
-      - _id
-    ShippingOptionsDto:
-      type: object
-      properties:
-        weight:
-          description: Weight options of the product
-          allOf:
-          - $ref: '#/components/schemas/WeightOptionsDto'
-        dimensions:
-          description: Dimensions of the product
-          allOf:
-          - $ref: '#/components/schemas/PriceDimensionsDto'
-    ProductSEODto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: SEO title
-          example: Best Product - Buy Now
-        description:
-          type: string
-          description: SEO description
-          example: This is the best product you can buy online with amazing features and great value
-    PriceUpdateField:
-      type: object
-      properties:
-        type:
-          type: string
+          description: The interval at which the recurring event occurs.
+          example: day
           enum:
-          - INCREASE_BY_AMOUNT
-          - REDUCE_BY_AMOUNT
-          - SET_NEW_PRICE
-          - INCREASE_BY_PERCENTAGE
-          - REDUCE_BY_PERCENTAGE
-          description: Type of price update
-          example: INCREASE_BY_AMOUNT
-        value:
+          - day
+          - month
+          - week
+          - year
+        intervalCount:
           type: number
-          example: 100
-          description: Value to update (amount or percentage based on type)
-        roundToWhole:
-          type: boolean
-          description: Round to nearest whole number
-          example: true
+          description: The number of intervals between each occurrence of the event.
+          example: 1
       required:
-      - type
-      - value
-    PriceDimensionsDto:
-      type: object
-      properties:
-        height:
-          type: number
-          description: Height of the price
-          example: 10
-        width:
-          type: number
-          description: Width of the price
-          example: 10
-        length:
-          type: number
-          description: Length of the price
-          example: 10
-        unit:
-          type: string
-          description: Unit of the price dimensions
-          example: cm
-          enum:
-          - cm
-          - in
-          - m
-      required:
-      - height
-      - width
-      - length
-      - unit
+      - interval
+      - intervalCount
     UpdateProductDto:
       type: object
       properties:
@@ -882,316 +1355,140 @@ components:
       - name
       - locationId
       - productType
-    UpdateProductResponseDto:
+    BulkUpdateResponseDto:
       type: object
       properties:
-        _id:
-          type: string
-          description: The unique identifier for the product.
-          example: 655b33a82209e60b6adb87a5
-        description:
-          type: string
-          description: product description
-          example: This is a really awesome product
-        variants:
-          description: An array of variants for the product.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductVariantDto'
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
-        name:
-          type: string
-          description: The name of the product.
-          example: Awesome Product
-        productType:
-          type: string
-          description: The type of the product (e.g., PHYSICAL).
-          example: PHYSICAL
-        availableInStore:
-          type: boolean
-          description: Indicates whether the product is available in-store.
-          example: true
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the product.
-          example: '2023-11-20T10:23:36.515Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the product.
-          example: '2024-01-23T09:57:04.846Z'
-        statementDescriptor:
-          type: string
-          description: The statement descriptor for the product.
-          example: abcde
-        image:
-          type: string
-          description: The URL for the product image.
-          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
-        collectionIds:
-          description: An array of category Ids for the product
-          example:
-          - 65d71377c326ea78e1c47df5
-          - 65d71377c326ea78e1c47d34
-          type: array
-          items:
-            type: string
-        isTaxesEnabled:
-          type: boolean
-          description: The field indicates whether taxes are enabled for the product or not.
-          example: true
-          default: false
-        taxes:
-          description: An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.
-          example:
-          - 654492a4e6bef380114de15a
-          type: array
-          items:
-            type: string
-        automaticTaxCategoryId:
-          type: string
-          description: Tax category ID for Automatic taxes calculation.
-          example: 65d71377c326ea78e1c47df5
-        label:
-          description: The Product label details
-          allOf:
-          - $ref: '#/components/schemas/ProductLabelDto'
-        slug:
-          type: string
-          description: The slug of the product by which the product will be navigated
-          example: washing-machine
-      required:
-      - _id
-      - locationId
-      - name
-      - productType
-      - createdAt
-      - updatedAt
-    CreateProductDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the product.
-          example: Awesome Product
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
-        description:
-          type: string
-          description: A brief description of the product.
-          example: Product description goes here.
-        productType:
-          type: string
-          enum:
-          - DIGITAL
-          - PHYSICAL
-          - SERVICE
-          - PHYSICAL/DIGITAL
-        image:
-          type: string
-          description: The URL for the product image.
-          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
-        statementDescriptor:
-          type: string
-          description: The statement descriptor for the product.
-          example: abcde
-        availableInStore:
-          type: boolean
-          description: Indicates whether the product is available in-store.
-          example: true
-        medias:
-          description: An array of medias for the product.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductMediaDto'
-        variants:
-          description: An array of variants for the product.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductVariantDto'
-        collectionIds:
-          description: An array of category Ids for the product
-          example:
-          - 65d71377c326ea78e1c47df5
-          - 65d71377c326ea78e1c47d34
-          type: array
-          items:
-            type: string
-        isTaxesEnabled:
-          type: boolean
-          description: Are there any taxes attached to the product. If this is true, taxes array cannot be empty.
-          example: true
-          default: false
-        taxes:
-          description: List of ids of Taxes attached to the Product. If taxes are passed, isTaxesEnabled should be true.
-          example:
-          - 654492a4e6bef380114de15a
-          type: array
-          items:
-            type: string
-        automaticTaxCategoryId:
-          type: string
-          description: Tax category ID for Automatic taxes calculation.
-          example: 65d71377c326ea78e1c47df5
-        isLabelEnabled:
-          type: boolean
-          description: Is the product label enabled. If this is true, label object cannot be empty.
-          example: true
-          default: false
-        label:
-          description: Details for Product Label
-          allOf:
-          - $ref: '#/components/schemas/ProductLabelDto'
-        slug:
-          type: string
-          description: The slug using which the product navigation will be handled
-          example: awesome-product
-        seo:
-          description: SEO data for the product that will be displayed in the preview
-          allOf:
-          - $ref: '#/components/schemas/ProductSEODto'
-        taxInclusive:
-          type: boolean
-          description: Whether the taxes should be included in the purchase price
-          example: true
-          default: false
-      required:
-      - name
-      - locationId
-      - productType
-    BulkEditResponseDto:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Products updated successfully
-          description: Success message
         status:
           type: boolean
+          description: Status of api action
           example: true
-          description: Operation status
-        updatedCount:
-          type: number
-          example: 5
-          description: Number of products updated
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
       required:
-      - message
       - status
-      - updatedCount
-    RecurringDto:
+    ProductSEODto:
       type: object
       properties:
-        interval:
+        title:
           type: string
-          description: The interval at which the recurring event occurs.
-          example: day
-          enum:
-          - day
-          - month
-          - week
-          - year
-        intervalCount:
-          type: number
-          description: The number of intervals between each occurrence of the event.
-          example: 1
-      required:
-      - interval
-      - intervalCount
-    CreateProductResponseDto:
+          description: SEO title
+          example: Best Product - Buy Now
+        description:
+          type: string
+          description: SEO description
+          example: This is the best product you can buy online with amazing features and great value
+    BulkEditPriceDto:
       type: object
       properties:
         _id:
           type: string
-          description: The unique identifier for the product.
-          example: 655b33a82209e60b6adb87a5
-        description:
-          type: string
-          description: product description
-          example: This is a really awesome product
-        variants:
-          description: An array of variants for the product.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductVariantDto'
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
+          description: Price ID
+          example: 64a1b2c3d4e5f67890123456
         name:
           type: string
-          description: The name of the product.
-          example: Awesome Product
-        productType:
+          description: Price name
+          example: Standard Plan
+        amount:
+          type: number
+          description: Price amount
+          example: 99.99
+        currency:
           type: string
-          description: The type of the product (e.g., PHYSICAL).
-          example: PHYSICAL
-        availableInStore:
+          description: Price currency
+          example: USD
+        compareAtPrice:
+          type: number
+          description: Compare at price
+          example: 129.99
+        availableQuantity:
+          type: number
+          description: Available quantity
+          example: 100
+        trackInventory:
           type: boolean
-          description: Indicates whether the product is available in-store.
+          description: Track inventory
           example: true
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the product.
-          example: '2023-11-20T10:23:36.515Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the product.
-          example: '2024-01-23T09:57:04.846Z'
-        statementDescriptor:
-          type: string
-          description: The statement descriptor for the product.
-          example: abcde
-        image:
-          type: string
-          description: The URL for the product image.
-          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
-        collectionIds:
-          description: An array of category Ids for the product
-          example:
-          - 65d71377c326ea78e1c47df5
-          - 65d71377c326ea78e1c47d34
-          type: array
-          items:
-            type: string
-        isTaxesEnabled:
+        allowOutOfStockPurchases:
           type: boolean
-          description: The field indicates whether taxes are enabled for the product or not.
-          example: true
-          default: false
-        taxes:
-          description: An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.
-          example:
-          - 654492a4e6bef380114de15a
-          type: array
-          items:
-            type: string
-        automaticTaxCategoryId:
+          description: Allow out of stock purchases
+          example: false
+        sku:
           type: string
-          description: Tax category ID for Automatic taxes calculation.
-          example: 65d71377c326ea78e1c47df5
-        label:
-          description: The Product label details
+          description: SKU
+          example: SKU-001
+        trialPeriod:
+          type: number
+          description: Trial period in days
+          example: 7
+        totalCycles:
+          type: number
+          description: Total billing cycles
+          example: 12
+        setupFee:
+          type: number
+          description: Setup fee
+          example: 25
+        shippingOptions:
+          description: Shipping options
           allOf:
-          - $ref: '#/components/schemas/ProductLabelDto'
-        slug:
-          type: string
-          description: The slug of the product by which the product will be navigated
-          example: washing-machine
+          - $ref: '#/components/schemas/ShippingOptionsDto'
+        recurring:
+          description: Recurring details
+          allOf:
+          - $ref: '#/components/schemas/RecurringDto'
       required:
       - _id
-      - locationId
+    ProductVariantOptionDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the option.
+          example: h4z7u0im2q8
+        name:
+          type: string
+          description: The name of the option.
+          example: XL
+      required:
+      - id
       - name
-      - productType
-      - createdAt
-      - updatedAt
+    WeightOptionsDto:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Actual weight of the product
+          example: 10
+        unit:
+          type: string
+          description: Weight unit of the product
+          example: kg
+          enum:
+          - kg
+          - lb
+          - g
+          - oz
+      required:
+      - value
+      - unit
+    ListProductsResponseDto:
+      type: object
+      properties:
+        products:
+          description: An array of products
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultProductResponseDto'
+        total:
+          description: list products status
+          type: array
+          items:
+            $ref: '#/components/schemas/ListProductsStats'
+      required:
+      - products
+      - total
     ProductMediaDto:
       type: object
       properties:
@@ -1228,314 +1525,17 @@ components:
       - id
       - url
       - type
-    ProductVariantDto:
+    ShippingOptionsDto:
       type: object
       properties:
-        id:
-          type: string
-          description: A unique identifier for the variant.
-          example: 38s63qmxfr4
-        name:
-          type: string
-          description: The name of the variant.
-          example: Size
-        options:
-          description: An array of options for the variant.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductVariantOptionDto'
-      required:
-      - id
-      - name
-      - options
-    BulkUpdateFilters:
-      type: object
-      properties:
-        collectionIds:
-          description: Filter by collection IDs
-          example:
-          - 5f8d0d55b54764421b7156c1
-          - 5f8d0d55b54764421b7156c2
-          type: array
-          items:
-            type: string
-        productType:
-          type: string
-          description: Filter by product type
-          example: one-time
-        availableInStore:
-          type: boolean
-          description: Filter by availability status
-          example: true
-        search:
-          type: string
-          description: Filter by search term
-          example: blue t-shirt
-    ListProductsResponseDto:
-      type: object
-      properties:
-        products:
-          description: An array of products
-          type: array
-          items:
-            $ref: '#/components/schemas/DefaultProductResponseDto'
-        total:
-          description: list products status
-          type: array
-          items:
-            $ref: '#/components/schemas/ListProductsStats'
-      required:
-      - products
-      - total
-    BulkEditProductDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Product ID
-          example: 64a1b2c3d4e5f67890123456
-        name:
-          type: string
-          description: Product name
-          example: Premium Product
-        description:
-          type: string
-          description: Product description
-          example: A high-quality premium product with excellent features and durability
-        image:
-          type: string
-          description: Product image
-          example: https://example.com/product-image.jpg
-        availableInStore:
-          type: boolean
-          description: Product availability in store
-          example: true
-        prices:
-          description: Array of price variants for the product
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkEditPriceDto'
-        collectionIds:
-          description: Collection IDs
-          example:
-          - 64a1b2c3d4e5f67890123458
-          - 64a1b2c3d4e5f67890123459
-          type: array
-          items:
-            type: string
-        isLabelEnabled:
-          type: boolean
-          description: Enable product label
-          example: true
-        isTaxesEnabled:
-          type: boolean
-          description: Enable taxes
-          example: true
-        seo:
-          description: SEO metadata for the product
+        weight:
+          description: Weight options of the product
           allOf:
-          - $ref: '#/components/schemas/ProductSEODto'
-        slug:
-          type: string
-          description: Product URL slug
-          example: premium-product
-        automaticTaxCategoryId:
-          type: string
-          description: Automatic tax category ID
-          example: 64a1b2c3d4e5f67890123460
-        taxInclusive:
-          type: boolean
-          description: Tax inclusive pricing
-          example: false
-        taxes:
-          description: Product taxes
-          type: array
-          items:
-            type: object
-        medias:
-          description: Product media
-          type: array
-          items:
-            type: object
-        label:
-          type: object
-          description: Product label
-      required:
-      - _id
-    BulkUpdateDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        type:
-          type: string
-          enum:
-          - bulk-update-price
-          - bulk-update-availability
-          - bulk-update-product-collection
-          - bulk-delete-products
-          - bulk-update-currency
-          description: Type of bulk update operation
-          example: bulk-update-price
-        productIds:
-          example:
-          - 5f8d0d55b54764421b7156c1
-          description: Array of product IDs
-          type: array
-          items:
-            type: string
-        filters:
-          description: Filters to apply when selectAll is true
+          - $ref: '#/components/schemas/WeightOptionsDto'
+        dimensions:
+          description: Dimensions of the product
           allOf:
-          - $ref: '#/components/schemas/BulkUpdateFilters'
-        price:
-          description: Price update configuration
-          allOf:
-          - $ref: '#/components/schemas/PriceUpdateField'
-        compareAtPrice:
-          description: Compare at price update configuration
-          allOf:
-          - $ref: '#/components/schemas/PriceUpdateField'
-        availability:
-          type: boolean
-          description: New availability status
-        collectionIds:
-          description: Array of collection IDs
-          type: array
-          items:
-            type: string
-        currency:
-          type: string
-          description: Currency code
-          example: USD
-      required:
-      - altId
-      - altType
-      - type
-      - productIds
-    DefaultProductResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier for the product.
-          example: 655b33a82209e60b6adb87a5
-        description:
-          type: string
-          description: product description
-          example: This is a really awesome product
-        variants:
-          description: An array of variants for the product.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductVariantDto'
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
-        name:
-          type: string
-          description: The name of the product.
-          example: Awesome Product
-        productType:
-          type: string
-          description: The type of the product (e.g., PHYSICAL).
-          example: PHYSICAL
-        availableInStore:
-          type: boolean
-          description: Indicates whether the product is available in-store.
-          example: true
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the product.
-          example: '2023-11-20T10:23:36.515Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the product.
-          example: '2024-01-23T09:57:04.846Z'
-        statementDescriptor:
-          type: string
-          description: The statement descriptor for the product.
-          example: abcde
-        image:
-          type: string
-          description: The URL for the product image.
-          example: https://storage.googleapis.com/ghl-test/3SwdhCsvxI8Au3KsPJt6/media/65af8d5df88bdb4b1022ee90.png
-        collectionIds:
-          description: An array of category Ids for the product
-          example:
-          - 65d71377c326ea78e1c47df5
-          - 65d71377c326ea78e1c47d34
-          type: array
-          items:
-            type: string
-        isTaxesEnabled:
-          type: boolean
-          description: The field indicates whether taxes are enabled for the product or not.
-          example: true
-          default: false
-        taxes:
-          description: An array of ids of Taxes attached to the Product. If the expand query includes tax, the taxes will be of type `ProductTaxDto`. Please refer to the `ProductTaxDto` for additional details.
-          example:
-          - 654492a4e6bef380114de15a
-          type: array
-          items:
-            type: string
-        automaticTaxCategoryId:
-          type: string
-          description: Tax category ID for Automatic taxes calculation.
-          example: 65d71377c326ea78e1c47df5
-        label:
-          description: The Product label details
-          allOf:
-          - $ref: '#/components/schemas/ProductLabelDto'
-        slug:
-          type: string
-          description: The slug of the product by which the product will be navigated
-          example: washing-machine
-      required:
-      - _id
-      - locationId
-      - name
-      - productType
-      - createdAt
-      - updatedAt
-    WeightOptionsDto:
-      type: object
-      properties:
-        value:
-          type: number
-          description: Actual weight of the product
-          example: 10
-        unit:
-          type: string
-          description: Weight unit of the product
-          example: kg
-          enum:
-          - kg
-          - lb
-          - g
-          - oz
-      required:
-      - value
-      - unit
-    DeleteProductResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: returns true if the product is successfully deleted
-          example: true
-      required:
-      - status
+          - $ref: '#/components/schemas/PriceDimensionsDto'
   securitySchemes:
     bearer:
       scheme: bearer

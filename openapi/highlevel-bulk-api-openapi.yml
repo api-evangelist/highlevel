@@ -88,21 +88,6 @@ paths:
       - Bulk
 components:
   schemas:
-    ContactsBulkUpateResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        ids:
-          example:
-          - pOC0uJ97VYOKH2m3fkMD
-          type: array
-          items:
-            type: string
-      required:
-      - success
-      - ids
     UpdateTagsDTO:
       type: object
       properties:
@@ -136,6 +121,44 @@ components:
       - contacts
       - tags
       - locationId
+    ContactsBulkUpateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        ids:
+          example:
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+      required:
+      - success
+      - ids
+    ContactsBusinessUpdate:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: PX8m5VwxEbcpFlzYEPVG
+        ids:
+          example:
+          - IDqvFHGColiyK6jiatuz
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+            maxLength: 50
+        businessId:
+          type:
+          - string
+          - 'null'
+          example: 63b7ec34ea409a9a8bd2a4ff
+      required:
+      - locationId
+      - ids
+      - businessId
     UpdateTagsResponseDTO:
       type: object
       properties:
@@ -174,29 +197,6 @@ components:
       - succeded
       - errorCount
       - responses
-    ContactsBusinessUpdate:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: PX8m5VwxEbcpFlzYEPVG
-        ids:
-          example:
-          - IDqvFHGColiyK6jiatuz
-          - pOC0uJ97VYOKH2m3fkMD
-          type: array
-          items:
-            type: string
-            maxLength: 50
-        businessId:
-          type:
-          - string
-          - 'null'
-          example: 63b7ec34ea409a9a8bd2a4ff
-      required:
-      - locationId
-      - ids
-      - businessId
   securitySchemes:
     bearer:
       scheme: bearer

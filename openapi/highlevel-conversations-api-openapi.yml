@@ -228,6 +228,49 @@ components:
       required:
       - locationId
       - contactId
+    ConversationCreateResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the conversation
+          example: tDtDnQdgm2LXpyiqYvZ6
+        dateUpdated:
+          type: string
+          description: Date when the conversation was last updated
+          example: '2023-10-01T12:00:00Z'
+        dateAdded:
+          type: string
+          description: Date when the conversation was created
+          example: '2023-10-01T12:00:00Z'
+        deleted:
+          type: boolean
+          description: Flag indicating if this conversation has been deleted
+          example: false
+        contactId:
+          type: string
+          description: Unique identifier of the contact associated with this conversation
+          example: ve9EPM428kjkvShlRW1KT
+        locationId:
+          type: string
+          description: Unique identifier of the business location where this conversation takes place
+          example: ve9EPM428kjkvShlRW1KT
+        lastMessageDate:
+          type: string
+          description: Date of the last message in the conversation
+          example: '2023-10-01T12:00:00Z'
+        assignedTo:
+          type: string
+          description: Unique identifier of the team member assigned to this conversation
+          example: ve9EPM428kjkvShlRW1KT
+      required:
+      - id
+      - dateUpdated
+      - dateAdded
+      - deleted
+      - contactId
+      - locationId
+      - lastMessageDate
     GetConversationByIdResponse:
       type: object
       properties:
@@ -274,72 +317,6 @@ components:
       - type
       - unreadCount
       - id
-    DeleteConversationSuccessfulResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Boolean value as the API response.
-          example: true
-      required:
-      - success
-    ConversationCreateResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the conversation
-          example: tDtDnQdgm2LXpyiqYvZ6
-        dateUpdated:
-          type: string
-          description: Date when the conversation was last updated
-          example: '2023-10-01T12:00:00Z'
-        dateAdded:
-          type: string
-          description: Date when the conversation was created
-          example: '2023-10-01T12:00:00Z'
-        deleted:
-          type: boolean
-          description: Flag indicating if this conversation has been deleted
-          example: false
-        contactId:
-          type: string
-          description: Unique identifier of the contact associated with this conversation
-          example: ve9EPM428kjkvShlRW1KT
-        locationId:
-          type: string
-          description: Unique identifier of the business location where this conversation takes place
-          example: ve9EPM428kjkvShlRW1KT
-        lastMessageDate:
-          type: string
-          description: Date of the last message in the conversation
-          example: '2023-10-01T12:00:00Z'
-        assignedTo:
-          type: string
-          description: Unique identifier of the team member assigned to this conversation
-          example: ve9EPM428kjkvShlRW1KT
-      required:
-      - id
-      - dateUpdated
-      - dateAdded
-      - deleted
-      - contactId
-      - locationId
-      - lastMessageDate
-    CreateConversationSuccessResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Indicates whether the API request was successful.
-          example: true
-        conversation:
-          description: Conversation data of the provided conversation ID.
-          allOf:
-          - $ref: '#/components/schemas/ConversationCreateResponseDto'
-      required:
-      - success
-      - conversation
     GetConversationSuccessfulResponse:
       type: object
       properties:
@@ -354,6 +331,29 @@ components:
       required:
       - success
       - conversation
+    CreateConversationSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the API request was successful.
+          example: true
+        conversation:
+          description: Conversation data of the provided conversation ID.
+          allOf:
+          - $ref: '#/components/schemas/ConversationCreateResponseDto'
+      required:
+      - success
+      - conversation
+    DeleteConversationSuccessfulResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Boolean value as the API response.
+          example: true
+      required:
+      - success
     ConversationDto:
       type: object
       properties:

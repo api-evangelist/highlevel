@@ -138,46 +138,6 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    FunnelPageCountResponseDTO:
-      type: object
-      properties:
-        count:
-          type: number
-          example: 20
-      required:
-      - count
-    FunnelPageResponseDTO:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: 0yJbP3q7t7pLmeTWRAE2
-        locationId:
-          type: string
-          example: ojQjykmwNIU88vfsfzvH
-        funnelId:
-          type: string
-          example: iucJ6TdFZiddhq9f6znh
-        name:
-          type: string
-          example: Home
-        stepId:
-          type: string
-          example: 343bf634-3aa6-4ade-b963-2d3cd0bf2ede
-        deleted:
-          type: string
-          example: false
-        updatedAt:
-          type: string
-          example: '2024-04-18T12:25:23.029Z'
-      required:
-      - locationId
-      - name
-      - funnelId
-      - stepId
-      - deleted
-      - updatedAt
-      - _id
     FunnelListResponseDTO:
       type: object
       properties:
@@ -223,6 +183,46 @@ components:
       - funnels
       - count
       - traceId
+    FunnelPageResponseDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 0yJbP3q7t7pLmeTWRAE2
+        locationId:
+          type: string
+          example: ojQjykmwNIU88vfsfzvH
+        funnelId:
+          type: string
+          example: iucJ6TdFZiddhq9f6znh
+        name:
+          type: string
+          example: Home
+        stepId:
+          type: string
+          example: 343bf634-3aa6-4ade-b963-2d3cd0bf2ede
+        deleted:
+          type: string
+          example: false
+        updatedAt:
+          type: string
+          example: '2024-04-18T12:25:23.029Z'
+      required:
+      - locationId
+      - name
+      - funnelId
+      - stepId
+      - deleted
+      - updatedAt
+      - _id
+    FunnelPageCountResponseDTO:
+      type: object
+      properties:
+        count:
+          type: number
+          example: 20
+      required:
+      - count
   securitySchemes:
     bearer:
       scheme: bearer

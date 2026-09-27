@@ -269,6 +269,39 @@ components:
         succeded:
           type: boolean
           example: true
+    LinksDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          example: first tag
+        redirectTo:
+          type: string
+          example: https://www.google.com/
+      required:
+      - locationId
+      - name
+      - redirectTo
+    LinkUpdateDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: first tag
+        redirectTo:
+          type: string
+          example: https://www.google.com/
+      required:
+      - name
+      - redirectTo
+    GetLinkSuccessfulResponseDto:
+      type: object
+      properties:
+        link:
+          $ref: '#/components/schemas/LinkSchema'
     LinkSchema:
       type: object
       properties:
@@ -294,39 +327,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LinkSchema'
-    GetLinkSuccessfulResponseDto:
-      type: object
-      properties:
-        link:
-          $ref: '#/components/schemas/LinkSchema'
-    LinkUpdateDto:
-      type: object
-      properties:
-        name:
-          type: string
-          example: first tag
-        redirectTo:
-          type: string
-          example: https://www.google.com/
-      required:
-      - name
-      - redirectTo
-    LinksDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        name:
-          type: string
-          example: first tag
-        redirectTo:
-          type: string
-          example: https://www.google.com/
-      required:
-      - locationId
-      - name
-      - redirectTo
   securitySchemes:
     bearer:
       scheme: bearer

@@ -313,6 +313,42 @@ components:
         pinned:
           type: boolean
           example: false
+    GetCreateUpdateNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        note:
+          $ref: '#/components/schemas/GetNoteSchema'
+    GetNotesListSuccessfulResponseDto:
+      type: object
+      properties:
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetNoteSchema'
+    UpdateNoteDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: GCs5KuzPqTls7vWclkEV
+        body:
+          type: string
+          example: lorem ipsum
+        title:
+          type: string
+          example: Follow-up summary
+        color:
+          type: string
+          example: '#FFAA00'
+        pinned:
+          type: boolean
+          example: false
+    DeleteNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
     NotesDTO:
       type: object
       properties:
@@ -333,42 +369,6 @@ components:
           example: false
       required:
       - body
-    UpdateNoteDTO:
-      type: object
-      properties:
-        userId:
-          type: string
-          example: GCs5KuzPqTls7vWclkEV
-        body:
-          type: string
-          example: lorem ipsum
-        title:
-          type: string
-          example: Follow-up summary
-        color:
-          type: string
-          example: '#FFAA00'
-        pinned:
-          type: boolean
-          example: false
-    GetNotesListSuccessfulResponseDto:
-      type: object
-      properties:
-        notes:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetNoteSchema'
-    GetCreateUpdateNoteSuccessfulResponseDto:
-      type: object
-      properties:
-        note:
-          $ref: '#/components/schemas/GetNoteSchema'
-    DeleteNoteSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
   securitySchemes:
     bearer:
       scheme: bearer

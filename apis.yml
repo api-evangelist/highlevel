@@ -24,6 +24,13 @@ modified: '2026-09-22'
 
 tags:
 - Company
+- Software-as-a-Service
+- Marketing
+- CRM
+- Automation
+- Marketing Automation
+tags_raw:
+- Company
 - SaaS
 - Marketing
 - CRM
@@ -32,6 +39,7 @@ tags:
 - Marketing
 - CRM
 - Automation
+- Marketing Automation
 
 maintainers:
 - FN: Kin Lane
@@ -1402,6 +1410,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Blog
+  tags_raw:
   - Blogs
   properties:
   - type: OpenAPI
@@ -1792,6 +1802,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Business
+  tags_raw:
   - Businesses
   properties:
   - type: OpenAPI
@@ -2442,6 +2454,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Calendar
+  tags_raw:
   - Calendars
   properties:
   - type: OpenAPI
@@ -2832,6 +2846,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
@@ -4525,6 +4541,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Dashboards
+  tags_raw:
   - Dashboard
   properties:
   - type: OpenAPI
@@ -5695,6 +5713,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - FAQs
+  tags_raw:
   - Faqs
   properties:
   - type: OpenAPI
@@ -6735,6 +6755,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -6865,6 +6887,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Invoices
+  tags_raw:
   - Invoice
   properties:
   - type: OpenAPI
@@ -7775,6 +7799,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -8165,6 +8191,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Authentication
+  tags_raw:
   - OAuth 2.0
   properties:
   - type: OpenAPI
@@ -9079,6 +9107,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Object schema
+  tags_raw:
   - Object Schema
   properties:
   - type: OpenAPI
@@ -9599,6 +9629,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -10118,7 +10150,8 @@ apis:
   description: Documentation for Social Media Posting API
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
-  tags:
+  tags: []
+  tags_raw:
   - Post
   properties:
   - type: OpenAPI
@@ -10509,6 +10542,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -11423,6 +11458,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Software-as-a-Service
+  tags_raw:
   - Saas
   properties:
   - type: OpenAPI
@@ -12987,6 +13024,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -13507,6 +13546,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
@@ -13767,6 +13808,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Templates
+  tags_raw:
   - Template
   properties:
   - type: OpenAPI
@@ -14287,6 +14330,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -14677,6 +14722,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -15067,6 +15114,8 @@ apis:
   humanURL: https://developers.gohighlevel.com
   baseURL: https://api.gohighlevel.com
   tags:
+  - Workflows
+  tags_raw:
   - Workflow
   properties:
   - type: OpenAPI

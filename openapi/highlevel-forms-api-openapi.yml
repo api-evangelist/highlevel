@@ -293,6 +293,88 @@ components:
           type: number
           example: '20'
           description: Total number of forms
+    othersSchema:
+      type: object
+      properties:
+        __submissions_other_field__:
+          type: string
+          example: john@deo.com
+        __custom_field_id__:
+          type: string
+          example: '20'
+        eventData:
+          $ref: '#/components/schemas/EventDataSchema'
+        fieldsOriSequance:
+          example:
+          - full_name
+          - first_name
+          - last_name
+          - phone
+          - email
+          type: array
+          items:
+            type: string
+    FormsSubmissionsSuccessfulResponseDto:
+      type: object
+      properties:
+        submissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormsSubmissionsSubmissionsSchema'
+        meta:
+          $ref: '#/components/schemas/metaSchema'
+    FormsParams:
+      type: object
+      properties:
+        id:
+          type: string
+          example: YSWdvS4Is98wtIDGnpmI
+        name:
+          type: string
+          example: Form 1
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+    metaSchema:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 1
+        currentPage:
+          type: number
+          example: 1
+        nextPage:
+          type:
+          - number
+          - 'null'
+          example: null
+        prevPage:
+          type:
+          - number
+          - 'null'
+          example: null
+    ContactSessionIds:
+      type: object
+      properties:
+        ids:
+          example:
+          - session1
+          - session2
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    PageDetailsSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://example.com
+        title:
+          type: string
+          example: Example Page
     EventDataSchema:
       type: object
       properties:
@@ -349,18 +431,6 @@ components:
         contactSessionIds:
           allOf:
           - $ref: '#/components/schemas/ContactSessionIds'
-    ContactSessionIds:
-      type: object
-      properties:
-        ids:
-          example:
-          - session1
-          - session2
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
     FormsSubmissionsSubmissionsSchema:
       type: object
       properties:
@@ -384,76 +454,6 @@ components:
           example: test@test.com
         others:
           $ref: '#/components/schemas/othersSchema'
-    PageDetailsSchema:
-      type: object
-      properties:
-        url:
-          type: string
-          example: https://example.com
-        title:
-          type: string
-          example: Example Page
-    FormsParams:
-      type: object
-      properties:
-        id:
-          type: string
-          example: YSWdvS4Is98wtIDGnpmI
-        name:
-          type: string
-          example: Form 1
-        locationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-    othersSchema:
-      type: object
-      properties:
-        __submissions_other_field__:
-          type: string
-          example: john@deo.com
-        __custom_field_id__:
-          type: string
-          example: '20'
-        eventData:
-          $ref: '#/components/schemas/EventDataSchema'
-        fieldsOriSequance:
-          example:
-          - full_name
-          - first_name
-          - last_name
-          - phone
-          - email
-          type: array
-          items:
-            type: string
-    FormsSubmissionsSuccessfulResponseDto:
-      type: object
-      properties:
-        submissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormsSubmissionsSubmissionsSchema'
-        meta:
-          $ref: '#/components/schemas/metaSchema'
-    metaSchema:
-      type: object
-      properties:
-        total:
-          type: number
-          example: 1
-        currentPage:
-          type: number
-          example: 1
-        nextPage:
-          type:
-          - number
-          - 'null'
-          example: null
-        prevPage:
-          type:
-          - number
-          - 'null'
-          example: null
   securitySchemes:
     bearer:
       scheme: bearer

@@ -278,19 +278,14 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    CreateKnowledgeBaseDTO:
+    UpdateKnowledgeBaseResponseDTO:
       type: object
       properties:
-        name:
-          type: string
-        description:
-          type: string
-        locationId:
-          type: string
+        success:
+          type: boolean
       required:
-      - name
-      - locationId
-    GetAllKnowledgeBasesPaginatedResponseDTO:
+      - success
+    CreateKnowledgeBaseResponseDTO:
       type: object
       properties:
         success:
@@ -298,62 +293,36 @@ components:
           description: Success status of the operation
           example: true
         data:
-          description: Paginated knowledge bases data
+          description: Created knowledge base details
           allOf:
-          - $ref: '#/components/schemas/GetAllKnowledgeBasesPaginatedDataDTO'
+          - $ref: '#/components/schemas/KnowledgeBaseDataDTO'
       required:
       - success
       - data
-    BadRequestDTO:
+    GetAllKnowledgeBasesPaginatedDataDTO:
       type: object
       properties:
-        statusCode:
+        knowledgeBases:
+          description: Array of knowledge bases
+          type: array
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseListItemDTO'
+        activeCount:
           type: number
-          example: 400
-        message:
-          type: string
-          example: Bad Request
-    KnowledgeBaseMetadataDTO:
-      type: object
-      properties:
-        faqs:
-          type: number
-          description: Number of FAQs in the knowledge base
-          example: 2
-        urls:
-          type: number
-          description: Number of URLs in the knowledge base
-          example: 64
-        richText:
-          type: number
-          description: Number of rich text documents in the knowledge base
-          example: 0
-        files:
-          type: number
-          description: Number of files in the knowledge base
-          example: 0
-        webSearches:
-          type: number
-          description: Number of web searche configs in the knowledge base
-          example: 0
-        tables:
-          type: number
-          description: Number of tables in the knowledge base
-          example: 0
-      required:
-      - faqs
-      - urls
-      - richText
-      - files
-      - webSearches
-      - tables
-    DeleteKnowledgeBaseResponseDTO:
-      type: object
-      properties:
-        success:
+          description: Total count of all active knowledge bases
+          example: 16
+        hasMore:
           type: boolean
+          description: Whether there are more knowledge bases available
+          example: true
+        lastKnowledgeBaseId:
+          type: string
+          description: ID of the last knowledge base in this page (use for next page request)
+          example: ZwTB8S0yo0FIBY6OPZTD
       required:
-      - success
+      - knowledgeBases
+      - activeCount
+      - hasMore
     GetKnowledgeBaseByIdDataDTO:
       type: object
       properties:
@@ -423,27 +392,46 @@ components:
         description:
           type: string
           description: field to update the description of the knowledge base
-    CreateKnowledgeBaseResponseDTO:
+    CreateKnowledgeBaseDTO:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Success status of the operation
-          example: true
-        data:
-          description: Created knowledge base details
-          allOf:
-          - $ref: '#/components/schemas/KnowledgeBaseDataDTO'
+        name:
+          type: string
+        description:
+          type: string
+        locationId:
+          type: string
       required:
-      - success
-      - data
-    UpdateKnowledgeBaseResponseDTO:
+      - name
+      - locationId
+    BadRequestDTO:
       type: object
       properties:
-        success:
-          type: boolean
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    KnowledgeBaseListItemDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Knowledge base ID
+          example: ZwTB8S0yo0FIBY6OPZTD
+        name:
+          type: string
+          description: Knowledge base name
+          example: bot training kb
+        createdAt:
+          type: string
+          description: Date when knowledge base was created
+          example: '2025-08-02T20:26:57.057Z'
       required:
-      - success
+      - id
+      - name
+      - createdAt
     KnowledgeBaseDataDTO:
       type: object
       properties:
@@ -488,30 +476,6 @@ components:
       - deleted
       - createdAt
       - updatedAt
-    GetAllKnowledgeBasesPaginatedDataDTO:
-      type: object
-      properties:
-        knowledgeBases:
-          description: Array of knowledge bases
-          type: array
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseListItemDTO'
-        activeCount:
-          type: number
-          description: Total count of all active knowledge bases
-          example: 16
-        hasMore:
-          type: boolean
-          description: Whether there are more knowledge bases available
-          example: true
-        lastKnowledgeBaseId:
-          type: string
-          description: ID of the last knowledge base in this page (use for next page request)
-          example: ZwTB8S0yo0FIBY6OPZTD
-      required:
-      - knowledgeBases
-      - activeCount
-      - hasMore
     GetKnowledgeBaseByIdResponseDTO:
       type: object
       properties:
@@ -526,25 +490,61 @@ components:
       required:
       - success
       - data
-    KnowledgeBaseListItemDTO:
+    KnowledgeBaseMetadataDTO:
       type: object
       properties:
-        id:
-          type: string
-          description: Knowledge base ID
-          example: ZwTB8S0yo0FIBY6OPZTD
-        name:
-          type: string
-          description: Knowledge base name
-          example: bot training kb
-        createdAt:
-          type: string
-          description: Date when knowledge base was created
-          example: '2025-08-02T20:26:57.057Z'
+        faqs:
+          type: number
+          description: Number of FAQs in the knowledge base
+          example: 2
+        urls:
+          type: number
+          description: Number of URLs in the knowledge base
+          example: 64
+        richText:
+          type: number
+          description: Number of rich text documents in the knowledge base
+          example: 0
+        files:
+          type: number
+          description: Number of files in the knowledge base
+          example: 0
+        webSearches:
+          type: number
+          description: Number of web searche configs in the knowledge base
+          example: 0
+        tables:
+          type: number
+          description: Number of tables in the knowledge base
+          example: 0
       required:
-      - id
-      - name
-      - createdAt
+      - faqs
+      - urls
+      - richText
+      - files
+      - webSearches
+      - tables
+    DeleteKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+      - success
+    GetAllKnowledgeBasesPaginatedResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        data:
+          description: Paginated knowledge bases data
+          allOf:
+          - $ref: '#/components/schemas/GetAllKnowledgeBasesPaginatedDataDTO'
+      required:
+      - success
+      - data
   securitySchemes:
     bearer:
       scheme: bearer

@@ -161,68 +161,6 @@ paths:
       - Documents
 components:
   schemas:
-    SendDocumentDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: hTlkh7t8gujsahgg93
-        documentId:
-          type: string
-          description: Document Id
-          example: hTlkh7t8gujsahgg93
-        documentName:
-          type: string
-          description: Document Name
-          example: new Document
-        medium:
-          type: string
-          enum:
-          - link
-          - email
-          description: Medium to be used for sending the document
-          example: email
-        ccRecipients:
-          description: CC Recipient
-          example:
-          - id: u240JcS0E5qE0ziHnwMm
-            email: jim@gmail.com
-            imageUrl: ''
-            contactName: Jim Anton
-            firstName: Jim
-            lastName: Anton
-          type: array
-          items:
-            $ref: '#/components/schemas/CCRecipientItem'
-        notificationSettings:
-          example:
-            sender:
-              fromName: ''
-              fromEmail: ''
-            receive:
-              subject: ''
-              templateId: ''
-          allOf:
-          - $ref: '#/components/schemas/NotificationSettingsDto'
-        sentBy:
-          type: string
-          description: Sent ByUser Id
-          example: '1234567890'
-      required:
-      - locationId
-      - documentId
-      - sentBy
-    NotificationSendSettingDto:
-      type: object
-      properties:
-        templateId:
-          type: string
-        subject:
-          type: string
-      required:
-      - templateId
-      - subject
     SendDocumentResponseDto:
       type: object
       properties:
@@ -238,171 +176,16 @@ components:
       required:
       - success
       - links
-    DiscountDto:
+    NotificationSendSettingDto:
       type: object
       properties:
-        id:
+        templateId:
           type: string
-          example: '123456'
-          description: Unique identifier for the discount
-        value:
-          type: number
-          example: 10
-          description: Discount value (either a percentage or custom amount)
-        type:
+        subject:
           type: string
-          example: percentage
-          enum:
-          - percentage
-          - custom_amount
-          description: Type of discount
       required:
-      - id
-      - value
-      - type
-    BadRequestDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 400
-        message:
-          type: string
-          example: Bad Request
-    ProposalEstimateLinksDto:
-      type: object
-      properties:
-        referenceId:
-          type: string
-          description: Reference ID
-          example: 550e8400-e29b-41d4-a716-446655440000
-        documentId:
-          type: string
-          description: Document ID
-          example: c1e87a91-93b2-4b78-821f-85cf0e1f925b
-        recipientId:
-          type: string
-          description: Recipient ID
-          example: u240JcS0E5qE0ziHnwMm
-        entityName:
-          type: string
-          enum:
-          - contacts
-          - users
-          description: Entity name that the recipient belongs to
-          example: contacts
-        recipientCategory:
-          type: string
-          enum:
-          - recipient
-          - cc
-          - bcc
-          description: Recipient category (recipient, cc, or bcc)
-          example: recipient
-        documentRevision:
-          type: number
-          description: Document revision number
-          example: 1
-        createdBy:
-          type: string
-          description: Created by user ID
-          example: b6d8fa28-1112-4dc7-b9d2-f22b75a477ea
-        deleted:
-          type: boolean
-          description: Whether the document is deleted
-          example: false
-      required:
-      - referenceId
-      - documentId
-      - recipientId
-      - entityName
-      - recipientCategory
-      - documentRevision
-      - createdBy
-      - deleted
-    GrandTotalDto:
-      type: object
-      properties:
-        amount:
-          type: number
-          example: 100
-          description: Total amount before discounts
-        currency:
-          type: string
-          example: USD
-          description: Currency of the total amount
-        discountPercentage:
-          type: number
-          example: 15
-          description: Total discount percentage applied
-        discounts:
-          description: List of applied discounts
-          type: array
-          items:
-            $ref: '#/components/schemas/DiscountDto'
-      required:
-      - amount
-      - currency
-      - discountPercentage
-      - discounts
-    DocumentListResponseDto:
-      type: object
-      properties:
-        documents:
-          description: List of documents
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentDto'
-        total:
-          type: number
-          description: Total records available
-          example: 10
-        whiteLabelBaseUrl:
-          type: number
-          description: WhiteLabel url for document
-          example: https://example.com
-        whiteLabelBaseUrlForInvoice:
-          type: number
-          description: WhiteLabel url for invoice
-          example: https://example.com
-      required:
-      - documents
-      - total
-    EntityReference:
-      type: string
-      description: Entity type
-      enum:
-      - contacts
-      - users
-    ELEMENTS_LOOKUP:
-      type: string
-      description: Element type
-      enum:
-      - Page
-      - Text
-      - Image
-      - Video
-      - Table
-      - ProductList
-      - PageBreak
-      - Signature
-      - PaymentDetails
-      - TextField
-      - DateField
-      - InitialsField
-      - Checkbox
-      - Row
-      - Column
-    NotificationSettingsDto:
-      type: object
-      properties:
-        receive:
-          $ref: '#/components/schemas/NotificationSendSettingDto'
-        sender:
-          $ref: '#/components/schemas/NotificationSenderSettingDto'
-      required:
-      - receive
-      - sender
+      - templateId
+      - subject
     DocumentDto:
       type: object
       properties:
@@ -521,6 +304,267 @@ components:
       - links
       - updatedAt
       - createdAt
+    EntityReference:
+      type: string
+      description: Entity type
+      enum:
+      - contacts
+      - users
+    NotificationSettingsDto:
+      type: object
+      properties:
+        receive:
+          $ref: '#/components/schemas/NotificationSendSettingDto'
+        sender:
+          $ref: '#/components/schemas/NotificationSenderSettingDto'
+      required:
+      - receive
+      - sender
+    DocumentListResponseDto:
+      type: object
+      properties:
+        documents:
+          description: List of documents
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentDto'
+        total:
+          type: number
+          description: Total records available
+          example: 10
+        whiteLabelBaseUrl:
+          type: number
+          description: WhiteLabel url for document
+          example: https://example.com
+        whiteLabelBaseUrlForInvoice:
+          type: number
+          description: WhiteLabel url for invoice
+          example: https://example.com
+      required:
+      - documents
+      - total
+    FillableFieldsDTO:
+      type: object
+      properties:
+        fieldId:
+          type: string
+          description: Field Id
+          example: text_field_1
+        isRequired:
+          type: boolean
+          description: Is the field required
+          example: true
+        hasCompleted:
+          type: boolean
+          description: Has the field been completed
+          example: true
+        recipient:
+          type: string
+          description: Recipient
+          example: John Doe
+        entityType:
+          $ref: '#/components/schemas/EntityReference'
+        id:
+          type: string
+          description: Id
+          example: 2d0a6fe1-d519-4198-8785-3da1d7cab925
+        type:
+          example: TextField
+          $ref: '#/components/schemas/ELEMENTS_LOOKUP'
+        value:
+          type: string
+          description: Value of the field
+          example: John Doe
+      required:
+      - fieldId
+      - isRequired
+      - hasCompleted
+      - recipient
+      - entityType
+      - id
+      - type
+      - value
+    NotificationSenderSettingDto:
+      type: object
+      properties:
+        fromEmail:
+          type: string
+        fromName:
+          type: string
+      required:
+      - fromEmail
+      - fromName
+    CCRecipientItem:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email
+          example: jim@gmail.com
+        id:
+          type: string
+          description: Contact ID
+          example: contactId
+        imageUrl:
+          type: string
+          description: Contact Image URL
+          example: https://example.com/image.jpg
+        contactName:
+          type: string
+          description: Contact Name
+          example: Jim Anton
+        firstName:
+          type: string
+          description: First Name
+          example: Jim
+        lastName:
+          type: string
+          description: Last Name
+          example: Anton
+      required:
+      - email
+      - id
+      - imageUrl
+      - contactName
+      - firstName
+      - lastName
+    SendDocumentDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: hTlkh7t8gujsahgg93
+        documentId:
+          type: string
+          description: Document Id
+          example: hTlkh7t8gujsahgg93
+        documentName:
+          type: string
+          description: Document Name
+          example: new Document
+        medium:
+          type: string
+          enum:
+          - link
+          - email
+          description: Medium to be used for sending the document
+          example: email
+        ccRecipients:
+          description: CC Recipient
+          example:
+          - id: u240JcS0E5qE0ziHnwMm
+            email: jim@gmail.com
+            imageUrl: ''
+            contactName: Jim Anton
+            firstName: Jim
+            lastName: Anton
+          type: array
+          items:
+            $ref: '#/components/schemas/CCRecipientItem'
+        notificationSettings:
+          example:
+            sender:
+              fromName: ''
+              fromEmail: ''
+            receive:
+              subject: ''
+              templateId: ''
+          allOf:
+          - $ref: '#/components/schemas/NotificationSettingsDto'
+        sentBy:
+          type: string
+          description: Sent ByUser Id
+          example: '1234567890'
+      required:
+      - locationId
+      - documentId
+      - sentBy
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    GrandTotalDto:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 100
+          description: Total amount before discounts
+        currency:
+          type: string
+          example: USD
+          description: Currency of the total amount
+        discountPercentage:
+          type: number
+          example: 15
+          description: Total discount percentage applied
+        discounts:
+          description: List of applied discounts
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscountDto'
+      required:
+      - amount
+      - currency
+      - discountPercentage
+      - discounts
+    ProposalEstimateLinksDto:
+      type: object
+      properties:
+        referenceId:
+          type: string
+          description: Reference ID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        documentId:
+          type: string
+          description: Document ID
+          example: c1e87a91-93b2-4b78-821f-85cf0e1f925b
+        recipientId:
+          type: string
+          description: Recipient ID
+          example: u240JcS0E5qE0ziHnwMm
+        entityName:
+          type: string
+          enum:
+          - contacts
+          - users
+          description: Entity name that the recipient belongs to
+          example: contacts
+        recipientCategory:
+          type: string
+          enum:
+          - recipient
+          - cc
+          - bcc
+          description: Recipient category (recipient, cc, or bcc)
+          example: recipient
+        documentRevision:
+          type: number
+          description: Document revision number
+          example: 1
+        createdBy:
+          type: string
+          description: Created by user ID
+          example: b6d8fa28-1112-4dc7-b9d2-f22b75a477ea
+        deleted:
+          type: boolean
+          description: Whether the document is deleted
+          example: false
+      required:
+      - referenceId
+      - documentId
+      - recipientId
+      - entityName
+      - recipientCategory
+      - documentRevision
+      - createdBy
+      - deleted
     RecipientItem:
       type: object
       properties:
@@ -614,91 +658,47 @@ components:
       - role
       - isPrimary
       - signingOrder
-    CCRecipientItem:
+    ELEMENTS_LOOKUP:
+      type: string
+      description: Element type
+      enum:
+      - Page
+      - Text
+      - Image
+      - Video
+      - Table
+      - ProductList
+      - PageBreak
+      - Signature
+      - PaymentDetails
+      - TextField
+      - DateField
+      - InitialsField
+      - Checkbox
+      - Row
+      - Column
+    DiscountDto:
       type: object
       properties:
-        email:
-          type: string
-          description: Email
-          example: jim@gmail.com
         id:
           type: string
-          description: Contact ID
-          example: contactId
-        imageUrl:
-          type: string
-          description: Contact Image URL
-          example: https://example.com/image.jpg
-        contactName:
-          type: string
-          description: Contact Name
-          example: Jim Anton
-        firstName:
-          type: string
-          description: First Name
-          example: Jim
-        lastName:
-          type: string
-          description: Last Name
-          example: Anton
-      required:
-      - email
-      - id
-      - imageUrl
-      - contactName
-      - firstName
-      - lastName
-    FillableFieldsDTO:
-      type: object
-      properties:
-        fieldId:
-          type: string
-          description: Field Id
-          example: text_field_1
-        isRequired:
-          type: boolean
-          description: Is the field required
-          example: true
-        hasCompleted:
-          type: boolean
-          description: Has the field been completed
-          example: true
-        recipient:
-          type: string
-          description: Recipient
-          example: John Doe
-        entityType:
-          $ref: '#/components/schemas/EntityReference'
-        id:
-          type: string
-          description: Id
-          example: 2d0a6fe1-d519-4198-8785-3da1d7cab925
-        type:
-          example: TextField
-          $ref: '#/components/schemas/ELEMENTS_LOOKUP'
+          example: '123456'
+          description: Unique identifier for the discount
         value:
+          type: number
+          example: 10
+          description: Discount value (either a percentage or custom amount)
+        type:
           type: string
-          description: Value of the field
-          example: John Doe
+          example: percentage
+          enum:
+          - percentage
+          - custom_amount
+          description: Type of discount
       required:
-      - fieldId
-      - isRequired
-      - hasCompleted
-      - recipient
-      - entityType
       - id
-      - type
       - value
-    NotificationSenderSettingDto:
-      type: object
-      properties:
-        fromEmail:
-          type: string
-        fromName:
-          type: string
-      required:
-      - fromEmail
-      - fromName
+      - type
   securitySchemes:
     bearer:
       scheme: bearer

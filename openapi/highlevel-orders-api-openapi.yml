@@ -276,58 +276,6 @@ paths:
         - payments/orders.collectPayment
 components:
   schemas:
-    OrderSource:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - funnel
-          - website
-          - invoice
-          - calendar
-          - text2Pay
-          - document_contracts
-          - membership
-          - mobile_app
-          - communities
-          - point_of_sale
-          - manual
-          - form
-          - survey
-          - payment_link
-          - external
-        subType:
-          type: string
-          enum:
-          - one_step_order_form
-          - two_step_order_form
-          - upsell
-          - tap_to_pay
-          - card_payment
-          - store
-          - contact_view
-          - email_campaign
-          - payments_dashboard
-          - shopify
-          - subscription_view
-          - store_upsell
-          - woocommerce
-          - service
-          - meeting
-          - imported_csv
-          - qr_code
-          - saas_one_time
-          - saas_subscription
-        id:
-          type: string
-        name:
-          type: string
-        meta:
-          type: object
-      required:
-      - type
-      - id
     GetOrderResponseSchema:
       type: object
       properties:
@@ -440,6 +388,91 @@ components:
       - status
       - createdAt
       - updatedAt
+    ChequeDto:
+      type: object
+      properties:
+        number:
+          type: string
+          description: check number
+          example: 129-129-129-912
+      required:
+      - number
+    AmountSummary:
+      type: object
+      properties:
+        subtotal:
+          type: number
+          example: '100'
+          description: Order sub-total value.
+        discount:
+          type: number
+          example: '10'
+          description: Discount value on order.
+      required:
+      - subtotal
+    PostRecordOrderPaymentBody:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        mode:
+          type: string
+          description: manual payment method
+          enum:
+          - cash
+          - card
+          - cheque
+          - bank_transfer
+          - other
+          example: card
+        card:
+          description: Details of Card if used for payment
+          allOf:
+          - $ref: '#/components/schemas/CardDto'
+        cheque:
+          description: Details of the Cheque if used for payment
+          allOf:
+          - $ref: '#/components/schemas/ChequeDto'
+        notes:
+          type: string
+          description: Any note to be recorded with the transaction
+          example: This was a direct payment
+        amount:
+          type: number
+          description: Amount to be paid against the invoice.
+          example: 100
+        meta:
+          type: object
+          description: Meta data to be recorded with the transaction
+        isPartialPayment:
+          type: boolean
+          description: Indicates if the order is intended to be a partial payment.
+      required:
+      - altId
+      - altType
+      - mode
+    ListOrdersResponseDto:
+      type: object
+      properties:
+        data:
+          description: An array of orders
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderResponseSchema'
+        totalCount:
+          type: number
+          description: total orders count
+      required:
+      - data
+      - totalCount
     OrderResponseSchema:
       type: object
       properties:
@@ -562,20 +595,58 @@ components:
           example: true
       required:
       - success
-    ListOrdersResponseDto:
+    OrderSource:
       type: object
       properties:
-        data:
-          description: An array of orders
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderResponseSchema'
-        totalCount:
-          type: number
-          description: total orders count
+        type:
+          type: string
+          enum:
+          - funnel
+          - website
+          - invoice
+          - calendar
+          - text2Pay
+          - document_contracts
+          - membership
+          - mobile_app
+          - communities
+          - point_of_sale
+          - manual
+          - form
+          - survey
+          - payment_link
+          - external
+        subType:
+          type: string
+          enum:
+          - one_step_order_form
+          - two_step_order_form
+          - upsell
+          - tap_to_pay
+          - card_payment
+          - store
+          - contact_view
+          - email_campaign
+          - payments_dashboard
+          - shopify
+          - subscription_view
+          - store_upsell
+          - woocommerce
+          - service
+          - meeting
+          - imported_csv
+          - qr_code
+          - saas_one_time
+          - saas_subscription
+        id:
+          type: string
+        name:
+          type: string
+        meta:
+          type: object
       required:
-      - data
-      - totalCount
+      - type
+      - id
     CardDto:
       type: object
       properties:
@@ -593,77 +664,6 @@ components:
       required:
       - type
       - last4
-    PostRecordOrderPaymentBody:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        mode:
-          type: string
-          description: manual payment method
-          enum:
-          - cash
-          - card
-          - cheque
-          - bank_transfer
-          - other
-          example: card
-        card:
-          description: Details of Card if used for payment
-          allOf:
-          - $ref: '#/components/schemas/CardDto'
-        cheque:
-          description: Details of the Cheque if used for payment
-          allOf:
-          - $ref: '#/components/schemas/ChequeDto'
-        notes:
-          type: string
-          description: Any note to be recorded with the transaction
-          example: This was a direct payment
-        amount:
-          type: number
-          description: Amount to be paid against the invoice.
-          example: 100
-        meta:
-          type: object
-          description: Meta data to be recorded with the transaction
-        isPartialPayment:
-          type: boolean
-          description: Indicates if the order is intended to be a partial payment.
-      required:
-      - altId
-      - altType
-      - mode
-    ChequeDto:
-      type: object
-      properties:
-        number:
-          type: string
-          description: check number
-          example: 129-129-129-912
-      required:
-      - number
-    AmountSummary:
-      type: object
-      properties:
-        subtotal:
-          type: number
-          example: '100'
-          description: Order sub-total value.
-        discount:
-          type: number
-          example: '10'
-          description: Discount value on order.
-      required:
-      - subtotal
   securitySchemes:
     bearer:
       scheme: bearer

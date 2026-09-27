@@ -403,6 +403,45 @@ paths:
       - bearer: []
 components:
   schemas:
+    TiktokProfileSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id
+          example: w37swmmLbA02zgqKPpxITe
+        name:
+          type: string
+          description: Name of account
+          example: Account Name
+        username:
+          type: string
+          description: Username of account
+          example: User_name
+        avatar:
+          type: string
+          description: Avatar of profile account
+          example: w37swmmLbA02zgqKPpxITe
+        verified:
+          type: boolean
+          description: Is verified
+          example: true
+        isConnected:
+          type: boolean
+          description: Is connected
+          example: true
+        type:
+          type: object
+          description: 'Tiktok Account Type must be one of the following values: business, profile'
+          example: BUSINESS
+    GetTiktokBusinessAccountSchema:
+      type: object
+      properties:
+        profile:
+          description: Tiktok Profile
+          type: array
+          items:
+            $ref: '#/components/schemas/TiktokProfileSchema'
     SocialMediaTiktokAccountResponseDTO:
       type: object
       properties:
@@ -426,6 +465,66 @@ components:
       - success
       - statusCode
       - message
+    GetTiktokBusinessAccountResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Fetched Tiktok Business Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetTiktokBusinessAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    AttachTiktokAccountDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - page
+          - group
+          - profile
+          - location
+          - business
+        originId:
+          type: string
+          example: 244405****11687
+        name:
+          type: string
+          example: JOHN_DEO
+        avatar:
+          type: string
+        verified:
+          type: boolean
+          example: true
+        username:
+          type: string
+          example: JOHN_DEO
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+    GetTiktokAccountSchema:
+      type: object
+      properties:
+        profile:
+          description: Tiktok Business Account
+          type: array
+          items:
+            $ref: '#/components/schemas/TiktokProfileSchema'
     SocialMediaTiktokAccountSchema:
       type: object
       properties:
@@ -499,66 +598,6 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
-    TiktokProfileSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id
-          example: w37swmmLbA02zgqKPpxITe
-        name:
-          type: string
-          description: Name of account
-          example: Account Name
-        username:
-          type: string
-          description: Username of account
-          example: User_name
-        avatar:
-          type: string
-          description: Avatar of profile account
-          example: w37swmmLbA02zgqKPpxITe
-        verified:
-          type: boolean
-          description: Is verified
-          example: true
-        isConnected:
-          type: boolean
-          description: Is connected
-          example: true
-        type:
-          type: object
-          description: 'Tiktok Account Type must be one of the following values: business, profile'
-          example: BUSINESS
-    AttachTiktokAccountDTO:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - page
-          - group
-          - profile
-          - location
-          - business
-        originId:
-          type: string
-          example: 244405****11687
-        name:
-          type: string
-          example: JOHN_DEO
-        avatar:
-          type: string
-        verified:
-          type: boolean
-          example: true
-        username:
-          type: string
-          example: JOHN_DEO
-        companyId:
-          type: string
-          description: Company ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
     GetTiktokAccountResponseDTO:
       type: object
       properties:
@@ -582,45 +621,6 @@ components:
       - success
       - statusCode
       - message
-    GetTiktokBusinessAccountResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Fetched Tiktok Business Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetTiktokBusinessAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    GetTiktokBusinessAccountSchema:
-      type: object
-      properties:
-        profile:
-          description: Tiktok Profile
-          type: array
-          items:
-            $ref: '#/components/schemas/TiktokProfileSchema'
-    GetTiktokAccountSchema:
-      type: object
-      properties:
-        profile:
-          description: Tiktok Business Account
-          type: array
-          items:
-            $ref: '#/components/schemas/TiktokProfileSchema'
   securitySchemes:
     bearer:
       scheme: bearer

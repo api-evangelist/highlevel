@@ -256,29 +256,6 @@ components:
           type: string
           description: Company ID
           example: sdfdsfdsfEWEsdfsdsW32dd
-    SocialMediaFBAccountResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Added Facebook Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/SocialMediaFacebookAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
     GetFacebookAccountsResponseDTO:
       type: object
       properties:
@@ -320,6 +297,37 @@ components:
         isConnected:
           type: boolean
           example: true
+    SocialMediaFBAccountResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Added Facebook Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaFacebookAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    GetFacebookAccountsSchema:
+      type: object
+      properties:
+        pages:
+          description: Facebook Pages Details
+          type: array
+          items:
+            $ref: '#/components/schemas/FacebookPageSchema'
     SocialMediaFacebookAccountSchema:
       type: object
       properties:
@@ -393,14 +401,6 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
-    GetFacebookAccountsSchema:
-      type: object
-      properties:
-        pages:
-          description: Facebook Pages Details
-          type: array
-          items:
-            $ref: '#/components/schemas/FacebookPageSchema'
   securitySchemes:
     bearer:
       scheme: bearer

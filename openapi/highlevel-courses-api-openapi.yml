@@ -39,6 +39,93 @@ paths:
       - Courses
 components:
   schemas:
+    PublicExporterPayload:
+      type: object
+      properties:
+        locationId:
+          type: string
+        userId:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductInterface'
+      required:
+      - locationId
+      - products
+    SubCategoryInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/visibility'
+        thumbnailUrl:
+          type: string
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostInterface'
+      required:
+      - title
+      - visibility
+    CategoryInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/visibility'
+        thumbnailUrl:
+          type: string
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostInterface'
+        subCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubCategoryInterface'
+      required:
+      - title
+      - visibility
+    ProductInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryInterface'
+        instructorDetails:
+          $ref: '#/components/schemas/InstructorDetails'
+      required:
+      - title
+      - description
+      - categories
+    PostMaterialInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        type:
+          $ref: '#/components/schemas/type'
+        url:
+          type: string
+      required:
+      - title
+      - type
+      - url
+    visibility:
+      type: string
+      enum:
+      - published
+      - draft
     PostInterface:
       type: object
       properties:
@@ -63,74 +150,12 @@ components:
       - visibility
       - contentType
       - description
-    CategoryInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        visibility:
-          $ref: '#/components/schemas/visibility'
-        thumbnailUrl:
-          type: string
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostInterface'
-        subCategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubCategoryInterface'
-      required:
-      - title
-      - visibility
-    PostMaterialInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        type:
-          $ref: '#/components/schemas/type'
-        url:
-          type: string
-      required:
-      - title
-      - type
-      - url
-    PublicExporterPayload:
-      type: object
-      properties:
-        locationId:
-          type: string
-        userId:
-          type: string
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductInterface'
-      required:
-      - locationId
-      - products
-    visibility:
+    contentType:
       type: string
       enum:
-      - published
-      - draft
-    SubCategoryInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        visibility:
-          $ref: '#/components/schemas/visibility'
-        thumbnailUrl:
-          type: string
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostInterface'
-      required:
-      - title
-      - visibility
+      - video
+      - assignment
+      - quiz
     InstructorDetails:
       type: object
       properties:
@@ -197,31 +222,6 @@ components:
       - stl
       - woff
       - ttf
-    contentType:
-      type: string
-      enum:
-      - video
-      - assignment
-      - quiz
-    ProductInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        imageUrl:
-          type: string
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryInterface'
-        instructorDetails:
-          $ref: '#/components/schemas/InstructorDetails'
-      required:
-      - title
-      - description
-      - categories
   securitySchemes:
     bearer:
       scheme: bearer

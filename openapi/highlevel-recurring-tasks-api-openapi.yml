@@ -213,20 +213,15 @@ paths:
       - bearer: []
 components:
   schemas:
-    DeleteRecurringTaskResponseDTO:
+    RecurringTaskSingleResponseDTO:
       type: object
       properties:
-        id:
-          type: string
-          example: sx6wyHhbFdRXh302Lunr
-          description: Recurring Task Id
-        success:
-          type: boolean
-          example: true
-          description: Success
+        recurringTask:
+          description: Recurring Tasks
+          allOf:
+          - $ref: '#/components/schemas/RecurringTaskResponseDTO'
       required:
-      - id
-      - success
+      - recurringTask
     RecurringTaskUpdateDTO:
       type: object
       properties:
@@ -265,115 +260,6 @@ components:
           type: boolean
           example: true
           description: Create initial task or not
-    RecurringTaskSingleResponseDTO:
-      type: object
-      properties:
-        recurringTask:
-          description: Recurring Tasks
-          allOf:
-          - $ref: '#/components/schemas/RecurringTaskResponseDTO'
-      required:
-      - recurringTask
-    RecurringTaskCreateDTO:
-      type: object
-      properties:
-        title:
-          type: string
-          example: Task Name
-          description: Name of the task
-        description:
-          type: string
-          example: Task Description
-          description: Description of the task
-        contactIds:
-          example:
-          - sx6wyHhbFdRXh302Lunr
-          description: Contact Id
-          type: array
-          items:
-            type: string
-        owners:
-          example:
-          - sx6wyHhbFdRXh302Lunr
-          description: Assigned To
-          type: array
-          items:
-            type: string
-        rruleOptions:
-          example:
-            intervalType: hourly
-            interval: 1
-            startDate: '2025-07-23T10:00:00.000Z'
-            dueAfterSeconds: 600
-          description: Recurring rules
-          allOf:
-          - $ref: '#/components/schemas/CustomRRulesOptions'
-        ignoreTaskCreation:
-          type: boolean
-          example: true
-          description: Create initial task or not
-      required:
-      - title
-      - rruleOptions
-    CustomRRulesOptions:
-      type: object
-      properties:
-        intervalType:
-          type: string
-          enum:
-          - yearly
-          - monthly
-          - weekly
-          - daily
-          - hourly
-          example: monthly
-        interval:
-          type: number
-          example: 2
-        startDate:
-          type: string
-          example: '2021-09-30T00:00:00.000Z'
-          description: Start Date
-        endDate:
-          type: string
-          example: '2021-09-30T00:00:00.000Z'
-          description: End Date
-        dayOfMonth:
-          type: number
-          description: 1, 2, 3, ..., 27, 31
-          example: 15
-        dayOfWeek:
-          type: string
-          enum:
-          - MO
-          - TU
-          - WE
-          - TH
-          - FR
-          - SA
-          - SU
-          example: MO
-        monthOfYear:
-          type: number
-          description: 1, 2, ....., 11, 12
-          example: 1
-        count:
-          type: number
-          description: Max number of task executions
-          example: 10
-        createTaskIfOverDue:
-          type: boolean
-          example: true
-          description: Create Task If Over Due
-        dueAfterSeconds:
-          type: number
-          example: 23404000
-          description: Due after seconds
-      required:
-      - intervalType
-      - interval
-      - startDate
-      - dueAfterSeconds
     RecurringTaskResponseDTO:
       type: object
       properties:
@@ -438,6 +324,120 @@ components:
       - rruleOptions
       - totalOccurrence
       - deleted
+    RecurringTaskCreateDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Task Name
+          description: Name of the task
+        description:
+          type: string
+          example: Task Description
+          description: Description of the task
+        contactIds:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          description: Contact Id
+          type: array
+          items:
+            type: string
+        owners:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          description: Assigned To
+          type: array
+          items:
+            type: string
+        rruleOptions:
+          example:
+            intervalType: hourly
+            interval: 1
+            startDate: '2025-07-23T10:00:00.000Z'
+            dueAfterSeconds: 600
+          description: Recurring rules
+          allOf:
+          - $ref: '#/components/schemas/CustomRRulesOptions'
+        ignoreTaskCreation:
+          type: boolean
+          example: true
+          description: Create initial task or not
+      required:
+      - title
+      - rruleOptions
+    DeleteRecurringTaskResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sx6wyHhbFdRXh302Lunr
+          description: Recurring Task Id
+        success:
+          type: boolean
+          example: true
+          description: Success
+      required:
+      - id
+      - success
+    CustomRRulesOptions:
+      type: object
+      properties:
+        intervalType:
+          type: string
+          enum:
+          - yearly
+          - monthly
+          - weekly
+          - daily
+          - hourly
+          example: monthly
+        interval:
+          type: number
+          example: 2
+        startDate:
+          type: string
+          example: '2021-09-30T00:00:00.000Z'
+          description: Start Date
+        endDate:
+          type: string
+          example: '2021-09-30T00:00:00.000Z'
+          description: End Date
+        dayOfMonth:
+          type: number
+          description: 1, 2, 3, ..., 27, 31
+          example: 15
+        dayOfWeek:
+          type: string
+          enum:
+          - MO
+          - TU
+          - WE
+          - TH
+          - FR
+          - SA
+          - SU
+          example: MO
+        monthOfYear:
+          type: number
+          description: 1, 2, ....., 11, 12
+          example: 1
+        count:
+          type: number
+          description: Max number of task executions
+          example: 10
+        createTaskIfOverDue:
+          type: boolean
+          example: true
+          description: Create Task If Over Due
+        dueAfterSeconds:
+          type: number
+          example: 23404000
+          description: Due after seconds
+      required:
+      - intervalType
+      - interval
+      - startDate
+      - dueAfterSeconds
   securitySchemes:
     bearer:
       scheme: bearer

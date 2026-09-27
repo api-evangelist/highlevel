@@ -61,6 +61,13 @@ paths:
         - workflows.readonly
 components:
   schemas:
+    GetWorkflowSuccessfulResponseDto:
+      type: object
+      properties:
+        workflows:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowSchema'
     WorkflowSchema:
       type: object
       properties:
@@ -85,13 +92,6 @@ components:
         locationId:
           type: string
           example: eBG6WapS3v4ZqwA45MTxtYJ
-    GetWorkflowSuccessfulResponseDto:
-      type: object
-      properties:
-        workflows:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkflowSchema'
   securitySchemes:
     bearer:
       scheme: bearer

@@ -234,14 +234,25 @@ components:
     CreateCustomObjectRecordDto:
       type: object
       properties: {}
-    UpdateCustomObjectRecordDto:
+    ObjectRecordDeleteResponseDTO:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: string
+          description: id of the deleted object
+          example: 661c06b4ffde146bdb469442
+        success:
+          type: boolean
+          description: boolean that defines if the operation was a success or not
+          example: true
     RecordByIdResponseDTO:
       type: object
       properties:
         record:
           $ref: '#/components/schemas/IRecordSchema'
+    UpdateCustomObjectRecordDto:
+      type: object
+      properties: {}
     IRecordSchema:
       type: object
       properties:
@@ -298,17 +309,6 @@ components:
       - properties
       - dateAdded
       - dateUpdated
-    ObjectRecordDeleteResponseDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: id of the deleted object
-          example: 661c06b4ffde146bdb469442
-        success:
-          type: boolean
-          description: boolean that defines if the operation was a success or not
-          example: true
   securitySchemes:
     bearer:
       scheme: bearer

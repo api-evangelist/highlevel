@@ -330,6 +330,82 @@ paths:
         - products/collection.write
 components:
   schemas:
+    ProductCategories:
+      type: object
+      properties: {}
+    CollectionSEODto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title which will be displayed as an SEO format
+          example: Best Sellers
+        description:
+          type: string
+          description: The description which would be displayed in preview purposes
+          example: Collections where all the best products are available
+    CollectionSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the collection
+          example: 655b33a82209e60b6adb87a5
+        altId:
+          type: string
+          description: Location Id to which the collection is associated
+          example: Z4Bxl8J4SaPEPLq9IQ8g
+        name:
+          type: string
+          description: Name of the collection
+          example: Best Sellers
+        slug:
+          type: string
+          description: Slug of the collection with which navigation is established. Special Characters and spacing is not allowed and should be unique
+          example: best-sellers
+        image:
+          type: string
+          description: The URL of the image that is going to be displayed as the collection Thumbnail
+          example: http://example.com/watermark.png
+        seo:
+          description: The information which will be displayed in SEO previews
+          allOf:
+          - $ref: '#/components/schemas/CollectionSEODto'
+        createdAt:
+          type: string
+          description: Date at which the collection was created
+          example: '2024-02-22T09:27:19.728Z'
+      required:
+      - _id
+      - altId
+      - name
+      - slug
+      - image
+      - seo
+      - createdAt
+    DefaultCollectionResponseDto:
+      type: object
+      properties:
+        data:
+          description: Collection Data
+          allOf:
+          - $ref: '#/components/schemas/ProductCategories'
+        status:
+          type: boolean
+          description: Status of the operation
+          example: true
+      required:
+      - data
+      - status
+    CreateCollectionResponseDto:
+      type: object
+      properties:
+        data:
+          description: created Collection
+          allOf:
+          - $ref: '#/components/schemas/CollectionSchema'
+      required:
+      - data
     ListCollectionResponseDto:
       type: object
       properties:
@@ -344,18 +420,7 @@ components:
       required:
       - data
       - total
-    CollectionSEODto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The title which will be displayed as an SEO format
-          example: Best Sellers
-        description:
-          type: string
-          description: The description which would be displayed in preview purposes
-          example: Collections where all the best products are available
-    DeleteProductCollectionResponseDto:
+    UpdateProductCollectionResponseDto:
       type: object
       properties:
         status:
@@ -368,7 +433,7 @@ components:
           example: Successfully created
       required:
       - status
-    UpdateProductCollectionResponseDto:
+    DeleteProductCollectionResponseDto:
       type: object
       properties:
         status:
@@ -413,18 +478,6 @@ components:
       required:
       - altId
       - altType
-    ProductCategories:
-      type: object
-      properties: {}
-    CreateCollectionResponseDto:
-      type: object
-      properties:
-        data:
-          description: created Collection
-          allOf:
-          - $ref: '#/components/schemas/CollectionSchema'
-      required:
-      - data
     CreateProductCollectionsDto:
       type: object
       properties:
@@ -463,59 +516,6 @@ components:
       - altType
       - name
       - slug
-    DefaultCollectionResponseDto:
-      type: object
-      properties:
-        data:
-          description: Collection Data
-          allOf:
-          - $ref: '#/components/schemas/ProductCategories'
-        status:
-          type: boolean
-          description: Status of the operation
-          example: true
-      required:
-      - data
-      - status
-    CollectionSchema:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier for the collection
-          example: 655b33a82209e60b6adb87a5
-        altId:
-          type: string
-          description: Location Id to which the collection is associated
-          example: Z4Bxl8J4SaPEPLq9IQ8g
-        name:
-          type: string
-          description: Name of the collection
-          example: Best Sellers
-        slug:
-          type: string
-          description: Slug of the collection with which navigation is established. Special Characters and spacing is not allowed and should be unique
-          example: best-sellers
-        image:
-          type: string
-          description: The URL of the image that is going to be displayed as the collection Thumbnail
-          example: http://example.com/watermark.png
-        seo:
-          description: The information which will be displayed in SEO previews
-          allOf:
-          - $ref: '#/components/schemas/CollectionSEODto'
-        createdAt:
-          type: string
-          description: Date at which the collection was created
-          example: '2024-02-22T09:27:19.728Z'
-      required:
-      - _id
-      - altId
-      - name
-      - slug
-      - image
-      - seo
-      - createdAt
   securitySchemes:
     bearer:
       scheme: bearer

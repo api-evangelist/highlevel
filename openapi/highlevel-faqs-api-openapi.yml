@@ -286,15 +286,30 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    UpdateFaqResponseDTO:
+    AddFaqDTO:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Success status of the update operation
-          example: true
+        locationId:
+          type: string
+          description: location ID as string
+          example: HqDZpF8GH3qvgJTmKCoL
+        question:
+          type: string
+          description: faq question as a string
+          example: What is the capital of France?
+        answer:
+          type: string
+          description: faq answer as a string
+          example: The capital of France is Paris.
+        knowledgeBaseId:
+          type: string
+          description: knowledge base ID as string
+          example: 710KoEzy793Fxubft0bc
       required:
-      - success
+      - locationId
+      - question
+      - answer
+      - knowledgeBaseId
     FaqResponseDTO:
       type: object
       properties:
@@ -349,6 +364,15 @@ components:
       - deleted
       - createdAt
       - updatedAt
+    UpdateFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the update operation
+          example: true
+      required:
+      - success
     DeleteFaqResponseDTO:
       type: object
       properties:
@@ -358,15 +382,27 @@ components:
           example: true
       required:
       - success
-    BadRequestDTO:
+    InternalServerErrorDTO:
       type: object
       properties:
         statusCode:
           type: number
-          example: 400
+          example: 500
         message:
           type: string
-          example: Bad Request
+          example: Internal Server Error
+    UnauthorizedDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 401
+        message:
+          type: string
+          example: 'Invalid token: access token is invalid'
+        error:
+          type: string
+          example: Unauthorized
     ListFaqsResponseDTO:
       type: object
       properties:
@@ -405,41 +441,15 @@ components:
         error:
           type: string
           example: Unprocessable Entity
-    InternalServerErrorDTO:
+    BadRequestDTO:
       type: object
       properties:
         statusCode:
           type: number
-          example: 500
+          example: 400
         message:
           type: string
-          example: Internal Server Error
-    CreateFaqResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status of the operation
-          example: true
-        faq:
-          description: Created FAQ details
-          allOf:
-          - $ref: '#/components/schemas/FaqResponseDTO'
-      required:
-      - success
-      - faq
-    UnauthorizedDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 401
-        message:
-          type: string
-          example: 'Invalid token: access token is invalid'
-        error:
-          type: string
-          example: Unauthorized
+          example: Bad Request
     UpdateFaqBodyDTO:
       type: object
       properties:
@@ -454,30 +464,20 @@ components:
       required:
       - question
       - answer
-    AddFaqDTO:
+    CreateFaqResponseDTO:
       type: object
       properties:
-        locationId:
-          type: string
-          description: location ID as string
-          example: HqDZpF8GH3qvgJTmKCoL
-        question:
-          type: string
-          description: faq question as a string
-          example: What is the capital of France?
-        answer:
-          type: string
-          description: faq answer as a string
-          example: The capital of France is Paris.
-        knowledgeBaseId:
-          type: string
-          description: knowledge base ID as string
-          example: 710KoEzy793Fxubft0bc
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        faq:
+          description: Created FAQ details
+          allOf:
+          - $ref: '#/components/schemas/FaqResponseDTO'
       required:
-      - locationId
-      - question
-      - answer
-      - knowledgeBaseId
+      - success
+      - faq
   securitySchemes:
     bearer:
       scheme: bearer

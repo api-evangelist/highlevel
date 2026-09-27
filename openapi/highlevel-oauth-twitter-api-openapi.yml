@@ -207,38 +207,60 @@ paths:
       - Oauth | Twitter
 components:
   schemas:
-    GetTwitterAccountsSchema:
+    SocialMediaTwitterAccountResponseDTO:
       type: object
       properties:
-        profile:
-          description: Twitter Profile Details
-          type: array
-          items:
-            $ref: '#/components/schemas/TwitterProfileSchema'
-    AttachTwitterAccountDTO:
-      type: object
-      properties:
-        originId:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
           type: string
-          example: 244405****11687
+          description: Message
+          example: Added Twitter Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaTwitterAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    TwitterProfileSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of profile
+          example: ZHl1OWpfZEMyeWc5UjJOOU51RVNOal
         name:
           type: string
-          example: JOHN_DEO
+          description: Name of profile
+          example: Twitter Account name
         username:
           type: string
-          example: user_name
+          description: Username of profile
+          example: sample_user
         avatar:
           type: string
+          description: Avatar of profile
+          example: ZHl1OWpfZEMyeWc5UjJOOU51RVNOal
         protected:
           type: boolean
+          description: Is protected
           example: true
         verified:
           type: boolean
+          description: Is verified
           example: true
-        companyId:
-          type: string
-          description: Company ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
+        isConnected:
+          type: boolean
+          description: Is connected
+          example: true
     SocialMediaTwitterAccountSchema:
       type: object
       properties:
@@ -311,6 +333,14 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
+    GetTwitterAccountsSchema:
+      type: object
+      properties:
+        profile:
+          description: Twitter Profile Details
+          type: array
+          items:
+            $ref: '#/components/schemas/TwitterProfileSchema'
     GetTwitterAccountsResponseDTO:
       type: object
       properties:
@@ -334,60 +364,30 @@ components:
       - success
       - statusCode
       - message
-    TwitterProfileSchema:
+    AttachTwitterAccountDTO:
       type: object
       properties:
-        id:
+        originId:
           type: string
-          description: ID of profile
-          example: ZHl1OWpfZEMyeWc5UjJOOU51RVNOal
+          example: 244405****11687
         name:
           type: string
-          description: Name of profile
-          example: Twitter Account name
+          example: JOHN_DEO
         username:
           type: string
-          description: Username of profile
-          example: sample_user
+          example: user_name
         avatar:
           type: string
-          description: Avatar of profile
-          example: ZHl1OWpfZEMyeWc5UjJOOU51RVNOal
         protected:
           type: boolean
-          description: Is protected
           example: true
         verified:
           type: boolean
-          description: Is verified
           example: true
-        isConnected:
-          type: boolean
-          description: Is connected
-          example: true
-    SocialMediaTwitterAccountResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
+        companyId:
           type: string
-          description: Message
-          example: Added Twitter Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/SocialMediaTwitterAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
   securitySchemes:
     bearer:
       scheme: bearer

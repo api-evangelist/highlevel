@@ -62,6 +62,11 @@ paths:
         - companies.readonly
 components:
   schemas:
+    GetCompanyByIdSuccessfulResponseDto:
+      type: object
+      properties:
+        company:
+          $ref: '#/components/schemas/GetCompanyByIdSchema'
     GetCompanyByIdSchema:
       type: object
       properties:
@@ -231,11 +236,6 @@ components:
           type: boolean
           example: false
           description: Flag to determine if new sub-accounts should use default data
-    GetCompanyByIdSuccessfulResponseDto:
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/GetCompanyByIdSchema'
     IOnboardingDto:
       type: object
       properties:

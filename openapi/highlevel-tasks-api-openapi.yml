@@ -343,54 +343,6 @@ components:
         succeded:
           type: boolean
           example: true
-    CreateTaskParams:
-      type: object
-      properties:
-        title:
-          type: string
-          example: First Task
-        body:
-          type: string
-          example: loram ipsum
-        dueDate:
-          type: string
-          example: '2020-10-25T11:00:00Z'
-        completed:
-          type: boolean
-          example: true
-        assignedTo:
-          type: string
-          example: hxHGVRb1YJUscrCB8eXK
-      required:
-      - title
-      - dueDate
-      - completed
-    UpdateTaskStatusParams:
-      type: object
-      properties:
-        completed:
-          type: boolean
-          example: true
-      required:
-      - completed
-    UpdateTaskBody:
-      type: object
-      properties:
-        title:
-          type: string
-          example: First Task
-        body:
-          type: string
-          example: loram ipsum
-        dueDate:
-          type: string
-          example: '2020-10-25T11:00:00Z'
-        completed:
-          type: boolean
-          example: true
-        assignedTo:
-          type: string
-          example: hxHGVRb1YJUscrCB8eXK
     TaskSchema:
       type: object
       properties:
@@ -415,11 +367,59 @@ components:
         contactId:
           type: string
           example: lJpzYrWdpkC2hX6t2yue
+    CreateTaskParams:
+      type: object
+      properties:
+        title:
+          type: string
+          example: First Task
+        body:
+          type: string
+          example: loram ipsum
+        dueDate:
+          type: string
+          example: '2020-10-25T11:00:00Z'
+        completed:
+          type: boolean
+          example: true
+        assignedTo:
+          type: string
+          example: hxHGVRb1YJUscrCB8eXK
+      required:
+      - title
+      - dueDate
+      - completed
     TaskByIsSuccessfulResponseDto:
       type: object
       properties:
         task:
           $ref: '#/components/schemas/TaskSchema'
+    UpdateTaskBody:
+      type: object
+      properties:
+        title:
+          type: string
+          example: First Task
+        body:
+          type: string
+          example: loram ipsum
+        dueDate:
+          type: string
+          example: '2020-10-25T11:00:00Z'
+        completed:
+          type: boolean
+          example: true
+        assignedTo:
+          type: string
+          example: hxHGVRb1YJUscrCB8eXK
+    UpdateTaskStatusParams:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          example: true
+      required:
+      - completed
     TasksListSuccessfulResponseDto:
       type: object
       properties:

@@ -347,15 +347,56 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
+    AddContactToCampaignDto:
+      type: object
+      properties: {}
     CreateDeleteCantactsCampaignsSuccessfulResponseDto:
       type: object
       properties:
         succeded:
           type: boolean
           example: true
-    AddContactToCampaignDto:
+    InvalidLocationDTO:
       type: object
-      properties: {}
+      properties:
+        statusCode:
+          type: number
+          example: 403
+        message:
+          type: string
+          example: The token does not have access to this location
+    ScheduleFetchSuccessfulDTO:
+      type: object
+      properties:
+        schedules:
+          description: The list of campaigns
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleDto'
+        total:
+          description: The total number of campaigns
+          type: array
+          items:
+            type: string
+        traceId:
+          type: string
+          description: Trace Id
+      required:
+      - schedules
+      - total
+      - traceId
+    NotFoundDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 404
+        message:
+          type: string
+          example: Not Found
+        error:
+          type: string
+          example: The requested resource was not found
     ScheduleDto:
       type: object
       properties:
@@ -446,47 +487,6 @@ components:
       - downloadUrl
       - templateDataDownloadUrl
       - child
-    ScheduleFetchSuccessfulDTO:
-      type: object
-      properties:
-        schedules:
-          description: The list of campaigns
-          type: array
-          items:
-            $ref: '#/components/schemas/ScheduleDto'
-        total:
-          description: The total number of campaigns
-          type: array
-          items:
-            type: string
-        traceId:
-          type: string
-          description: Trace Id
-      required:
-      - schedules
-      - total
-      - traceId
-    NotFoundDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 404
-        message:
-          type: string
-          example: Not Found
-        error:
-          type: string
-          example: The requested resource was not found
-    InvalidLocationDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 403
-        message:
-          type: string
-          example: The token does not have access to this location
   securitySchemes:
     bearer:
       scheme: bearer

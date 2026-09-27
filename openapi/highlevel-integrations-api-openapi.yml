@@ -12,7 +12,7 @@ tags:
 paths:
   /payments/integrations/provider/whitelabel:
     post:
-      operationId: create-integration provider
+      operationId: create-integrationProvider
       summary: Create White-label Integration Provider
       description: The "Create White-label Integration Provider" API allows adding a new payment provider integration to the system which is built on top of Authorize.net or NMI. Use this endpoint to create a integration provider with the specified details. Ensure that the required information is provided in the request payload. This endpoint can be only invoked using marketplace-app token
       parameters:
@@ -60,6 +60,8 @@ paths:
       security:
       - Location-Access:
         - payments/integration.write
+      x-operation-id-source: normalized
+      x-operation-id-original: create-integration provider
     get:
       operationId: list-integration-providers
       summary: List White-label Integration Providers
@@ -137,72 +139,7 @@ paths:
         - payments/integration.readonly
 components:
   schemas:
-    ListWhitelabelIntegrationProviderResponseDto:
-      type: object
-      properties:
-        providers:
-          description: list of integration provider.
-          allOf:
-          - $ref: '#/components/schemas/IntegrationProviderSchema'
-      required:
-      - providers
     IntegrationProviderSchema:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier of the integration provider.
-          example: 65cb47dda50f4f13ced4b870
-        altId:
-          type: string
-          description: The altId / locationId of the integration provider.
-          example: Z4Bxl8J4SaPEPLq9IQ8g
-        altType:
-          type: string
-          description: The altType of the integration provider.
-          example: location
-        title:
-          type: string
-          description: The title or name of the integration provider.
-          example: Example
-        route:
-          type: string
-          description: The route name associated with the integration provider.
-          example: epd
-        provider:
-          type: string
-          description: The payment provider associated with the integration provider.
-          example: nmi
-        description:
-          type: string
-          description: A brief description providing additional information about the integration provider.
-          example: Lorem
-        imageUrl:
-          type: string
-          description: The URL to an image representing the integration provider.
-          example: https://example.com/assets/pmd/img/payments/nmi-logo.webp
-        createdAt:
-          format: date-time
-          type: string
-          description: The timestamp when the integration provider was created.
-          example: '2024-02-13T10:43:41.026Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The timestamp when the integration provider was last updated.
-          example: '2024-02-13T10:43:41.026Z'
-      required:
-      - _id
-      - altId
-      - altType
-      - title
-      - route
-      - provider
-      - description
-      - imageUrl
-      - createdAt
-      - updatedAt
-    CreateWhitelabelIntegrationResponseDto:
       type: object
       properties:
         _id:
@@ -304,6 +241,71 @@ components:
       - provider
       - description
       - imageUrl
+    CreateWhitelabelIntegrationResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier of the integration provider.
+          example: 65cb47dda50f4f13ced4b870
+        altId:
+          type: string
+          description: The altId / locationId of the integration provider.
+          example: Z4Bxl8J4SaPEPLq9IQ8g
+        altType:
+          type: string
+          description: The altType of the integration provider.
+          example: location
+        title:
+          type: string
+          description: The title or name of the integration provider.
+          example: Example
+        route:
+          type: string
+          description: The route name associated with the integration provider.
+          example: epd
+        provider:
+          type: string
+          description: The payment provider associated with the integration provider.
+          example: nmi
+        description:
+          type: string
+          description: A brief description providing additional information about the integration provider.
+          example: Lorem
+        imageUrl:
+          type: string
+          description: The URL to an image representing the integration provider.
+          example: https://example.com/assets/pmd/img/payments/nmi-logo.webp
+        createdAt:
+          format: date-time
+          type: string
+          description: The timestamp when the integration provider was created.
+          example: '2024-02-13T10:43:41.026Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The timestamp when the integration provider was last updated.
+          example: '2024-02-13T10:43:41.026Z'
+      required:
+      - _id
+      - altId
+      - altType
+      - title
+      - route
+      - provider
+      - description
+      - imageUrl
+      - createdAt
+      - updatedAt
+    ListWhitelabelIntegrationProviderResponseDto:
+      type: object
+      properties:
+        providers:
+          description: list of integration provider.
+          allOf:
+          - $ref: '#/components/schemas/IntegrationProviderSchema'
+      required:
+      - providers
   securitySchemes:
     bearer:
       scheme: bearer

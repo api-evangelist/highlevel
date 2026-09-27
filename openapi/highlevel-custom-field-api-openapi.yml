@@ -360,12 +360,6 @@ paths:
         - locations/customFields.write
 components:
   schemas:
-    CustomFieldDeleteSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
     textBoxListOptionsSchema:
       type: object
       properties:
@@ -375,6 +369,24 @@ components:
         prefillValue:
           type: string
           example: ''
+    FileUploadBody:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id(Contact Id/Opportunity Id/Custom Field Id)
+          example: aWdODOBVOlH1RUFKWQke
+        maxFiles:
+          type: string
+          description: Max number of files
+          example: '15'
+    CustomFieldsListSuccessfulResponseDto:
+      type: object
+      properties:
+        customFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldSchema'
     FileUploadResponseDto:
       type: object
       properties:
@@ -395,11 +407,6 @@ components:
           type: array
           items:
             type: string
-    CustomFieldSuccessfulResponseDto:
-      type: object
-      properties:
-        customField:
-          $ref: '#/components/schemas/CustomFieldSchema'
     CreateCustomFieldsDTO:
       type: object
       properties:
@@ -446,6 +453,53 @@ components:
       required:
       - name
       - dataType
+    UpdateCustomFieldsDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Custom Field
+        placeholder:
+          type: string
+          example: Placeholder Text
+        acceptedFormat:
+          example:
+          - .pdf
+          - .docx
+          - .jpeg
+          type: array
+          items:
+            type: string
+        isMultipleFile:
+          type: boolean
+          example: false
+        maxNumberOfFiles:
+          type: number
+          example: 2
+        textBoxListOptions:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/textBoxListOptionsSchema'
+            - $ref: '#/components/schemas/textBoxListOptionsSchema'
+        position:
+          type: number
+          example: 0
+          default: 0
+        model:
+          type: string
+          description: Model of the custom field you want to update
+          example: opportunity
+          enum:
+          - contact
+          - opportunity
+      required:
+      - name
+    CustomFieldSuccessfulResponseDto:
+      type: object
+      properties:
+        customField:
+          $ref: '#/components/schemas/CustomFieldSchema'
     CustomFieldSchema:
       type: object
       properties:
@@ -497,66 +551,12 @@ components:
           enum:
           - contact
           - opportunity
-    CustomFieldsListSuccessfulResponseDto:
+    CustomFieldDeleteSuccessfulResponseDto:
       type: object
       properties:
-        customFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldSchema'
-    UpdateCustomFieldsDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Custom Field
-        placeholder:
-          type: string
-          example: Placeholder Text
-        acceptedFormat:
-          example:
-          - .pdf
-          - .docx
-          - .jpeg
-          type: array
-          items:
-            type: string
-        isMultipleFile:
+        succeded:
           type: boolean
-          example: false
-        maxNumberOfFiles:
-          type: number
-          example: 2
-        textBoxListOptions:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/textBoxListOptionsSchema'
-            - $ref: '#/components/schemas/textBoxListOptionsSchema'
-        position:
-          type: number
-          example: 0
-          default: 0
-        model:
-          type: string
-          description: Model of the custom field you want to update
-          example: opportunity
-          enum:
-          - contact
-          - opportunity
-      required:
-      - name
-    FileUploadBody:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id(Contact Id/Opportunity Id/Custom Field Id)
-          example: aWdODOBVOlH1RUFKWQke
-        maxFiles:
-          type: string
-          description: Max number of files
-          example: '15'
+          example: true
   securitySchemes:
     bearer:
       scheme: bearer

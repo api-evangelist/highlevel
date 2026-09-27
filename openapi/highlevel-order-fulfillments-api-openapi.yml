@@ -196,148 +196,6 @@ components:
       required:
       - interval
       - intervalCount
-    ProductLabelDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The content for the product label.
-          example: Featured
-        startDate:
-          type: string
-          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
-          example: '2024-06-26T05:43:35.000Z'
-        endDate:
-          type: string
-          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
-          example: '2024-06-30T05:43:39.000Z'
-      required:
-      - title
-    MembershipOfferDto:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Membership offer label
-          example: top_50
-        value:
-          type: string
-          description: Membership offer label
-          example: '50'
-        _id:
-          type: string
-          description: The unique identifier for the membership offer.
-          example: 655b33aa2209e60b6adb87a7
-      required:
-      - label
-      - value
-      - _id
-    FulfillmentItems:
-      type: object
-      properties:
-        priceId:
-          type: string
-          description: The id of product price
-          example: 6578278e879ad2646715ba9c
-        qty:
-          type: number
-          description: The no of quantity of the item
-          example: 1
-      required:
-      - priceId
-      - qty
-    ProductVariantDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for the variant.
-          example: 38s63qmxfr4
-        name:
-          type: string
-          description: The name of the variant.
-          example: Size
-        options:
-          description: An array of options for the variant.
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductVariantOptionDto'
-      required:
-      - id
-      - name
-      - options
-    CreateFulfillmentDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        trackings:
-          description: Fulfillment tracking information
-          type: array
-          items:
-            $ref: '#/components/schemas/FulfillmentTracking'
-        items:
-          description: Fulfilled items
-          type: array
-          items:
-            $ref: '#/components/schemas/FulfillmentItems'
-        notifyCustomer:
-          type: boolean
-          description: Need to send a notification to customer
-          example: true
-      required:
-      - altId
-      - altType
-      - trackings
-      - items
-      - notifyCustomer
-    FulfillmentSchema:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        trackings:
-          description: Fulfillment tracking information
-          type: array
-          items:
-            $ref: '#/components/schemas/FulfillmentTracking'
-        _id:
-          type: string
-          description: The unique identifier for the fulfillment item.
-          example: 655b33a82209e60b6adb87a5
-        items:
-          description: Fulfilled items
-          type: array
-          items:
-            $ref: '#/components/schemas/FulfilledItem'
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
-      required:
-      - altId
-      - altType
-      - trackings
-      - _id
-      - items
-      - createdAt
-      - updatedAt
     DefaultPriceResponseDto:
       type: object
       properties:
@@ -425,6 +283,111 @@ components:
       - type
       - currency
       - amount
+    ProductLabelDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The content for the product label.
+          example: Featured
+        startDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2024-06-26T05:43:35.000Z'
+        endDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:mm:ssZ format
+          example: '2024-06-30T05:43:39.000Z'
+      required:
+      - title
+    MembershipOfferDto:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Membership offer label
+          example: top_50
+        value:
+          type: string
+          description: Membership offer label
+          example: '50'
+        _id:
+          type: string
+          description: The unique identifier for the membership offer.
+          example: 655b33aa2209e60b6adb87a7
+      required:
+      - label
+      - value
+      - _id
+    FulfillmentItems:
+      type: object
+      properties:
+        priceId:
+          type: string
+          description: The id of product price
+          example: 6578278e879ad2646715ba9c
+        qty:
+          type: number
+          description: The no of quantity of the item
+          example: 1
+      required:
+      - priceId
+      - qty
+    FulfillmentSchema:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        trackings:
+          description: Fulfillment tracking information
+          type: array
+          items:
+            $ref: '#/components/schemas/FulfillmentTracking'
+        _id:
+          type: string
+          description: The unique identifier for the fulfillment item.
+          example: 655b33a82209e60b6adb87a5
+        items:
+          description: Fulfilled items
+          type: array
+          items:
+            $ref: '#/components/schemas/FulfilledItem'
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - altId
+      - altType
+      - trackings
+      - _id
+      - items
+      - createdAt
+      - updatedAt
+    ProductVariantOptionDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the option.
+          example: h4z7u0im2q8
+        name:
+          type: string
+          description: The name of the option.
+          example: XL
+      required:
+      - id
+      - name
     CreateFulfillmentResponseDto:
       type: object
       properties:
@@ -439,21 +402,37 @@ components:
       required:
       - status
       - data
-    ListFulfillmentResponseDto:
+    CreateFulfillmentDto:
       type: object
       properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        data:
-          description: An array of fulfilled items
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        trackings:
+          description: Fulfillment tracking information
           type: array
           items:
-            $ref: '#/components/schemas/FulfillmentSchema'
+            $ref: '#/components/schemas/FulfillmentTracking'
+        items:
+          description: Fulfilled items
+          type: array
+          items:
+            $ref: '#/components/schemas/FulfillmentItems'
+        notifyCustomer:
+          type: boolean
+          description: Need to send a notification to customer
+          example: true
       required:
-      - status
-      - data
+      - altId
+      - altType
+      - trackings
+      - items
+      - notifyCustomer
     DefaultProductResponseDto:
       type: object
       properties:
@@ -543,20 +522,41 @@ components:
       - productType
       - createdAt
       - updatedAt
-    ProductVariantOptionDto:
+    ProductVariantDto:
       type: object
       properties:
         id:
           type: string
-          description: The unique identifier for the option.
-          example: h4z7u0im2q8
+          description: A unique identifier for the variant.
+          example: 38s63qmxfr4
         name:
           type: string
-          description: The name of the option.
-          example: XL
+          description: The name of the variant.
+          example: Size
+        options:
+          description: An array of options for the variant.
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantOptionDto'
       required:
       - id
       - name
+      - options
+    ListFulfillmentResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        data:
+          description: An array of fulfilled items
+          type: array
+          items:
+            $ref: '#/components/schemas/FulfillmentSchema'
+      required:
+      - status
+      - data
   securitySchemes:
     bearer:
       scheme: bearer

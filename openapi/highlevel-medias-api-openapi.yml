@@ -329,36 +329,6 @@ paths:
       - Medias
 components:
   schemas:
-    GetFilesResponseDTO:
-      type: object
-      properties:
-        files:
-          description: Array of File Objects
-          example:
-            altId: locationId
-            altType: location
-            name: file name
-            parentId: parent folder id
-            url: file url
-            path: file path
-          type: array
-          items:
-            type: string
-      required:
-      - files
-    UpdateMediaObject:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the file or folder to be updated
-          example: 686f9817f0d3165be9fbcef6
-        name:
-          type: string
-          description: New name for the file or folder
-          example: Updated File Name.pdf
-      required:
-      - id
     FolderDTO:
       type: object
       properties:
@@ -432,52 +402,6 @@ components:
       - altType
       - name
       - type
-    UpdateMediaObjects:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location identifier
-          example: sx6wyHhbFdRXh302LLNR
-        altType:
-          type: string
-          description: Type of entity that owns the files
-          enum:
-          - location
-          example: location
-        filesToBeUpdated:
-          type: array
-          description: Array of file objects to be updated
-          items:
-            $ref: '#/components/schemas/UpdateMediaObject'
-          example:
-          - id: 686f9817f0d3165be9fbcef6
-            name: Updated File Name.pdf
-      required:
-      - altId
-      - altType
-      - filesToBeUpdated
-    UpdateObject:
-      type: object
-      properties:
-        name:
-          type: string
-          description: New name for the file or folder
-          example: Updated File Name.pdf
-        altType:
-          type: string
-          description: Type of entity that owns the file or folder
-          enum:
-          - location
-          example: location
-        altId:
-          type: string
-          description: Location identifier that owns the file or folder
-          example: sx6wyHhbFdRXh302LLNR
-      required:
-      - name
-      - altType
-      - altId
     DeleteMediaObjectsBodyParams:
       type: object
       properties:
@@ -510,29 +434,6 @@ components:
       - altType
       - altId
       - status
-    DeleteMediaObjectItem:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Unique identifier of the file or folder to be deleted
-          example: 686f630df0d3166d68fbcec2
-      required:
-      - _id
-    UploadFileResponseDTO:
-      type: object
-      properties:
-        fileId:
-          type: string
-          description: ID of the uploaded file
-          example: file.pdf
-        url:
-          type: string
-          description: Google Cloud Storage URL of the uploaded file
-          example: https://storage.googleapis.com/bucket-name/path/to/file.pdf
-      required:
-      - fileId
-      - url
     CreateFolderParams:
       type: object
       properties:
@@ -558,6 +459,105 @@ components:
       - altId
       - altType
       - name
+    UpdateMediaObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the file or folder to be updated
+          example: 686f9817f0d3165be9fbcef6
+        name:
+          type: string
+          description: New name for the file or folder
+          example: Updated File Name.pdf
+      required:
+      - id
+    UpdateObject:
+      type: object
+      properties:
+        name:
+          type: string
+          description: New name for the file or folder
+          example: Updated File Name.pdf
+        altType:
+          type: string
+          description: Type of entity that owns the file or folder
+          enum:
+          - location
+          example: location
+        altId:
+          type: string
+          description: Location identifier that owns the file or folder
+          example: sx6wyHhbFdRXh302LLNR
+      required:
+      - name
+      - altType
+      - altId
+    GetFilesResponseDTO:
+      type: object
+      properties:
+        files:
+          description: Array of File Objects
+          example:
+            altId: locationId
+            altType: location
+            name: file name
+            parentId: parent folder id
+            url: file url
+            path: file path
+          type: array
+          items:
+            type: string
+      required:
+      - files
+    UploadFileResponseDTO:
+      type: object
+      properties:
+        fileId:
+          type: string
+          description: ID of the uploaded file
+          example: file.pdf
+        url:
+          type: string
+          description: Google Cloud Storage URL of the uploaded file
+          example: https://storage.googleapis.com/bucket-name/path/to/file.pdf
+      required:
+      - fileId
+      - url
+    DeleteMediaObjectItem:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier of the file or folder to be deleted
+          example: 686f630df0d3166d68fbcec2
+      required:
+      - _id
+    UpdateMediaObjects:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location identifier
+          example: sx6wyHhbFdRXh302LLNR
+        altType:
+          type: string
+          description: Type of entity that owns the files
+          enum:
+          - location
+          example: location
+        filesToBeUpdated:
+          type: array
+          description: Array of file objects to be updated
+          items:
+            $ref: '#/components/schemas/UpdateMediaObject'
+          example:
+          - id: 686f9817f0d3165be9fbcef6
+            name: Updated File Name.pdf
+      required:
+      - altId
+      - altType
+      - filesToBeUpdated
   securitySchemes:
     bearer:
       scheme: bearer

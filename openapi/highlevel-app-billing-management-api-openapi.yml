@@ -100,43 +100,6 @@ components:
       - paymentType
       - name
       - paymentTime
-    PlansDTO:
-      type: object
-      properties:
-        subscription:
-          description: Subscription plans
-          example:
-          - resellingAmount: 0
-            baseAmount: 999
-            planId: 5ae000000000000000000000
-            features:
-            - feature1
-            - feature2
-            paymentType: month
-            name: Monthly Plan - 999
-            paymentTime: month
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionPlanDTO'
-        usage:
-          description: Usage-based plans
-          example:
-          - productType: workflow_action
-            productName: Send Group iMessage
-            usageUnit: action / message
-            meterId: 680b97022b4a34420f5f9b93
-            meterName: Send Group iMessage
-            fixedPricePerUnit: 0.01001
-            priceType: fixed
-            minPricePerUnit: '0.01001'
-            maxPricePerUnit: '0.01001'
-            executionLimitPerCycle: 1000
-          type: array
-          items:
-            $ref: '#/components/schemas/UsagePlanDTO'
-      required:
-      - subscription
-      - usage
     UsagePlanDTO:
       type: object
       properties:
@@ -225,6 +188,43 @@ components:
           - $ref: '#/components/schemas/PlansDTO'
       required:
       - plans
+    PlansDTO:
+      type: object
+      properties:
+        subscription:
+          description: Subscription plans
+          example:
+          - resellingAmount: 0
+            baseAmount: 999
+            planId: 5ae000000000000000000000
+            features:
+            - feature1
+            - feature2
+            paymentType: month
+            name: Monthly Plan - 999
+            paymentTime: month
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionPlanDTO'
+        usage:
+          description: Usage-based plans
+          example:
+          - productType: workflow_action
+            productName: Send Group iMessage
+            usageUnit: action / message
+            meterId: 680b97022b4a34420f5f9b93
+            meterName: Send Group iMessage
+            fixedPricePerUnit: 0.01001
+            priceType: fixed
+            minPricePerUnit: '0.01001'
+            maxPricePerUnit: '0.01001'
+            executionLimitPerCycle: 1000
+          type: array
+          items:
+            $ref: '#/components/schemas/UsagePlanDTO'
+      required:
+      - subscription
+      - usage
   securitySchemes:
     bearer:
       scheme: bearer

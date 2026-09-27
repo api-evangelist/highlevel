@@ -430,49 +430,54 @@ paths:
         - locations/customFields.write
 components:
   schemas:
-    OptionDTO:
+    CustomFieldsResponseDTO:
       type: object
       properties:
-        key:
-          type: string
-          description: Key of the option (Included in Create and Response, excluded in Update)
-        label:
-          type: string
-          description: Value of the option
-        url:
-          type: string
-          description: URL associated with the option (Optional, valid only for RADIO type)
-      required:
-      - key
-      - label
-    ICustomFieldFolder:
+        fields:
+          description: Custom Fields for the object.
+          type: array
+          items:
+            $ref: '#/components/schemas/ICustomField'
+        folders:
+          description: Custom Fields folder for the object.
+          type: array
+          items:
+            $ref: '#/components/schemas/ICustomField'
+    CustomFolderDeleteResponseDto:
       type: object
       properties:
+        succeded:
+          type: boolean
+          example: true
         id:
           type: string
-          description: Unique identifier of the object
+          example: 3v34PM428h8vShlRW1KT
+        key:
+          type: string
+          example: custom_object.pet.name
+      required:
+      - succeded
+      - id
+      - key
+    CreateFolder:
+      type: object
+      properties:
         objectKey:
           type: string
           description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
           example: custom_object.pet
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
         name:
           type: string
           description: Field name
           example: Name
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
       required:
-      - id
       - objectKey
-      - locationId
       - name
-    CustomFieldSuccessfulResponseDto:
-      type: object
-      properties:
-        field:
-          $ref: '#/components/schemas/ICustomField'
+      - locationId
     UpdateFolder:
       type: object
       properties:
@@ -570,69 +575,6 @@ components:
       - fieldKey
       - objectKey
       - parentId
-    CustomFolderDeleteResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
-        id:
-          type: string
-          example: 3v34PM428h8vShlRW1KT
-        key:
-          type: string
-          example: custom_object.pet.name
-      required:
-      - succeded
-      - id
-      - key
-    UpdateCustomFieldsDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        name:
-          type: string
-          description: Field name
-          example: Name
-        description:
-          type: string
-          description: Description of the field
-        placeholder:
-          type: string
-          description: Placeholder text for the field
-        showInForms:
-          type: boolean
-          description: Whether the field should be shown in forms
-        options:
-          description: 'Options for the field. Important: Providing options will completely replace the existing options array. You must include all existing options alongside any new options you wish to add. Removal of options is not supported through this update. Applicable only for SINGLE_OPTIONS, MULTIPLE_OPTIONS, RADIO, CHECKBOX, TEXTBOX_LIST types.'
-          type: array
-          items:
-            $ref: '#/components/schemas/OptionDTO'
-        acceptedFormats:
-          type: string
-          enum:
-          - .pdf
-          - .docx
-          - .doc
-          - .jpg
-          - .jpeg
-          - .png
-          - .gif
-          - .csv
-          - .xlsx
-          - .xls
-          - all
-          description: 'Allowed file formats for uploads. Options include: .pdf, .docx, .doc, .jpg, .jpeg, .png, .gif, .csv, .xlsx, .xls, all'
-        maxFileLimit:
-          type: number
-          description: Maximum file limit for uploads. Applicable only for fields with a data type of FILE_UPLOAD.
-          example: 2
-      required:
-      - locationId
-      - showInForms
     ICustomField:
       type: object
       properties:
@@ -730,38 +672,96 @@ components:
       - fieldKey
       - dateAdded
       - dateUpdated
-    CreateFolder:
+    UpdateCustomFieldsDTO:
       type: object
       properties:
-        objectKey:
-          type: string
-          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
-          example: custom_object.pet
-        name:
-          type: string
-          description: Field name
-          example: Name
         locationId:
           type: string
           description: Location Id
           example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          description: Field name
+          example: Name
+        description:
+          type: string
+          description: Description of the field
+        placeholder:
+          type: string
+          description: Placeholder text for the field
+        showInForms:
+          type: boolean
+          description: Whether the field should be shown in forms
+        options:
+          description: 'Options for the field. Important: Providing options will completely replace the existing options array. You must include all existing options alongside any new options you wish to add. Removal of options is not supported through this update. Applicable only for SINGLE_OPTIONS, MULTIPLE_OPTIONS, RADIO, CHECKBOX, TEXTBOX_LIST types.'
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionDTO'
+        acceptedFormats:
+          type: string
+          enum:
+          - .pdf
+          - .docx
+          - .doc
+          - .jpg
+          - .jpeg
+          - .png
+          - .gif
+          - .csv
+          - .xlsx
+          - .xls
+          - all
+          description: 'Allowed file formats for uploads. Options include: .pdf, .docx, .doc, .jpg, .jpeg, .png, .gif, .csv, .xlsx, .xls, all'
+        maxFileLimit:
+          type: number
+          description: Maximum file limit for uploads. Applicable only for fields with a data type of FILE_UPLOAD.
+          example: 2
       required:
-      - objectKey
-      - name
       - locationId
-    CustomFieldsResponseDTO:
+      - showInForms
+    CustomFieldSuccessfulResponseDto:
       type: object
       properties:
-        fields:
-          description: Custom Fields for the object.
-          type: array
-          items:
-            $ref: '#/components/schemas/ICustomField'
-        folders:
-          description: Custom Fields folder for the object.
-          type: array
-          items:
-            $ref: '#/components/schemas/ICustomField'
+        field:
+          $ref: '#/components/schemas/ICustomField'
+    OptionDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Key of the option (Included in Create and Response, excluded in Update)
+        label:
+          type: string
+          description: Value of the option
+        url:
+          type: string
+          description: URL associated with the option (Optional, valid only for RADIO type)
+      required:
+      - key
+      - label
+    ICustomFieldFolder:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the object
+        objectKey:
+          type: string
+          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
+          example: custom_object.pet
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          description: Field name
+          example: Name
+      required:
+      - id
+      - objectKey
+      - locationId
+      - name
   securitySchemes:
     bearer:
       scheme: bearer

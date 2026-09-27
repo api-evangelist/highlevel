@@ -169,7 +169,154 @@ paths:
         - affiliate-manager.readonly
 components:
   schemas:
+    AffiliateListMetaResponseDto:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total affiliates matching the applied filters
+          example: 42
+      required:
+      - count
     OAuthAffiliateListItemResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Affiliate id
+          example: 63d147176c5bbc30e9e091a4
+        firstName:
+          type: string
+          description: Affiliate first name
+          example: John
+        lastName:
+          type: string
+          description: Affiliate last name
+          example: Doe
+        phone:
+          type: string
+          description: Affiliate phone number
+          example: +1 888 888-8888
+        deleted:
+          type: boolean
+          description: Whether the affiliate is deleted
+          example: false
+        locationId:
+          type: string
+          description: Location id
+          example: ve9EPM428h8vShlRW1KT
+        active:
+          type: boolean
+          description: Whether the affiliate is active
+          example: true
+        address:
+          type: string
+          description: Affiliate address
+          example: 123 Main St
+        avatar:
+          type: string
+          description: Affiliate avatar URL
+          example: https://example.com/avatar.png
+        createdAt:
+          type: string
+          description: Created at timestamp
+          example: '2024-06-16T00:00:00.000Z'
+        createdBy:
+          type: object
+          description: Created by audit info
+        facebookUrl:
+          type: string
+          description: Facebook URL
+          example: https://facebook.com/johndoe
+        instagramUrl:
+          type: string
+          description: Instagram URL
+          example: https://instagram.com/johndoe
+        linkedInUrl:
+          type: string
+          description: LinkedIn URL
+          example: https://linkedin.com/in/johndoe
+        twitterUrl:
+          type: string
+          description: Twitter URL
+          example: https://twitter.com/johndoe
+        youtubeUrl:
+          type: string
+          description: YouTube URL
+          example: https://youtube.com/channel
+        websiteUrl:
+          type: string
+          description: Website URL
+          example: https://example.com
+        contactId:
+          type: string
+          description: Contact id associated with the affiliate
+          example: ve9EPM428h8vShlRW1KT
+        campaignIds:
+          description: Campaign ids
+          example:
+          - 650173614761b33c46d33b19
+          type: array
+          items:
+            type: string
+        vatId:
+          type: string
+          description: VAT ID
+          example: VAT123
+        updatedAt:
+          type: string
+          description: Updated at timestamp
+          example: '2024-06-16T00:00:00.000Z'
+        w8Form:
+          type: string
+          description: W8 form URL
+        w9Form:
+          type: string
+          description: W9 form URL
+        lastUpdatedBy:
+          type: object
+          description: Last updated by audit info
+        email:
+          type: string
+          description: Affiliate email
+          example: john.doe@example.com
+        revenue:
+          type: number
+          description: Affiliate revenue
+          example: 1250.5
+        customer:
+          type: number
+          description: Customer count
+          example: 15
+        lead:
+          type: number
+          description: Lead count
+          example: 5
+        droppedCustomer:
+          type: number
+          description: Dropped customer count
+          example: 2
+        clickCount:
+          type: number
+          description: Click count
+          example: 100
+        paid:
+          type: number
+          description: Paid amount
+          example: 500
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        owned:
+          type: number
+          description: Owned amount
+          example: 750
+      required:
+      - _id
+      - locationId
+      - email
+    GetAffiliateResponseDto:
       type: object
       properties:
         _id:
@@ -322,153 +469,6 @@ components:
       required:
       - affiliates
       - meta
-    GetAffiliateResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Affiliate id
-          example: 63d147176c5bbc30e9e091a4
-        firstName:
-          type: string
-          description: Affiliate first name
-          example: John
-        lastName:
-          type: string
-          description: Affiliate last name
-          example: Doe
-        phone:
-          type: string
-          description: Affiliate phone number
-          example: +1 888 888-8888
-        deleted:
-          type: boolean
-          description: Whether the affiliate is deleted
-          example: false
-        locationId:
-          type: string
-          description: Location id
-          example: ve9EPM428h8vShlRW1KT
-        active:
-          type: boolean
-          description: Whether the affiliate is active
-          example: true
-        address:
-          type: string
-          description: Affiliate address
-          example: 123 Main St
-        avatar:
-          type: string
-          description: Affiliate avatar URL
-          example: https://example.com/avatar.png
-        createdAt:
-          type: string
-          description: Created at timestamp
-          example: '2024-06-16T00:00:00.000Z'
-        createdBy:
-          type: object
-          description: Created by audit info
-        facebookUrl:
-          type: string
-          description: Facebook URL
-          example: https://facebook.com/johndoe
-        instagramUrl:
-          type: string
-          description: Instagram URL
-          example: https://instagram.com/johndoe
-        linkedInUrl:
-          type: string
-          description: LinkedIn URL
-          example: https://linkedin.com/in/johndoe
-        twitterUrl:
-          type: string
-          description: Twitter URL
-          example: https://twitter.com/johndoe
-        youtubeUrl:
-          type: string
-          description: YouTube URL
-          example: https://youtube.com/channel
-        websiteUrl:
-          type: string
-          description: Website URL
-          example: https://example.com
-        contactId:
-          type: string
-          description: Contact id associated with the affiliate
-          example: ve9EPM428h8vShlRW1KT
-        campaignIds:
-          description: Campaign ids
-          example:
-          - 650173614761b33c46d33b19
-          type: array
-          items:
-            type: string
-        vatId:
-          type: string
-          description: VAT ID
-          example: VAT123
-        updatedAt:
-          type: string
-          description: Updated at timestamp
-          example: '2024-06-16T00:00:00.000Z'
-        w8Form:
-          type: string
-          description: W8 form URL
-        w9Form:
-          type: string
-          description: W9 form URL
-        lastUpdatedBy:
-          type: object
-          description: Last updated by audit info
-        email:
-          type: string
-          description: Affiliate email
-          example: john.doe@example.com
-        revenue:
-          type: number
-          description: Affiliate revenue
-          example: 1250.5
-        customer:
-          type: number
-          description: Customer count
-          example: 15
-        lead:
-          type: number
-          description: Lead count
-          example: 5
-        droppedCustomer:
-          type: number
-          description: Dropped customer count
-          example: 2
-        clickCount:
-          type: number
-          description: Click count
-          example: 100
-        paid:
-          type: number
-          description: Paid amount
-          example: 500
-        currency:
-          type: string
-          description: Currency code
-          example: USD
-        owned:
-          type: number
-          description: Owned amount
-          example: 750
-      required:
-      - _id
-      - locationId
-      - email
-    AffiliateListMetaResponseDto:
-      type: object
-      properties:
-        count:
-          type: number
-          description: Total affiliates matching the applied filters
-          example: 42
-      required:
-      - count
   securitySchemes:
     bearer:
       scheme: bearer

@@ -863,6 +863,28 @@ components:
     SearchBodyV2DTO:
       type: object
       properties: {}
+    StartAfterNumberSchema:
+      type: object
+      properties:
+        startAfterDate:
+          type: number
+          description: Search to begin after the specified date - should contain the sort value of the last document
+          example: 1600854
+    SendConversationResponseDto:
+      type: object
+      properties:
+        conversations:
+          description: The list of all conversations found for the given query
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversationSchema'
+        total:
+          type: number
+          description: Total Number of results found for the given query
+          example: 100
+      required:
+      - conversations
+      - total
     ConversationSchema:
       type: object
       properties:
@@ -971,21 +993,6 @@ components:
       - contactName
       - email
       - phone
-    SendConversationResponseDto:
-      type: object
-      properties:
-        conversations:
-          description: The list of all conversations found for the given query
-          type: array
-          items:
-            $ref: '#/components/schemas/ConversationSchema'
-        total:
-          type: number
-          description: Total Number of results found for the given query
-          example: 100
-      required:
-      - conversations
-      - total
     StartAfterArrayNumberSchema:
       type: object
       properties:
@@ -997,13 +1004,13 @@ components:
           type: array
           items:
             type: string
-    StartAfterNumberSchema:
+    SearchSuccessfulResponseDto:
       type: object
       properties:
-        startAfterDate:
-          type: number
-          description: Search to begin after the specified date - should contain the sort value of the last document
-          example: 1600854
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetLocationSchema'
     SocialSchema:
       type: object
       properties:
@@ -1051,13 +1058,6 @@ components:
           type: string
           description: Google Business Places ID
           example: ChIJJGPdVbQTrjsRGUkefteUeFk
-    SearchSuccessfulResponseDto:
-      type: object
-      properties:
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetLocationSchema'
     GetLocationSchema:
       type: object
       properties:
@@ -1154,6 +1154,46 @@ components:
       - page
       - searchAfter
       - additionalDetails
+    SearchMetaResponseSchema:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 1
+        nextPageUrl:
+          type: string
+          example: http://localhost:5066/opportunities/search?q=&location_id=ve9EPM428h8vShlRW1KT&pipeline_id=&pipeline_stage_id=&status=&assigned_to+=&campaignId=&id=&order=&endDate=&startAfter=1625203104328&startAfterId=yWQobCRIhRguQtD2llvk&date=&limit=1&country=&page=1
+        startAfterId:
+          type: string
+          example: yWQobCRIhRguQtD2llvk
+        startAfter:
+          type: number
+          example: 1625203104328
+        currentPage:
+          type: number
+          example: 2
+        nextPage:
+          type: number
+          example: 3
+        prevPage:
+          type: number
+          example: 1
+    AdditionalDetailsDTO:
+      type: object
+      properties:
+        notes:
+          type: boolean
+        tasks:
+          type: boolean
+        calendarEvents:
+          type: boolean
+        unReadConversations:
+          type: boolean
+      required:
+      - notes
+      - tasks
+      - calendarEvents
+      - unReadConversations
     SearchOpportunitiesResponseSchema:
       type: object
       properties:
@@ -1232,6 +1272,28 @@ components:
             type: array
         externalObjectId:
           type: string
+    SearchOpportunitiesContactResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: byMEV0NQinDhq8ZfiOi2
+        name:
+          type: string
+          example: John Deo
+        companyName:
+          type: string
+          example: Tesla Inc
+        email:
+          type: string
+          example: john@deo.com
+        phone:
+          type: string
+          example: +1202-555-0107
+        tags:
+          type: array
+          items:
+            type: string
     SearchSuccessfulResponseDto_2:
       type: object
       properties:
@@ -1277,68 +1339,6 @@ components:
       required:
       - id
       - fieldValue
-    SearchMetaResponseSchema:
-      type: object
-      properties:
-        total:
-          type: number
-          example: 1
-        nextPageUrl:
-          type: string
-          example: http://localhost:5066/opportunities/search?q=&location_id=ve9EPM428h8vShlRW1KT&pipeline_id=&pipeline_stage_id=&status=&assigned_to+=&campaignId=&id=&order=&endDate=&startAfter=1625203104328&startAfterId=yWQobCRIhRguQtD2llvk&date=&limit=1&country=&page=1
-        startAfterId:
-          type: string
-          example: yWQobCRIhRguQtD2llvk
-        startAfter:
-          type: number
-          example: 1625203104328
-        currentPage:
-          type: number
-          example: 2
-        nextPage:
-          type: number
-          example: 3
-        prevPage:
-          type: number
-          example: 1
-    AdditionalDetailsDTO:
-      type: object
-      properties:
-        notes:
-          type: boolean
-        tasks:
-          type: boolean
-        calendarEvents:
-          type: boolean
-        unReadConversations:
-          type: boolean
-      required:
-      - notes
-      - tasks
-      - calendarEvents
-      - unReadConversations
-    SearchOpportunitiesContactResponseSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: byMEV0NQinDhq8ZfiOi2
-        name:
-          type: string
-          example: John Deo
-        companyName:
-          type: string
-          example: Tesla Inc
-        email:
-          type: string
-          example: john@deo.com
-        phone:
-          type: string
-          example: +1202-555-0107
-        tags:
-          type: array
-          items:
-            type: string
     FilterByEmailDto:
       type: object
       properties:
@@ -1372,24 +1372,6 @@ components:
       required:
       - companyId
       - emails
-    RoleSchema:
-      type: object
-      properties:
-        type:
-          type: string
-          example: account
-        role:
-          type: string
-          example: admin
-        locationIds:
-          example:
-          - ve9EPM428h8vShlRW1KT
-          type: array
-          items:
-            type: string
-        restrictSubAccount:
-          type: boolean
-          example: true
     UserSchema:
       type: object
       properties:
@@ -1636,16 +1618,6 @@ components:
           - da
           - fi
           - 'no'
-    SearchUserSuccessfulResponseDto:
-      type: object
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSchema'
-        count:
-          type: number
-          example: 1231
     PermissionsDto:
       type: object
       properties:
@@ -1801,6 +1773,34 @@ components:
           type: boolean
           example: true
           default: true
+    SearchUserSuccessfulResponseDto:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSchema'
+        count:
+          type: number
+          example: 1231
+    RoleSchema:
+      type: object
+      properties:
+        type:
+          type: string
+          example: account
+        role:
+          type: string
+          example: admin
+        locationIds:
+          example:
+          - ve9EPM428h8vShlRW1KT
+          type: array
+          items:
+            type: string
+        restrictSubAccount:
+          type: boolean
+          example: true
   securitySchemes:
     bearer:
       scheme: bearer

@@ -419,6 +419,55 @@ paths:
         - calendars.write
 components:
   schemas:
+    ScheduleIntervalDTO:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start time in HH:MM format (24-hour format)
+          example: 09:00
+          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+        to:
+          type: string
+          description: End time in HH:MM format (24-hour format)
+          example: '17:00'
+          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+      required:
+      - from
+      - to
+    GetAllSchedulesResponseDTO:
+      type: object
+      properties:
+        schedules:
+          description: Array of schedules
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleObjectResponseDTO'
+      required:
+      - schedules
+    UpdateScheduleDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Human-readable name for the schedule
+          example: Updated Business Hours
+        rules:
+          description: Updated schedule rules defining when the schedule is active
+          example:
+          - type: wday
+            day: monday
+            intervals:
+            - from: 08:00
+              to: '18:00'
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleRuleDTO'
+        timezone:
+          type: string
+          description: Updated timezone for the schedule (IANA timezone identifier)
+          example: America/Los_Angeles
+          pattern: ^[A-Za-z_]+/[A-Za-z_]+$
     ScheduleRuleDTO:
       type: object
       properties:
@@ -457,64 +506,6 @@ components:
       required:
       - type
       - intervals
-    UpdateScheduleDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Human-readable name for the schedule
-          example: Updated Business Hours
-        rules:
-          description: Updated schedule rules defining when the schedule is active
-          example:
-          - type: wday
-            day: monday
-            intervals:
-            - from: 08:00
-              to: '18:00'
-          type: array
-          items:
-            $ref: '#/components/schemas/ScheduleRuleDTO'
-        timezone:
-          type: string
-          description: Updated timezone for the schedule (IANA timezone identifier)
-          example: America/Los_Angeles
-          pattern: ^[A-Za-z_]+/[A-Za-z_]+$
-    ScheduleIntervalDTO:
-      type: object
-      properties:
-        from:
-          type: string
-          description: Start time in HH:MM format (24-hour format)
-          example: 09:00
-          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
-        to:
-          type: string
-          description: End time in HH:MM format (24-hour format)
-          example: '17:00'
-          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
-      required:
-      - from
-      - to
-    GetAllSchedulesResponseDTO:
-      type: object
-      properties:
-        schedules:
-          description: Array of schedules
-          type: array
-          items:
-            $ref: '#/components/schemas/ScheduleObjectResponseDTO'
-      required:
-      - schedules
-    ScheduleResponseDTO:
-      type: object
-      properties:
-        schedule:
-          description: Schedule
-          allOf:
-          - $ref: '#/components/schemas/ScheduleObjectResponseDTO'
-      required:
-      - schedule
     ScheduleObjectResponseDTO:
       type: object
       properties:
@@ -570,6 +561,15 @@ components:
       - dateUpdated
       - userId
       - deleted
+    ScheduleResponseDTO:
+      type: object
+      properties:
+        schedule:
+          description: Schedule
+          allOf:
+          - $ref: '#/components/schemas/ScheduleObjectResponseDTO'
+      required:
+      - schedule
     CreateScheduleDTO:
       type: object
       properties:
