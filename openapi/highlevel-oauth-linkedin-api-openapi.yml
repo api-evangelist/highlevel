@@ -237,56 +237,20 @@ paths:
       - bearer: []
 components:
   schemas:
-    GetLinkedInAccountSchema:
-      type: object
-      properties:
-        pages:
-          description: LinkedIn Pages
-          type: array
-          items:
-            $ref: '#/components/schemas/LinkedInPageSchema'
-        profile:
-          description: LinkedIn Profile Details
-          type: array
-          items:
-            $ref: '#/components/schemas/LinkedInProfileSchema'
-    GetLinkedInAccountsResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 200
-        message:
-          type: string
-          description: Message
-          example: Fetched LinkedIn Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetLinkedInAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    LinkedInPageSchema:
+    LinkedInProfileSchema:
       type: object
       properties:
         id:
           type: string
-          description: Page ID
+          description: Id
           example: w37swmmLbA02zgqKPpxITe
         name:
           type: string
-          description: LinkedIn Page Name
-          example: Sample Name
+          description: Name of profile
+          example: Profile Name
         avatar:
           type: string
-          description: Profile Avatar url
+          description: Profile avatar
           example: w37swmmLbA02zgqKPpxITe
         urn:
           type: string
@@ -320,28 +284,42 @@ components:
           type: string
           description: Company ID
           example: sdfdsfdsfEWEsdfsdsW32dd
-    LinkedInProfileSchema:
+    GetLinkedInAccountSchema:
       type: object
       properties:
-        id:
-          type: string
-          description: Id
-          example: w37swmmLbA02zgqKPpxITe
-        name:
-          type: string
-          description: Name of profile
-          example: Profile Name
-        avatar:
-          type: string
-          description: Profile avatar
-          example: w37swmmLbA02zgqKPpxITe
-        urn:
-          type: string
-          description: URN
-        isConnected:
+        pages:
+          description: LinkedIn Pages
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedInPageSchema'
+        profile:
+          description: LinkedIn Profile Details
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedInProfileSchema'
+    SocialMediaLinkedInAccountResponseDTO:
+      type: object
+      properties:
+        success:
           type: boolean
-          description: is connected to app
+          description: Success or Failure
           example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 200
+        message:
+          type: string
+          description: Message
+          example: Added LinkedIn Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaLinkedInAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
     SocialMediaLinkedInAccountSchema:
       type: object
       properties:
@@ -415,7 +393,7 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
-    SocialMediaLinkedInAccountResponseDTO:
+    GetLinkedInAccountsResponseDTO:
       type: object
       properties:
         success:
@@ -429,15 +407,37 @@ components:
         message:
           type: string
           description: Message
-          example: Added LinkedIn Account
+          example: Fetched LinkedIn Account
         results:
           description: Requested Results
           allOf:
-          - $ref: '#/components/schemas/SocialMediaLinkedInAccountSchema'
+          - $ref: '#/components/schemas/GetLinkedInAccountSchema'
       required:
       - success
       - statusCode
       - message
+    LinkedInPageSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Page ID
+          example: w37swmmLbA02zgqKPpxITe
+        name:
+          type: string
+          description: LinkedIn Page Name
+          example: Sample Name
+        avatar:
+          type: string
+          description: Profile Avatar url
+          example: w37swmmLbA02zgqKPpxITe
+        urn:
+          type: string
+          description: URN
+        isConnected:
+          type: boolean
+          description: is connected to app
+          example: true
   securitySchemes:
     bearer:
       scheme: bearer

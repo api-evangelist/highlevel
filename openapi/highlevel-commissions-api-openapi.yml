@@ -119,38 +119,6 @@ paths:
         - affiliate-manager.readonly
 components:
   schemas:
-    CommissionCustomerResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Customer id
-          example: 6385d230f6d19db03eef6fb2
-        firstName:
-          type: string
-          description: Customer first name
-          example: John
-        lastName:
-          type: string
-          description: Customer last name
-          example: Doe
-        email:
-          type: string
-          description: Customer email
-          example: john@example.com
-        type:
-          type: string
-          description: Customer type
-          example: customer
-    CommissionListMetaResponseDto:
-      type: object
-      properties:
-        count:
-          type: number
-          description: Total commissions matching the filters
-          example: 42
-      required:
-      - count
     CommissionListItemResponseDto:
       type: object
       properties:
@@ -260,20 +228,6 @@ components:
           example: 1
       required:
       - _id
-    GetCommissionListResponseDto:
-      type: object
-      properties:
-        commissions:
-          description: Commission list
-          type: array
-          items:
-            $ref: '#/components/schemas/CommissionListItemResponseDto'
-        meta:
-          description: Pagination metadata
-          allOf:
-          - $ref: '#/components/schemas/CommissionListMetaResponseDto'
-      required:
-      - commissions
     CommissionAffiliateResponseDto:
       type: object
       properties:
@@ -289,6 +243,15 @@ components:
           type: string
           description: Affiliate email
           example: affiliate@example.com
+    CommissionListMetaResponseDto:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total commissions matching the filters
+          example: 42
+      required:
+      - count
     CommissionCampaignResponseDto:
       type: object
       properties:
@@ -304,6 +267,43 @@ components:
           type: boolean
           description: Whether the campaign is in live mode
           example: true
+    CommissionCustomerResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Customer id
+          example: 6385d230f6d19db03eef6fb2
+        firstName:
+          type: string
+          description: Customer first name
+          example: John
+        lastName:
+          type: string
+          description: Customer last name
+          example: Doe
+        email:
+          type: string
+          description: Customer email
+          example: john@example.com
+        type:
+          type: string
+          description: Customer type
+          example: customer
+    GetCommissionListResponseDto:
+      type: object
+      properties:
+        commissions:
+          description: Commission list
+          type: array
+          items:
+            $ref: '#/components/schemas/CommissionListItemResponseDto'
+        meta:
+          description: Pagination metadata
+          allOf:
+          - $ref: '#/components/schemas/CommissionListMetaResponseDto'
+      required:
+      - commissions
   securitySchemes:
     bearer:
       scheme: bearer

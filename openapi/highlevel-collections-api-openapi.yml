@@ -330,9 +330,71 @@ paths:
         - products/collection.write
 components:
   schemas:
-    ProductCategories:
+    ListCollectionResponseDto:
       type: object
-      properties: {}
+      properties:
+        data:
+          description: Array of Collections
+          items:
+            type: array
+          type: array
+        total:
+          type: number
+          description: The total count of the collections present, which is useful to calculate the pagination
+      required:
+      - data
+      - total
+    UpdateProductCollectionResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    CreateProductCollectionsDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: The type of alt. For now it is only LOCATION
+          enum:
+          - location
+          example: LOCATION
+        collectionId:
+          type: string
+          description: Unique Identifier of the Product Collection, Mongo Id
+          example: 66057f9d28536eae584ec047
+        name:
+          type: string
+          description: Name of the Product Collection
+          example: Best Sellers
+        slug:
+          type: string
+          description: Slug of the Product Collection which helps in navigation
+          example: best-sellers
+        image:
+          type: string
+          description: The URL of the image that is going to be displayed as the collection Thumbnail
+          example: http://example.com/watermark.png
+        seo:
+          description: The metadata information which will be displayed in SEO previews
+          allOf:
+          - $ref: '#/components/schemas/CollectionSEODto'
+      required:
+      - altId
+      - altType
+      - name
+      - slug
     CollectionSEODto:
       type: object
       properties:
@@ -397,42 +459,6 @@ components:
       required:
       - data
       - status
-    CreateCollectionResponseDto:
-      type: object
-      properties:
-        data:
-          description: created Collection
-          allOf:
-          - $ref: '#/components/schemas/CollectionSchema'
-      required:
-      - data
-    ListCollectionResponseDto:
-      type: object
-      properties:
-        data:
-          description: Array of Collections
-          items:
-            type: array
-          type: array
-        total:
-          type: number
-          description: The total count of the collections present, which is useful to calculate the pagination
-      required:
-      - data
-      - total
-    UpdateProductCollectionResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
     DeleteProductCollectionResponseDto:
       type: object
       properties:
@@ -446,6 +472,15 @@ components:
           example: Successfully created
       required:
       - status
+    CreateCollectionResponseDto:
+      type: object
+      properties:
+        data:
+          description: created Collection
+          allOf:
+          - $ref: '#/components/schemas/CollectionSchema'
+      required:
+      - data
     UpdateProductCollectionsDto:
       type: object
       properties:
@@ -478,44 +513,9 @@ components:
       required:
       - altId
       - altType
-    CreateProductCollectionsDto:
+    ProductCategories:
       type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: The type of alt. For now it is only LOCATION
-          enum:
-          - location
-          example: LOCATION
-        collectionId:
-          type: string
-          description: Unique Identifier of the Product Collection, Mongo Id
-          example: 66057f9d28536eae584ec047
-        name:
-          type: string
-          description: Name of the Product Collection
-          example: Best Sellers
-        slug:
-          type: string
-          description: Slug of the Product Collection which helps in navigation
-          example: best-sellers
-        image:
-          type: string
-          description: The URL of the image that is going to be displayed as the collection Thumbnail
-          example: http://example.com/watermark.png
-        seo:
-          description: The metadata information which will be displayed in SEO previews
-          allOf:
-          - $ref: '#/components/schemas/CollectionSEODto'
-      required:
-      - altId
-      - altType
-      - name
-      - slug
+      properties: {}
   securitySchemes:
     bearer:
       scheme: bearer

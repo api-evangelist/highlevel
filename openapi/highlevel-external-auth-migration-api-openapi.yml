@@ -67,6 +67,17 @@ paths:
         - marketplace-external-auth-migration.write
 components:
   schemas:
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: HTTP status code
+          example: 500
+        message:
+          type: string
+          description: Error message describing the internal server error
+          example: Internal Server Error
     MigrateConnectionDto:
       type: object
       properties:
@@ -159,17 +170,6 @@ components:
       required:
       - success
       - identifier
-    InternalServerErrorDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          description: HTTP status code
-          example: 500
-        message:
-          type: string
-          description: Error message describing the internal server error
-          example: Internal Server Error
   securitySchemes:
     bearer:
       scheme: bearer

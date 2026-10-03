@@ -88,77 +88,6 @@ paths:
       - Bulk
 components:
   schemas:
-    UpdateTagsDTO:
-      type: object
-      properties:
-        contacts:
-          description: list of contact ids to be processed
-          example:
-          - qFSqySFkVvNzOSqgGqFi
-          - abcdef
-          - qFSqySFkVvNzOSqgGqFi
-          - 3ualbhnV7j3n3a9r2moD
-          type: array
-          items:
-            type: string
-        tags:
-          description: list of tags to be added or removed
-          example:
-          - tag-1
-          - tag-2
-          type: array
-          items:
-            type: string
-        locationId:
-          type: string
-          description: location id from where the bulk request is executed
-          example: asdrwHvLUxlfw5SqKVCN
-        removeAllTags:
-          type: boolean
-          description: Option to implement remove all tags. if true, all tags will be removed from the contacts. Can only be used with remove type.
-          example: 'false'
-      required:
-      - contacts
-      - tags
-      - locationId
-    ContactsBulkUpateResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        ids:
-          example:
-          - pOC0uJ97VYOKH2m3fkMD
-          type: array
-          items:
-            type: string
-      required:
-      - success
-      - ids
-    ContactsBusinessUpdate:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: PX8m5VwxEbcpFlzYEPVG
-        ids:
-          example:
-          - IDqvFHGColiyK6jiatuz
-          - pOC0uJ97VYOKH2m3fkMD
-          type: array
-          items:
-            type: string
-            maxLength: 50
-        businessId:
-          type:
-          - string
-          - 'null'
-          example: 63b7ec34ea409a9a8bd2a4ff
-      required:
-      - locationId
-      - ids
-      - businessId
     UpdateTagsResponseDTO:
       type: object
       properties:
@@ -197,6 +126,77 @@ components:
       - succeded
       - errorCount
       - responses
+    UpdateTagsDTO:
+      type: object
+      properties:
+        contacts:
+          description: list of contact ids to be processed
+          example:
+          - qFSqySFkVvNzOSqgGqFi
+          - abcdef
+          - qFSqySFkVvNzOSqgGqFi
+          - 3ualbhnV7j3n3a9r2moD
+          type: array
+          items:
+            type: string
+        tags:
+          description: list of tags to be added or removed
+          example:
+          - tag-1
+          - tag-2
+          type: array
+          items:
+            type: string
+        locationId:
+          type: string
+          description: location id from where the bulk request is executed
+          example: asdrwHvLUxlfw5SqKVCN
+        removeAllTags:
+          type: boolean
+          description: Option to implement remove all tags. if true, all tags will be removed from the contacts. Can only be used with remove type.
+          example: 'false'
+      required:
+      - contacts
+      - tags
+      - locationId
+    ContactsBusinessUpdate:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: PX8m5VwxEbcpFlzYEPVG
+        ids:
+          example:
+          - IDqvFHGColiyK6jiatuz
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+            maxLength: 50
+        businessId:
+          type:
+          - string
+          - 'null'
+          example: 63b7ec34ea409a9a8bd2a4ff
+      required:
+      - locationId
+      - ids
+      - businessId
+    ContactsBulkUpateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        ids:
+          example:
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+      required:
+      - success
+      - ids
   securitySchemes:
     bearer:
       scheme: bearer

@@ -375,35 +375,6 @@ paths:
       - Post
 components:
   schemas:
-    OgTagsSchema:
-      type: object
-      properties:
-        metaImage:
-          type: string
-          description: Meta Image
-          example: https://wwww.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
-        metaLink:
-          type: string
-          description: Meta Link
-    PostApprovalSchema:
-      type: object
-      properties:
-        approver:
-          type: string
-          description: Approver
-          example: iVrVJ2uoXNF0wzcBzgl5
-        requesterNote:
-          type: string
-          description: Requester Notes
-          example: Test suggestion
-        approverNote:
-          type: string
-          description: Approver Notes
-          example: Test suggestion
-        approvalStatus:
-          type: object
-          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
-          example: approved
     CreatePostSuccessfulResponseDTO:
       type: object
       properties:
@@ -427,37 +398,78 @@ components:
       - success
       - statusCode
       - message
-    TiktokPostSchema:
+    CreatePostSuccessfulResponseSchema:
       type: object
       properties:
-        privacyLevel:
+        post:
+          description: Post Data
+          allOf:
+          - $ref: '#/components/schemas/GetPostFormattedSchema'
+    SearchPostDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'type must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress and deleted'
+          example: Filter type
+          default: all
+        accounts:
+          type: string
+          description: List of account Ids seperated by comma as a string
+          example: 660a83fc29deacac50033e2b_omaDY3RbWtTP511e808O_17841465964543589, 38bF83fc29deacac50033e2b_omaDY3RbWtr3P11e808O_17841465964543998
+        skip:
+          type: string
+          example: '1'
+          default: '0'
+        limit:
+          type: string
+          example: '10'
+          default: '10'
+        fromDate:
+          type: string
+          description: From Date
+          example: '2024-01-22T05:32:49.463Z'
+        toDate:
+          type: string
+          description: To Date
+          example: '2024-03-20T05:32:49.463Z'
+        includeUsers:
+          type: string
+          description: Include User Data
+          example: 'true'
+        postType:
           type: object
-          description: 'privacy level is an enum and must be one of the following values: PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY'
-          example: PUBLIC_TO_EVERYONE
-        promoteOtherBrand:
-          type: boolean
-          description: promote other brand
-          example: true
-        enableComment:
-          type: boolean
-          description: enable comment
-          example: true
-        enableDuet:
-          type: boolean
-          description: enable duet
-          example: true
-        enableStitch:
-          type: boolean
-          description: enable stitch
-          example: true
-        videoDisclosure:
-          type: boolean
-          description: video disclosure
-          example: true
-        promoteYourBrand:
-          type: boolean
-          description: promote your brand
-          example: true
+          description: 'Post Type must be one of the following values: - post, story, reel'
+          example: post
+      required:
+      - skip
+      - limit
+      - fromDate
+      - toDate
+      - includeUsers
+    FormatedApprovalDetails:
+      type: object
+      properties:
+        approver:
+          type: string
+          description: Approver
+          example: iVrVJ2uoXNF0wzcBzgl5
+        requesterNote:
+          type: string
+          description: Requester Notes
+          example: Test suggestion
+        approverNote:
+          type: string
+          description: Approver Notes
+          example: Test suggestion
+        approvalStatus:
+          type: object
+          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
+          example: approved
+        approverUser:
+          description: Approver User Details
+          allOf:
+          - $ref: '#/components/schemas/PostUserSchema'
     PostCreateRequest:
       type: object
       properties:
@@ -574,45 +586,6 @@ components:
           type: object
           description: 'Action Type must be one of the following values: none, order, book, shop, learn_more, call, sign_up'
           example: book
-    FormatedApprovalDetails:
-      type: object
-      properties:
-        approver:
-          type: string
-          description: Approver
-          example: iVrVJ2uoXNF0wzcBzgl5
-        requesterNote:
-          type: string
-          description: Requester Notes
-          example: Test suggestion
-        approverNote:
-          type: string
-          description: Approver Notes
-          example: Test suggestion
-        approvalStatus:
-          type: object
-          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
-          example: approved
-        approverUser:
-          description: Approver User Details
-          allOf:
-          - $ref: '#/components/schemas/PostUserSchema'
-    TimeSchema:
-      type: object
-      properties:
-        hours:
-          type: number
-          example: 23
-        minutes:
-          type: number
-          example: 56
-        seconds:
-          type: number
-          example: 34
-      required:
-      - hours
-      - minutes
-      - seconds
     DeletePostsDto:
       type: object
       properties:
@@ -646,128 +619,38 @@ components:
       - success
       - statusCode
       - message
-    CreatePostSuccessfulResponseSchema:
+    TiktokPostSchema:
       type: object
       properties:
-        post:
-          description: Post Data
-          allOf:
-          - $ref: '#/components/schemas/GetPostFormattedSchema'
-    CreatePostDTO:
-      type: object
-      properties:
-        accountIds:
-          description: Account Ids
-          example:
-          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
-          type: array
-          items:
-            type: string
-        summary:
-          type: string
-          description: "Post Content \n The limitations of content as per the platforms is provided through the reference link in API description. The summary will be trimmed based on the limit"
-          example: Hello World
-        media:
-          description: "Post Media Data \n The limitations of media as per the platforms is provided through the reference link in API description"
-          type: array
-          items:
-            $ref: '#/components/schemas/PostMediaSchema'
-        status:
+        privacyLevel:
           type: object
-          description: 'Status must be one of the following values: null, in_progress, draft, failed, published, scheduled, in_review, notification_sent, deleted'
-          example: draft
-        scheduleDate:
-          type: string
-          description: Schedule Date
-        createdBy:
-          type: string
-          description: Created By
-        followUpComment:
-          type: string
-          description: Follow Up Comment on platform. It is not allowed on Tiktok and GMB accounts and there is a limit of 280 charecters for twitter account
-          example: First comment
-        ogTagsDetails:
-          description: Og Tags Meta Data
-          allOf:
-          - $ref: '#/components/schemas/OgTagsSchema'
-        type:
-          type: object
-          description: 'Post Type must be one of the following values: - post, story, reel'
-          example: post
-        postApprovalDetails:
-          description: Post Approval Details
-          allOf:
-          - $ref: '#/components/schemas/PostApprovalSchema'
-        scheduleTimeUpdated:
+          description: 'privacy level is an enum and must be one of the following values: PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY'
+          example: PUBLIC_TO_EVERYONE
+        promoteOtherBrand:
           type: boolean
-          description: if schedule datetime is updated
+          description: promote other brand
           example: true
-        tags:
-          description: Array of Tag Value
-          example:
-          - 65f151c99bc2bf3aaf970d72
-          type: array
-          items:
-            type: string
-        categoryId:
-          type: string
-          description: Category Id
-          example: 65f151c99bc2bf3aaf970d72
-        tiktokPostDetails:
-          description: Tiktok Post Details
-          allOf:
-          - $ref: '#/components/schemas/TiktokPostSchema'
-        gmbPostDetails:
-          description: GMB Post Details
-          allOf:
-          - $ref: '#/components/schemas/GMBPostSchema'
-        userId:
-          type: string
-          description: User ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
-      required:
-      - type
-      - accountIds
-      - userId
-    PostSuccessfulResponseSchema:
-      type: object
-      properties:
-        posts:
-          description: Post Data
-          type: array
-          items:
-            $ref: '#/components/schemas/GetPostFormattedSchema'
-        count:
-          type: number
-          example: 6
-    StartDateSchema:
-      type: object
-      properties:
-        startDate:
-          description: Start Date
-          allOf:
-          - $ref: '#/components/schemas/DateSchema'
-        startTime:
-          description: Start Time
-          allOf:
-          - $ref: '#/components/schemas/TimeSchema'
-    DateSchema:
-      type: object
-      properties:
-        year:
-          type: number
-          example: 2022
-        month:
-          type: number
-          example: 1
-        day:
-          type: number
-          example: 1
-      required:
-      - year
-      - month
-      - day
-    BulkDeleteResponseDto:
+        enableComment:
+          type: boolean
+          description: enable comment
+          example: true
+        enableDuet:
+          type: boolean
+          description: enable duet
+          example: true
+        enableStitch:
+          type: boolean
+          description: enable stitch
+          example: true
+        videoDisclosure:
+          type: boolean
+          description: video disclosure
+          example: true
+        promoteYourBrand:
+          type: boolean
+          description: promote your brand
+          example: true
+    GetPostSuccessfulResponseDTO:
       type: object
       properties:
         success:
@@ -777,67 +660,19 @@ components:
         statusCode:
           type: number
           description: Status Code
-          example: 201
+          example: 200
         message:
           type: string
           description: Message
-          example: Posts Deleted Successfully
+          example: Fetched Post
         results:
-          description: Message and deleted count
-          example:
-            message: Posts deleted successfully
-            deletedCount: 10
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetPostSuccessfulResponseSchema'
       required:
       - success
       - statusCode
       - message
-      - results
-    DeletePostSuccessfulResponseSchema:
-      type: object
-      properties:
-        postId:
-          type: string
-    EndDateSchema:
-      type: object
-      properties:
-        endDate:
-          description: End Date
-          allOf:
-          - $ref: '#/components/schemas/DateSchema'
-        endTime:
-          description: End Time
-          allOf:
-          - $ref: '#/components/schemas/TimeSchema'
-    GetPostSuccessfulResponseSchema:
-      type: object
-      properties:
-        post:
-          description: Post Data
-          allOf:
-          - $ref: '#/components/schemas/GetPostFormattedSchema'
-    PostMediaSchema:
-      type: object
-      properties:
-        url:
-          type: string
-          example: https://i0.wp.com/www.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
-        caption:
-          type: string
-          example: Caption 1
-        type:
-          type: string
-          example: video/mp4 or image/png
-        thumbnail:
-          type: string
-          example: https://storage.googleapis.com/test/test/media/test.jpeg
-        defaultThumb:
-          type: string
-          example: https://storage.googleapis.com/test/test/media/test.jpeg
-        id:
-          type: string
-          example: Edf3323fsfsdsd
-      required:
-      - url
     PostUserSchema:
       type: object
       properties:
@@ -877,7 +712,7 @@ components:
       - profilePhoto
       - phone
       - email
-    UpdatePostSuccessfulResponseDTO:
+    BulkDeleteResponseDto:
       type: object
       properties:
         success:
@@ -887,16 +722,97 @@ components:
         statusCode:
           type: number
           description: Status Code
-          example: 200
+          example: 201
         message:
           type: string
           description: Message
-          example: Updated Post
+          example: Posts Deleted Successfully
+        results:
+          description: Message and deleted count
+          example:
+            message: Posts deleted successfully
+            deletedCount: 10
       required:
       - success
       - statusCode
       - message
-    GetPostSuccessfulResponseDTO:
+      - results
+    GetPostSuccessfulResponseSchema:
+      type: object
+      properties:
+        post:
+          description: Post Data
+          allOf:
+          - $ref: '#/components/schemas/GetPostFormattedSchema'
+    DeletePostSuccessfulResponseSchema:
+      type: object
+      properties:
+        postId:
+          type: string
+    PostMediaSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://i0.wp.com/www.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
+        caption:
+          type: string
+          example: Caption 1
+        type:
+          type: string
+          example: video/mp4 or image/png
+        thumbnail:
+          type: string
+          example: https://storage.googleapis.com/test/test/media/test.jpeg
+        defaultThumb:
+          type: string
+          example: https://storage.googleapis.com/test/test/media/test.jpeg
+        id:
+          type: string
+          example: Edf3323fsfsdsd
+      required:
+      - url
+    OgTagsSchema:
+      type: object
+      properties:
+        metaImage:
+          type: string
+          description: Meta Image
+          example: https://wwww.lifeofanarchitect.com/wp-content/uploads/2021/10/architectural-model-making-stairs.jpg
+        metaLink:
+          type: string
+          description: Meta Link
+    PostApprovalSchema:
+      type: object
+      properties:
+        approver:
+          type: string
+          description: Approver
+          example: iVrVJ2uoXNF0wzcBzgl5
+        requesterNote:
+          type: string
+          description: Requester Notes
+          example: Test suggestion
+        approverNote:
+          type: string
+          description: Approver Notes
+          example: Test suggestion
+        approvalStatus:
+          type: object
+          description: 'Approval Status must be one of the following values: pending, approved, rejected, not_required'
+          example: approved
+    EndDateSchema:
+      type: object
+      properties:
+        endDate:
+          description: End Date
+          allOf:
+          - $ref: '#/components/schemas/DateSchema'
+        endTime:
+          description: End Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
+    DeletePostSuccessfulResponseDTO:
       type: object
       properties:
         success:
@@ -910,15 +826,31 @@ components:
         message:
           type: string
           description: Message
-          example: Fetched Post
+          example: Deleted Post
         results:
           description: Requested Results
           allOf:
-          - $ref: '#/components/schemas/GetPostSuccessfulResponseSchema'
+          - $ref: '#/components/schemas/DeletePostSuccessfulResponseSchema'
       required:
       - success
       - statusCode
       - message
+    DateSchema:
+      type: object
+      properties:
+        year:
+          type: number
+          example: 2022
+        month:
+          type: number
+          example: 1
+        day:
+          type: number
+          example: 1
+      required:
+      - year
+      - month
+      - day
     GetPostFormattedSchema:
       type: object
       properties:
@@ -1026,7 +958,18 @@ components:
       - locationId
       - error
       - type
-    DeletePostSuccessfulResponseDTO:
+    PostSuccessfulResponseSchema:
+      type: object
+      properties:
+        posts:
+          description: Post Data
+          type: array
+          items:
+            $ref: '#/components/schemas/GetPostFormattedSchema'
+        count:
+          type: number
+          example: 6
+    UpdatePostSuccessfulResponseDTO:
       type: object
       properties:
         success:
@@ -1040,57 +983,114 @@ components:
         message:
           type: string
           description: Message
-          example: Deleted Post
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/DeletePostSuccessfulResponseSchema'
+          example: Updated Post
       required:
       - success
       - statusCode
       - message
-    SearchPostDTO:
+    TimeSchema:
       type: object
       properties:
+        hours:
+          type: number
+          example: 23
+        minutes:
+          type: number
+          example: 56
+        seconds:
+          type: number
+          example: 34
+      required:
+      - hours
+      - minutes
+      - seconds
+    StartDateSchema:
+      type: object
+      properties:
+        startDate:
+          description: Start Date
+          allOf:
+          - $ref: '#/components/schemas/DateSchema'
+        startTime:
+          description: Start Time
+          allOf:
+          - $ref: '#/components/schemas/TimeSchema'
+    CreatePostDTO:
+      type: object
+      properties:
+        accountIds:
+          description: Account Ids
+          example:
+          - aF3KhyL8JIuBwzK3m7Ly_iVrVJ2uoXNF0wzcBzgl5_12554616564525983496
+          type: array
+          items:
+            type: string
+        summary:
+          type: string
+          description: "Post Content \n The limitations of content as per the platforms is provided through the reference link in API description. The summary will be trimmed based on the limit"
+          example: Hello World
+        media:
+          description: "Post Media Data \n The limitations of media as per the platforms is provided through the reference link in API description"
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMediaSchema'
+        status:
+          type: object
+          description: 'Status must be one of the following values: null, in_progress, draft, failed, published, scheduled, in_review, notification_sent, deleted'
+          example: draft
+        scheduleDate:
+          type: string
+          description: Schedule Date
+        createdBy:
+          type: string
+          description: Created By
+        followUpComment:
+          type: string
+          description: Follow Up Comment on platform. It is not allowed on Tiktok and GMB accounts and there is a limit of 280 charecters for twitter account
+          example: First comment
+        ogTagsDetails:
+          description: Og Tags Meta Data
+          allOf:
+          - $ref: '#/components/schemas/OgTagsSchema'
         type:
-          type: string
-          description: 'type must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress and deleted'
-          example: Filter type
-          default: all
-        accounts:
-          type: string
-          description: List of account Ids seperated by comma as a string
-          example: 660a83fc29deacac50033e2b_omaDY3RbWtTP511e808O_17841465964543589, 38bF83fc29deacac50033e2b_omaDY3RbWtr3P11e808O_17841465964543998
-        skip:
-          type: string
-          example: '1'
-          default: '0'
-        limit:
-          type: string
-          example: '10'
-          default: '10'
-        fromDate:
-          type: string
-          description: From Date
-          example: '2024-01-22T05:32:49.463Z'
-        toDate:
-          type: string
-          description: To Date
-          example: '2024-03-20T05:32:49.463Z'
-        includeUsers:
-          type: string
-          description: Include User Data
-          example: 'true'
-        postType:
           type: object
           description: 'Post Type must be one of the following values: - post, story, reel'
           example: post
+        postApprovalDetails:
+          description: Post Approval Details
+          allOf:
+          - $ref: '#/components/schemas/PostApprovalSchema'
+        scheduleTimeUpdated:
+          type: boolean
+          description: if schedule datetime is updated
+          example: true
+        tags:
+          description: Array of Tag Value
+          example:
+          - 65f151c99bc2bf3aaf970d72
+          type: array
+          items:
+            type: string
+        categoryId:
+          type: string
+          description: Category Id
+          example: 65f151c99bc2bf3aaf970d72
+        tiktokPostDetails:
+          description: Tiktok Post Details
+          allOf:
+          - $ref: '#/components/schemas/TiktokPostSchema'
+        gmbPostDetails:
+          description: GMB Post Details
+          allOf:
+          - $ref: '#/components/schemas/GMBPostSchema'
+        userId:
+          type: string
+          description: User ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
       required:
-      - skip
-      - limit
-      - fromDate
-      - toDate
-      - includeUsers
+      - type
+      - accountIds
+      - userId
   securitySchemes:
     bearer:
       scheme: bearer

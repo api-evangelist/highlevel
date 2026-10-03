@@ -1185,180 +1185,6 @@ paths:
       - Agency-Access: []
 components:
   schemas:
-    BulkDisableSaasDto:
-      type: object
-      properties:
-        locationIds:
-          description: Location IDs
-          example:
-          - locationId1
-          - locationId2
-          type: array
-          items:
-            type: string
-      required:
-      - locationIds
-    UpdateSubscriptionDto:
-      type: object
-      properties:
-        subscriptionId:
-          type: string
-          description: Subscription ID
-          example: sub_1QDPY5FpU9DlKp7RQ8BXfywx
-        customerId:
-          type: string
-          description: Customer ID
-          example: cus_1QDPY5FpU9DlKp7RQ8BXfywx
-        companyId:
-          type: string
-          description: Company ID
-          example: companyId1
-      required:
-      - subscriptionId
-      - customerId
-      - companyId
-    EnableSaasResponseDto:
-      type: object
-      properties:
-        data:
-          type: object
-          description: Response data from the enable SaaS operation
-          example:
-            customer_id: cus_1QDPY5FpU9DlKp7RQ8BXfywx
-            ok: true
-            paymentMethodAdded: true
-      required:
-      - data
-    EnableSaasDto:
-      type: object
-      properties:
-        stripeAccountId:
-          type: string
-          description: Stripe account id(Required only for SaaS V1)
-          example: acct_1QDPY5FpU9DlKp7RQ8BXfywx
-        name:
-          type: string
-          description: Name of the stripe customer(Required only for SaaS V1)
-          example: John Doe
-        email:
-          type: string
-          description: Email of the stripe customer(Required only for SaaS V1)
-          example: john.doe@example.com
-        stripeCustomerId:
-          type: string
-          description: Stripe customer id if exists(Required only for SaaS V1)
-          example: cus_1QDPY5FpU9DlKp7RQ8BXfywx
-        companyId:
-          type: string
-        isSaaSV2:
-          type: boolean
-          description: Denotes if it is a saas v2 or v1 sub-account
-          example: true
-        contactId:
-          type: string
-          description: Agency subaccount used for payment provider integration(Required Only for SaaS V2)
-          example: 1QDPY5FpU9DlKp7RQ8BXfywx
-        providerLocationId:
-          type: string
-          description: Agency Subaccount ID
-          example: r06mdj4OrrERzYDvsOdh
-        description:
-          type: string
-          description: Description
-          example: Description
-        saasPlanId:
-          type: string
-          description: Required only while pre-configuring saas subscription
-          example: 1QDPY5FpU9DlKp7RQ8BXfywx
-        priceId:
-          type: string
-          description: Required only while pre-configuring saas subscription
-          example: price_1QDPY5FpU9DlKp7RQ8BXfywx
-      required:
-      - companyId
-      - isSaaSV2
-    BulkEnableSaasResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Indicates if the bulk enable SaaS operation was successful
-          example: true
-        message:
-          type: string
-          description: Message indicating the bulk enable SaaS operation
-          example: Bulk enable SaaS operation completed successfully
-        bulkActionUrl:
-          type: string
-          description: URL for the bulk enable SaaS operation
-          example: https://example.com/bulk-enable-saas
-      required:
-      - success
-      - message
-    ResourceNotFoundDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 404
-          description: Status code
-        message:
-          type: string
-          example:
-          - Contact not found
-          - User not found
-          - Group not found
-          - Channel not found
-          description: Error message
-    InternalServerErrorDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 500
-          description: Status code
-        message:
-          type: string
-          example: Internal Server Error
-          description: Error message
-    GetSaasLocationsResponseDto:
-      type: object
-      properties:
-        locations:
-          description: Array of SaaS locations
-          type: array
-          items:
-            $ref: '#/components/schemas/SaasLocationDto'
-        pagination:
-          type: object
-          properties:
-            page:
-              type: number
-              example: 1
-              description: Page number
-            limit:
-              type: number
-              example: 10
-              description: Number of items per page
-            total:
-              type: number
-              example: 100
-              description: Total number of items
-            totalPages:
-              type: number
-              example: 10
-              description: Total number of pages
-            hasNext:
-              type: boolean
-              example: true
-              description: Indicates if there is a next page
-            hasPrev:
-              type: boolean
-              example: true
-              description: Indicates if there is a previous page
-      required:
-      - locations
-      - pagination
     BulkEnableSaasActionPayloadDto:
       type: object
       properties:
@@ -1380,315 +1206,6 @@ components:
           example: r06mdj4OrrERzYDvsOdh
       required:
       - saasPlanId
-    BulkEnableSaasRequestDto:
-      type: object
-      properties:
-        locationIds:
-          description: Array of location IDs to enable SaaS for
-          example:
-          - locationId1
-          - locationId2
-          type: array
-          items:
-            type: string
-        isSaaSV2:
-          type: boolean
-          description: Indicates if the SaaS is V2
-          example: true
-        actionPayload:
-          description: Action payload for the bulk enable SaaS operation
-          allOf:
-          - $ref: '#/components/schemas/BulkEnableSaasActionPayloadDto'
-      required:
-      - locationIds
-      - isSaaSV2
-      - actionPayload
-    UpdateRebillingResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Indicates if the rebilling update was successful
-          example: true
-      required:
-      - success
-    SaasLocationDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location ID
-          example: locationId1
-        companyId:
-          type: string
-          description: Company ID
-          example: companyId1
-        saasMode:
-          type: string
-          description: SaaS mode
-          example: saasV2
-        subscriptionId:
-          type: string
-          description: Subscription ID
-          example: subscriptionId1
-        customerId:
-          type: string
-          description: Customer ID
-          example: customerId1
-        name:
-          type: string
-          description: Name
-          example: John Doe
-        email:
-          type: string
-          description: Email
-          example: john.doe@example.com
-        providerLocationId:
-          type: string
-          description: Provider location ID
-          example: r06mdj4OrrERzYDvsOdh
-        isSaaSV2:
-          type: boolean
-          description: Indicates if the SaaS is V2
-          example: true
-        subscriptionInfo:
-          type: object
-          description: Subscription information
-          example:
-            priceId: price_1QDPY5FpU9DlKp7RQ8BXfywx
-            saasPlanId: 66c4d36534f21f900dc2a265
-            stripeProductId: prod_1QDPY5FpU9DlKp7RQ8BXfywx
-            subscriptionStatus: active
-      required:
-      - locationId
-      - companyId
-      - saasMode
-      - subscriptionId
-    UpdateRebillingDto:
-      type: object
-      properties:
-        product:
-          type: string
-          description: The product to update rebilling for
-          example: contentAI
-          enum:
-          - contentAI
-          - workflow_premium_actions
-          - workflow_ai
-          - conversationAI
-          - EmailNotification
-          - whatsApp
-          - reviewsAI
-          - VERIFIED_CALLER_ID
-          - WALLET_SALES_TAX
-          - NOTIFICATION_SMS
-          - EmailSmtp
-          - EmailVerification
-          - autoCompleteAddress
-          - funnelAI
-          - domainPurchase
-          - Phone
-          - Email
-        locationIds:
-          description: Array of location IDs to update rebilling for
-          example:
-          - zzyG7A4x6bRJl5SlhQhH
-          - Vygq7VgXCDfg3xnl8TBR
-          type: array
-          items:
-            type: string
-        config:
-          type: object
-          description: Configuration for rebilling settings
-          properties:
-            optIn:
-              type: boolean
-              description: Enable the product for the locations
-              example: true
-            enabled:
-              type: boolean
-              description: Enable the rebilling for the locations
-              example: true
-            markup:
-              type: number
-              description: Additional value to be added in terms of percentage. For example, if the product price is $100 and the markup is 5, the amount charged to will be $105.
-              example: 5
-      required:
-      - product
-      - locationIds
-      - config
-    BulkDisableSaasResponseDto:
-      type: object
-      properties:
-        data:
-          type: object
-          description: Response data from the bulk disable SaaS operation
-          example:
-            msg: success
-      required:
-      - data
-    PauseLocationDto:
-      type: object
-      properties:
-        paused:
-          type: boolean
-          description: Paused
-          example: true
-        companyId:
-          type: string
-          description: Company ID
-          example: companyId1
-      required:
-      - paused
-      - companyId
-    AgencyPlanResponseDto:
-      type: object
-      properties:
-        planId:
-          type: string
-          description: Unique identifier for the plan
-          example: 66c4d36534f21f900dc2a265
-        title:
-          type: string
-          description: Title of the plan
-          example: AED 1.5 changed
-        description:
-          type: string
-          description: Description of the plan
-          example: AED 1.5
-        saasProducts:
-          description: Array of SaaS products included in the plan
-          example:
-          - 2-way-text-messaging
-          - gmb-messaging
-          - web-chat
-          - reputation-management
-          type: array
-          items:
-            type: string
-        addOns:
-          description: Array of add-ons included in the plan
-          example:
-          - CONVERSATIONS_AI
-          - CP_BRANDED_APP_49
-          - WORDPRESS_V1
-          type: array
-          items:
-            type: string
-        planLevel:
-          type: number
-          description: Level of the plan (0-4)
-          example: 0
-        trialPeriod:
-          type: number
-          description: Trial period in days
-          example: 16
-        userLimit:
-          type: number
-          description: User limit for the plan
-          example: 50
-        contactLimit:
-          type: number
-          description: Contact limit for the plan
-          example: 50
-        prices:
-          type: array
-          description: Pricing information for the plan
-          items:
-            type: object
-            properties:
-              id:
-                description: ID of the price
-                type: string
-                example: 66a9edbfcc6c505a22db7976
-              billingInterval:
-                description: Billing interval for the plan
-                type: string
-                enum:
-                - month
-                - year
-                example: month
-              active:
-                description: Indicates if the price is active
-                type: boolean
-                example: true
-              amount:
-                description: Amount of the price
-                type: number
-                example: 150
-              currency:
-                description: Currency of the price
-                type: string
-                example: AED
-              symbol:
-                description: Symbol of the price
-                type: string
-                example: $
-        categoryId:
-          type: string
-          description: Category ID for the plan
-          example: 66911cdc98508ec2731979b9
-        snapshotId:
-          type: string
-          description: Snapshot ID for the plan
-          example: G8KmpIeLnZc7ZMoJoxDx
-        productId:
-          type: string
-          description: Product ID for the plan
-          example: 66a9edbfcc6c5090bedb7974
-        isSaaSV2:
-          type: boolean
-          description: Indicates if this is a SaaS V2 plan
-          example: true
-        providerLocationId:
-          type: string
-          description: Provider location ID
-          example: r06mdj4OrrERzYDvsOdh
-        createdAt:
-          type: string
-          description: Creation timestamp
-          example: '2024-07-31T07:54:41.885Z'
-        updatedAt:
-          type: string
-          description: Last update timestamp
-          example: '2025-04-01T12:27:29.167Z'
-      required:
-      - planId
-      - title
-      - description
-      - saasProducts
-      - planLevel
-      - trialPeriod
-      - prices
-      - isSaaSV2
-      - createdAt
-      - updatedAt
-    BadRequestDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 400
-          description: Status code
-        message:
-          type: string
-          example: Bad Request
-          description: Error message
-    UnauthorizedDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 401
-          description: Status code
-        message:
-          type: string
-          example: 'Invalid token: access token is invalid'
-          description: Error message
-        error:
-          type: string
-          example: Unauthorized
-          description: Error message
     SaasPlanResponseDto:
       type: object
       properties:
@@ -1817,6 +1334,367 @@ components:
       - isSaaSV2
       - createdAt
       - updatedAt
+    BulkEnableSaasRequestDto:
+      type: object
+      properties:
+        locationIds:
+          description: Array of location IDs to enable SaaS for
+          example:
+          - locationId1
+          - locationId2
+          type: array
+          items:
+            type: string
+        isSaaSV2:
+          type: boolean
+          description: Indicates if the SaaS is V2
+          example: true
+        actionPayload:
+          description: Action payload for the bulk enable SaaS operation
+          allOf:
+          - $ref: '#/components/schemas/BulkEnableSaasActionPayloadDto'
+      required:
+      - locationIds
+      - isSaaSV2
+      - actionPayload
+    UpdateRebillingResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the rebilling update was successful
+          example: true
+      required:
+      - success
+    SaasLocationDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID
+          example: locationId1
+        companyId:
+          type: string
+          description: Company ID
+          example: companyId1
+        saasMode:
+          type: string
+          description: SaaS mode
+          example: saasV2
+        subscriptionId:
+          type: string
+          description: Subscription ID
+          example: subscriptionId1
+        customerId:
+          type: string
+          description: Customer ID
+          example: customerId1
+        name:
+          type: string
+          description: Name
+          example: John Doe
+        email:
+          type: string
+          description: Email
+          example: john.doe@example.com
+        providerLocationId:
+          type: string
+          description: Provider location ID
+          example: r06mdj4OrrERzYDvsOdh
+        isSaaSV2:
+          type: boolean
+          description: Indicates if the SaaS is V2
+          example: true
+        subscriptionInfo:
+          type: object
+          description: Subscription information
+          example:
+            priceId: price_1QDPY5FpU9DlKp7RQ8BXfywx
+            saasPlanId: 66c4d36534f21f900dc2a265
+            stripeProductId: prod_1QDPY5FpU9DlKp7RQ8BXfywx
+            subscriptionStatus: active
+      required:
+      - locationId
+      - companyId
+      - saasMode
+      - subscriptionId
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+          description: Status code
+        message:
+          type: string
+          example: Internal Server Error
+          description: Error message
+    BulkDisableSaasResponseDto:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Response data from the bulk disable SaaS operation
+          example:
+            msg: success
+      required:
+      - data
+    GetSaasLocationsResponseDto:
+      type: object
+      properties:
+        locations:
+          description: Array of SaaS locations
+          type: array
+          items:
+            $ref: '#/components/schemas/SaasLocationDto'
+        pagination:
+          type: object
+          properties:
+            page:
+              type: number
+              example: 1
+              description: Page number
+            limit:
+              type: number
+              example: 10
+              description: Number of items per page
+            total:
+              type: number
+              example: 100
+              description: Total number of items
+            totalPages:
+              type: number
+              example: 10
+              description: Total number of pages
+            hasNext:
+              type: boolean
+              example: true
+              description: Indicates if there is a next page
+            hasPrev:
+              type: boolean
+              example: true
+              description: Indicates if there is a previous page
+      required:
+      - locations
+      - pagination
+    EnableSaasResponseDto:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Response data from the enable SaaS operation
+          example:
+            customer_id: cus_1QDPY5FpU9DlKp7RQ8BXfywx
+            ok: true
+            paymentMethodAdded: true
+      required:
+      - data
+    BulkEnableSaasResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the bulk enable SaaS operation was successful
+          example: true
+        message:
+          type: string
+          description: Message indicating the bulk enable SaaS operation
+          example: Bulk enable SaaS operation completed successfully
+        bulkActionUrl:
+          type: string
+          description: URL for the bulk enable SaaS operation
+          example: https://example.com/bulk-enable-saas
+      required:
+      - success
+      - message
+    BulkDisableSaasDto:
+      type: object
+      properties:
+        locationIds:
+          description: Location IDs
+          example:
+          - locationId1
+          - locationId2
+          type: array
+          items:
+            type: string
+      required:
+      - locationIds
+    UpdateRebillingDto:
+      type: object
+      properties:
+        product:
+          type: string
+          description: The product to update rebilling for
+          example: contentAI
+          enum:
+          - contentAI
+          - workflow_premium_actions
+          - workflow_ai
+          - conversationAI
+          - EmailNotification
+          - whatsApp
+          - reviewsAI
+          - VERIFIED_CALLER_ID
+          - WALLET_SALES_TAX
+          - NOTIFICATION_SMS
+          - EmailSmtp
+          - EmailVerification
+          - autoCompleteAddress
+          - funnelAI
+          - domainPurchase
+          - Phone
+          - Email
+        locationIds:
+          description: Array of location IDs to update rebilling for
+          example:
+          - zzyG7A4x6bRJl5SlhQhH
+          - Vygq7VgXCDfg3xnl8TBR
+          type: array
+          items:
+            type: string
+        config:
+          type: object
+          description: Configuration for rebilling settings
+          properties:
+            optIn:
+              type: boolean
+              description: Enable the product for the locations
+              example: true
+            enabled:
+              type: boolean
+              description: Enable the rebilling for the locations
+              example: true
+            markup:
+              type: number
+              description: Additional value to be added in terms of percentage. For example, if the product price is $100 and the markup is 5, the amount charged to will be $105.
+              example: 5
+      required:
+      - product
+      - locationIds
+      - config
+    AgencyPlanResponseDto:
+      type: object
+      properties:
+        planId:
+          type: string
+          description: Unique identifier for the plan
+          example: 66c4d36534f21f900dc2a265
+        title:
+          type: string
+          description: Title of the plan
+          example: AED 1.5 changed
+        description:
+          type: string
+          description: Description of the plan
+          example: AED 1.5
+        saasProducts:
+          description: Array of SaaS products included in the plan
+          example:
+          - 2-way-text-messaging
+          - gmb-messaging
+          - web-chat
+          - reputation-management
+          type: array
+          items:
+            type: string
+        addOns:
+          description: Array of add-ons included in the plan
+          example:
+          - CONVERSATIONS_AI
+          - CP_BRANDED_APP_49
+          - WORDPRESS_V1
+          type: array
+          items:
+            type: string
+        planLevel:
+          type: number
+          description: Level of the plan (0-4)
+          example: 0
+        trialPeriod:
+          type: number
+          description: Trial period in days
+          example: 16
+        userLimit:
+          type: number
+          description: User limit for the plan
+          example: 50
+        contactLimit:
+          type: number
+          description: Contact limit for the plan
+          example: 50
+        prices:
+          type: array
+          description: Pricing information for the plan
+          items:
+            type: object
+            properties:
+              id:
+                description: ID of the price
+                type: string
+                example: 66a9edbfcc6c505a22db7976
+              billingInterval:
+                description: Billing interval for the plan
+                type: string
+                enum:
+                - month
+                - year
+                example: month
+              active:
+                description: Indicates if the price is active
+                type: boolean
+                example: true
+              amount:
+                description: Amount of the price
+                type: number
+                example: 150
+              currency:
+                description: Currency of the price
+                type: string
+                example: AED
+              symbol:
+                description: Symbol of the price
+                type: string
+                example: $
+        categoryId:
+          type: string
+          description: Category ID for the plan
+          example: 66911cdc98508ec2731979b9
+        snapshotId:
+          type: string
+          description: Snapshot ID for the plan
+          example: G8KmpIeLnZc7ZMoJoxDx
+        productId:
+          type: string
+          description: Product ID for the plan
+          example: 66a9edbfcc6c5090bedb7974
+        isSaaSV2:
+          type: boolean
+          description: Indicates if this is a SaaS V2 plan
+          example: true
+        providerLocationId:
+          type: string
+          description: Provider location ID
+          example: r06mdj4OrrERzYDvsOdh
+        createdAt:
+          type: string
+          description: Creation timestamp
+          example: '2024-07-31T07:54:41.885Z'
+        updatedAt:
+          type: string
+          description: Last update timestamp
+          example: '2025-04-01T12:27:29.167Z'
+      required:
+      - planId
+      - title
+      - description
+      - saasProducts
+      - planLevel
+      - trialPeriod
+      - prices
+      - isSaaSV2
+      - createdAt
+      - updatedAt
     LocationSubscriptionResponseDto:
       type: object
       properties:
@@ -1864,6 +1742,128 @@ components:
       - locationId
       - isSaaSV2
       - companyId
+    UpdateSubscriptionDto:
+      type: object
+      properties:
+        subscriptionId:
+          type: string
+          description: Subscription ID
+          example: sub_1QDPY5FpU9DlKp7RQ8BXfywx
+        customerId:
+          type: string
+          description: Customer ID
+          example: cus_1QDPY5FpU9DlKp7RQ8BXfywx
+        companyId:
+          type: string
+          description: Company ID
+          example: companyId1
+      required:
+      - subscriptionId
+      - customerId
+      - companyId
+    UnauthorizedDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 401
+          description: Status code
+        message:
+          type: string
+          example: 'Invalid token: access token is invalid'
+          description: Error message
+        error:
+          type: string
+          example: Unauthorized
+          description: Error message
+    PauseLocationDto:
+      type: object
+      properties:
+        paused:
+          type: boolean
+          description: Paused
+          example: true
+        companyId:
+          type: string
+          description: Company ID
+          example: companyId1
+      required:
+      - paused
+      - companyId
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+          description: Status code
+        message:
+          type: string
+          example: Bad Request
+          description: Error message
+    EnableSaasDto:
+      type: object
+      properties:
+        stripeAccountId:
+          type: string
+          description: Stripe account id(Required only for SaaS V1)
+          example: acct_1QDPY5FpU9DlKp7RQ8BXfywx
+        name:
+          type: string
+          description: Name of the stripe customer(Required only for SaaS V1)
+          example: John Doe
+        email:
+          type: string
+          description: Email of the stripe customer(Required only for SaaS V1)
+          example: john.doe@example.com
+        stripeCustomerId:
+          type: string
+          description: Stripe customer id if exists(Required only for SaaS V1)
+          example: cus_1QDPY5FpU9DlKp7RQ8BXfywx
+        companyId:
+          type: string
+        isSaaSV2:
+          type: boolean
+          description: Denotes if it is a saas v2 or v1 sub-account
+          example: true
+        contactId:
+          type: string
+          description: Agency subaccount used for payment provider integration(Required Only for SaaS V2)
+          example: 1QDPY5FpU9DlKp7RQ8BXfywx
+        providerLocationId:
+          type: string
+          description: Agency Subaccount ID
+          example: r06mdj4OrrERzYDvsOdh
+        description:
+          type: string
+          description: Description
+          example: Description
+        saasPlanId:
+          type: string
+          description: Required only while pre-configuring saas subscription
+          example: 1QDPY5FpU9DlKp7RQ8BXfywx
+        priceId:
+          type: string
+          description: Required only while pre-configuring saas subscription
+          example: price_1QDPY5FpU9DlKp7RQ8BXfywx
+      required:
+      - companyId
+      - isSaaSV2
+    ResourceNotFoundDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 404
+          description: Status code
+        message:
+          type: string
+          example:
+          - Contact not found
+          - User not found
+          - Group not found
+          - Channel not found
+          description: Error message
   securitySchemes:
     bearer:
       scheme: bearer

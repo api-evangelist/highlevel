@@ -63,76 +63,6 @@ paths:
         - objects/record.readonly
 components:
   schemas:
-    CreatedByResponseDTO:
-      type: object
-      properties:
-        channel:
-          type: string
-          description: Creation Channel
-          example: WEB_USER
-        createdAt:
-          type: string
-          description: Created At
-          example: '2025-01-02T09:35:39.032Z'
-        source:
-          type: string
-          description: From where the record was created
-          example: PUBLIC_API
-        sourceId:
-          type: string
-          description: User/Resource Id
-          example: 26653146-ec82-435d-8a99-84ecdb7fde13
-      required:
-      - channel
-      - createdAt
-      - source
-      - sourceId
-    SearchRecordsBody:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        page:
-          type: number
-          description: Page
-          example: 1
-        pageLimit:
-          type: number
-          description: Page Limit
-          example: 10
-        query:
-          type: string
-          example: Buddy
-          description: Pass this query parameter to search using your searchable properties. For example, if you have a custom object called “Pets” and have configured “name” as a searchable property, you can pass name:Buddy to search for pets with the name “Buddy.”
-        searchAfter:
-          example:
-          - sx6wyHhbFdRXh302Lunr
-          - sx6wyHhbFdRXh302Lunr
-          type: array
-          items:
-            type: string
-      required:
-      - locationId
-      - page
-      - pageLimit
-      - query
-      - searchAfter
-    SearchRecordResponseDTO:
-      type: object
-      properties:
-        records:
-          description: Records
-          type: array
-          items:
-            $ref: '#/components/schemas/RecordResponseDTO'
-        total:
-          type: number
-          description: Total Number of records
-          example: 20
-      required:
-      - total
     RecordResponseDTO:
       type: object
       properties:
@@ -222,6 +152,76 @@ components:
       - createdBy
       - lastUpdatedBy
       - searchAfter
+    SearchRecordResponseDTO:
+      type: object
+      properties:
+        records:
+          description: Records
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordResponseDTO'
+        total:
+          type: number
+          description: Total Number of records
+          example: 20
+      required:
+      - total
+    SearchRecordsBody:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        page:
+          type: number
+          description: Page
+          example: 1
+        pageLimit:
+          type: number
+          description: Page Limit
+          example: 10
+        query:
+          type: string
+          example: Buddy
+          description: Pass this query parameter to search using your searchable properties. For example, if you have a custom object called “Pets” and have configured “name” as a searchable property, you can pass name:Buddy to search for pets with the name “Buddy.”
+        searchAfter:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - page
+      - pageLimit
+      - query
+      - searchAfter
+    CreatedByResponseDTO:
+      type: object
+      properties:
+        channel:
+          type: string
+          description: Creation Channel
+          example: WEB_USER
+        createdAt:
+          type: string
+          description: Created At
+          example: '2025-01-02T09:35:39.032Z'
+        source:
+          type: string
+          description: From where the record was created
+          example: PUBLIC_API
+        sourceId:
+          type: string
+          description: User/Resource Id
+          example: 26653146-ec82-435d-8a99-84ecdb7fde13
+      required:
+      - channel
+      - createdAt
+      - source
+      - sourceId
   securitySchemes:
     bearer:
       scheme: bearer

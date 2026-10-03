@@ -195,52 +195,6 @@ components:
       - imageUrl
       - createdAt
       - updatedAt
-    CreateWhiteLabelIntegrationProviderDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        uniqueName:
-          type: string
-          description: A unique name given to the integration provider, uniqueName must start and end with a character. Only lowercase characters and hyphens (-) are supported
-          example: easy-direct
-        title:
-          type: string
-          description: The title or name of the integration provider.
-          example: Title
-        provider:
-          type: string
-          description: The type of payment provider associated with the integration provider.
-          enum:
-          - authorize-net
-          - nmi
-          example:
-            AUTHORIZE_NET: authorize-net
-            NMI: nmi
-        description:
-          type: string
-          description: A brief description providing additional information about the integration provider.
-          example: Description
-        imageUrl:
-          type: string
-          description: The URL to an image representing the integration provider. The imageUrl should start with "https://" and ensure that this URL is publicly accessible.
-          example: https://example.com/image.jpg
-      required:
-      - altId
-      - altType
-      - uniqueName
-      - title
-      - provider
-      - description
-      - imageUrl
     CreateWhitelabelIntegrationResponseDto:
       type: object
       properties:
@@ -306,6 +260,52 @@ components:
           - $ref: '#/components/schemas/IntegrationProviderSchema'
       required:
       - providers
+    CreateWhiteLabelIntegrationProviderDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        uniqueName:
+          type: string
+          description: A unique name given to the integration provider, uniqueName must start and end with a character. Only lowercase characters and hyphens (-) are supported
+          example: easy-direct
+        title:
+          type: string
+          description: The title or name of the integration provider.
+          example: Title
+        provider:
+          type: string
+          description: The type of payment provider associated with the integration provider.
+          enum:
+          - authorize-net
+          - nmi
+          example:
+            AUTHORIZE_NET: authorize-net
+            NMI: nmi
+        description:
+          type: string
+          description: A brief description providing additional information about the integration provider.
+          example: Description
+        imageUrl:
+          type: string
+          description: The URL to an image representing the integration provider. The imageUrl should start with "https://" and ensure that this URL is publicly accessible.
+          example: https://example.com/image.jpg
+      required:
+      - altId
+      - altType
+      - uniqueName
+      - title
+      - provider
+      - description
+      - imageUrl
   securitySchemes:
     bearer:
       scheme: bearer

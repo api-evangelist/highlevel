@@ -310,6 +310,15 @@ components:
       - question
       - answer
       - knowledgeBaseId
+    UpdateFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the update operation
+          example: true
+      required:
+      - success
     FaqResponseDTO:
       type: object
       properties:
@@ -364,33 +373,29 @@ components:
       - deleted
       - createdAt
       - updatedAt
-    UpdateFaqResponseDTO:
+    UpdateFaqBodyDTO:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Success status of the update operation
-          example: true
+        question:
+          type: string
+          description: faq question as a string
+          example: What is the capital of France?
+        answer:
+          type: string
+          description: faq answer as a string
+          example: The capital of France is Paris.
       required:
-      - success
-    DeleteFaqResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status of the delete operation
-          example: true
-      required:
-      - success
-    InternalServerErrorDTO:
+      - question
+      - answer
+    BadRequestDTO:
       type: object
       properties:
         statusCode:
           type: number
-          example: 500
+          example: 400
         message:
           type: string
-          example: Internal Server Error
+          example: Bad Request
     UnauthorizedDTO:
       type: object
       properties:
@@ -403,6 +408,30 @@ components:
         error:
           type: string
           example: Unauthorized
+    UnprocessableDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 422
+        message:
+          example:
+          - Unprocessable Entity
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+          example: Unprocessable Entity
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: Internal Server Error
     ListFaqsResponseDTO:
       type: object
       properties:
@@ -426,44 +455,15 @@ components:
       required:
       - count
       - faqs
-    UnprocessableDTO:
+    DeleteFaqResponseDTO:
       type: object
       properties:
-        statusCode:
-          type: number
-          example: 422
-        message:
-          example:
-          - Unprocessable Entity
-          type: array
-          items:
-            type: string
-        error:
-          type: string
-          example: Unprocessable Entity
-    BadRequestDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 400
-        message:
-          type: string
-          example: Bad Request
-    UpdateFaqBodyDTO:
-      type: object
-      properties:
-        question:
-          type: string
-          description: faq question as a string
-          example: What is the capital of France?
-        answer:
-          type: string
-          description: faq answer as a string
-          example: The capital of France is Paris.
+        success:
+          type: boolean
+          description: Success status of the delete operation
+          example: true
       required:
-      - question
-      - answer
+      - success
     CreateFaqResponseDTO:
       type: object
       properties:

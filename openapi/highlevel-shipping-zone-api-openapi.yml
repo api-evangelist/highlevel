@@ -369,897 +369,6 @@ paths:
       - Shipping Zone
 components:
   schemas:
-    ShippingZoneCountryDto:
-      type: object
-      properties:
-        code:
-          type: number
-          description: Country code
-          enum:
-          - - US
-            - CA
-            - AF
-            - AX
-            - AL
-            - DZ
-            - AS
-            - AD
-            - AO
-            - AI
-            - AQ
-            - AG
-            - AR
-            - AM
-            - AW
-            - AU
-            - AT
-            - AZ
-            - BS
-            - BH
-            - BD
-            - BB
-            - BY
-            - BE
-            - BZ
-            - BJ
-            - BM
-            - BT
-            - BO
-            - BA
-            - BW
-            - BV
-            - BR
-            - IO
-            - BN
-            - BG
-            - BF
-            - BI
-            - KH
-            - CM
-            - CV
-            - KY
-            - CF
-            - TD
-            - CL
-            - CN
-            - CX
-            - CC
-            - CO
-            - KM
-            - CG
-            - CD
-            - CK
-            - CR
-            - CI
-            - HR
-            - CU
-            - CY
-            - CZ
-            - DK
-            - DJ
-            - DM
-            - DO
-            - EC
-            - EG
-            - SV
-            - GQ
-            - ER
-            - EE
-            - ET
-            - FK
-            - FO
-            - FJ
-            - FI
-            - FR
-            - GF
-            - PF
-            - TF
-            - GA
-            - GM
-            - GE
-            - DE
-            - GH
-            - GI
-            - GR
-            - GL
-            - GD
-            - GP
-            - GU
-            - GT
-            - GG
-            - GN
-            - GW
-            - GY
-            - HT
-            - HM
-            - VA
-            - HN
-            - HK
-            - HU
-            - IS
-            - IN
-            - ID
-            - IR
-            - IQ
-            - IE
-            - IM
-            - IL
-            - IT
-            - JM
-            - JP
-            - JE
-            - JO
-            - KZ
-            - KE
-            - KI
-            - KP
-            - XK
-            - KW
-            - KG
-            - LA
-            - LV
-            - LB
-            - LS
-            - LR
-            - LY
-            - LI
-            - LT
-            - LU
-            - MO
-            - MK
-            - MG
-            - MW
-            - MY
-            - MV
-            - ML
-            - MT
-            - MH
-            - MQ
-            - MR
-            - MU
-            - YT
-            - MX
-            - FM
-            - MD
-            - MC
-            - MN
-            - ME
-            - MS
-            - MA
-            - MZ
-            - MM
-            - NA
-            - NR
-            - NP
-            - NL
-            - AN
-            - NC
-            - NZ
-            - NI
-            - NE
-            - NG
-            - NU
-            - NF
-            - MP
-            - 'NO'
-            - OM
-            - PK
-            - PW
-            - PS
-            - PA
-            - PG
-            - PY
-            - PE
-            - PH
-            - PN
-            - PL
-            - PT
-            - PR
-            - QA
-            - RE
-            - RO
-            - RU
-            - RW
-            - SH
-            - KN
-            - LC
-            - MF
-            - PM
-            - VC
-            - WS
-            - SM
-            - ST
-            - SA
-            - SN
-            - RS
-            - SC
-            - SL
-            - SG
-            - SX
-            - SK
-            - SI
-            - SB
-            - SO
-            - ZA
-            - GS
-            - KR
-            - ES
-            - LK
-            - SD
-            - SR
-            - SJ
-            - SZ
-            - SE
-            - CH
-            - SY
-            - TW
-            - TJ
-            - TZ
-            - TH
-            - TL
-            - TG
-            - TK
-            - TO
-            - TT
-            - TN
-            - TR
-            - TM
-            - TC
-            - TV
-            - UG
-            - UA
-            - AE
-            - GB
-            - UM
-            - UY
-            - UZ
-            - VU
-            - VE
-            - VN
-            - VG
-            - VI
-            - WF
-            - EH
-            - YE
-            - ZM
-            - ZW
-          example: US
-        states:
-          description: List of states that are available. If states is empty, then all states are available
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingZoneCountryStateDto'
-      required:
-      - code
-    ShippingCarrierServiceDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the shipping carrier service
-          example: Priority Mail Express International
-        value:
-          type: string
-          description: Value of the shipping carrier service
-          example: PriorityMailExpressInternational
-      required:
-      - name
-      - value
-    ShippingZoneSchema:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        name:
-          type: string
-          description: Name of the shipping zone
-          example: North zone
-        countries:
-          description: List of countries that are available
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingZoneCountryDto'
-        _id:
-          type: string
-          description: The unique identifier for the product.
-          example: 655b33a82209e60b6adb87a5
-        shippingRates:
-          description: Array of shipping rates under this shipping zone
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingRateSchema'
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
-      required:
-      - altId
-      - altType
-      - name
-      - countries
-      - _id
-      - createdAt
-      - updatedAt
-    ListShippingZoneResponseDto:
-      type: object
-      properties:
-        total:
-          type: number
-          description: Total number of items
-          example: 20
-        data:
-          description: An array of items
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingZoneSchema'
-      required:
-      - total
-      - data
-    GetAvailableShippingRates:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        country:
-          type: string
-          description: Country code of the customer
-          enum:
-          - US
-          - CA
-          - AF
-          - AX
-          - AL
-          - DZ
-          - AS
-          - AD
-          - AO
-          - AI
-          - AQ
-          - AG
-          - AR
-          - AM
-          - AW
-          - AU
-          - AT
-          - AZ
-          - BS
-          - BH
-          - BD
-          - BB
-          - BY
-          - BE
-          - BZ
-          - BJ
-          - BM
-          - BT
-          - BO
-          - BA
-          - BW
-          - BV
-          - BR
-          - IO
-          - BN
-          - BG
-          - BF
-          - BI
-          - KH
-          - CM
-          - CV
-          - KY
-          - CF
-          - TD
-          - CL
-          - CN
-          - CX
-          - CC
-          - CO
-          - KM
-          - CG
-          - CD
-          - CK
-          - CR
-          - CI
-          - HR
-          - CU
-          - CY
-          - CZ
-          - DK
-          - DJ
-          - DM
-          - DO
-          - EC
-          - EG
-          - SV
-          - GQ
-          - ER
-          - EE
-          - ET
-          - FK
-          - FO
-          - FJ
-          - FI
-          - FR
-          - GF
-          - PF
-          - TF
-          - GA
-          - GM
-          - GE
-          - DE
-          - GH
-          - GI
-          - GR
-          - GL
-          - GD
-          - GP
-          - GU
-          - GT
-          - GG
-          - GN
-          - GW
-          - GY
-          - HT
-          - HM
-          - VA
-          - HN
-          - HK
-          - HU
-          - IS
-          - IN
-          - ID
-          - IR
-          - IQ
-          - IE
-          - IM
-          - IL
-          - IT
-          - JM
-          - JP
-          - JE
-          - JO
-          - KZ
-          - KE
-          - KI
-          - KP
-          - XK
-          - KW
-          - KG
-          - LA
-          - LV
-          - LB
-          - LS
-          - LR
-          - LY
-          - LI
-          - LT
-          - LU
-          - MO
-          - MK
-          - MG
-          - MW
-          - MY
-          - MV
-          - ML
-          - MT
-          - MH
-          - MQ
-          - MR
-          - MU
-          - YT
-          - MX
-          - FM
-          - MD
-          - MC
-          - MN
-          - ME
-          - MS
-          - MA
-          - MZ
-          - MM
-          - NA
-          - NR
-          - NP
-          - NL
-          - AN
-          - NC
-          - NZ
-          - NI
-          - NE
-          - NG
-          - NU
-          - NF
-          - MP
-          - 'NO'
-          - OM
-          - PK
-          - PW
-          - PS
-          - PA
-          - PG
-          - PY
-          - PE
-          - PH
-          - PN
-          - PL
-          - PT
-          - PR
-          - QA
-          - RE
-          - RO
-          - RU
-          - RW
-          - SH
-          - KN
-          - LC
-          - MF
-          - PM
-          - VC
-          - WS
-          - SM
-          - ST
-          - SA
-          - SN
-          - RS
-          - SC
-          - SL
-          - SG
-          - SX
-          - SK
-          - SI
-          - SB
-          - SO
-          - ZA
-          - GS
-          - KR
-          - ES
-          - LK
-          - SD
-          - SR
-          - SJ
-          - SZ
-          - SE
-          - CH
-          - SY
-          - TW
-          - TJ
-          - TZ
-          - TH
-          - TL
-          - TG
-          - TK
-          - TO
-          - TT
-          - TN
-          - TR
-          - TM
-          - TC
-          - TV
-          - UG
-          - UA
-          - AE
-          - GB
-          - UM
-          - UY
-          - UZ
-          - VU
-          - VE
-          - VN
-          - VG
-          - VI
-          - WF
-          - EH
-          - YE
-          - ZM
-          - ZW
-          example: US
-        address:
-          description: Address of the customer
-          allOf:
-          - $ref: '#/components/schemas/ContactAddress'
-        amountAvailable:
-          type: string
-          description: it will not calculate the order amount form backend if it is true
-          enum:
-          - AF
-          - AX
-          - AL
-          - DZ
-          - AS
-          - AD
-          - AO
-          - AI
-          - AQ
-          - AG
-          - AR
-          - AM
-          - AW
-          - AU
-          - AT
-          - AZ
-          - BS
-          - BH
-          - BD
-          - BB
-          - BY
-          - BE
-          - BZ
-          - BJ
-          - BM
-          - BT
-          - BO
-          - BA
-          - BW
-          - BV
-          - BR
-          - IO
-          - BN
-          - BG
-          - BF
-          - BI
-          - KH
-          - CM
-          - CA
-          - CV
-          - KY
-          - CF
-          - TD
-          - CL
-          - CN
-          - CX
-          - CC
-          - CO
-          - KM
-          - CG
-          - CD
-          - CK
-          - CR
-          - CI
-          - HR
-          - CU
-          - CY
-          - CZ
-          - DK
-          - DJ
-          - DM
-          - DO
-          - EC
-          - EG
-          - SV
-          - GQ
-          - ER
-          - EE
-          - ET
-          - FK
-          - FO
-          - FJ
-          - FI
-          - FR
-          - GF
-          - PF
-          - TF
-          - GA
-          - GM
-          - GE
-          - DE
-          - GH
-          - GI
-          - GR
-          - GL
-          - GD
-          - GP
-          - GU
-          - GT
-          - GG
-          - GN
-          - GW
-          - GY
-          - HT
-          - HM
-          - VA
-          - HN
-          - HK
-          - HU
-          - IS
-          - IN
-          - ID
-          - IR
-          - IQ
-          - IE
-          - IM
-          - IL
-          - IT
-          - JM
-          - JP
-          - JE
-          - JO
-          - KZ
-          - KE
-          - KI
-          - KP
-          - KR
-          - XK
-          - KW
-          - KG
-          - LA
-          - LV
-          - LB
-          - LS
-          - LR
-          - LY
-          - LI
-          - LT
-          - LU
-          - MO
-          - MK
-          - MG
-          - MW
-          - MY
-          - MV
-          - ML
-          - MT
-          - MH
-          - MQ
-          - MR
-          - MU
-          - YT
-          - MX
-          - FM
-          - MD
-          - MC
-          - MN
-          - ME
-          - MS
-          - MA
-          - MZ
-          - MM
-          - NA
-          - NR
-          - NP
-          - NL
-          - AN
-          - NC
-          - NZ
-          - NI
-          - NE
-          - NG
-          - NU
-          - NF
-          - MP
-          - 'NO'
-          - OM
-          - PK
-          - PW
-          - PS
-          - PA
-          - PG
-          - PY
-          - PE
-          - PH
-          - PN
-          - PL
-          - PT
-          - PR
-          - QA
-          - RE
-          - RO
-          - RU
-          - RW
-          - SH
-          - KN
-          - LC
-          - MF
-          - PM
-          - VC
-          - WS
-          - SM
-          - ST
-          - SA
-          - SN
-          - RS
-          - SC
-          - SL
-          - SG
-          - SX
-          - SK
-          - SI
-          - SB
-          - SO
-          - ZA
-          - GS
-          - ES
-          - LK
-          - SD
-          - SR
-          - SJ
-          - SZ
-          - SE
-          - CH
-          - SY
-          - TW
-          - TJ
-          - TZ
-          - TH
-          - TL
-          - TG
-          - TK
-          - TO
-          - TT
-          - TN
-          - TR
-          - TM
-          - TC
-          - TV
-          - UG
-          - GB
-          - UA
-          - AE
-          - US
-          - UM
-          - UY
-          - UZ
-          - VU
-          - VE
-          - VN
-          - VG
-          - VI
-          - WF
-          - EH
-          - YE
-          - ZM
-          - ZW
-          example: US
-        totalOrderAmount:
-          type: number
-          description: 'The amount of the price. ( min: 0.01 )'
-          example: 99.99
-        weightAvailable:
-          type: boolean
-          description: Flag to pass when the weight is already calculated and should not calculate again
-          example: true
-        totalOrderWeight:
-          type: number
-          description: Estimated weight of the order calculated from the order creation side in kg(s)
-          example: 10
-        source:
-          description: Source of the order
-          example:
-            type: order
-            subType: store
-          allOf:
-          - $ref: '#/components/schemas/OrderSource'
-        products:
-          description: An array of price IDs and quantity
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductItem'
-        couponCode:
-          type: string
-          description: Coupon code
-          example: TEST
-      required:
-      - altId
-      - altType
-      - country
-      - totalOrderAmount
-      - totalOrderWeight
-      - source
-      - products
     GetAvailableShippingRatesResponseDto:
       type: object
       properties:
@@ -1279,6 +388,114 @@ components:
       required:
       - status
       - data
+    UpdateShippingZoneResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingZoneSchema'
+      required:
+      - status
+      - data
+    ShippingRateSchema:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping zone
+          example: North zone
+        description:
+          type: string
+          description: Delivery description
+          example: Ships next day
+        currency:
+          type: string
+          description: The currency of the amount of the rate / handling fee
+          example: USD
+        amount:
+          type: number
+          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
+          example: 99.99
+        conditionType:
+          type: string
+          description: Type of condition to provide the conditional pricing
+          enum:
+          - none
+          - price
+          - weight
+          example: price
+        minCondition:
+          type: number
+          description: Minimum condition for applying this price. set 0 or null if there is no minimum
+          example: 99.99
+        maxCondition:
+          type: number
+          description: Maximum condition for applying this price. set 0 or null if there is no maximum
+          example: 99.99
+        isCarrierRate:
+          type: boolean
+          description: is this a carrier rate
+          example: true
+        shippingCarrierId:
+          type: string
+          description: Shipping carrier id
+          example: 655b33a82209e60b6adb87a5
+        percentageOfRateFee:
+          type: number
+          description: Percentage of rate fee if it is a carrier rate.
+          example: 10.99
+        shippingCarrierServices:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierServiceDto'
+        _id:
+          type: string
+          description: The unique identifier for the product.
+          example: 655b33a82209e60b6adb87a5
+        shippingZoneId:
+          type: string
+          description: The unique identifier for the shipping zone.
+          example: 655b33a82209e60b6adb87a5
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - altId
+      - altType
+      - name
+      - currency
+      - amount
+      - conditionType
+      - minCondition
+      - maxCondition
+      - shippingCarrierId
+      - _id
+      - shippingZoneId
+      - createdAt
+      - updatedAt
     ContactAddress:
       type: object
       properties:
@@ -2340,20 +1557,7 @@ components:
           example: abu@example.com
       required:
       - country
-    DeleteShippingZoneResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
-    UpdateShippingZoneDto:
+    ShippingZoneSchema:
       type: object
       properties:
         altId:
@@ -2373,7 +1577,587 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ShippingZoneCountryDto'
-    GetShippingZoneResponseDto:
+        _id:
+          type: string
+          description: The unique identifier for the product.
+          example: 655b33a82209e60b6adb87a5
+        shippingRates:
+          description: Array of shipping rates under this shipping zone
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingRateSchema'
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+      required:
+      - altId
+      - altType
+      - name
+      - countries
+      - _id
+      - createdAt
+      - updatedAt
+    GetAvailableShippingRates:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        country:
+          type: string
+          description: Country code of the customer
+          enum:
+          - US
+          - CA
+          - AF
+          - AX
+          - AL
+          - DZ
+          - AS
+          - AD
+          - AO
+          - AI
+          - AQ
+          - AG
+          - AR
+          - AM
+          - AW
+          - AU
+          - AT
+          - AZ
+          - BS
+          - BH
+          - BD
+          - BB
+          - BY
+          - BE
+          - BZ
+          - BJ
+          - BM
+          - BT
+          - BO
+          - BA
+          - BW
+          - BV
+          - BR
+          - IO
+          - BN
+          - BG
+          - BF
+          - BI
+          - KH
+          - CM
+          - CV
+          - KY
+          - CF
+          - TD
+          - CL
+          - CN
+          - CX
+          - CC
+          - CO
+          - KM
+          - CG
+          - CD
+          - CK
+          - CR
+          - CI
+          - HR
+          - CU
+          - CY
+          - CZ
+          - DK
+          - DJ
+          - DM
+          - DO
+          - EC
+          - EG
+          - SV
+          - GQ
+          - ER
+          - EE
+          - ET
+          - FK
+          - FO
+          - FJ
+          - FI
+          - FR
+          - GF
+          - PF
+          - TF
+          - GA
+          - GM
+          - GE
+          - DE
+          - GH
+          - GI
+          - GR
+          - GL
+          - GD
+          - GP
+          - GU
+          - GT
+          - GG
+          - GN
+          - GW
+          - GY
+          - HT
+          - HM
+          - VA
+          - HN
+          - HK
+          - HU
+          - IS
+          - IN
+          - ID
+          - IR
+          - IQ
+          - IE
+          - IM
+          - IL
+          - IT
+          - JM
+          - JP
+          - JE
+          - JO
+          - KZ
+          - KE
+          - KI
+          - KP
+          - XK
+          - KW
+          - KG
+          - LA
+          - LV
+          - LB
+          - LS
+          - LR
+          - LY
+          - LI
+          - LT
+          - LU
+          - MO
+          - MK
+          - MG
+          - MW
+          - MY
+          - MV
+          - ML
+          - MT
+          - MH
+          - MQ
+          - MR
+          - MU
+          - YT
+          - MX
+          - FM
+          - MD
+          - MC
+          - MN
+          - ME
+          - MS
+          - MA
+          - MZ
+          - MM
+          - NA
+          - NR
+          - NP
+          - NL
+          - AN
+          - NC
+          - NZ
+          - NI
+          - NE
+          - NG
+          - NU
+          - NF
+          - MP
+          - 'NO'
+          - OM
+          - PK
+          - PW
+          - PS
+          - PA
+          - PG
+          - PY
+          - PE
+          - PH
+          - PN
+          - PL
+          - PT
+          - PR
+          - QA
+          - RE
+          - RO
+          - RU
+          - RW
+          - SH
+          - KN
+          - LC
+          - MF
+          - PM
+          - VC
+          - WS
+          - SM
+          - ST
+          - SA
+          - SN
+          - RS
+          - SC
+          - SL
+          - SG
+          - SX
+          - SK
+          - SI
+          - SB
+          - SO
+          - ZA
+          - GS
+          - KR
+          - ES
+          - LK
+          - SD
+          - SR
+          - SJ
+          - SZ
+          - SE
+          - CH
+          - SY
+          - TW
+          - TJ
+          - TZ
+          - TH
+          - TL
+          - TG
+          - TK
+          - TO
+          - TT
+          - TN
+          - TR
+          - TM
+          - TC
+          - TV
+          - UG
+          - UA
+          - AE
+          - GB
+          - UM
+          - UY
+          - UZ
+          - VU
+          - VE
+          - VN
+          - VG
+          - VI
+          - WF
+          - EH
+          - YE
+          - ZM
+          - ZW
+          example: US
+        address:
+          description: Address of the customer
+          allOf:
+          - $ref: '#/components/schemas/ContactAddress'
+        amountAvailable:
+          type: string
+          description: it will not calculate the order amount form backend if it is true
+          enum:
+          - AF
+          - AX
+          - AL
+          - DZ
+          - AS
+          - AD
+          - AO
+          - AI
+          - AQ
+          - AG
+          - AR
+          - AM
+          - AW
+          - AU
+          - AT
+          - AZ
+          - BS
+          - BH
+          - BD
+          - BB
+          - BY
+          - BE
+          - BZ
+          - BJ
+          - BM
+          - BT
+          - BO
+          - BA
+          - BW
+          - BV
+          - BR
+          - IO
+          - BN
+          - BG
+          - BF
+          - BI
+          - KH
+          - CM
+          - CA
+          - CV
+          - KY
+          - CF
+          - TD
+          - CL
+          - CN
+          - CX
+          - CC
+          - CO
+          - KM
+          - CG
+          - CD
+          - CK
+          - CR
+          - CI
+          - HR
+          - CU
+          - CY
+          - CZ
+          - DK
+          - DJ
+          - DM
+          - DO
+          - EC
+          - EG
+          - SV
+          - GQ
+          - ER
+          - EE
+          - ET
+          - FK
+          - FO
+          - FJ
+          - FI
+          - FR
+          - GF
+          - PF
+          - TF
+          - GA
+          - GM
+          - GE
+          - DE
+          - GH
+          - GI
+          - GR
+          - GL
+          - GD
+          - GP
+          - GU
+          - GT
+          - GG
+          - GN
+          - GW
+          - GY
+          - HT
+          - HM
+          - VA
+          - HN
+          - HK
+          - HU
+          - IS
+          - IN
+          - ID
+          - IR
+          - IQ
+          - IE
+          - IM
+          - IL
+          - IT
+          - JM
+          - JP
+          - JE
+          - JO
+          - KZ
+          - KE
+          - KI
+          - KP
+          - KR
+          - XK
+          - KW
+          - KG
+          - LA
+          - LV
+          - LB
+          - LS
+          - LR
+          - LY
+          - LI
+          - LT
+          - LU
+          - MO
+          - MK
+          - MG
+          - MW
+          - MY
+          - MV
+          - ML
+          - MT
+          - MH
+          - MQ
+          - MR
+          - MU
+          - YT
+          - MX
+          - FM
+          - MD
+          - MC
+          - MN
+          - ME
+          - MS
+          - MA
+          - MZ
+          - MM
+          - NA
+          - NR
+          - NP
+          - NL
+          - AN
+          - NC
+          - NZ
+          - NI
+          - NE
+          - NG
+          - NU
+          - NF
+          - MP
+          - 'NO'
+          - OM
+          - PK
+          - PW
+          - PS
+          - PA
+          - PG
+          - PY
+          - PE
+          - PH
+          - PN
+          - PL
+          - PT
+          - PR
+          - QA
+          - RE
+          - RO
+          - RU
+          - RW
+          - SH
+          - KN
+          - LC
+          - MF
+          - PM
+          - VC
+          - WS
+          - SM
+          - ST
+          - SA
+          - SN
+          - RS
+          - SC
+          - SL
+          - SG
+          - SX
+          - SK
+          - SI
+          - SB
+          - SO
+          - ZA
+          - GS
+          - ES
+          - LK
+          - SD
+          - SR
+          - SJ
+          - SZ
+          - SE
+          - CH
+          - SY
+          - TW
+          - TJ
+          - TZ
+          - TH
+          - TL
+          - TG
+          - TK
+          - TO
+          - TT
+          - TN
+          - TR
+          - TM
+          - TC
+          - TV
+          - UG
+          - GB
+          - UA
+          - AE
+          - US
+          - UM
+          - UY
+          - UZ
+          - VU
+          - VE
+          - VN
+          - VG
+          - VI
+          - WF
+          - EH
+          - YE
+          - ZM
+          - ZW
+          example: US
+        totalOrderAmount:
+          type: number
+          description: 'The amount of the price. ( min: 0.01 )'
+          example: 99.99
+        weightAvailable:
+          type: boolean
+          description: Flag to pass when the weight is already calculated and should not calculate again
+          example: true
+        totalOrderWeight:
+          type: number
+          description: Estimated weight of the order calculated from the order creation side in kg(s)
+          example: 10
+        source:
+          description: Source of the order
+          example:
+            type: order
+            subType: store
+          allOf:
+          - $ref: '#/components/schemas/OrderSource'
+        products:
+          description: An array of price IDs and quantity
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductItem'
+        couponCode:
+          type: string
+          description: Coupon code
+          example: TEST
+      required:
+      - altId
+      - altType
+      - country
+      - totalOrderAmount
+      - totalOrderWeight
+      - source
+      - products
+    CreateShippingZoneResponseDto:
       type: object
       properties:
         status:
@@ -2391,6 +2175,33 @@ components:
       required:
       - status
       - data
+    ListShippingZoneResponseDto:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total number of items
+          example: 20
+        data:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingZoneSchema'
+      required:
+      - total
+      - data
+    ProductItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of product
+        qty:
+          type: number
+          description: No of quantities
+      required:
+      - id
+      - qty
     AvailableShippingRate:
       type: object
       properties:
@@ -2442,7 +2253,41 @@ components:
       - shippingCarrierId
       - _id
       - shippingZoneId
-    UpdateShippingZoneResponseDto:
+    ShippingCarrierServiceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the shipping carrier service
+          example: Priority Mail Express International
+        value:
+          type: string
+          description: Value of the shipping carrier service
+          example: PriorityMailExpressInternational
+      required:
+      - name
+      - value
+    UpdateShippingZoneDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping zone
+          example: North zone
+        countries:
+          description: List of countries that are available
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingZoneCountryDto'
+    DeleteShippingZoneResponseDto:
       type: object
       properties:
         status:
@@ -2453,31 +2298,55 @@ components:
           type: string
           description: Success message
           example: Successfully created
-        data:
-          description: Shipping zone data
-          allOf:
-          - $ref: '#/components/schemas/ShippingZoneSchema'
       required:
       - status
-      - data
-    CreateShippingZoneResponseDto:
+    OrderSource:
       type: object
       properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
+        type:
           type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping zone data
-          allOf:
-          - $ref: '#/components/schemas/ShippingZoneSchema'
+          description: Source of order
+          enum:
+          - funnel
+          - website
+          - invoice
+          - calendar
+          - text2Pay
+          - document_contracts
+          - membership
+          - mobile_app
+          - communities
+          - point_of_sale
+          - manual
+          - form
+          - survey
+          - payment_link
+          - external
+          example: website
+        subType:
+          type: string
+          description: Source subtype of order
+          enum:
+          - one_step_order_form
+          - two_step_order_form
+          - upsell
+          - tap_to_pay
+          - card_payment
+          - store
+          - contact_view
+          - email_campaign
+          - payments_dashboard
+          - shopify
+          - subscription_view
+          - store_upsell
+          - woocommerce
+          - service
+          - meeting
+          - imported_csv
+          - qr_code
+          example: store
       required:
-      - status
-      - data
+      - type
     ShippingZoneCountryStateDto:
       type: object
       properties:
@@ -3259,96 +3128,268 @@ components:
           example: VA
       required:
       - code
-    ShippingRateSchema:
+    ShippingZoneCountryDto:
       type: object
       properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
+        code:
+          type: number
+          description: Country code
           enum:
-          - location
-        name:
-          type: string
-          description: Name of the shipping zone
-          example: North zone
-        description:
-          type: string
-          description: Delivery description
-          example: Ships next day
-        currency:
-          type: string
-          description: The currency of the amount of the rate / handling fee
-          example: USD
-        amount:
-          type: number
-          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
-          example: 99.99
-        conditionType:
-          type: string
-          description: Type of condition to provide the conditional pricing
-          enum:
-          - none
-          - price
-          - weight
-          example: price
-        minCondition:
-          type: number
-          description: Minimum condition for applying this price. set 0 or null if there is no minimum
-          example: 99.99
-        maxCondition:
-          type: number
-          description: Maximum condition for applying this price. set 0 or null if there is no maximum
-          example: 99.99
-        isCarrierRate:
-          type: boolean
-          description: is this a carrier rate
-          example: true
-        shippingCarrierId:
-          type: string
-          description: Shipping carrier id
-          example: 655b33a82209e60b6adb87a5
-        percentageOfRateFee:
-          type: number
-          description: Percentage of rate fee if it is a carrier rate.
-          example: 10.99
-        shippingCarrierServices:
-          description: An array of items
+          - - US
+            - CA
+            - AF
+            - AX
+            - AL
+            - DZ
+            - AS
+            - AD
+            - AO
+            - AI
+            - AQ
+            - AG
+            - AR
+            - AM
+            - AW
+            - AU
+            - AT
+            - AZ
+            - BS
+            - BH
+            - BD
+            - BB
+            - BY
+            - BE
+            - BZ
+            - BJ
+            - BM
+            - BT
+            - BO
+            - BA
+            - BW
+            - BV
+            - BR
+            - IO
+            - BN
+            - BG
+            - BF
+            - BI
+            - KH
+            - CM
+            - CV
+            - KY
+            - CF
+            - TD
+            - CL
+            - CN
+            - CX
+            - CC
+            - CO
+            - KM
+            - CG
+            - CD
+            - CK
+            - CR
+            - CI
+            - HR
+            - CU
+            - CY
+            - CZ
+            - DK
+            - DJ
+            - DM
+            - DO
+            - EC
+            - EG
+            - SV
+            - GQ
+            - ER
+            - EE
+            - ET
+            - FK
+            - FO
+            - FJ
+            - FI
+            - FR
+            - GF
+            - PF
+            - TF
+            - GA
+            - GM
+            - GE
+            - DE
+            - GH
+            - GI
+            - GR
+            - GL
+            - GD
+            - GP
+            - GU
+            - GT
+            - GG
+            - GN
+            - GW
+            - GY
+            - HT
+            - HM
+            - VA
+            - HN
+            - HK
+            - HU
+            - IS
+            - IN
+            - ID
+            - IR
+            - IQ
+            - IE
+            - IM
+            - IL
+            - IT
+            - JM
+            - JP
+            - JE
+            - JO
+            - KZ
+            - KE
+            - KI
+            - KP
+            - XK
+            - KW
+            - KG
+            - LA
+            - LV
+            - LB
+            - LS
+            - LR
+            - LY
+            - LI
+            - LT
+            - LU
+            - MO
+            - MK
+            - MG
+            - MW
+            - MY
+            - MV
+            - ML
+            - MT
+            - MH
+            - MQ
+            - MR
+            - MU
+            - YT
+            - MX
+            - FM
+            - MD
+            - MC
+            - MN
+            - ME
+            - MS
+            - MA
+            - MZ
+            - MM
+            - NA
+            - NR
+            - NP
+            - NL
+            - AN
+            - NC
+            - NZ
+            - NI
+            - NE
+            - NG
+            - NU
+            - NF
+            - MP
+            - 'NO'
+            - OM
+            - PK
+            - PW
+            - PS
+            - PA
+            - PG
+            - PY
+            - PE
+            - PH
+            - PN
+            - PL
+            - PT
+            - PR
+            - QA
+            - RE
+            - RO
+            - RU
+            - RW
+            - SH
+            - KN
+            - LC
+            - MF
+            - PM
+            - VC
+            - WS
+            - SM
+            - ST
+            - SA
+            - SN
+            - RS
+            - SC
+            - SL
+            - SG
+            - SX
+            - SK
+            - SI
+            - SB
+            - SO
+            - ZA
+            - GS
+            - KR
+            - ES
+            - LK
+            - SD
+            - SR
+            - SJ
+            - SZ
+            - SE
+            - CH
+            - SY
+            - TW
+            - TJ
+            - TZ
+            - TH
+            - TL
+            - TG
+            - TK
+            - TO
+            - TT
+            - TN
+            - TR
+            - TM
+            - TC
+            - TV
+            - UG
+            - UA
+            - AE
+            - GB
+            - UM
+            - UY
+            - UZ
+            - VU
+            - VE
+            - VN
+            - VG
+            - VI
+            - WF
+            - EH
+            - YE
+            - ZM
+            - ZW
+          example: US
+        states:
+          description: List of states that are available. If states is empty, then all states are available
           type: array
           items:
-            $ref: '#/components/schemas/ShippingCarrierServiceDto'
-        _id:
-          type: string
-          description: The unique identifier for the product.
-          example: 655b33a82209e60b6adb87a5
-        shippingZoneId:
-          type: string
-          description: The unique identifier for the shipping zone.
-          example: 655b33a82209e60b6adb87a5
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
+            $ref: '#/components/schemas/ShippingZoneCountryStateDto'
       required:
-      - altId
-      - altType
-      - name
-      - currency
-      - amount
-      - conditionType
-      - minCondition
-      - maxCondition
-      - shippingCarrierId
-      - _id
-      - shippingZoneId
-      - createdAt
-      - updatedAt
+      - code
     CreateShippingZoneDto:
       type: object
       properties:
@@ -3374,65 +3415,24 @@ components:
       - altType
       - name
       - countries
-    OrderSource:
+    GetShippingZoneResponseDto:
       type: object
       properties:
-        type:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
           type: string
-          description: Source of order
-          enum:
-          - funnel
-          - website
-          - invoice
-          - calendar
-          - text2Pay
-          - document_contracts
-          - membership
-          - mobile_app
-          - communities
-          - point_of_sale
-          - manual
-          - form
-          - survey
-          - payment_link
-          - external
-          example: website
-        subType:
-          type: string
-          description: Source subtype of order
-          enum:
-          - one_step_order_form
-          - two_step_order_form
-          - upsell
-          - tap_to_pay
-          - card_payment
-          - store
-          - contact_view
-          - email_campaign
-          - payments_dashboard
-          - shopify
-          - subscription_view
-          - store_upsell
-          - woocommerce
-          - service
-          - meeting
-          - imported_csv
-          - qr_code
-          example: store
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingZoneSchema'
       required:
-      - type
-    ProductItem:
-      type: object
-      properties:
-        id:
-          type: string
-          description: id of product
-        qty:
-          type: number
-          description: No of quantities
-      required:
-      - id
-      - qty
+      - status
+      - data
   securitySchemes:
     bearer:
       scheme: bearer

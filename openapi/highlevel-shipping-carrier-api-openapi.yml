@@ -293,48 +293,6 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    ShippingCarrierServiceDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the shipping carrier service
-          example: Priority Mail Express International
-        value:
-          type: string
-          description: Value of the shipping carrier service
-          example: PriorityMailExpressInternational
-      required:
-      - name
-      - value
-    UpdateShippingCarrierDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        name:
-          type: string
-          description: Name of the shipping carrier
-          example: FedEx
-        callbackUrl:
-          type: string
-          description: The URL endpoint that GHL needs to retrieve shipping rates. This must be a public URL.
-          example: https://example.com/get-shipping-rates
-        services:
-          description: An array of available shipping carrier services
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingCarrierServiceDto'
-        allowsMultipleServiceSelection:
-          type: boolean
-          description: The seller can choose multiple services while creating shipping rates if this is true.
-          example: true
     ShippingCarrierSchema:
       type: object
       properties:
@@ -388,6 +346,24 @@ components:
       - marketplaceAppId
       - createdAt
       - updatedAt
+    UpdateShippingCarrierResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping carrier data
+          allOf:
+          - $ref: '#/components/schemas/ShippingCarrierSchema'
+      required:
+      - status
+      - data
     DeleteShippingCarrierResponseDto:
       type: object
       properties:
@@ -401,6 +377,103 @@ components:
           example: Successfully created
       required:
       - status
+    ListShippingCarrierResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierSchema'
+      required:
+      - status
+      - data
+    ShippingCarrierServiceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the shipping carrier service
+          example: Priority Mail Express International
+        value:
+          type: string
+          description: Value of the shipping carrier service
+          example: PriorityMailExpressInternational
+      required:
+      - name
+      - value
+    CreateShippingCarrierResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping carrier data
+          allOf:
+          - $ref: '#/components/schemas/ShippingCarrierSchema'
+      required:
+      - status
+      - data
+    GetShippingCarrierResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping carrier data
+          allOf:
+          - $ref: '#/components/schemas/ShippingCarrierSchema'
+      required:
+      - status
+      - data
+    UpdateShippingCarrierDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping carrier
+          example: FedEx
+        callbackUrl:
+          type: string
+          description: The URL endpoint that GHL needs to retrieve shipping rates. This must be a public URL.
+          example: https://example.com/get-shipping-rates
+        services:
+          description: An array of available shipping carrier services
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierServiceDto'
+        allowsMultipleServiceSelection:
+          type: boolean
+          description: The seller can choose multiple services while creating shipping rates if this is true.
+          example: true
     CreateShippingCarrierDto:
       type: object
       properties:
@@ -434,79 +507,6 @@ components:
       - altType
       - name
       - callbackUrl
-    ListShippingCarrierResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: An array of items
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingCarrierSchema'
-      required:
-      - status
-      - data
-    GetShippingCarrierResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping carrier data
-          allOf:
-          - $ref: '#/components/schemas/ShippingCarrierSchema'
-      required:
-      - status
-      - data
-    UpdateShippingCarrierResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping carrier data
-          allOf:
-          - $ref: '#/components/schemas/ShippingCarrierSchema'
-      required:
-      - status
-      - data
-    CreateShippingCarrierResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping carrier data
-          allOf:
-          - $ref: '#/components/schemas/ShippingCarrierSchema'
-      required:
-      - status
-      - data
   securitySchemes:
     bearer:
       scheme: bearer

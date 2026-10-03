@@ -333,6 +333,32 @@ paths:
         - payments/custom-provider.write
 components:
   schemas:
+    UpdateCustomProviderCapabilitiesResponseSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the custom provider capabilities are updated or not. true represents capabilities are updated
+          example: 'true'
+      required:
+      - success
+    UpdateCustomProviderCapabilitiesDto:
+      type: object
+      properties:
+        supportsSubscriptionSchedules:
+          type: boolean
+          description: Whether the marketplace app supports subscription schedules or not
+          example: true
+        companyId:
+          type: string
+          description: Company id. Mandatory if locationId is not provided
+          example: Yjnwuduw83e8x30sm0
+        locationId:
+          type: string
+          description: Location / Sub-account id. Mandatory if companyId is not provided
+          example: Yjnwuduw83e8x30sm0
+      required:
+      - supportsSubscriptionSchedules
     ConnectCustomProvidersConfigDto:
       type: object
       properties:
@@ -347,7 +373,76 @@ components:
       required:
       - live
       - test
-    DisconnectCustomProvidersResponseSchema:
+    GetCustomProvidersResponseSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom provider
+          example: Company Paypal Integration
+        description:
+          type: string
+          description: Description of payment gateway. Shown on the payments integrations page as subtext
+          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
+        paymentsUrl:
+          type: string
+          description: This url will be loaded in iFrame to start a payment session.
+          example: https://testpayment.paypal.com
+        queryUrl:
+          type: string
+          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
+          example: https://testsubscription.paypal.com
+        imageUrl:
+          type: string
+          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
+          example: https://testsubscription.paypal.com
+        _id:
+          type: string
+          description: The unique identifier for the custom provider.
+          example: 662a44ad19a2a44d3cd9d749
+        locationId:
+          type: string
+          description: Location id
+          example: Lk3nlfk4lxlelVEwcW
+        marketplaceAppId:
+          type: string
+          description: The application id of marketplace
+          example: 65f0b217a05c774da7f1efa5
+        paymentProvider:
+          type: object
+          description: Payment provider details.
+          example: '{ live: { liveMode: true }, test: { liveMode: false, apiKey: "y5ZQxryRFXZHvUJZdLXXXXXX", publishableKey: "rzp_test_zPRoVMLOa0A9wo" }}'
+        deleted:
+          type: boolean
+          description: Whether the config is deleted or not. true represents config is deleted
+          example: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the custom provider.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the custom provider.
+          example: '2024-01-23T09:57:04.846Z'
+        traceId:
+          type: string
+          description: Trace id of the custom provider.
+          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+      required:
+      - name
+      - description
+      - paymentsUrl
+      - queryUrl
+      - imageUrl
+      - _id
+      - locationId
+      - marketplaceAppId
+      - deleted
+      - createdAt
+      - updatedAt
+    DeleteCustomProvidersResponseSchema:
       type: object
       properties:
         success:
@@ -356,20 +451,6 @@ components:
           example: 'true'
       required:
       - success
-    CustomProviderKeys:
-      type: object
-      properties:
-        apiKey:
-          type: string
-          description: Api-key for custom payment provider config
-          example: y5ZQxryRFXZHvUJZdLeXXXXX
-        publishableKey:
-          type: string
-          description: Publishable-key for custom payment provider config
-          example: rzp_test_zPRoVMLOa0XXXX
-      required:
-      - apiKey
-      - publishableKey
     ConnectCustomProvidersResponseSchema:
       type: object
       properties:
@@ -508,24 +589,6 @@ components:
       - deleted
       - createdAt
       - updatedAt
-    DeleteCustomProvidersConfigDto:
-      type: object
-      properties:
-        liveMode:
-          type: boolean
-          description: Whether the config is for test mode or live mode. true represents config is for live payments
-          example: 'true'
-      required:
-      - liveMode
-    DeleteCustomProvidersResponseSchema:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Whether the custom provider config is disconnect or not. true represents config is disconnect
-          example: 'true'
-      required:
-      - success
     CreateCustomProvidersDto:
       type: object
       properties:
@@ -560,101 +623,38 @@ components:
       - queryUrl
       - imageUrl
       - supportsSubscriptionSchedule
-    GetCustomProvidersResponseSchema:
+    DeleteCustomProvidersConfigDto:
       type: object
       properties:
-        name:
-          type: string
-          description: The name of the custom provider
-          example: Company Paypal Integration
-        description:
-          type: string
-          description: Description of payment gateway. Shown on the payments integrations page as subtext
-          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
-        paymentsUrl:
-          type: string
-          description: This url will be loaded in iFrame to start a payment session.
-          example: https://testpayment.paypal.com
-        queryUrl:
-          type: string
-          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
-          example: https://testsubscription.paypal.com
-        imageUrl:
-          type: string
-          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
-          example: https://testsubscription.paypal.com
-        _id:
-          type: string
-          description: The unique identifier for the custom provider.
-          example: 662a44ad19a2a44d3cd9d749
-        locationId:
-          type: string
-          description: Location id
-          example: Lk3nlfk4lxlelVEwcW
-        marketplaceAppId:
-          type: string
-          description: The application id of marketplace
-          example: 65f0b217a05c774da7f1efa5
-        paymentProvider:
-          type: object
-          description: Payment provider details.
-          example: '{ live: { liveMode: true }, test: { liveMode: false, apiKey: "y5ZQxryRFXZHvUJZdLXXXXXX", publishableKey: "rzp_test_zPRoVMLOa0A9wo" }}'
-        deleted:
+        liveMode:
           type: boolean
-          description: Whether the config is deleted or not. true represents config is deleted
-          example: true
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the custom provider.
-          example: '2023-11-20T10:23:36.515Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the custom provider.
-          example: '2024-01-23T09:57:04.846Z'
-        traceId:
-          type: string
-          description: Trace id of the custom provider.
-          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+          description: Whether the config is for test mode or live mode. true represents config is for live payments
+          example: 'true'
       required:
-      - name
-      - description
-      - paymentsUrl
-      - queryUrl
-      - imageUrl
-      - _id
-      - locationId
-      - marketplaceAppId
-      - deleted
-      - createdAt
-      - updatedAt
-    UpdateCustomProviderCapabilitiesResponseSchema:
+      - liveMode
+    CustomProviderKeys:
+      type: object
+      properties:
+        apiKey:
+          type: string
+          description: Api-key for custom payment provider config
+          example: y5ZQxryRFXZHvUJZdLeXXXXX
+        publishableKey:
+          type: string
+          description: Publishable-key for custom payment provider config
+          example: rzp_test_zPRoVMLOa0XXXX
+      required:
+      - apiKey
+      - publishableKey
+    DisconnectCustomProvidersResponseSchema:
       type: object
       properties:
         success:
           type: boolean
-          description: Whether the custom provider capabilities are updated or not. true represents capabilities are updated
+          description: Whether the custom provider config is disconnect or not. true represents config is disconnect
           example: 'true'
       required:
       - success
-    UpdateCustomProviderCapabilitiesDto:
-      type: object
-      properties:
-        supportsSubscriptionSchedules:
-          type: boolean
-          description: Whether the marketplace app supports subscription schedules or not
-          example: true
-        companyId:
-          type: string
-          description: Company id. Mandatory if locationId is not provided
-          example: Yjnwuduw83e8x30sm0
-        locationId:
-          type: string
-          description: Location / Sub-account id. Mandatory if companyId is not provided
-          example: Yjnwuduw83e8x30sm0
-      required:
-      - supportsSubscriptionSchedules
   securitySchemes:
     bearer:
       scheme: bearer

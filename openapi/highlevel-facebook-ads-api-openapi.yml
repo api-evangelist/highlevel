@@ -1574,146 +1574,150 @@ paths:
       - Facebook Ads
 components:
   schemas:
-    UpsertAdDTO:
+    AudienceLocaleDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Locale display name
+          example: English (US)
+        key:
+          type: number
+          description: Facebook locale key
+          example: 6
+      required:
+      - name
+      - key
+    UpdateCustomAudienceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        contactId:
+          type: string
+          description: Contact identifier
+          example: contact_123
+        fbAdAccountId:
+          type: string
+          description: Facebook ad account ID
+          example: act_123456
+      required:
+      - locationId
+      - contactId
+    PublishAdDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+      required:
+      - locationId
+    AudienceLocationGeometry:
+      type: object
+      properties:
+        location:
+          type: object
+          description: Geographic coordinates
+          example:
+            lat: 40.7128
+            lng: -74.006
+        location_type:
+          type: string
+          description: Geocoding result type
+          example: APPROXIMATE
+      required:
+      - location
+      - location_type
+    UpsertConversionPixelDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        conversionPixelId:
+          type: string
+          description: Conversion pixel ID
+          example: px_123
+        name:
+          type: string
+          description: Pixel name
+          example: My Pixel
+        igUserId:
+          type: string
+          description: Instagram user ID
+          example: ig_user_123
+        type:
+          type: string
+          description: Pixel event type
+          example: LEAD_EVENT
+      required:
+      - locationId
+      - type
+    UpsertAdsetDTO:
       type: object
       properties:
         id:
           type: string
-          description: Ad identifier
-          example: ad_123
+          description: Ad set identifier
+          example: adset_123
         locationId:
           type: string
           description: Location identifier
           example: loc_abc123
         name:
           type: string
-          description: Ad name
-          example: My Ad Creative
-        primaryText:
+          description: Ad set name
+          example: Targeting Group A
+        pageId:
           type: string
-          description: Ad primary text
-          example: Check out our offer!
-        headline:
+          description: Facebook page ID
+          example: '123456789'
+        instagramActorId:
           type: string
-          description: Ad headline text
-          example: Great Deal
-        description:
+          description: Instagram actor ID
+          example: ig_123
+        messagingPlatforms:
           type: string
-          description: Ad description text
-          example: Limited time offer
-        imageUrl:
-          type: string
-          description: Ad image URL
-          example: https://example.com/img.jpg
-        mediaType:
-          type: string
-          description: Ad media type
+          description: Messaging platforms
           enum:
-          - SINGLE
-          - CAROUSEL
-        media:
-          description: Media items (images or videos) attached to the ad creative
-          example:
-          - src: https://example.com/image.jpg
-            thumbnailUrl: https://example.com/thumb.jpg
-            selectedPoster: 0
-            type: IMAGE
-            name: ad_image.jpg
-          type: array
-          items:
-            $ref: '#/components/schemas/MediaDTO'
-        multiAdvertiserAds:
-          type: boolean
-          description: Enable multi-advertiser ads
-          example: false
+          - WHATSAPP
+          - MESSENGER
+          - INSTAGRAM_DIRECT
+        whatsappNumber:
+          type: string
+          description: WhatsApp phone number
+          example: '+1234567890'
+        audience:
+          description: Targeting audience configuration including geo-locations, locales, placements, and custom audiences
+          allOf:
+          - $ref: '#/components/schemas/FacebookAudienceDTO'
+        budget:
+          description: Ad set budget config
+          allOf:
+          - $ref: '#/components/schemas/Budget'
+        conversionLocation:
+          type: string
+          description: Conversion location
+          example: website
+        customEventType:
+          type: string
+          description: Custom event type
+          example: Purchase
+        pixelId:
+          type: string
+          description: Conversion pixel ID
+          example: px_123
         campaignId:
           type: string
           description: Parent campaign ID
           example: camp_123
-        adsetId:
-          type: string
-          description: Parent ad set ID
-          example: adset_123
-        cta:
-          type: string
-          description: Call to action type
-          example: LEARN_MORE
-        conversationFormId:
-          type: string
-          description: Conversation form ID
-          example: conv_123
-        destinationLink:
-          type: string
-          description: Destination link URL
-          example: https://example.com
-        destinationFormId:
-          type: string
-          description: Destination form ID
-          example: form_123
       required:
       - locationId
       - campaignId
-      - adsetId
-    AudienceCustomAudienceItemDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Custom audience ID
-          example: '23851234567890'
-        name:
-          type: string
-          description: Custom audience name
-          example: Website Visitors - Last 30 Days
-      required:
-      - id
-      - name
-    AudienceInterestDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Interest ID
-          example: '6003139266461'
-        name:
-          type: string
-          description: Interest name
-          example: Fitness and wellness
-        type:
-          type: string
-          description: Interest category type (defaults to "interests" if omitted)
-          example: interests
-      required:
-      - id
-      - name
-    AudiencePlacementsDTO:
-      type: object
-      properties:
-        facebook:
-          description: Facebook placement positions
-          example:
-          - feed
-          - right_hand_column
-          - marketplace
-          type: array
-          items:
-            type: string
-        instagram:
-          description: Instagram placement positions
-          example:
-          - stream
-          - story
-          - explore
-          type: array
-          items:
-            type: string
-        messenger:
-          description: Messenger placement positions
-          example:
-          - messenger_home
-          type: array
-          items:
-            type: string
     FbUpdateAudienceBodyDTO:
       type: object
       properties:
@@ -1733,102 +1737,6 @@ components:
       - locationId
       - name
       - description
-    MediaDTO:
-      type: object
-      properties:
-        src:
-          type: string
-          description: Media source URL
-          example: https://example.com/image.jpg
-        thumbnailUrl:
-          type: string
-          description: Thumbnail URL (required when type is video)
-          example: https://example.com/thumb.jpg
-        selectedPoster:
-          type: number
-          description: Selected poster index (required when type is video)
-          example: 0
-        type:
-          type: string
-          description: Media content type
-          example: IMAGE
-          enum:
-          - image
-          - video
-        name:
-          type: string
-          description: Media file name
-          example: ad_image.jpg
-        headline:
-          type: string
-          description: Media headline
-          example: Great Offer
-        description:
-          type: string
-          description: Media description
-          example: Click to learn more
-        link:
-          type: string
-          description: Media destination link
-          example: https://example.com
-      required:
-      - src
-      - type
-    AudienceLocationDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Facebook location key
-          example: US
-        name:
-          type: string
-          description: Location display name
-          example: United States
-        type:
-          type: string
-          description: Geographic location type
-          example: country
-          enum:
-          - country
-          - city
-          - region
-          - country_group
-          - geo_market
-          - large_geo_area
-          - medium_geo_area
-          - small_geo_area
-          - subcity
-          - neighborhood
-          - zip
-          - address
-        selectionType:
-          type: string
-          description: Whether the location is included or excluded from targeting
-          example: include
-          enum:
-          - include
-          - exclude
-        radius:
-          type: number
-          description: Targeting radius around the location (for city/address types)
-          example: 25
-        radiusUnit:
-          type: string
-          description: Unit for the targeting radius
-          example: mi
-          enum:
-          - km
-          - mi
-        geometry:
-          description: Geometry data for address-based targeting
-          allOf:
-          - $ref: '#/components/schemas/AudienceLocationGeometry'
-      required:
-      - key
-      - name
-      - type
-      - selectionType
     FacebookAudienceDTO:
       type: object
       properties:
@@ -1910,22 +1818,75 @@ components:
             type: number
       required:
       - geo_locations
-    AudienceLocationGeometry:
+    AudienceCustomAudienceItemDTO:
       type: object
       properties:
-        location:
-          type: object
-          description: Geographic coordinates
-          example:
-            lat: 40.7128
-            lng: -74.006
-        location_type:
+        id:
           type: string
-          description: Geocoding result type
-          example: APPROXIMATE
+          description: Custom audience ID
+          example: '23851234567890'
+        name:
+          type: string
+          description: Custom audience name
+          example: Website Visitors - Last 30 Days
       required:
-      - location
-      - location_type
+      - id
+      - name
+    AudienceLocationDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Facebook location key
+          example: US
+        name:
+          type: string
+          description: Location display name
+          example: United States
+        type:
+          type: string
+          description: Geographic location type
+          example: country
+          enum:
+          - country
+          - city
+          - region
+          - country_group
+          - geo_market
+          - large_geo_area
+          - medium_geo_area
+          - small_geo_area
+          - subcity
+          - neighborhood
+          - zip
+          - address
+        selectionType:
+          type: string
+          description: Whether the location is included or excluded from targeting
+          example: include
+          enum:
+          - include
+          - exclude
+        radius:
+          type: number
+          description: Targeting radius around the location (for city/address types)
+          example: 25
+        radiusUnit:
+          type: string
+          description: Unit for the targeting radius
+          example: mi
+          enum:
+          - km
+          - mi
+        geometry:
+          description: Geometry data for address-based targeting
+          allOf:
+          - $ref: '#/components/schemas/AudienceLocationGeometry'
+      required:
+      - key
+      - name
+      - type
+      - selectionType
     LocationIdBodyDTO:
       type: object
       properties:
@@ -1935,67 +1896,47 @@ components:
           example: HChooFuiyPpVYzeJ4HMe
       required:
       - locationId
-    UpsertAdsetDTO:
+    MediaDTO:
       type: object
       properties:
-        id:
+        src:
           type: string
-          description: Ad set identifier
-          example: adset_123
-        locationId:
+          description: Media source URL
+          example: https://example.com/image.jpg
+        thumbnailUrl:
           type: string
-          description: Location identifier
-          example: loc_abc123
+          description: Thumbnail URL (required when type is video)
+          example: https://example.com/thumb.jpg
+        selectedPoster:
+          type: number
+          description: Selected poster index (required when type is video)
+          example: 0
+        type:
+          type: string
+          description: Media content type
+          example: IMAGE
+          enum:
+          - image
+          - video
         name:
           type: string
-          description: Ad set name
-          example: Targeting Group A
-        pageId:
+          description: Media file name
+          example: ad_image.jpg
+        headline:
           type: string
-          description: Facebook page ID
-          example: '123456789'
-        instagramActorId:
+          description: Media headline
+          example: Great Offer
+        description:
           type: string
-          description: Instagram actor ID
-          example: ig_123
-        messagingPlatforms:
+          description: Media description
+          example: Click to learn more
+        link:
           type: string
-          description: Messaging platforms
-          enum:
-          - WHATSAPP
-          - MESSENGER
-          - INSTAGRAM_DIRECT
-        whatsappNumber:
-          type: string
-          description: WhatsApp phone number
-          example: '+1234567890'
-        audience:
-          description: Targeting audience configuration including geo-locations, locales, placements, and custom audiences
-          allOf:
-          - $ref: '#/components/schemas/FacebookAudienceDTO'
-        budget:
-          description: Ad set budget config
-          allOf:
-          - $ref: '#/components/schemas/Budget'
-        conversionLocation:
-          type: string
-          description: Conversion location
-          example: website
-        customEventType:
-          type: string
-          description: Custom event type
-          example: Purchase
-        pixelId:
-          type: string
-          description: Conversion pixel ID
-          example: px_123
-        campaignId:
-          type: string
-          description: Parent campaign ID
-          example: camp_123
+          description: Media destination link
+          example: https://example.com
       required:
-      - locationId
-      - campaignId
+      - src
+      - type
     UpdateCustomAudienceBatchDTO:
       type: object
       properties:
@@ -2026,50 +1967,49 @@ components:
       required:
       - locationId
       - operationType
-    UpsertConversionPixelDTO:
+    Budget:
       type: object
       properties:
-        locationId:
+        budgetType:
           type: string
-          description: Location identifier
-          example: loc_abc123
-        conversionPixelId:
+          description: Budget type
+          example: DAILY
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+          description: Budget amount
+          example: 1000
+        scheduleStartDate:
           type: string
-          description: Conversion pixel ID
-          example: px_123
+          description: Schedule start date
+          example: '2024-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date
+          example: '2024-01-31'
+      required:
+      - budgetType
+      - amount
+    AudienceInterestDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Interest ID
+          example: '6003139266461'
         name:
           type: string
-          description: Pixel name
-          example: My Pixel
-        igUserId:
-          type: string
-          description: Instagram user ID
-          example: ig_user_123
+          description: Interest name
+          example: Fitness and wellness
         type:
           type: string
-          description: Pixel event type
-          example: LEAD_EVENT
+          description: Interest category type (defaults to "interests" if omitted)
+          example: interests
       required:
-      - locationId
-      - type
-    UpdateCustomAudienceDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        contactId:
-          type: string
-          description: Contact identifier
-          example: contact_123
-        fbAdAccountId:
-          type: string
-          description: Facebook ad account ID
-          example: act_123456
-      required:
-      - locationId
-      - contactId
+      - id
+      - name
     UpsertCampaignDTO:
       type: object
       properties:
@@ -2111,54 +2051,114 @@ components:
           example: facebook
       required:
       - locationId
-    Budget:
+    UpsertAdDTO:
       type: object
       properties:
-        budgetType:
+        id:
           type: string
-          description: Budget type
-          example: DAILY
-          enum:
-          - DAILY
-          - LIFETIME
-        amount:
-          type: number
-          description: Budget amount
-          example: 1000
-        scheduleStartDate:
-          type: string
-          description: Schedule start date
-          example: '2024-01-01'
-        scheduleEndDate:
-          type: string
-          description: Schedule end date
-          example: '2024-01-31'
-      required:
-      - budgetType
-      - amount
-    PublishAdDTO:
-      type: object
-      properties:
+          description: Ad identifier
+          example: ad_123
         locationId:
           type: string
           description: Location identifier
           example: loc_abc123
-      required:
-      - locationId
-    AudienceLocaleDTO:
-      type: object
-      properties:
         name:
           type: string
-          description: Locale display name
-          example: English (US)
-        key:
-          type: number
-          description: Facebook locale key
-          example: 6
+          description: Ad name
+          example: My Ad Creative
+        primaryText:
+          type: string
+          description: Ad primary text
+          example: Check out our offer!
+        headline:
+          type: string
+          description: Ad headline text
+          example: Great Deal
+        description:
+          type: string
+          description: Ad description text
+          example: Limited time offer
+        imageUrl:
+          type: string
+          description: Ad image URL
+          example: https://example.com/img.jpg
+        mediaType:
+          type: string
+          description: Ad media type
+          enum:
+          - SINGLE
+          - CAROUSEL
+        media:
+          description: Media items (images or videos) attached to the ad creative
+          example:
+          - src: https://example.com/image.jpg
+            thumbnailUrl: https://example.com/thumb.jpg
+            selectedPoster: 0
+            type: IMAGE
+            name: ad_image.jpg
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaDTO'
+        multiAdvertiserAds:
+          type: boolean
+          description: Enable multi-advertiser ads
+          example: false
+        campaignId:
+          type: string
+          description: Parent campaign ID
+          example: camp_123
+        adsetId:
+          type: string
+          description: Parent ad set ID
+          example: adset_123
+        cta:
+          type: string
+          description: Call to action type
+          example: LEARN_MORE
+        conversationFormId:
+          type: string
+          description: Conversation form ID
+          example: conv_123
+        destinationLink:
+          type: string
+          description: Destination link URL
+          example: https://example.com
+        destinationFormId:
+          type: string
+          description: Destination form ID
+          example: form_123
       required:
-      - name
-      - key
+      - locationId
+      - campaignId
+      - adsetId
+    AudiencePlacementsDTO:
+      type: object
+      properties:
+        facebook:
+          description: Facebook placement positions
+          example:
+          - feed
+          - right_hand_column
+          - marketplace
+          type: array
+          items:
+            type: string
+        instagram:
+          description: Instagram placement positions
+          example:
+          - stream
+          - story
+          - explore
+          type: array
+          items:
+            type: string
+        messenger:
+          description: Messenger placement positions
+          example:
+          - messenger_home
+          type: array
+          items:
+            type: string
   securitySchemes:
     bearer:
       scheme: bearer

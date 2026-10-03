@@ -151,18 +151,6 @@ components:
           example: 3
       required:
       - tags
-    GetTagsByLocationIdResponseSchema:
-      type: object
-      properties:
-        tags:
-          description: Tags Data
-          type: array
-          items:
-            $ref: '#/components/schemas/SocialMediaTagSchema'
-        count:
-          type: number
-          description: Count
-          example: 3
     UpdateTagDTO:
       type: object
       properties:
@@ -221,6 +209,18 @@ components:
       - success
       - statusCode
       - message
+    GetTagsByLocationIdResponseSchema:
+      type: object
+      properties:
+        tags:
+          description: Tags Data
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialMediaTagSchema'
+        count:
+          type: number
+          description: Count
+          example: 3
     SocialMediaTagSchema:
       type: object
       properties:

@@ -233,6 +233,37 @@ paths:
       - Agency-Access: []
 components:
   schemas:
+    SnapshotsSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: Snapshot Id.
+        name:
+          type: string
+          example: Martial Arts Snapshot
+          description: Name of the snapshot
+        type:
+          type: string
+          example: own
+          description: Type of snapshot - own or imported.
+    CreateSnapshotShareLinkSuccessfulResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: id for shared snapshot
+        shareLink:
+          type: string
+          example: https://affiliates.gohighlevel.com/?share=1eM2UgkfaECOYyUdCo9Pa
+          description: Share Link for snapshot
+    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
     GetSnapshotsSuccessfulResponseDto:
       type: object
       properties:
@@ -240,6 +271,40 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SnapshotsSchema'
+    SnapshotStatusSchemaWithAssets:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: Document id
+        locationId:
+          type: string
+          example: BrKClvyvdxhJ9Mxz2pzQ
+          description: Sub-account id
+        status:
+          type: string
+          example: processing
+          description: Status of snapshot push
+        completed:
+          example: '[''forms'', ''surveys'', ''funnels'', ''workflows'']'
+          description: List of completed assets
+          type: array
+          items:
+            type: string
+        pending:
+          example: '[''custom_fields'',''custom_values'',''tags'']'
+          description: List of pending assets
+          type: array
+          items:
+            type: string
+    GetSnapshotPushStatusSuccessfulResponseDTO:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotStatusSchema'
     SnapshotStatusSchema:
       type: object
       properties:
@@ -287,71 +352,6 @@ components:
       required:
       - snapshot_id
       - share_type
-    SnapshotsSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: Snapshot Id.
-        name:
-          type: string
-          example: Martial Arts Snapshot
-          description: Name of the snapshot
-        type:
-          type: string
-          example: own
-          description: Type of snapshot - own or imported.
-    GetSnapshotPushStatusSuccessfulResponseDTO:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SnapshotStatusSchema'
-    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
-    SnapshotStatusSchemaWithAssets:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: Document id
-        locationId:
-          type: string
-          example: BrKClvyvdxhJ9Mxz2pzQ
-          description: Sub-account id
-        status:
-          type: string
-          example: processing
-          description: Status of snapshot push
-        completed:
-          example: '[''forms'', ''surveys'', ''funnels'', ''workflows'']'
-          description: List of completed assets
-          type: array
-          items:
-            type: string
-        pending:
-          example: '[''custom_fields'',''custom_values'',''tags'']'
-          description: List of pending assets
-          type: array
-          items:
-            type: string
-    CreateSnapshotShareLinkSuccessfulResponseDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: id for shared snapshot
-        shareLink:
-          type: string
-          example: https://affiliates.gohighlevel.com/?share=1eM2UgkfaECOYyUdCo9Pa
-          description: Share Link for snapshot
   securitySchemes:
     bearer:
       scheme: bearer

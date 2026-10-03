@@ -234,6 +234,14 @@ components:
     CreateCustomObjectRecordDto:
       type: object
       properties: {}
+    RecordByIdResponseDTO:
+      type: object
+      properties:
+        record:
+          $ref: '#/components/schemas/IRecordSchema'
+    UpdateCustomObjectRecordDto:
+      type: object
+      properties: {}
     ObjectRecordDeleteResponseDTO:
       type: object
       properties:
@@ -245,14 +253,6 @@ components:
           type: boolean
           description: boolean that defines if the operation was a success or not
           example: true
-    RecordByIdResponseDTO:
-      type: object
-      properties:
-        record:
-          $ref: '#/components/schemas/IRecordSchema'
-    UpdateCustomObjectRecordDto:
-      type: object
-      properties: {}
     IRecordSchema:
       type: object
       properties:

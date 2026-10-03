@@ -135,6 +135,20 @@ components:
           type: string
           description: The reason for uninstalling the application. Reason is required if you are uninstalling the application as a developer.
           example: Application is not working as expected
+    WhitelabelDetailsDTO:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Domain of the whitelabel company
+          example: example.com
+        logoUrl:
+          type: string
+          description: Logo URL of the whitelabel company
+          example: https://example.com/logo.png
+      required:
+      - domain
+      - logoUrl
     GetInstallerDetailsResponseDTO:
       type: object
       properties:
@@ -156,20 +170,6 @@ components:
           - $ref: '#/components/schemas/InstallerDetailsDTO'
       required:
       - installationDetails
-    WhitelabelDetailsDTO:
-      type: object
-      properties:
-        domain:
-          type: string
-          description: Domain of the whitelabel company
-          example: example.com
-        logoUrl:
-          type: string
-          description: Logo URL of the whitelabel company
-          example: https://example.com/logo.png
-      required:
-      - domain
-      - logoUrl
     InstallerDetailsDTO:
       type: object
       properties:

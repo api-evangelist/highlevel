@@ -114,35 +114,44 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    GetStoreSettingResponseDto:
+    CreateStoreSettingDto:
       type: object
       properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
+        altId:
           type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping carrier data
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        shippingOrigin:
+          description: Shipping origin address
           allOf:
-          - $ref: '#/components/schemas/StoreSettingSchema'
+          - $ref: '#/components/schemas/StoreShippingOriginDto'
+        storeOrderNotification:
+          description: Store order notification email
+          allOf:
+          - $ref: '#/components/schemas/StoreOrderNotificationDto'
+        storeOrderFulfillmentNotification:
+          description: Store order fulfillment notification email
+          allOf:
+          - $ref: '#/components/schemas/StoreOrderFulfillmentNotificationDto'
       required:
-      - status
-      - data
-    StoreOrderNotificationDto:
+      - altId
+      - altType
+      - shippingOrigin
+    StoreOrderFulfillmentNotificationDto:
       type: object
       properties:
         enabled:
           type: boolean
-          description: Store order notification enabled
+          description: Store order fulfillment notification enabled
           example: true
         subject:
           type: string
-          description: Store order email subject
-          example: Your order is placed !
+          description: Store order fulfillment email subject
+          example: Order fulfilled
         emailTemplateId:
           type: string
           description: Email Template Id
@@ -156,24 +165,6 @@ components:
       - subject
       - emailTemplateId
       - defaultEmailTemplateId
-    CreateStoreSettingResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping carrier data
-          allOf:
-          - $ref: '#/components/schemas/StoreSettingSchema'
-      required:
-      - status
-      - data
     StoreSettingSchema:
       type: object
       properties:
@@ -216,57 +207,6 @@ components:
       - _id
       - createdAt
       - updatedAt
-    StoreOrderFulfillmentNotificationDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Store order fulfillment notification enabled
-          example: true
-        subject:
-          type: string
-          description: Store order fulfillment email subject
-          example: Order fulfilled
-        emailTemplateId:
-          type: string
-          description: Email Template Id
-          example: 6788d542f0462ffd6bc29bb9
-        defaultEmailTemplateId:
-          type: string
-          description: Default Email Template Id
-          example: 6788d542f0462ffd6bc29bb9
-      required:
-      - enabled
-      - subject
-      - emailTemplateId
-      - defaultEmailTemplateId
-    CreateStoreSettingDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        shippingOrigin:
-          description: Shipping origin address
-          allOf:
-          - $ref: '#/components/schemas/StoreShippingOriginDto'
-        storeOrderNotification:
-          description: Store order notification email
-          allOf:
-          - $ref: '#/components/schemas/StoreOrderNotificationDto'
-        storeOrderFulfillmentNotification:
-          description: Store order fulfillment notification email
-          allOf:
-          - $ref: '#/components/schemas/StoreOrderFulfillmentNotificationDto'
-      required:
-      - altId
-      - altType
-      - shippingOrigin
     StoreShippingOriginDto:
       type: object
       properties:
@@ -1332,6 +1272,66 @@ components:
       - city
       - street1
       - zip
+    GetStoreSettingResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping carrier data
+          allOf:
+          - $ref: '#/components/schemas/StoreSettingSchema'
+      required:
+      - status
+      - data
+    CreateStoreSettingResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping carrier data
+          allOf:
+          - $ref: '#/components/schemas/StoreSettingSchema'
+      required:
+      - status
+      - data
+    StoreOrderNotificationDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Store order notification enabled
+          example: true
+        subject:
+          type: string
+          description: Store order email subject
+          example: Your order is placed !
+        emailTemplateId:
+          type: string
+          description: Email Template Id
+          example: 6788d542f0462ffd6bc29bb9
+        defaultEmailTemplateId:
+          type: string
+          description: Default Email Template Id
+          example: 6788d542f0462ffd6bc29bb9
+      required:
+      - enabled
+      - subject
+      - emailTemplateId
+      - defaultEmailTemplateId
   securitySchemes:
     bearer:
       scheme: bearer

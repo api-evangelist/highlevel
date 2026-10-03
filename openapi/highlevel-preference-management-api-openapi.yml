@@ -237,56 +237,34 @@ paths:
       - Preference Management
 components:
   schemas:
-    UserSubscriptionChangeDto:
+    CreateCustomSubtypeDto:
       type: object
       properties:
-        locationId:
+        name:
           type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        contactId:
+          description: Name of the custom subtype (max 100 characters)
+          example: Newsletter Subscription
+          maxLength: 100
+        description:
           type: string
-          description: Contact Id
-          example: OP7z4LCyPACyH5fcEIZa
-        email:
+          description: Description of the custom subtype (max 100 characters)
+          example: Weekly newsletter subscription preferences
+          maxLength: 100
+        channel:
           type: string
-          description: Email address
-          example: user@example.com
-        subscription_action:
-          description: Subscription action details
-          examples:
-            default_one_on_one:
-              summary: Unsubscribe from One on One emails
-              value:
-                type: default
-                subtype_name: One on One
-                subtype_status: unsubscribed
-            custom_newsletter:
-              summary: Subscribe to custom newsletter
-              value:
-                type: custom
-                subtype_id: ve9EPM428h8vShlRW1KT
-                subtype_status: subscribed
-            resub_all:
-              summary: Resubscribe to all email types
-              value:
-                type: resub_all
-                subtype_status: subscribed
-          allOf:
-          - $ref: '#/components/schemas/SubscriptionActionDto'
-        legal_reason:
+          description: Communication channel
+          enum:
+          - email
+          - sms
+          example: email
+        language:
           type: string
-          description: Legal reason for the change (required only for resubscribe and resub_all actions)
-          example: User requested resubscribe via customer service
-        legal_description:
-          type: string
-          description: Legal description/details
-          example: Customer called support on 2024-01-15 requesting to be removed from newsletter
+          description: Language code
+          example: en
       required:
-      - locationId
-      - contactId
-      - email
-      - subscription_action
+      - name
+      - channel
+      - language
     SubscriptionActionDto:
       type: object
       properties:
@@ -339,34 +317,56 @@ components:
           type: string
           description: Resubscription legal form ID (optional when archiving)
           example: form_123456
-    CreateCustomSubtypeDto:
+    UserSubscriptionChangeDto:
       type: object
       properties:
-        name:
+        locationId:
           type: string
-          description: Name of the custom subtype (max 100 characters)
-          example: Newsletter Subscription
-          maxLength: 100
-        description:
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
           type: string
-          description: Description of the custom subtype (max 100 characters)
-          example: Weekly newsletter subscription preferences
-          maxLength: 100
-        channel:
+          description: Contact Id
+          example: OP7z4LCyPACyH5fcEIZa
+        email:
           type: string
-          description: Communication channel
-          enum:
-          - email
-          - sms
-          example: email
-        language:
+          description: Email address
+          example: user@example.com
+        subscription_action:
+          description: Subscription action details
+          examples:
+            default_one_on_one:
+              summary: Unsubscribe from One on One emails
+              value:
+                type: default
+                subtype_name: One on One
+                subtype_status: unsubscribed
+            custom_newsletter:
+              summary: Subscribe to custom newsletter
+              value:
+                type: custom
+                subtype_id: ve9EPM428h8vShlRW1KT
+                subtype_status: subscribed
+            resub_all:
+              summary: Resubscribe to all email types
+              value:
+                type: resub_all
+                subtype_status: subscribed
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionActionDto'
+        legal_reason:
           type: string
-          description: Language code
-          example: en
+          description: Legal reason for the change (required only for resubscribe and resub_all actions)
+          example: User requested resubscribe via customer service
+        legal_description:
+          type: string
+          description: Legal description/details
+          example: Customer called support on 2024-01-15 requesting to be removed from newsletter
       required:
-      - name
-      - channel
-      - language
+      - locationId
+      - contactId
+      - email
+      - subscription_action
   securitySchemes:
     bearer:
       scheme: bearer

@@ -55,6 +55,13 @@ paths:
         - opportunities.readonly
 components:
   schemas:
+    GetPipelinesSuccessfulResponseDto:
+      type: object
+      properties:
+        pipelines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelinesResponseSchema'
     PipelinesResponseSchema:
       type: object
       properties:
@@ -84,13 +91,6 @@ components:
           - bg-tint
           - none
           description: How pipeline/stage colors are rendered
-    GetPipelinesSuccessfulResponseDto:
-      type: object
-      properties:
-        pipelines:
-          type: array
-          items:
-            $ref: '#/components/schemas/PipelinesResponseSchema'
   securitySchemes:
     bearer:
       scheme: bearer

@@ -291,6 +291,76 @@ paths:
         - calendars/resources.write
 components:
   schemas:
+    CalendarResourceResponseDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID of the resource
+        name:
+          type: string
+          description: Name of the resource
+          example: yoga room
+        resourceType:
+          type: string
+          enum:
+          - equipments
+          - rooms
+        isActive:
+          type: boolean
+          description: Whether the resource is active
+        description:
+          type: string
+          description: Description of the resource
+        quantity:
+          type: number
+          description: Quantity of the resource
+        outOfService:
+          type: number
+          description: Indicates if the resource is out of service
+          example: 0
+        capacity:
+          type: number
+          description: Capacity of the resource
+          example: 85
+      required:
+      - locationId
+      - name
+      - resourceType
+      - isActive
+    ResourceDeleteResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success
+          example: 'true'
+    UpdateCalendarResourceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+          description: Quantity of the equipment.
+        outOfService:
+          type: number
+          description: Quantity of the out of service equipment.
+        capacity:
+          type: number
+          description: Capacity of the room.
+        calendarIds:
+          description: "Service calendar IDs to be mapped with the resource.\n\n    One equipment can only be mapped with one service calendar.\n    \nOne room can be mapped with multiple service calendars."
+          maxItems: 100
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
     CalendarResourceByIdResponseDTO:
       type: object
       properties:
@@ -337,43 +407,6 @@ components:
       - resourceType
       - isActive
       - calendarIds
-    CalendarResourceResponseDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location ID of the resource
-        name:
-          type: string
-          description: Name of the resource
-          example: yoga room
-        resourceType:
-          type: string
-          enum:
-          - equipments
-          - rooms
-        isActive:
-          type: boolean
-          description: Whether the resource is active
-        description:
-          type: string
-          description: Description of the resource
-        quantity:
-          type: number
-          description: Quantity of the resource
-        outOfService:
-          type: number
-          description: Indicates if the resource is out of service
-          example: 0
-        capacity:
-          type: number
-          description: Capacity of the resource
-          example: 85
-      required:
-      - locationId
-      - name
-      - resourceType
-      - isActive
     CreateCalendarResourceDTO:
       type: object
       properties:
@@ -406,39 +439,6 @@ components:
       - outOfService
       - capacity
       - calendarIds
-    UpdateCalendarResourceDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        quantity:
-          type: number
-          description: Quantity of the equipment.
-        outOfService:
-          type: number
-          description: Quantity of the out of service equipment.
-        capacity:
-          type: number
-          description: Capacity of the room.
-        calendarIds:
-          description: "Service calendar IDs to be mapped with the resource.\n\n    One equipment can only be mapped with one service calendar.\n    \nOne room can be mapped with multiple service calendars."
-          maxItems: 100
-          type: array
-          items:
-            type: string
-        isActive:
-          type: boolean
-    ResourceDeleteResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success
-          example: 'true'
   securitySchemes:
     bearer:
       scheme: bearer

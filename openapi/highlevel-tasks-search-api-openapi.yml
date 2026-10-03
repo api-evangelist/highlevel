@@ -69,6 +69,13 @@ paths:
         - locations/tasks.readonly
 components:
   schemas:
+    LocationTaskListSuccessfulResponseDto:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            type: array
     TaskSearchParamsDto:
       type: object
       properties:
@@ -109,13 +116,6 @@ components:
           type: string
           description: Bussiness Id
           example: 6348240b98722079e5417332
-    LocationTaskListSuccessfulResponseDto:
-      type: object
-      properties:
-        tasks:
-          type: array
-          items:
-            type: array
   securitySchemes:
     bearer:
       scheme: bearer

@@ -318,6 +318,26 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
+    AttachIGAccountDTO:
+      type: object
+      properties:
+        originId:
+          type: string
+          example: 244405****11687
+        name:
+          type: string
+          example: JOHN_DEO
+        avatar:
+          type: string
+        pageId:
+          type: string
+          example: 234234234242sd
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+      required:
+      - pageId
     GetInstagramAccountsResponseDTO:
       type: object
       properties:
@@ -364,26 +384,6 @@ components:
       - success
       - statusCode
       - message
-    AttachIGAccountDTO:
-      type: object
-      properties:
-        originId:
-          type: string
-          example: 244405****11687
-        name:
-          type: string
-          example: JOHN_DEO
-        avatar:
-          type: string
-        pageId:
-          type: string
-          example: 234234234242sd
-        companyId:
-          type: string
-          description: Company ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
-      required:
-      - pageId
     InstagramAccountSchema:
       type: object
       properties:

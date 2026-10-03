@@ -237,25 +237,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    AttachFBAccountDTO:
-      type: object
-      properties:
-        type:
-          type: object
-          example: page
-        originId:
-          type: string
-          example: 244405****11687
-        name:
-          type: string
-          example: JOHN_DEO
-        avatar:
-          type: string
-          example: https://storage.googleapis.com/2ad21ebc23/test
-        companyId:
-          type: string
-          description: Company ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
     GetFacebookAccountsResponseDTO:
       type: object
       properties:
@@ -279,55 +260,6 @@ components:
       - success
       - statusCode
       - message
-    FacebookPageSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: u37swmmLbA02zgqKPpxITe2
-        name:
-          type: string
-          example: FB Page
-        avatar:
-          type: string
-          example: u37swmmLbA02zgqKPpxITe2
-        isOwned:
-          type: boolean
-          example: true
-        isConnected:
-          type: boolean
-          example: true
-    SocialMediaFBAccountResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Added Facebook Account
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/SocialMediaFacebookAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
-    GetFacebookAccountsSchema:
-      type: object
-      properties:
-        pages:
-          description: Facebook Pages Details
-          type: array
-          items:
-            $ref: '#/components/schemas/FacebookPageSchema'
     SocialMediaFacebookAccountSchema:
       type: object
       properties:
@@ -401,6 +333,74 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
+    SocialMediaFBAccountResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Added Facebook Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialMediaFacebookAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
+    AttachFBAccountDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          example: page
+        originId:
+          type: string
+          example: 244405****11687
+        name:
+          type: string
+          example: JOHN_DEO
+        avatar:
+          type: string
+          example: https://storage.googleapis.com/2ad21ebc23/test
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+    GetFacebookAccountsSchema:
+      type: object
+      properties:
+        pages:
+          description: Facebook Pages Details
+          type: array
+          items:
+            $ref: '#/components/schemas/FacebookPageSchema'
+    FacebookPageSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        name:
+          type: string
+          example: FB Page
+        avatar:
+          type: string
+          example: u37swmmLbA02zgqKPpxITe2
+        isOwned:
+          type: boolean
+          example: true
+        isConnected:
+          type: boolean
+          example: true
   securitySchemes:
     bearer:
       scheme: bearer

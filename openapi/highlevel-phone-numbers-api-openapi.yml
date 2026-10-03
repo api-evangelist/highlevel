@@ -450,63 +450,195 @@ paths:
       - Phone Numbers
 components:
   schemas:
-    PurchasePhoneNumberBodyDto:
+    TwilioAccountResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the Twilio account record
+          example: 8xMPW85D2z5jgcTa5L1p
+        account_sid:
+          type: string
+          description: Twilio Account SID
+          example: ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        under_ghl_account:
+          type: boolean
+          description: Whether this location is under a GHL-managed Twilio account
+          example: true
+        validate_sms:
+          type: boolean
+          description: Whether SMS validation is enabled
+          example: true
+        location_id:
+          type: string
+          description: The location ID this Twilio account belongs to
+          example: aa4PBpxnPc9bs4LSdiW7
+        migration_status:
+          type:
+          - string
+          - 'null'
+          description: Current migration status of the account
+          example: completed
+        migration_numbers:
+          type: array
+          description: List of numbers being migrated
+          items:
+            type: string
+          example: []
+        assigned_to_numbers:
+          type: object
+          description: Map of phone numbers to assigned user IDs
+          additionalProperties:
+            type: string
+          example: {}
+        numbers:
+          type: object
+          description: Map of phone numbers to their service type (e.g. 'conversation')
+          additionalProperties:
+            type: string
+          example:
+            '+18705871861': conversation
+        number_name:
+          type: object
+          description: Map of phone numbers to their friendly names
+          additionalProperties:
+            type: string
+          example:
+            '+18705871861': My Number
+        new_account_sid:
+          type:
+          - string
+          - 'null'
+          description: New account SID if the account has been migrated to new credentials
+          example: ''
+      required:
+      - id
+      - account_sid
+      - under_ghl_account
+      - validate_sms
+      - location_id
+      - numbers
+    AvailableNumbersResponseDto:
+      type: object
+      properties:
+        fingerprintId:
+          type: string
+          description: Unique fingerprint ID for this search result, required when purchasing one of the returned numbers
+          example: '1773314252953'
+        numbers:
+          type: array
+          description: List of available phone numbers matching the search criteria
+          items:
+            $ref: '#/components/schemas/AvailablePhoneNumberDto'
+      required:
+      - fingerprintId
+      - numbers
+    AvailablePhoneNumberDto:
       type: object
       properties:
         phoneNumber:
           type: string
-          description: The phone number to purchase
-          example: '+18305551234'
-        countryCode:
+          description: E.164 formatted phone number
+          example: '+18705871861'
+        friendlyName:
           type: string
-          description: ISO 3166-1 alpha-2 country code of the number
+          description: Human-readable formatted phone number
+          example: (870) 587-1861
+        isoCountry:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
           example: US
-        numberType:
-          type: string
-          description: Type of phone number
-          example: local
-          enum:
-          - local
-          - tollFree
-          - mobile
-        addressSid:
+        lata:
           type:
           - string
           - 'null'
-          description: Twilio address SID for compliance
-          example: AD1234567890abcdef1234567890abcde
-        bundleSid:
-          type:
-          - string
-          - 'null'
-          description: Twilio bundle SID for regulatory compliance
-          example: BU1234567890abcdef1234567890abcde
+          description: Local Access and Transport Area code
+          example: '528'
         locality:
           type:
           - string
           - 'null'
-          description: Locality where the number is being purchased
-          example: San Antonio
+          description: City or locality of the number
+          example: Wynne
+        rateCenter:
+          type:
+          - string
+          - 'null'
+          description: Rate center of the number
+          example: WYNNE
+        latitude:
+          type:
+          - string
+          - 'null'
+          description: Latitude coordinate of the number's location
+          example: '35.241800'
+        longitude:
+          type:
+          - string
+          - 'null'
+          description: Longitude coordinate of the number's location
+          example: '-90.846000'
         region:
           type:
           - string
           - 'null'
-          description: Region where the number is being purchased
-          example: TX
-        fingerprintId:
+          description: State or region abbreviation
+          example: AR
+        postalCode:
           type:
           - string
           - 'null'
-          description: Unique request ID for idempotency (fingerprint of the purchase request)
-          example: fp_abc123def456
-        skipLocationKYC:
-          type:
-          - boolean
-          - 'null'
-          description: Skip location-level KYC verification if agency-level compliance has already been verified
+          description: Postal code of the number
+          example: '72396'
+        addressRequirements:
+          type: string
+          description: Address requirements for purchasing this number
+          example: none
+          enum:
+          - none
+          - any
+          - local
+          - foreign
+        beta:
+          type: boolean
+          description: Whether this is a beta number
           example: false
+        capabilities:
+          type: object
+          description: Communication capabilities supported by this number
+          properties:
+            MMS:
+              type: boolean
+              example: true
+            SMS:
+              type: boolean
+              example: true
+            voice:
+              type: boolean
+              example: true
+        price:
+          type: object
+          description: Pricing information for this number
+          properties:
+            number_type:
+              type: string
+              description: Type of number for billing purposes
+              example: local
+            price:
+              type: number
+              description: Monthly price for this number
+              example: 1.15
+            price_unit:
+              type: string
+              description: Currency unit for the price
+              example: USD
       required:
       - phoneNumber
+      - friendlyName
+      - isoCountry
+      - addressRequirements
+      - beta
+      - capabilities
     DetailedPhoneNumberDto:
       type: object
       properties:
@@ -642,195 +774,63 @@ components:
       - isDefaultNumber
       - linkedRingAllUsers
       - isGroupConversationEnabled
-    AvailableNumbersResponseDto:
-      type: object
-      properties:
-        fingerprintId:
-          type: string
-          description: Unique fingerprint ID for this search result, required when purchasing one of the returned numbers
-          example: '1773314252953'
-        numbers:
-          type: array
-          description: List of available phone numbers matching the search criteria
-          items:
-            $ref: '#/components/schemas/AvailablePhoneNumberDto'
-      required:
-      - fingerprintId
-      - numbers
-    AvailablePhoneNumberDto:
+    PurchasePhoneNumberBodyDto:
       type: object
       properties:
         phoneNumber:
           type: string
-          description: E.164 formatted phone number
-          example: '+18705871861'
-        friendlyName:
+          description: The phone number to purchase
+          example: '+18305551234'
+        countryCode:
           type: string
-          description: Human-readable formatted phone number
-          example: (870) 587-1861
-        isoCountry:
-          type: string
-          description: ISO 3166-1 alpha-2 country code
+          description: ISO 3166-1 alpha-2 country code of the number
           example: US
-        lata:
+        numberType:
+          type: string
+          description: Type of phone number
+          example: local
+          enum:
+          - local
+          - tollFree
+          - mobile
+        addressSid:
           type:
           - string
           - 'null'
-          description: Local Access and Transport Area code
-          example: '528'
+          description: Twilio address SID for compliance
+          example: AD1234567890abcdef1234567890abcde
+        bundleSid:
+          type:
+          - string
+          - 'null'
+          description: Twilio bundle SID for regulatory compliance
+          example: BU1234567890abcdef1234567890abcde
         locality:
           type:
           - string
           - 'null'
-          description: City or locality of the number
-          example: Wynne
-        rateCenter:
-          type:
-          - string
-          - 'null'
-          description: Rate center of the number
-          example: WYNNE
-        latitude:
-          type:
-          - string
-          - 'null'
-          description: Latitude coordinate of the number's location
-          example: '35.241800'
-        longitude:
-          type:
-          - string
-          - 'null'
-          description: Longitude coordinate of the number's location
-          example: '-90.846000'
+          description: Locality where the number is being purchased
+          example: San Antonio
         region:
           type:
           - string
           - 'null'
-          description: State or region abbreviation
-          example: AR
-        postalCode:
+          description: Region where the number is being purchased
+          example: TX
+        fingerprintId:
           type:
           - string
           - 'null'
-          description: Postal code of the number
-          example: '72396'
-        addressRequirements:
-          type: string
-          description: Address requirements for purchasing this number
-          example: none
-          enum:
-          - none
-          - any
-          - local
-          - foreign
-        beta:
-          type: boolean
-          description: Whether this is a beta number
+          description: Unique request ID for idempotency (fingerprint of the purchase request)
+          example: fp_abc123def456
+        skipLocationKYC:
+          type:
+          - boolean
+          - 'null'
+          description: Skip location-level KYC verification if agency-level compliance has already been verified
           example: false
-        capabilities:
-          type: object
-          description: Communication capabilities supported by this number
-          properties:
-            MMS:
-              type: boolean
-              example: true
-            SMS:
-              type: boolean
-              example: true
-            voice:
-              type: boolean
-              example: true
-        price:
-          type: object
-          description: Pricing information for this number
-          properties:
-            number_type:
-              type: string
-              description: Type of number for billing purposes
-              example: local
-            price:
-              type: number
-              description: Monthly price for this number
-              example: 1.15
-            price_unit:
-              type: string
-              description: Currency unit for the price
-              example: USD
       required:
       - phoneNumber
-      - friendlyName
-      - isoCountry
-      - addressRequirements
-      - beta
-      - capabilities
-    TwilioAccountResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the Twilio account record
-          example: 8xMPW85D2z5jgcTa5L1p
-        account_sid:
-          type: string
-          description: Twilio Account SID
-          example: ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        under_ghl_account:
-          type: boolean
-          description: Whether this location is under a GHL-managed Twilio account
-          example: true
-        validate_sms:
-          type: boolean
-          description: Whether SMS validation is enabled
-          example: true
-        location_id:
-          type: string
-          description: The location ID this Twilio account belongs to
-          example: aa4PBpxnPc9bs4LSdiW7
-        migration_status:
-          type:
-          - string
-          - 'null'
-          description: Current migration status of the account
-          example: completed
-        migration_numbers:
-          type: array
-          description: List of numbers being migrated
-          items:
-            type: string
-          example: []
-        assigned_to_numbers:
-          type: object
-          description: Map of phone numbers to assigned user IDs
-          additionalProperties:
-            type: string
-          example: {}
-        numbers:
-          type: object
-          description: Map of phone numbers to their service type (e.g. 'conversation')
-          additionalProperties:
-            type: string
-          example:
-            '+18705871861': conversation
-        number_name:
-          type: object
-          description: Map of phone numbers to their friendly names
-          additionalProperties:
-            type: string
-          example:
-            '+18705871861': My Number
-        new_account_sid:
-          type:
-          - string
-          - 'null'
-          description: New account SID if the account has been migrated to new credentials
-          example: ''
-      required:
-      - id
-      - account_sid
-      - under_ghl_account
-      - validate_sms
-      - location_id
-      - numbers
   securitySchemes:
     bearer:
       scheme: bearer

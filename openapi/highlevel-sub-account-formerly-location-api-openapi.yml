@@ -230,103 +230,316 @@ components:
       required:
       - sid
       - authToken
-    SocialSchema:
+    CreateLocationSuccessfulResponseDto:
       type: object
       properties:
-        facebookUrl:
+        id:
           type: string
-          description: Facebook URL
-          example: https://www.facebook.com/
-        googlePlus:
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        companyId:
           type: string
-          description: Googleplus URL
-          example: https://www.googleplus.com/
-        linkedIn:
-          type: string
-          description: LinkedIn URL
-          example: https://www.linkedIn.com/
-        foursquare:
-          type: string
-          description: Foursquare URL
-          example: https://www.foursquare.com/
-        twitter:
-          type: string
-          description: Twitter URL
-          example: https://www.foutwitterrsquare.com/
-        yelp:
-          type: string
-          description: Yelp URL
-          example: https://www.yelp.com/
-        instagram:
-          type: string
-          description: Instagram URL
-          example: https://www.instagram.com/
-        youtube:
-          type: string
-          description: Instagram URL
-          example: https://www.youtube.com/
-        pinterest:
-          type: string
-          description: Instagram URL
-          example: https://www.pinterest.com/
-        blogRss:
-          type: string
-          description: Instagram URL
-          example: https://www.blogRss.com/
-        googlePlacesId:
-          type: string
-          description: Google Business Places ID
-          example: ChIJJGPdVbQTrjsRGUkefteUeFk
-    BusinessSchema:
-      type: object
-      properties:
+          description: Company/Agency Id
+          example: UAXssdawIWAWD
         name:
           type: string
-          example: dentist
+          example: Mark Shoes
+          description: The name for the sub-account/location
+        phone:
+          type: string
+          example: '+1410039940'
+          description: The phone number of the business for which sub-account is created
+        email:
+          type: string
+          example: john.doe@mail.com
+          description: The email for the sub-account/location
         address:
           type: string
-          example: MIG 14, Delhi
+          example: 4th fleet street
+          description: The address of the business for which sub-account is created
         city:
           type: string
-          example: delhi
+          example: New York
+          description: The city where the business is located for which sub-account is created
         state:
           type: string
-          example: delhi
+          example: Illinois
+          description: The state in which the business operates for which sub-account is created
+        domain:
+          type: string
+          example: test.msgsndr.com
         country:
           type: string
-          example: IN
+          example: US
+          description: The country in which the business is present for which sub-account is created
+          enum:
+          - AF
+          - AX
+          - AL
+          - DZ
+          - AS
+          - AD
+          - AO
+          - AI
+          - AQ
+          - AG
+          - AR
+          - AM
+          - AW
+          - AU
+          - AT
+          - AZ
+          - BS
+          - BH
+          - BD
+          - BB
+          - BY
+          - BE
+          - BZ
+          - BJ
+          - BM
+          - BT
+          - BO
+          - BA
+          - BW
+          - BV
+          - BR
+          - IO
+          - BN
+          - BG
+          - BF
+          - BI
+          - KH
+          - CM
+          - CA
+          - CV
+          - KY
+          - CF
+          - TD
+          - CL
+          - CN
+          - CX
+          - CC
+          - CO
+          - KM
+          - CG
+          - CD
+          - CK
+          - CR
+          - CI
+          - HR
+          - CU
+          - CY
+          - CZ
+          - DK
+          - DJ
+          - DM
+          - DO
+          - EC
+          - EG
+          - SV
+          - GQ
+          - ER
+          - EE
+          - ET
+          - FK
+          - FO
+          - FJ
+          - FI
+          - FR
+          - GF
+          - PF
+          - TF
+          - GA
+          - GM
+          - GE
+          - DE
+          - GH
+          - GI
+          - GR
+          - GL
+          - GD
+          - GP
+          - GU
+          - GT
+          - GG
+          - GN
+          - GW
+          - GY
+          - HT
+          - HM
+          - VA
+          - HN
+          - HK
+          - HU
+          - IS
+          - IN
+          - ID
+          - IR
+          - IQ
+          - IE
+          - IM
+          - IL
+          - IT
+          - JM
+          - JP
+          - JE
+          - JO
+          - KZ
+          - KE
+          - KI
+          - KP
+          - KR
+          - XK
+          - KW
+          - KG
+          - LA
+          - LV
+          - LB
+          - LS
+          - LR
+          - LY
+          - LI
+          - LT
+          - LU
+          - MO
+          - MK
+          - MG
+          - MW
+          - MY
+          - MV
+          - ML
+          - MT
+          - MH
+          - MQ
+          - MR
+          - MU
+          - YT
+          - MX
+          - FM
+          - MD
+          - MC
+          - MN
+          - ME
+          - MS
+          - MA
+          - MZ
+          - MM
+          - NA
+          - NR
+          - NP
+          - NL
+          - AN
+          - NC
+          - NZ
+          - NI
+          - NE
+          - NG
+          - NU
+          - NF
+          - MP
+          - 'NO'
+          - OM
+          - PK
+          - PW
+          - PS
+          - PA
+          - PG
+          - PY
+          - PE
+          - PH
+          - PN
+          - PL
+          - PT
+          - PR
+          - QA
+          - RE
+          - RO
+          - RU
+          - RW
+          - SH
+          - KN
+          - LC
+          - MF
+          - PM
+          - VC
+          - WS
+          - SM
+          - ST
+          - SA
+          - SN
+          - RS
+          - SC
+          - SL
+          - SG
+          - SX
+          - SK
+          - SI
+          - SB
+          - SO
+          - ZA
+          - GS
+          - ES
+          - LK
+          - SD
+          - SR
+          - SJ
+          - SZ
+          - SE
+          - CH
+          - SY
+          - TW
+          - TJ
+          - TZ
+          - TH
+          - TL
+          - TG
+          - TK
+          - TO
+          - TT
+          - TN
+          - TR
+          - TM
+          - TC
+          - TV
+          - UG
+          - GB
+          - UA
+          - AE
+          - US
+          - UM
+          - UY
+          - UZ
+          - VU
+          - VE
+          - VN
+          - VG
+          - VI
+          - WF
+          - EH
+          - YE
+          - ZM
+          - ZW
         postalCode:
           type: string
           example: '567654'
+          description: The postal code of the business for which sub-account is created
         website:
           type: string
-          example: https://gohighlevel.com/
+          example: https://yourwebsite.com
+          description: The website of the business for which sub-account is created
         timezone:
           type: string
-          example: America/Chicago
-        logoUrl:
-          type: string
-          example: https://dummyimage.com/o/locationPhotos%2Fve9EPM428h8vShlRW1KT.jpeg
-    GetLocationByIdSuccessfulResponseDto:
-      type: object
-      properties:
-        location:
-          $ref: '#/components/schemas/GetLocationByIdSchema'
-    SettingsSchema:
-      type: object
-      properties:
-        allowDuplicateContact:
-          type: boolean
-          example: false
-        allowDuplicateOpportunity:
-          type: boolean
-          example: false
-        allowFacebookNameMerge:
-          type: boolean
-          example: false
-        disableContactTimezone:
-          type: boolean
-          example: false
+          example: US/Central
+          description: The timezone of the business for which sub-account is created
+        settings:
+          description: The default settings for location
+          allOf:
+          - $ref: '#/components/schemas/SettingsSchema'
+        social:
+          description: The social media links for location
+          allOf:
+          - $ref: '#/components/schemas/SocialSchema'
     UpdateLocationDto:
       type: object
       properties:
@@ -647,6 +860,116 @@ components:
           - $ref: '#/components/schemas/SnapshotPutSchema'
       required:
       - companyId
+    SocialSchema:
+      type: object
+      properties:
+        facebookUrl:
+          type: string
+          description: Facebook URL
+          example: https://www.facebook.com/
+        googlePlus:
+          type: string
+          description: Googleplus URL
+          example: https://www.googleplus.com/
+        linkedIn:
+          type: string
+          description: LinkedIn URL
+          example: https://www.linkedIn.com/
+        foursquare:
+          type: string
+          description: Foursquare URL
+          example: https://www.foursquare.com/
+        twitter:
+          type: string
+          description: Twitter URL
+          example: https://www.foutwitterrsquare.com/
+        yelp:
+          type: string
+          description: Yelp URL
+          example: https://www.yelp.com/
+        instagram:
+          type: string
+          description: Instagram URL
+          example: https://www.instagram.com/
+        youtube:
+          type: string
+          description: Instagram URL
+          example: https://www.youtube.com/
+        pinterest:
+          type: string
+          description: Instagram URL
+          example: https://www.pinterest.com/
+        blogRss:
+          type: string
+          description: Instagram URL
+          example: https://www.blogRss.com/
+        googlePlacesId:
+          type: string
+          description: Google Business Places ID
+          example: ChIJJGPdVbQTrjsRGUkefteUeFk
+    LocationDeletedSuccessfulResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the API
+          example: true
+        message:
+          type: string
+          description: Success message of the API
+          example: 'Deleted location with id: ve9EPM428h8vShlRW1KT'
+      required:
+      - success
+      - message
+    ProspectInfoDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the prospect
+          example: John
+        lastName:
+          type: string
+          description: Last name of the prospect
+          example: Doe
+        email:
+          type: string
+          description: Email of the prospect
+          example: john.doe@mail.com
+      required:
+      - firstName
+      - lastName
+      - email
+    BusinessSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: dentist
+        address:
+          type: string
+          example: MIG 14, Delhi
+        city:
+          type: string
+          example: delhi
+        state:
+          type: string
+          example: delhi
+        country:
+          type: string
+          example: IN
+        postalCode:
+          type: string
+          example: '567654'
+        website:
+          type: string
+          example: https://gohighlevel.com/
+        timezone:
+          type: string
+          example: America/Chicago
+        logoUrl:
+          type: string
+          example: https://dummyimage.com/o/locationPhotos%2Fve9EPM428h8vShlRW1KT.jpeg
     SnapshotPutSchema:
       type: object
       properties:
@@ -661,6 +984,70 @@ components:
           default: false
       required:
       - id
+    GetLocationByIdSuccessfulResponseDto:
+      type: object
+      properties:
+        location:
+          $ref: '#/components/schemas/GetLocationByIdSchema'
+    GetLocationByIdSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        companyId:
+          type: string
+          example: 5DP4iH6HLkQsiKESj6rh
+        name:
+          type: string
+          example: dentist
+        domain:
+          type: string
+          example: test.msgsndr.com
+        address:
+          type: string
+          example: ganthi nagar, gyanbabu chauk motihati
+        city:
+          type: string
+          example: motihari
+        state:
+          type: string
+          example: Loca
+        logoUrl:
+          type: string
+          example: https://dummyimage.com/o/locationPhotos%2Fve9EPM428h8vShlRW1KT.jpeg
+        country:
+          type: string
+          example: IN
+        postalCode:
+          type: string
+          example: '567654'
+        website:
+          type: string
+          example: https://gohighlevel.com/
+        timezone:
+          type: string
+          example: America/Chicago
+        firstName:
+          type: string
+          example: Dr. Rane
+        lastName:
+          type: string
+          example: deo
+        email:
+          type: string
+          example: rane@due.com
+        phone:
+          type: string
+          example: '+919039160788'
+        business:
+          $ref: '#/components/schemas/BusinessSchema'
+        social:
+          $ref: '#/components/schemas/SocialSchema'
+        settings:
+          $ref: '#/components/schemas/SettingsSchema'
+        reseller:
+          type: object
     CreateLocationDto:
       type: object
       properties:
@@ -982,375 +1369,6 @@ components:
       required:
       - name
       - companyId
-    GetLocationByIdSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        companyId:
-          type: string
-          example: 5DP4iH6HLkQsiKESj6rh
-        name:
-          type: string
-          example: dentist
-        domain:
-          type: string
-          example: test.msgsndr.com
-        address:
-          type: string
-          example: ganthi nagar, gyanbabu chauk motihati
-        city:
-          type: string
-          example: motihari
-        state:
-          type: string
-          example: Loca
-        logoUrl:
-          type: string
-          example: https://dummyimage.com/o/locationPhotos%2Fve9EPM428h8vShlRW1KT.jpeg
-        country:
-          type: string
-          example: IN
-        postalCode:
-          type: string
-          example: '567654'
-        website:
-          type: string
-          example: https://gohighlevel.com/
-        timezone:
-          type: string
-          example: America/Chicago
-        firstName:
-          type: string
-          example: Dr. Rane
-        lastName:
-          type: string
-          example: deo
-        email:
-          type: string
-          example: rane@due.com
-        phone:
-          type: string
-          example: '+919039160788'
-        business:
-          $ref: '#/components/schemas/BusinessSchema'
-        social:
-          $ref: '#/components/schemas/SocialSchema'
-        settings:
-          $ref: '#/components/schemas/SettingsSchema'
-        reseller:
-          type: object
-    CreateLocationSuccessfulResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        companyId:
-          type: string
-          description: Company/Agency Id
-          example: UAXssdawIWAWD
-        name:
-          type: string
-          example: Mark Shoes
-          description: The name for the sub-account/location
-        phone:
-          type: string
-          example: '+1410039940'
-          description: The phone number of the business for which sub-account is created
-        email:
-          type: string
-          example: john.doe@mail.com
-          description: The email for the sub-account/location
-        address:
-          type: string
-          example: 4th fleet street
-          description: The address of the business for which sub-account is created
-        city:
-          type: string
-          example: New York
-          description: The city where the business is located for which sub-account is created
-        state:
-          type: string
-          example: Illinois
-          description: The state in which the business operates for which sub-account is created
-        domain:
-          type: string
-          example: test.msgsndr.com
-        country:
-          type: string
-          example: US
-          description: The country in which the business is present for which sub-account is created
-          enum:
-          - AF
-          - AX
-          - AL
-          - DZ
-          - AS
-          - AD
-          - AO
-          - AI
-          - AQ
-          - AG
-          - AR
-          - AM
-          - AW
-          - AU
-          - AT
-          - AZ
-          - BS
-          - BH
-          - BD
-          - BB
-          - BY
-          - BE
-          - BZ
-          - BJ
-          - BM
-          - BT
-          - BO
-          - BA
-          - BW
-          - BV
-          - BR
-          - IO
-          - BN
-          - BG
-          - BF
-          - BI
-          - KH
-          - CM
-          - CA
-          - CV
-          - KY
-          - CF
-          - TD
-          - CL
-          - CN
-          - CX
-          - CC
-          - CO
-          - KM
-          - CG
-          - CD
-          - CK
-          - CR
-          - CI
-          - HR
-          - CU
-          - CY
-          - CZ
-          - DK
-          - DJ
-          - DM
-          - DO
-          - EC
-          - EG
-          - SV
-          - GQ
-          - ER
-          - EE
-          - ET
-          - FK
-          - FO
-          - FJ
-          - FI
-          - FR
-          - GF
-          - PF
-          - TF
-          - GA
-          - GM
-          - GE
-          - DE
-          - GH
-          - GI
-          - GR
-          - GL
-          - GD
-          - GP
-          - GU
-          - GT
-          - GG
-          - GN
-          - GW
-          - GY
-          - HT
-          - HM
-          - VA
-          - HN
-          - HK
-          - HU
-          - IS
-          - IN
-          - ID
-          - IR
-          - IQ
-          - IE
-          - IM
-          - IL
-          - IT
-          - JM
-          - JP
-          - JE
-          - JO
-          - KZ
-          - KE
-          - KI
-          - KP
-          - KR
-          - XK
-          - KW
-          - KG
-          - LA
-          - LV
-          - LB
-          - LS
-          - LR
-          - LY
-          - LI
-          - LT
-          - LU
-          - MO
-          - MK
-          - MG
-          - MW
-          - MY
-          - MV
-          - ML
-          - MT
-          - MH
-          - MQ
-          - MR
-          - MU
-          - YT
-          - MX
-          - FM
-          - MD
-          - MC
-          - MN
-          - ME
-          - MS
-          - MA
-          - MZ
-          - MM
-          - NA
-          - NR
-          - NP
-          - NL
-          - AN
-          - NC
-          - NZ
-          - NI
-          - NE
-          - NG
-          - NU
-          - NF
-          - MP
-          - 'NO'
-          - OM
-          - PK
-          - PW
-          - PS
-          - PA
-          - PG
-          - PY
-          - PE
-          - PH
-          - PN
-          - PL
-          - PT
-          - PR
-          - QA
-          - RE
-          - RO
-          - RU
-          - RW
-          - SH
-          - KN
-          - LC
-          - MF
-          - PM
-          - VC
-          - WS
-          - SM
-          - ST
-          - SA
-          - SN
-          - RS
-          - SC
-          - SL
-          - SG
-          - SX
-          - SK
-          - SI
-          - SB
-          - SO
-          - ZA
-          - GS
-          - ES
-          - LK
-          - SD
-          - SR
-          - SJ
-          - SZ
-          - SE
-          - CH
-          - SY
-          - TW
-          - TJ
-          - TZ
-          - TH
-          - TL
-          - TG
-          - TK
-          - TO
-          - TT
-          - TN
-          - TR
-          - TM
-          - TC
-          - TV
-          - UG
-          - GB
-          - UA
-          - AE
-          - US
-          - UM
-          - UY
-          - UZ
-          - VU
-          - VE
-          - VN
-          - VG
-          - VI
-          - WF
-          - EH
-          - YE
-          - ZM
-          - ZW
-        postalCode:
-          type: string
-          example: '567654'
-          description: The postal code of the business for which sub-account is created
-        website:
-          type: string
-          example: https://yourwebsite.com
-          description: The website of the business for which sub-account is created
-        timezone:
-          type: string
-          example: US/Central
-          description: The timezone of the business for which sub-account is created
-        settings:
-          description: The default settings for location
-          allOf:
-          - $ref: '#/components/schemas/SettingsSchema'
-        social:
-          description: The social media links for location
-          allOf:
-          - $ref: '#/components/schemas/SocialSchema'
     MailgunSchema:
       type: object
       properties:
@@ -1365,39 +1383,21 @@ components:
       required:
       - apiKey
       - domain
-    ProspectInfoDto:
+    SettingsSchema:
       type: object
       properties:
-        firstName:
-          type: string
-          description: First name of the prospect
-          example: John
-        lastName:
-          type: string
-          description: Last name of the prospect
-          example: Doe
-        email:
-          type: string
-          description: Email of the prospect
-          example: john.doe@mail.com
-      required:
-      - firstName
-      - lastName
-      - email
-    LocationDeletedSuccessfulResponseDto:
-      type: object
-      properties:
-        success:
+        allowDuplicateContact:
           type: boolean
-          description: Success status of the API
-          example: true
-        message:
-          type: string
-          description: Success message of the API
-          example: 'Deleted location with id: ve9EPM428h8vShlRW1KT'
-      required:
-      - success
-      - message
+          example: false
+        allowDuplicateOpportunity:
+          type: boolean
+          example: false
+        allowFacebookNameMerge:
+          type: boolean
+          example: false
+        disableContactTimezone:
+          type: boolean
+          example: false
   securitySchemes:
     bearer:
       scheme: bearer

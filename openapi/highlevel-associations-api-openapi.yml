@@ -393,6 +393,57 @@ paths:
         - associations.readonly
 components:
   schemas:
+    DeleteAssociationsResponseDTO:
+      type: object
+      properties:
+        deleted:
+          type: boolean
+          example: true
+          description: Deletion status
+        id:
+          type: string
+          example: 6d6f6e676f5f6576656e7473
+          description: Association Id
+        message:
+          type: string
+          example: Association deleted successfully
+      required:
+      - deleted
+      - id
+      - message
+    createAssociationReqDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: string
+        key:
+          type: string
+          example: student_teacher
+          description: Association's Unique key
+        firstObjectLabel:
+          type: object
+          example: student
+          description: First Objects Association Label (custom_objects.children)
+        firstObjectKey:
+          type: object
+          example: custom_objects.children
+          description: First Objects Key
+        secondObjectLabel:
+          type: object
+          example: Teacher
+          description: Second Object Association Label (contact)
+        secondObjectKey:
+          type: object
+          example: contact
+          description: Second Objects Key
+      required:
+      - locationId
+      - key
+      - firstObjectLabel
+      - firstObjectKey
+      - secondObjectLabel
+      - secondObjectKey
     GetPostSuccessfulResponseDto:
       type: object
       properties:
@@ -435,57 +486,6 @@ components:
       - secondObjectLabel
       - secondObjectKey
       - associationType
-    createAssociationReqDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: string
-        key:
-          type: string
-          example: student_teacher
-          description: Association's Unique key
-        firstObjectLabel:
-          type: object
-          example: student
-          description: First Objects Association Label (custom_objects.children)
-        firstObjectKey:
-          type: object
-          example: custom_objects.children
-          description: First Objects Key
-        secondObjectLabel:
-          type: object
-          example: Teacher
-          description: Second Object Association Label (contact)
-        secondObjectKey:
-          type: object
-          example: contact
-          description: Second Objects Key
-      required:
-      - locationId
-      - key
-      - firstObjectLabel
-      - firstObjectKey
-      - secondObjectLabel
-      - secondObjectKey
-    DeleteAssociationsResponseDTO:
-      type: object
-      properties:
-        deleted:
-          type: boolean
-          example: true
-          description: Deletion status
-        id:
-          type: string
-          example: 6d6f6e676f5f6576656e7473
-          description: Association Id
-        message:
-          type: string
-          example: Association deleted successfully
-      required:
-      - deleted
-      - id
-      - message
     UpdateAssociationReqDto:
       type: object
       properties:

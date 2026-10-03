@@ -57,49 +57,6 @@ paths:
       - App Billing Management
 components:
   schemas:
-    SubscriptionPlanDTO:
-      type: object
-      properties:
-        resellingAmount:
-          type: number
-          description: The reselling amount
-          example: 0
-        baseAmount:
-          type: number
-          description: The base amount
-          example: 0
-        planId:
-          type: string
-          description: The plan id
-          example: 5ae000000000000000000000
-        features:
-          description: The features
-          example:
-          - feature1
-          - feature2
-          type: array
-          items:
-            type: string
-        paymentType:
-          type: string
-          description: The payment time
-          example: month
-        name:
-          type: string
-          description: The plan name
-          example: Monthly Plan - 999
-        paymentTime:
-          type: string
-          description: The payment time
-          example: month
-      required:
-      - resellingAmount
-      - baseAmount
-      - planId
-      - features
-      - paymentType
-      - name
-      - paymentTime
     UsagePlanDTO:
       type: object
       properties:
@@ -188,6 +145,49 @@ components:
           - $ref: '#/components/schemas/PlansDTO'
       required:
       - plans
+    SubscriptionPlanDTO:
+      type: object
+      properties:
+        resellingAmount:
+          type: number
+          description: The reselling amount
+          example: 0
+        baseAmount:
+          type: number
+          description: The base amount
+          example: 0
+        planId:
+          type: string
+          description: The plan id
+          example: 5ae000000000000000000000
+        features:
+          description: The features
+          example:
+          - feature1
+          - feature2
+          type: array
+          items:
+            type: string
+        paymentType:
+          type: string
+          description: The payment time
+          example: month
+        name:
+          type: string
+          description: The plan name
+          example: Monthly Plan - 999
+        paymentTime:
+          type: string
+          description: The payment time
+          example: month
+      required:
+      - resellingAmount
+      - baseAmount
+      - planId
+      - features
+      - paymentType
+      - name
+      - paymentTime
     PlansDTO:
       type: object
       properties:

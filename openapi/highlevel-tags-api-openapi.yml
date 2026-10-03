@@ -408,7 +408,7 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
-    CreateDeleteTagSuccessfulResponseDto:
+    CreateAddTagSuccessfulResponseDto:
       type: object
       properties:
         tags:
@@ -418,7 +418,7 @@ components:
           type: array
           items:
             type: string
-    CreateAddTagSuccessfulResponseDto:
+    CreateDeleteTagSuccessfulResponseDto:
       type: object
       properties:
         tags:
@@ -440,11 +440,6 @@ components:
             type: string
       required:
       - tags
-    LocationTagSuccessfulResponseDto:
-      type: object
-      properties:
-        tag:
-          $ref: '#/components/schemas/LocationTagsSchema'
     tagBody:
       type: object
       properties:
@@ -454,6 +449,17 @@ components:
           example: Tag
       required:
       - name
+    LocationTagSuccessfulResponseDto:
+      type: object
+      properties:
+        tag:
+          $ref: '#/components/schemas/LocationTagsSchema'
+    LocationTagDeleteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
     LocationTagsSuccessfulResponseDto:
       type: object
       properties:
@@ -461,12 +467,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LocationTagsSchema'
-    LocationTagDeleteSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
     LocationTagsSchema:
       type: object
       properties:

@@ -344,36 +344,7 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    ListShippingRateResponseDto:
-      type: object
-      properties:
-        total:
-          type: number
-          description: Total number of items
-          example: 20
-        data:
-          description: An array of items
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingRateSchema'
-      required:
-      - total
-      - data
-    ShippingCarrierServiceDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the shipping carrier service
-          example: Priority Mail Express International
-        value:
-          type: string
-          description: Value of the shipping carrier service
-          example: PriorityMailExpressInternational
-      required:
-      - name
-      - value
-    UpdateShippingRateResponseDto:
+    CreateShippingRateResponseDto:
       type: object
       properties:
         status:
@@ -551,55 +522,6 @@ components:
       - shippingZoneId
       - createdAt
       - updatedAt
-    GetShippingRateResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping zone data
-          allOf:
-          - $ref: '#/components/schemas/ShippingRateSchema'
-      required:
-      - status
-      - data
-    CreateShippingRateResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping zone data
-          allOf:
-          - $ref: '#/components/schemas/ShippingRateSchema'
-      required:
-      - status
-      - data
-    DeleteShippingRateResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
     UpdateShippingRateDto:
       type: object
       properties:
@@ -660,6 +582,84 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ShippingCarrierServiceDto'
+    GetShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - status
+      - data
+    ShippingCarrierServiceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the shipping carrier service
+          example: Priority Mail Express International
+        value:
+          type: string
+          description: Value of the shipping carrier service
+          example: PriorityMailExpressInternational
+      required:
+      - name
+      - value
+    DeleteShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    ListShippingRateResponseDto:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total number of items
+          example: 20
+        data:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - total
+      - data
+    UpdateShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - status
+      - data
   securitySchemes:
     bearer:
       scheme: bearer

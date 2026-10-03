@@ -407,6 +407,15 @@ paths:
       - LinkedIn Ads
 components:
   schemas:
+    UnitCostDTO:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Bid amount in currency minor units
+          example: 500
+      required:
+      - amount
     LinkedInUpdateAdStatusBodyDTO:
       type: object
       properties:
@@ -429,6 +438,34 @@ components:
       required:
       - operationType
       - type
+    MultipleChoiceOptionDTO:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Option ID
+          example: 1
+        text:
+          description: Option text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+      required:
+      - id
+      - text
+    CreationLocaleDTO:
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country code
+          example: US
+        language:
+          type: string
+          description: Language code
+          example: en
+      required:
+      - country
+      - language
     LocalizedStringDTO:
       type: object
       properties:
@@ -453,25 +490,57 @@ components:
       required:
       - message
       - callToAction
-    PostSubmissionCallToActionDTO:
+    HiddenFieldDTO:
       type: object
       properties:
-        callToActionTarget:
-          description: Call to action target
-          allOf:
-          - $ref: '#/components/schemas/PostSubmissionCallToActionTargetDTO'
-        callToActionLabel:
+        name:
           type: string
-          description: Call to action label
-          enum:
-          - VISIT_COMPANY_WEBSITE
-          - DOWNLOAD_NOW
-          - TRY_NOW
-          - VIEW_NOW
-          - LEARN_MORE
+          description: Field name
+          example: utm_source
+        value:
+          type: string
+          description: Field value
+          example: linkedin
       required:
-      - callToActionTarget
-      - callToActionLabel
+      - name
+      - value
+    GeoLocationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Location display name
+          example: India
+        urn:
+          type: string
+          description: Location URN
+          example: urn:li:geo:12321321
+        facetUrn:
+          type: string
+          description: Facet URN
+          example: urn:li:adTargetingFacet:locations
+        selectionType:
+          type: string
+          description: Selection type
+          example: include
+          enum:
+          - include
+          - exclude
+      required:
+      - name
+      - urn
+      - facetUrn
+      - selectionType
+    MultipleChoiceQuestionDetailsDTO:
+      type: object
+      properties:
+        options:
+          description: Choice options
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipleChoiceOptionDTO'
+      required:
+      - options
     LinkedInCreateLeadFormBodyDTO:
       type: object
       properties:
@@ -508,20 +577,60 @@ components:
       - name
       - state
       - content
-    CreationLocaleDTO:
+    LegalInfoDTO:
       type: object
       properties:
-        country:
+        consents:
+          description: Consent entries
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsentDTO'
+        privacyPolicyUrl:
           type: string
-          description: Country code
-          example: US
-        language:
-          type: string
-          description: Language code
-          example: en
+          description: Privacy policy URL
+          example: https://example.com/privacy
+        legalDisclaimer:
+          description: Legal disclaimer text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
       required:
-      - country
-      - language
+      - consents
+      - privacyPolicyUrl
+    LinkedInMediaDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Media type
+          enum:
+          - video
+          - image
+        src:
+          type: string
+          description: Media source URL
+        frames:
+          description: Video frame URLs
+          type: array
+          items:
+            type: string
+        selectedPoster:
+          type: number
+          description: Selected poster frame index
+        thumbnailUrl:
+          type: string
+          description: Thumbnail URL
+        name:
+          type: string
+          description: Media name
+        headline:
+          type: string
+          description: Media headline
+        destinationUrl:
+          type: string
+          description: Click-through destination URL
+        fileSizeBytes:
+          type: number
+          description: File size in bytes
     LinkedInAdDTO:
       type: object
       properties:
@@ -571,269 +680,6 @@ components:
         linkedInError:
           type: string
           description: LinkedIn API error message
-    LocaleDTO:
-      type: object
-      properties:
-        country:
-          type: string
-          description: Country code
-          example: US
-        language:
-          type: string
-          description: Language code
-          example: en
-      required:
-      - country
-      - language
-    LinkedInBudgetDTO:
-      type: object
-      properties:
-        budgetType:
-          type: string
-          enum:
-          - DAILY
-          - LIFETIME
-        amount:
-          type: number
-        scheduleStartDate:
-          type: string
-          description: Schedule start date (ISO 8601)
-          example: '2025-01-01'
-        scheduleEndDate:
-          type: string
-          description: Schedule end date (ISO 8601)
-          example: '2025-12-31'
-    MultipleChoiceQuestionDetailsDTO:
-      type: object
-      properties:
-        options:
-          description: Choice options
-          type: array
-          items:
-            $ref: '#/components/schemas/MultipleChoiceOptionDTO'
-      required:
-      - options
-    ConsentDTO:
-      type: object
-      properties:
-        checkRequired:
-          type: boolean
-          description: Whether consent checkbox is required
-          example: true
-        id:
-          type: number
-          description: Consent identifier
-          example: 1
-        consent:
-          description: Consent text
-          allOf:
-          - $ref: '#/components/schemas/LocalizedStringDTO'
-      required:
-      - checkRequired
-      - id
-      - consent
-    GeoLocationDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Location display name
-          example: India
-        urn:
-          type: string
-          description: Location URN
-          example: urn:li:geo:12321321
-        facetUrn:
-          type: string
-          description: Facet URN
-          example: urn:li:adTargetingFacet:locations
-        selectionType:
-          type: string
-          description: Selection type
-          example: include
-          enum:
-          - include
-          - exclude
-      required:
-      - name
-      - urn
-      - facetUrn
-      - selectionType
-    SelectedAttributeDTO:
-      type: object
-      properties:
-        urn:
-          type: string
-          description: Targeting attribute URN
-        name:
-          type: string
-          description: Display name
-        categoryName:
-          type: string
-          description: Category name
-        facet:
-          type: string
-          description: Facet identifier
-      required:
-      - urn
-      - name
-      - categoryName
-      - facet
-    LinkedInMediaDTO:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Media type
-          enum:
-          - video
-          - image
-        src:
-          type: string
-          description: Media source URL
-        frames:
-          description: Video frame URLs
-          type: array
-          items:
-            type: string
-        selectedPoster:
-          type: number
-          description: Selected poster frame index
-        thumbnailUrl:
-          type: string
-          description: Thumbnail URL
-        name:
-          type: string
-          description: Media name
-        headline:
-          type: string
-          description: Media headline
-        destinationUrl:
-          type: string
-          description: Click-through destination URL
-        fileSizeBytes:
-          type: number
-          description: File size in bytes
-    PostSubmissionCallToActionTargetDTO:
-      type: object
-      properties:
-        landingPageUrl:
-          type: string
-          description: Landing page URL
-          example: https://example.com/thank-you
-      required:
-      - landingPageUrl
-    MultipleChoiceOptionDTO:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Option ID
-          example: 1
-        text:
-          description: Option text
-          allOf:
-          - $ref: '#/components/schemas/LocalizedStringDTO'
-      required:
-      - id
-      - text
-    SponsoredAccountOwnerDTO:
-      type: object
-      properties:
-        sponsoredAccount:
-          type: string
-          description: Sponsored account URN
-          example: urn:li:sponsoredAccount:123456
-      required:
-      - sponsoredAccount
-    LeadFormQuestionDTO:
-      type: object
-      properties:
-        question:
-          description: Question text
-          allOf:
-          - $ref: '#/components/schemas/LocalizedStringDTO'
-        name:
-          type: string
-          description: Question field name
-          example: firstName
-        questionDetails:
-          description: Question type details
-          allOf:
-          - $ref: '#/components/schemas/QuestionDetailsDTO'
-        predefinedField:
-          type: string
-          description: Predefined field identifier
-          example: FIRST_NAME
-      required:
-      - question
-      - name
-      - questionDetails
-    TargetAudienceDTO:
-      type: object
-      properties:
-        include:
-          type: array
-          description: Included targeting attributes (groups of ANDed attributes, ORed together)
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/SelectedAttributeDTO'
-        exclude:
-          type: array
-          description: Excluded targeting attributes
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/SelectedAttributeDTO'
-    LegalInfoDTO:
-      type: object
-      properties:
-        consents:
-          description: Consent entries
-          type: array
-          items:
-            $ref: '#/components/schemas/ConsentDTO'
-        privacyPolicyUrl:
-          type: string
-          description: Privacy policy URL
-          example: https://example.com/privacy
-        legalDisclaimer:
-          description: Legal disclaimer text
-          allOf:
-          - $ref: '#/components/schemas/LocalizedStringDTO'
-      required:
-      - consents
-      - privacyPolicyUrl
-    LeadFormContentDTO:
-      type: object
-      properties:
-        questions:
-          description: Form questions
-          type: array
-          items:
-            $ref: '#/components/schemas/LeadFormQuestionDTO'
-        description:
-          description: Form description
-          allOf:
-          - $ref: '#/components/schemas/LocalizedStringDTO'
-        headline:
-          description: Form headline
-          allOf:
-          - $ref: '#/components/schemas/LocalizedStringDTO'
-        postSubmissionInfo:
-          description: Post-submission info
-          allOf:
-          - $ref: '#/components/schemas/PostSubmissionInfoDTO'
-        legalInfo:
-          description: Legal information
-          allOf:
-          - $ref: '#/components/schemas/LegalInfoDTO'
-      required:
-      - questions
-      - headline
-      - postSubmissionInfo
-      - legalInfo
     AdCampaignGroupDataDTO:
       type: object
       properties:
@@ -885,41 +731,23 @@ components:
           type: string
       required:
       - locationId
-    HiddenFieldDTO:
+    TargetAudienceDTO:
       type: object
       properties:
-        name:
-          type: string
-          description: Field name
-          example: utm_source
-        value:
-          type: string
-          description: Field value
-          example: linkedin
-      required:
-      - name
-      - value
-    AudienceDTO:
-      type: object
-      properties:
-        geo_locations:
-          description: Geographic location targets
+        include:
           type: array
+          description: Included targeting attributes (groups of ANDed attributes, ORed together)
           items:
-            $ref: '#/components/schemas/GeoLocationDTO'
-        targetAudience:
-          description: Target audience attribute selections
-          allOf:
-          - $ref: '#/components/schemas/TargetAudienceDTO'
-    UnitCostDTO:
-      type: object
-      properties:
-        amount:
-          type: number
-          description: Bid amount in currency minor units
-          example: 500
-      required:
-      - amount
+            type: array
+            items:
+              $ref: '#/components/schemas/SelectedAttributeDTO'
+        exclude:
+          type: array
+          description: Excluded targeting attributes
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/SelectedAttributeDTO'
     LocationIdBodyDTO:
       type: object
       properties:
@@ -929,16 +757,6 @@ components:
           example: HChooFuiyPpVYzeJ4HMe
       required:
       - locationId
-    QuestionDetailsDTO:
-      type: object
-      properties:
-        textQuestionDetails:
-          type: object
-          description: Text question details (empty object for text questions)
-        multipleChoiceQuestionDetails:
-          description: Multiple choice question details
-          allOf:
-          - $ref: '#/components/schemas/MultipleChoiceQuestionDetailsDTO'
     AdCampaignDTO:
       type: object
       properties:
@@ -993,6 +811,188 @@ components:
           description: LinkedIn API error message
         meta:
           type: object
+    LeadFormQuestionDTO:
+      type: object
+      properties:
+        question:
+          description: Question text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        name:
+          type: string
+          description: Question field name
+          example: firstName
+        questionDetails:
+          description: Question type details
+          allOf:
+          - $ref: '#/components/schemas/QuestionDetailsDTO'
+        predefinedField:
+          type: string
+          description: Predefined field identifier
+          example: FIRST_NAME
+      required:
+      - question
+      - name
+      - questionDetails
+    LeadFormContentDTO:
+      type: object
+      properties:
+        questions:
+          description: Form questions
+          type: array
+          items:
+            $ref: '#/components/schemas/LeadFormQuestionDTO'
+        description:
+          description: Form description
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        headline:
+          description: Form headline
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+        postSubmissionInfo:
+          description: Post-submission info
+          allOf:
+          - $ref: '#/components/schemas/PostSubmissionInfoDTO'
+        legalInfo:
+          description: Legal information
+          allOf:
+          - $ref: '#/components/schemas/LegalInfoDTO'
+      required:
+      - questions
+      - headline
+      - postSubmissionInfo
+      - legalInfo
+    ConsentDTO:
+      type: object
+      properties:
+        checkRequired:
+          type: boolean
+          description: Whether consent checkbox is required
+          example: true
+        id:
+          type: number
+          description: Consent identifier
+          example: 1
+        consent:
+          description: Consent text
+          allOf:
+          - $ref: '#/components/schemas/LocalizedStringDTO'
+      required:
+      - checkRequired
+      - id
+      - consent
+    LocaleDTO:
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country code
+          example: US
+        language:
+          type: string
+          description: Language code
+          example: en
+      required:
+      - country
+      - language
+    QuestionDetailsDTO:
+      type: object
+      properties:
+        textQuestionDetails:
+          type: object
+          description: Text question details (empty object for text questions)
+        multipleChoiceQuestionDetails:
+          description: Multiple choice question details
+          allOf:
+          - $ref: '#/components/schemas/MultipleChoiceQuestionDetailsDTO'
+    SelectedAttributeDTO:
+      type: object
+      properties:
+        urn:
+          type: string
+          description: Targeting attribute URN
+        name:
+          type: string
+          description: Display name
+        categoryName:
+          type: string
+          description: Category name
+        facet:
+          type: string
+          description: Facet identifier
+      required:
+      - urn
+      - name
+      - categoryName
+      - facet
+    AudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geographic location targets
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoLocationDTO'
+        targetAudience:
+          description: Target audience attribute selections
+          allOf:
+          - $ref: '#/components/schemas/TargetAudienceDTO'
+    LinkedInBudgetDTO:
+      type: object
+      properties:
+        budgetType:
+          type: string
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+        scheduleStartDate:
+          type: string
+          description: Schedule start date (ISO 8601)
+          example: '2025-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date (ISO 8601)
+          example: '2025-12-31'
+    SponsoredAccountOwnerDTO:
+      type: object
+      properties:
+        sponsoredAccount:
+          type: string
+          description: Sponsored account URN
+          example: urn:li:sponsoredAccount:123456
+      required:
+      - sponsoredAccount
+    PostSubmissionCallToActionTargetDTO:
+      type: object
+      properties:
+        landingPageUrl:
+          type: string
+          description: Landing page URL
+          example: https://example.com/thank-you
+      required:
+      - landingPageUrl
+    PostSubmissionCallToActionDTO:
+      type: object
+      properties:
+        callToActionTarget:
+          description: Call to action target
+          allOf:
+          - $ref: '#/components/schemas/PostSubmissionCallToActionTargetDTO'
+        callToActionLabel:
+          type: string
+          description: Call to action label
+          enum:
+          - VISIT_COMPANY_WEBSITE
+          - DOWNLOAD_NOW
+          - TRY_NOW
+          - VIEW_NOW
+          - LEARN_MORE
+      required:
+      - callToActionTarget
+      - callToActionLabel
   securitySchemes:
     bearer:
       scheme: bearer

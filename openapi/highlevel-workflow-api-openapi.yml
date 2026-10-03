@@ -137,18 +137,18 @@ paths:
         - contacts.write
 components:
   schemas:
-    ContactsWorkflowSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
     CreateWorkflowDto:
       type: object
       properties:
         eventStartTime:
           type: string
           example: '2021-06-23T03:30:00+01:00'
+    ContactsWorkflowSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
   securitySchemes:
     bearer:
       scheme: bearer

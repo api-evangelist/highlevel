@@ -217,65 +217,6 @@ paths:
         - oauth.readonly
 components:
   schemas:
-    GetLocationAccessCodeBodyDto:
-      type: object
-      properties:
-        companyId:
-          type: string
-          description: Company Id of location you want to request token for
-        locationId:
-          type: string
-          description: The location ID for which you want to obtain accessToken
-      required:
-      - companyId
-      - locationId
-    InstalledLocationSchema:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: 0IHuJvc2ofPAAA8GzTRi
-          description: Location ID
-        name:
-          type: string
-          example: John Deo
-          description: Name of the location
-        address:
-          type: string
-          example: 47 W 13th St, New York, NY 10011, USA
-          description: Address linked to location
-        isInstalled:
-          type: boolean
-          example: true
-          description: Check if the requested app is installed for following location
-        versionId:
-          type: string
-          example: 6578278e879ad2646715ba9c
-          description: Version ID of the installed app version for this location
-        installedAt:
-          format: date-time
-          type: string
-          example: '2024-01-15T10:30:00.000Z'
-          description: Timestamp when the app was installed on this location
-      required:
-      - _id
-      - name
-      - address
-    GetInstalledLocationsSuccessfulResponseDto:
-      type: object
-      properties:
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstalledLocationSchema'
-        count:
-          type: number
-          example: 1231
-          description: Total location count under the company
-        installToFutureLocations:
-          type: boolean
-          description: Boolean to control if user wants app to be automatically installed to future locations
-          example: true
     GetAccessCodeSuccessfulResponseDto:
       type: object
       properties:
@@ -333,6 +274,21 @@ components:
           example: true
       required:
       - userId
+    GetInstalledLocationsSuccessfulResponseDto:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstalledLocationSchema'
+        count:
+          type: number
+          example: 1231
+          description: Total location count under the company
+        installToFutureLocations:
+          type: boolean
+          description: Boolean to control if user wants app to be automatically installed to future locations
+          example: true
     GetAccessCodebodyDto:
       type: object
       properties:
@@ -366,6 +322,18 @@ components:
       - client_id
       - client_secret
       - grant_type
+    GetLocationAccessCodeBodyDto:
+      type: object
+      properties:
+        companyId:
+          type: string
+          description: Company Id of location you want to request token for
+        locationId:
+          type: string
+          description: The location ID for which you want to obtain accessToken
+      required:
+      - companyId
+      - locationId
     GetLocationAccessTokenSuccessfulResponseDto:
       type: object
       properties:
@@ -406,6 +374,38 @@ components:
           example: 6578278e879ad2646715ba9c
       required:
       - userId
+    InstalledLocationSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 0IHuJvc2ofPAAA8GzTRi
+          description: Location ID
+        name:
+          type: string
+          example: John Deo
+          description: Name of the location
+        address:
+          type: string
+          example: 47 W 13th St, New York, NY 10011, USA
+          description: Address linked to location
+        isInstalled:
+          type: boolean
+          example: true
+          description: Check if the requested app is installed for following location
+        versionId:
+          type: string
+          example: 6578278e879ad2646715ba9c
+          description: Version ID of the installed app version for this location
+        installedAt:
+          format: date-time
+          type: string
+          example: '2024-01-15T10:30:00.000Z'
+          description: Timestamp when the app was installed on this location
+      required:
+      - _id
+      - name
+      - address
   securitySchemes:
     bearer:
       scheme: bearer

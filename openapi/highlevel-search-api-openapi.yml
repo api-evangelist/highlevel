@@ -863,13 +863,6 @@ components:
     SearchBodyV2DTO:
       type: object
       properties: {}
-    StartAfterNumberSchema:
-      type: object
-      properties:
-        startAfterDate:
-          type: number
-          description: Search to begin after the specified date - should contain the sort value of the last document
-          example: 1600854
     SendConversationResponseDto:
       type: object
       properties:
@@ -885,6 +878,13 @@ components:
       required:
       - conversations
       - total
+    StartAfterNumberSchema:
+      type: object
+      properties:
+        startAfterDate:
+          type: number
+          description: Search to begin after the specified date - should contain the sort value of the last document
+          example: 1600854
     ConversationSchema:
       type: object
       properties:
@@ -1004,60 +1004,6 @@ components:
           type: array
           items:
             type: string
-    SearchSuccessfulResponseDto:
-      type: object
-      properties:
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetLocationSchema'
-    SocialSchema:
-      type: object
-      properties:
-        facebookUrl:
-          type: string
-          description: Facebook URL
-          example: https://www.facebook.com/
-        googlePlus:
-          type: string
-          description: Googleplus URL
-          example: https://www.googleplus.com/
-        linkedIn:
-          type: string
-          description: LinkedIn URL
-          example: https://www.linkedIn.com/
-        foursquare:
-          type: string
-          description: Foursquare URL
-          example: https://www.foursquare.com/
-        twitter:
-          type: string
-          description: Twitter URL
-          example: https://www.foutwitterrsquare.com/
-        yelp:
-          type: string
-          description: Yelp URL
-          example: https://www.yelp.com/
-        instagram:
-          type: string
-          description: Instagram URL
-          example: https://www.instagram.com/
-        youtube:
-          type: string
-          description: Instagram URL
-          example: https://www.youtube.com/
-        pinterest:
-          type: string
-          description: Instagram URL
-          example: https://www.pinterest.com/
-        blogRss:
-          type: string
-          description: Instagram URL
-          example: https://www.blogRss.com/
-        googlePlacesId:
-          type: string
-          description: Google Business Places ID
-          example: ChIJJGPdVbQTrjsRGUkefteUeFk
     GetLocationSchema:
       type: object
       properties:
@@ -1113,6 +1059,60 @@ components:
           description: The social media links for location
           allOf:
           - $ref: '#/components/schemas/SocialSchema'
+    SearchSuccessfulResponseDto:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetLocationSchema'
+    SocialSchema:
+      type: object
+      properties:
+        facebookUrl:
+          type: string
+          description: Facebook URL
+          example: https://www.facebook.com/
+        googlePlus:
+          type: string
+          description: Googleplus URL
+          example: https://www.googleplus.com/
+        linkedIn:
+          type: string
+          description: LinkedIn URL
+          example: https://www.linkedIn.com/
+        foursquare:
+          type: string
+          description: Foursquare URL
+          example: https://www.foursquare.com/
+        twitter:
+          type: string
+          description: Twitter URL
+          example: https://www.foutwitterrsquare.com/
+        yelp:
+          type: string
+          description: Yelp URL
+          example: https://www.yelp.com/
+        instagram:
+          type: string
+          description: Instagram URL
+          example: https://www.instagram.com/
+        youtube:
+          type: string
+          description: Instagram URL
+          example: https://www.youtube.com/
+        pinterest:
+          type: string
+          description: Instagram URL
+          example: https://www.pinterest.com/
+        blogRss:
+          type: string
+          description: Instagram URL
+          example: https://www.blogRss.com/
+        googlePlacesId:
+          type: string
+          description: Google Business Places ID
+          example: ChIJJGPdVbQTrjsRGUkefteUeFk
     SettingsSchema:
       type: object
       properties:
@@ -1154,46 +1154,6 @@ components:
       - page
       - searchAfter
       - additionalDetails
-    SearchMetaResponseSchema:
-      type: object
-      properties:
-        total:
-          type: number
-          example: 1
-        nextPageUrl:
-          type: string
-          example: http://localhost:5066/opportunities/search?q=&location_id=ve9EPM428h8vShlRW1KT&pipeline_id=&pipeline_stage_id=&status=&assigned_to+=&campaignId=&id=&order=&endDate=&startAfter=1625203104328&startAfterId=yWQobCRIhRguQtD2llvk&date=&limit=1&country=&page=1
-        startAfterId:
-          type: string
-          example: yWQobCRIhRguQtD2llvk
-        startAfter:
-          type: number
-          example: 1625203104328
-        currentPage:
-          type: number
-          example: 2
-        nextPage:
-          type: number
-          example: 3
-        prevPage:
-          type: number
-          example: 1
-    AdditionalDetailsDTO:
-      type: object
-      properties:
-        notes:
-          type: boolean
-        tasks:
-          type: boolean
-        calendarEvents:
-          type: boolean
-        unReadConversations:
-          type: boolean
-      required:
-      - notes
-      - tasks
-      - calendarEvents
-      - unReadConversations
     SearchOpportunitiesResponseSchema:
       type: object
       properties:
@@ -1272,6 +1232,17 @@ components:
             type: array
         externalObjectId:
           type: string
+    SearchSuccessfulResponseDto_2:
+      type: object
+      properties:
+        opportunities:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
+        meta:
+          $ref: '#/components/schemas/SearchMetaResponseSchema'
+        aggregations:
+          type: object
     SearchOpportunitiesContactResponseSchema:
       type: object
       properties:
@@ -1294,31 +1265,6 @@ components:
           type: array
           items:
             type: string
-    SearchSuccessfulResponseDto_2:
-      type: object
-      properties:
-        opportunities:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
-        meta:
-          $ref: '#/components/schemas/SearchMetaResponseSchema'
-        aggregations:
-          type: object
-    PostSearchSuccessfulResponseDto:
-      type: object
-      properties:
-        opportunities:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
-        total:
-          type: number
-          example: 100
-        aggregations:
-          type: object
-      required:
-      - total
     CustomFieldResponseSchema:
       type: object
       properties:
@@ -1339,39 +1285,78 @@ components:
       required:
       - id
       - fieldValue
-    FilterByEmailDto:
+    PostSearchSuccessfulResponseDto:
       type: object
       properties:
-        companyId:
-          type: string
-          example: 5DP41231LkQsiKESj6rh
-          description: Company ID to filter users
-        emails:
-          type: string
-          example: user1@example.com,user2@example.com
-          description: Comma-separated list of email addresses to filter users
-        deleted:
-          type: boolean
-          example: false
-          description: Filter deleted users
-          default: false
-        skip:
-          type: string
-          example: '1'
-          default: '0'
-          description: No of results to be skipped before returning the result
-        limit:
-          type: string
-          example: '10'
-          default: '25'
-          description: No of results to be limited before returning the result
-        projection:
-          type: string
-          example: all
-          description: Projection fields to return. Use "all" for all fields, or specify comma-separated field names. Default returns only id and email
+        opportunities:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
+        total:
+          type: number
+          example: 100
+        aggregations:
+          type: object
       required:
-      - companyId
-      - emails
+      - total
+    SearchMetaResponseSchema:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 1
+        nextPageUrl:
+          type: string
+          example: http://localhost:5066/opportunities/search?q=&location_id=ve9EPM428h8vShlRW1KT&pipeline_id=&pipeline_stage_id=&status=&assigned_to+=&campaignId=&id=&order=&endDate=&startAfter=1625203104328&startAfterId=yWQobCRIhRguQtD2llvk&date=&limit=1&country=&page=1
+        startAfterId:
+          type: string
+          example: yWQobCRIhRguQtD2llvk
+        startAfter:
+          type: number
+          example: 1625203104328
+        currentPage:
+          type: number
+          example: 2
+        nextPage:
+          type: number
+          example: 3
+        prevPage:
+          type: number
+          example: 1
+    AdditionalDetailsDTO:
+      type: object
+      properties:
+        notes:
+          type: boolean
+        tasks:
+          type: boolean
+        calendarEvents:
+          type: boolean
+        unReadConversations:
+          type: boolean
+      required:
+      - notes
+      - tasks
+      - calendarEvents
+      - unReadConversations
+    RoleSchema:
+      type: object
+      properties:
+        type:
+          type: string
+          example: account
+        role:
+          type: string
+          example: admin
+        locationIds:
+          example:
+          - ve9EPM428h8vShlRW1KT
+          type: array
+          items:
+            type: string
+        restrictSubAccount:
+          type: boolean
+          example: true
     UserSchema:
       type: object
       properties:
@@ -1773,6 +1758,39 @@ components:
           type: boolean
           example: true
           default: true
+    FilterByEmailDto:
+      type: object
+      properties:
+        companyId:
+          type: string
+          example: 5DP41231LkQsiKESj6rh
+          description: Company ID to filter users
+        emails:
+          type: string
+          example: user1@example.com,user2@example.com
+          description: Comma-separated list of email addresses to filter users
+        deleted:
+          type: boolean
+          example: false
+          description: Filter deleted users
+          default: false
+        skip:
+          type: string
+          example: '1'
+          default: '0'
+          description: No of results to be skipped before returning the result
+        limit:
+          type: string
+          example: '10'
+          default: '25'
+          description: No of results to be limited before returning the result
+        projection:
+          type: string
+          example: all
+          description: Projection fields to return. Use "all" for all fields, or specify comma-separated field names. Default returns only id and email
+      required:
+      - companyId
+      - emails
     SearchUserSuccessfulResponseDto:
       type: object
       properties:
@@ -1783,24 +1801,6 @@ components:
         count:
           type: number
           example: 1231
-    RoleSchema:
-      type: object
-      properties:
-        type:
-          type: string
-          example: account
-        role:
-          type: string
-          example: admin
-        locationIds:
-          example:
-          - ve9EPM428h8vShlRW1KT
-          type: array
-          items:
-            type: string
-        restrictSubAccount:
-          type: boolean
-          example: true
   securitySchemes:
     bearer:
       scheme: bearer

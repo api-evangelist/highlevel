@@ -194,6 +194,45 @@ paths:
       - Location-Access: []
 components:
   schemas:
+    UpdateDisplayPriorityBodyDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        products:
+          description: Array of products with their display priorities
+          items:
+            type: array
+          type: array
+      required:
+      - altId
+      - altType
+      - products
+    GetProductStatsResponseDto:
+      type: object
+      properties:
+        totalProducts:
+          type: number
+          description: Total number of products
+          example: 100
+        includedInStore:
+          type: number
+          description: Number of products included in the store
+          example: 80
+        excludedFromStore:
+          type: number
+          description: Number of products excluded from the store
+          example: 20
+      required:
+      - totalProducts
+      - includedInStore
+      - excludedFromStore
     UpdateProductStoreDto:
       type: object
       properties:
@@ -225,45 +264,6 @@ components:
       - altType
       - action
       - productIds
-    GetProductStatsResponseDto:
-      type: object
-      properties:
-        totalProducts:
-          type: number
-          description: Total number of products
-          example: 100
-        includedInStore:
-          type: number
-          description: Number of products included in the store
-          example: 80
-        excludedFromStore:
-          type: number
-          description: Number of products excluded from the store
-          example: 20
-      required:
-      - totalProducts
-      - includedInStore
-      - excludedFromStore
-    UpdateDisplayPriorityBodyDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        products:
-          description: Array of products with their display priorities
-          items:
-            type: array
-          type: array
-      required:
-      - altId
-      - altType
-      - products
     UpdateProductStoreResponseDto:
       type: object
       properties:

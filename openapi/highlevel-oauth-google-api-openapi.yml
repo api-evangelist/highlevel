@@ -238,64 +238,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    GetGoogleLocationAccountSchema:
-      type: object
-      properties:
-        locations:
-          description: Locations
-          allOf:
-          - $ref: '#/components/schemas/GetGoogleLocationSchema'
-    GoogleLocationSchema:
-      type: object
-      properties:
-        name:
-          type: string
-          example: accounts/114659701071209971352
-        storeCode:
-          type: string
-          example: w37swmmLbA02zgqKPpxITe
-        title:
-          type: string
-          example: Location Title
-        metadata:
-          type: object
-          description: Meta data not related to User
-          example: {}
-        storefrontAddress:
-          type: object
-          description: Store front address
-          example: {}
-        relationshipData:
-          type: object
-          description: All locations and chain related to this one
-          example: {}
-        maxLocation:
-          type: boolean
-          example: true
-        isVerified:
-          type: boolean
-          example: true
-        isConnected:
-          type: boolean
-          example: true
-    GoogleAccountsSchema:
-      type: object
-      properties:
-        name:
-          type: string
-          example: accounts/114659701071209971352
-        accountName:
-          type: string
-          example: Account Name Test
-        type:
-          type: string
-          example: PERSONAL
-        verificationState:
-          type: string
-          example: UNVERIFIED
-        vettedState:
-          type: string
-          example: NOT_VETTED
     SocialGoogleMediaAccountSchema:
       type: object
       properties:
@@ -368,17 +310,29 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
-    AttachGMBLocationDTO:
+    SocialMediaGmbAccountResponseDTO:
       type: object
       properties:
-        location:
-          type: object
-        account:
-          type: object
-        companyId:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
           type: string
-          description: Company ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
+          description: Message
+          example: Added Google Business Account
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/SocialGoogleMediaAccountSchema'
+      required:
+      - success
+      - statusCode
+      - message
     GetGoogleLocationResponseDTO:
       type: object
       properties:
@@ -413,29 +367,75 @@ components:
           description: Google Account Details
           allOf:
           - $ref: '#/components/schemas/GoogleAccountsSchema'
-    SocialMediaGmbAccountResponseDTO:
+    GoogleLocationSchema:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
+        name:
           type: string
-          description: Message
-          example: Added Google Business Account
-        results:
-          description: Requested Results
+          example: accounts/114659701071209971352
+        storeCode:
+          type: string
+          example: w37swmmLbA02zgqKPpxITe
+        title:
+          type: string
+          example: Location Title
+        metadata:
+          type: object
+          description: Meta data not related to User
+          example: {}
+        storefrontAddress:
+          type: object
+          description: Store front address
+          example: {}
+        relationshipData:
+          type: object
+          description: All locations and chain related to this one
+          example: {}
+        maxLocation:
+          type: boolean
+          example: true
+        isVerified:
+          type: boolean
+          example: true
+        isConnected:
+          type: boolean
+          example: true
+    AttachGMBLocationDTO:
+      type: object
+      properties:
+        location:
+          type: object
+        account:
+          type: object
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+    GoogleAccountsSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: accounts/114659701071209971352
+        accountName:
+          type: string
+          example: Account Name Test
+        type:
+          type: string
+          example: PERSONAL
+        verificationState:
+          type: string
+          example: UNVERIFIED
+        vettedState:
+          type: string
+          example: NOT_VETTED
+    GetGoogleLocationAccountSchema:
+      type: object
+      properties:
+        locations:
+          description: Locations
           allOf:
-          - $ref: '#/components/schemas/SocialGoogleMediaAccountSchema'
-      required:
-      - success
-      - statusCode
-      - message
+          - $ref: '#/components/schemas/GetGoogleLocationSchema'
   securitySchemes:
     bearer:
       scheme: bearer

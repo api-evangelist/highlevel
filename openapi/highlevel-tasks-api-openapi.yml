@@ -337,12 +337,6 @@ paths:
         - contacts.write
 components:
   schemas:
-    DeleteTaskSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
     TaskSchema:
       type: object
       properties:
@@ -367,28 +361,6 @@ components:
         contactId:
           type: string
           example: lJpzYrWdpkC2hX6t2yue
-    CreateTaskParams:
-      type: object
-      properties:
-        title:
-          type: string
-          example: First Task
-        body:
-          type: string
-          example: loram ipsum
-        dueDate:
-          type: string
-          example: '2020-10-25T11:00:00Z'
-        completed:
-          type: boolean
-          example: true
-        assignedTo:
-          type: string
-          example: hxHGVRb1YJUscrCB8eXK
-      required:
-      - title
-      - dueDate
-      - completed
     TaskByIsSuccessfulResponseDto:
       type: object
       properties:
@@ -412,6 +384,13 @@ components:
         assignedTo:
           type: string
           example: hxHGVRb1YJUscrCB8eXK
+    TasksListSuccessfulResponseDto:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSchema'
     UpdateTaskStatusParams:
       type: object
       properties:
@@ -420,13 +399,34 @@ components:
           example: true
       required:
       - completed
-    TasksListSuccessfulResponseDto:
+    DeleteTaskSuccessfulResponseDto:
       type: object
       properties:
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskSchema'
+        succeded:
+          type: boolean
+          example: true
+    CreateTaskParams:
+      type: object
+      properties:
+        title:
+          type: string
+          example: First Task
+        body:
+          type: string
+          example: loram ipsum
+        dueDate:
+          type: string
+          example: '2020-10-25T11:00:00Z'
+        completed:
+          type: boolean
+          example: true
+        assignedTo:
+          type: string
+          example: hxHGVRb1YJUscrCB8eXK
+      required:
+      - title
+      - dueDate
+      - completed
   securitySchemes:
     bearer:
       scheme: bearer

@@ -169,15 +169,6 @@ paths:
         - affiliate-manager.readonly
 components:
   schemas:
-    AffiliateListMetaResponseDto:
-      type: object
-      properties:
-        count:
-          type: number
-          description: Total affiliates matching the applied filters
-          example: 42
-      required:
-      - count
     OAuthAffiliateListItemResponseDto:
       type: object
       properties:
@@ -316,6 +307,30 @@ components:
       - _id
       - locationId
       - email
+    AffiliateListMetaResponseDto:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total affiliates matching the applied filters
+          example: 42
+      required:
+      - count
+    ListAffiliatesResponseDto:
+      type: object
+      properties:
+        affiliates:
+          description: Affiliate list
+          type: array
+          items:
+            $ref: '#/components/schemas/OAuthAffiliateListItemResponseDto'
+        meta:
+          description: Pagination metadata
+          allOf:
+          - $ref: '#/components/schemas/AffiliateListMetaResponseDto'
+      required:
+      - affiliates
+      - meta
     GetAffiliateResponseDto:
       type: object
       properties:
@@ -454,21 +469,6 @@ components:
       - _id
       - locationId
       - email
-    ListAffiliatesResponseDto:
-      type: object
-      properties:
-        affiliates:
-          description: Affiliate list
-          type: array
-          items:
-            $ref: '#/components/schemas/OAuthAffiliateListItemResponseDto'
-        meta:
-          description: Pagination metadata
-          allOf:
-          - $ref: '#/components/schemas/AffiliateListMetaResponseDto'
-      required:
-      - affiliates
-      - meta
   securitySchemes:
     bearer:
       scheme: bearer

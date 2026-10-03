@@ -485,7 +485,7 @@ paths:
         - products/prices.write
 components:
   schemas:
-    GetPriceResponseDto:
+    CreatePriceResponseDto:
       type: object
       properties:
         _id:
@@ -572,163 +572,109 @@ components:
       - type
       - currency
       - amount
-    DeletePriceResponseDto:
+    GetInventoryResponseDto:
       type: object
       properties:
-        status:
-          type: boolean
-          description: returns true if the price is successfully deleted
-          example: true
-      required:
-      - status
-    MembershipOfferDto:
-      type: object
-      properties:
-        label:
-          type: string
-          description: Membership offer label
-          example: top_50
-        value:
-          type: string
-          description: Membership offer label
-          example: '50'
-        _id:
-          type: string
-          description: The unique identifier for the membership offer.
-          example: 655b33aa2209e60b6adb87a7
-      required:
-      - label
-      - value
-      - _id
-    ListPricesResponseDto:
-      type: object
-      properties:
-        prices:
-          description: An array of prices
+        inventory:
+          description: List of inventory items
           type: array
           items:
-            $ref: '#/components/schemas/DefaultPriceResponseDto'
+            $ref: '#/components/schemas/InventoryItemDto'
         total:
-          type: number
-          default: Total number of prices available
-          example: 10
+          type: object
+          description: Total count of inventory items
+          example:
+            total: 100
       required:
-      - prices
+      - inventory
       - total
-    InventoryItemDto:
+    DefaultPriceResponseDto:
       type: object
       properties:
         _id:
           type: string
-          description: The unique identifier for the price
-          example: 6241712be68f7a98102ba272
-        name:
+          description: The unique identifier for the price.
+          example: 655b33aa2209e60b6adb87a7
+        membershipOffers:
+          description: An array of membership offers associated with the price.
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipOfferDto'
+        variantOptionIds:
+          description: An array of variant option IDs associated with the price.
+          example:
+          - h4z7u0im2q8
+          - h3nst2ltsnn
+          type: array
+          items:
+            type: string
+        locationId:
           type: string
-          description: Name of the price/variant
-          example: Medium T-shirt
-        availableQuantity:
-          type: number
-          description: Available quantity in inventory
-          example: 50
-        sku:
-          type: string
-          description: SKU for the product variant
-          example: TSHIRT-MED-001
-        allowOutOfStockPurchases:
-          type: boolean
-          description: Whether out of stock purchases are allowed
-          example: false
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
         product:
           type: string
-          description: Product ID this price belongs to
-          example: 6241712be68f7a98102ba270
+          description: The unique identifier for the associated product.
+          example: 655b33a82209e60b6adb87a5
+        userId:
+          type: string
+          description: The unique identifier for the user.
+          example: 6YAtzfzpmHAdj0e8GkKp
+        name:
+          type: string
+          description: The name of the price.
+          example: Red / S
+        type:
+          type: string
+          description: The type of the price (e.g., one_time).
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        currency:
+          type: string
+          description: The currency code for the price.
+          example: INR
+        amount:
+          type: number
+          description: The amount of the price.
+          example: 199999
+        recurring:
+          description: The recurring details of the price (if type is recurring).
+          allOf:
+          - $ref: '#/components/schemas/RecurringDto'
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the price.
+          example: '2023-11-20T10:23:38.645Z'
         updatedAt:
+          format: date-time
           type: string
-          description: Last update timestamp
-          example: '2023-12-12T09:27:42.355Z'
-        image:
-          type: string
-          description: Product image URL
-          example: https://example.com/images/product.jpg
-        productName:
-          type: string
-          description: Product name
-          example: T-shirt
+          description: The last update timestamp of the price.
+          example: '2024-01-23T09:57:04.852Z'
+        compareAtPrice:
+          type: number
+          description: The compare-at price for comparison purposes.
+          example: 2000000
+        trackInventory:
+          type: boolean
+          description: Indicates whether inventory tracking is enabled.
+          example: null
+        availableQuantity:
+          type: number
+          description: Available inventory stock quantity
+          example: 5
+        allowOutOfStockPurchases:
+          type: boolean
+          description: Continue selling when out of stock
+          example: true
       required:
       - _id
       - name
-      - availableQuantity
-      - sku
-      - allowOutOfStockPurchases
-      - product
-      - updatedAt
-    UpdateInventoryResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
-    PriceMetaDto:
-      type: object
-      properties:
-        source:
-          type: string
-          description: The source of the price.
-          enum:
-          - stripe
-          - woocommerce
-          - shopify
-          example: stripe
-        sourceId:
-          type: string
-          description: The id of the source of the price from where it is imported
-          example: '123'
-        stripePriceId:
-          type: string
-          description: The Stripe price ID associated with the price.
-          example: price_123
-        internalSource:
-          type: string
-          description: The internal source of the price.
-          enum:
-          - agency_plan
-          - funnel
-          - membership
-          - communities
-          - gokollab
-          - calendar
-          example: agency_plan
-      required:
-      - source
-      - stripePriceId
-      - internalSource
-    UpdateInventoryDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        items:
-          description: Array of items to update in the inventory.
-          type: array
-          items:
-            $ref: '#/components/schemas/UpdateInventoryItemDto'
-      required:
-      - altId
-      - altType
-      - items
+      - type
+      - currency
+      - amount
     PriceDimensionsDto:
       type: object
       properties:
@@ -757,109 +703,6 @@ components:
       - width
       - length
       - unit
-    GetInventoryResponseDto:
-      type: object
-      properties:
-        inventory:
-          description: List of inventory items
-          type: array
-          items:
-            $ref: '#/components/schemas/InventoryItemDto'
-        total:
-          type: object
-          description: Total count of inventory items
-          example:
-            total: 100
-      required:
-      - inventory
-      - total
-    UpdatePriceResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier for the price.
-          example: 655b33aa2209e60b6adb87a7
-        membershipOffers:
-          description: An array of membership offers associated with the price.
-          type: array
-          items:
-            $ref: '#/components/schemas/MembershipOfferDto'
-        variantOptionIds:
-          description: An array of variant option IDs associated with the price.
-          example:
-          - h4z7u0im2q8
-          - h3nst2ltsnn
-          type: array
-          items:
-            type: string
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
-        product:
-          type: string
-          description: The unique identifier for the associated product.
-          example: 655b33a82209e60b6adb87a5
-        userId:
-          type: string
-          description: The unique identifier for the user.
-          example: 6YAtzfzpmHAdj0e8GkKp
-        name:
-          type: string
-          description: The name of the price.
-          example: Red / S
-        type:
-          type: string
-          description: The type of the price (e.g., one_time).
-          example: one_time
-          enum:
-          - one_time
-          - recurring
-        currency:
-          type: string
-          description: The currency code for the price.
-          example: INR
-        amount:
-          type: number
-          description: The amount of the price.
-          example: 199999
-        recurring:
-          description: The recurring details of the price (if type is recurring).
-          allOf:
-          - $ref: '#/components/schemas/RecurringDto'
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the price.
-          example: '2023-11-20T10:23:38.645Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the price.
-          example: '2024-01-23T09:57:04.852Z'
-        compareAtPrice:
-          type: number
-          description: The compare-at price for comparison purposes.
-          example: 2000000
-        trackInventory:
-          type: boolean
-          description: Indicates whether inventory tracking is enabled.
-          example: null
-        availableQuantity:
-          type: number
-          description: Available inventory stock quantity
-          example: 5
-        allowOutOfStockPurchases:
-          type: boolean
-          description: Continue selling when out of stock
-          example: true
-      required:
-      - _id
-      - name
-      - type
-      - currency
-      - amount
     CreatePriceDto:
       type: object
       properties:
@@ -982,199 +825,25 @@ components:
           example: false
       required:
       - priceId
-    CreatePriceResponseDto:
+    MembershipOfferDto:
       type: object
       properties:
+        label:
+          type: string
+          description: Membership offer label
+          example: top_50
+        value:
+          type: string
+          description: Membership offer label
+          example: '50'
         _id:
           type: string
-          description: The unique identifier for the price.
+          description: The unique identifier for the membership offer.
           example: 655b33aa2209e60b6adb87a7
-        membershipOffers:
-          description: An array of membership offers associated with the price.
-          type: array
-          items:
-            $ref: '#/components/schemas/MembershipOfferDto'
-        variantOptionIds:
-          description: An array of variant option IDs associated with the price.
-          example:
-          - h4z7u0im2q8
-          - h3nst2ltsnn
-          type: array
-          items:
-            type: string
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
-        product:
-          type: string
-          description: The unique identifier for the associated product.
-          example: 655b33a82209e60b6adb87a5
-        userId:
-          type: string
-          description: The unique identifier for the user.
-          example: 6YAtzfzpmHAdj0e8GkKp
-        name:
-          type: string
-          description: The name of the price.
-          example: Red / S
-        type:
-          type: string
-          description: The type of the price (e.g., one_time).
-          example: one_time
-          enum:
-          - one_time
-          - recurring
-        currency:
-          type: string
-          description: The currency code for the price.
-          example: INR
-        amount:
-          type: number
-          description: The amount of the price.
-          example: 199999
-        recurring:
-          description: The recurring details of the price (if type is recurring).
-          allOf:
-          - $ref: '#/components/schemas/RecurringDto'
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the price.
-          example: '2023-11-20T10:23:38.645Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the price.
-          example: '2024-01-23T09:57:04.852Z'
-        compareAtPrice:
-          type: number
-          description: The compare-at price for comparison purposes.
-          example: 2000000
-        trackInventory:
-          type: boolean
-          description: Indicates whether inventory tracking is enabled.
-          example: null
-        availableQuantity:
-          type: number
-          description: Available inventory stock quantity
-          example: 5
-        allowOutOfStockPurchases:
-          type: boolean
-          description: Continue selling when out of stock
-          example: true
       required:
+      - label
+      - value
       - _id
-      - name
-      - type
-      - currency
-      - amount
-    RecurringDto:
-      type: object
-      properties:
-        interval:
-          type: string
-          description: The interval at which the recurring event occurs.
-          example: day
-          enum:
-          - day
-          - month
-          - week
-          - year
-        intervalCount:
-          type: number
-          description: The number of intervals between each occurrence of the event.
-          example: 1
-      required:
-      - interval
-      - intervalCount
-    DefaultPriceResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier for the price.
-          example: 655b33aa2209e60b6adb87a7
-        membershipOffers:
-          description: An array of membership offers associated with the price.
-          type: array
-          items:
-            $ref: '#/components/schemas/MembershipOfferDto'
-        variantOptionIds:
-          description: An array of variant option IDs associated with the price.
-          example:
-          - h4z7u0im2q8
-          - h3nst2ltsnn
-          type: array
-          items:
-            type: string
-        locationId:
-          type: string
-          description: The unique identifier for the location.
-          example: 3SwdhCsvxI8Au3KsPJt6
-        product:
-          type: string
-          description: The unique identifier for the associated product.
-          example: 655b33a82209e60b6adb87a5
-        userId:
-          type: string
-          description: The unique identifier for the user.
-          example: 6YAtzfzpmHAdj0e8GkKp
-        name:
-          type: string
-          description: The name of the price.
-          example: Red / S
-        type:
-          type: string
-          description: The type of the price (e.g., one_time).
-          example: one_time
-          enum:
-          - one_time
-          - recurring
-        currency:
-          type: string
-          description: The currency code for the price.
-          example: INR
-        amount:
-          type: number
-          description: The amount of the price.
-          example: 199999
-        recurring:
-          description: The recurring details of the price (if type is recurring).
-          allOf:
-          - $ref: '#/components/schemas/RecurringDto'
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the price.
-          example: '2023-11-20T10:23:38.645Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the price.
-          example: '2024-01-23T09:57:04.852Z'
-        compareAtPrice:
-          type: number
-          description: The compare-at price for comparison purposes.
-          example: 2000000
-        trackInventory:
-          type: boolean
-          description: Indicates whether inventory tracking is enabled.
-          example: null
-        availableQuantity:
-          type: number
-          description: Available inventory stock quantity
-          example: 5
-        allowOutOfStockPurchases:
-          type: boolean
-          description: Continue selling when out of stock
-          example: true
-      required:
-      - _id
-      - name
-      - type
-      - currency
-      - amount
     UpdatePriceDto:
       type: object
       properties:
@@ -1280,6 +949,104 @@ components:
       - currency
       - amount
       - locationId
+    GetPriceResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the price.
+          example: 655b33aa2209e60b6adb87a7
+        membershipOffers:
+          description: An array of membership offers associated with the price.
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipOfferDto'
+        variantOptionIds:
+          description: An array of variant option IDs associated with the price.
+          example:
+          - h4z7u0im2q8
+          - h3nst2ltsnn
+          type: array
+          items:
+            type: string
+        locationId:
+          type: string
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
+        product:
+          type: string
+          description: The unique identifier for the associated product.
+          example: 655b33a82209e60b6adb87a5
+        userId:
+          type: string
+          description: The unique identifier for the user.
+          example: 6YAtzfzpmHAdj0e8GkKp
+        name:
+          type: string
+          description: The name of the price.
+          example: Red / S
+        type:
+          type: string
+          description: The type of the price (e.g., one_time).
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        currency:
+          type: string
+          description: The currency code for the price.
+          example: INR
+        amount:
+          type: number
+          description: The amount of the price.
+          example: 199999
+        recurring:
+          description: The recurring details of the price (if type is recurring).
+          allOf:
+          - $ref: '#/components/schemas/RecurringDto'
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the price.
+          example: '2023-11-20T10:23:38.645Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the price.
+          example: '2024-01-23T09:57:04.852Z'
+        compareAtPrice:
+          type: number
+          description: The compare-at price for comparison purposes.
+          example: 2000000
+        trackInventory:
+          type: boolean
+          description: Indicates whether inventory tracking is enabled.
+          example: null
+        availableQuantity:
+          type: number
+          description: Available inventory stock quantity
+          example: 5
+        allowOutOfStockPurchases:
+          type: boolean
+          description: Continue selling when out of stock
+          example: true
+      required:
+      - _id
+      - name
+      - type
+      - currency
+      - amount
+    ShippingOptionsDto:
+      type: object
+      properties:
+        weight:
+          description: Weight options of the product
+          allOf:
+          - $ref: '#/components/schemas/WeightOptionsDto'
+        dimensions:
+          description: Dimensions of the product
+          allOf:
+          - $ref: '#/components/schemas/PriceDimensionsDto'
     WeightOptionsDto:
       type: object
       properties:
@@ -1299,17 +1066,250 @@ components:
       required:
       - value
       - unit
-    ShippingOptionsDto:
+    UpdatePriceResponseDto:
       type: object
       properties:
-        weight:
-          description: Weight options of the product
+        _id:
+          type: string
+          description: The unique identifier for the price.
+          example: 655b33aa2209e60b6adb87a7
+        membershipOffers:
+          description: An array of membership offers associated with the price.
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipOfferDto'
+        variantOptionIds:
+          description: An array of variant option IDs associated with the price.
+          example:
+          - h4z7u0im2q8
+          - h3nst2ltsnn
+          type: array
+          items:
+            type: string
+        locationId:
+          type: string
+          description: The unique identifier for the location.
+          example: 3SwdhCsvxI8Au3KsPJt6
+        product:
+          type: string
+          description: The unique identifier for the associated product.
+          example: 655b33a82209e60b6adb87a5
+        userId:
+          type: string
+          description: The unique identifier for the user.
+          example: 6YAtzfzpmHAdj0e8GkKp
+        name:
+          type: string
+          description: The name of the price.
+          example: Red / S
+        type:
+          type: string
+          description: The type of the price (e.g., one_time).
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        currency:
+          type: string
+          description: The currency code for the price.
+          example: INR
+        amount:
+          type: number
+          description: The amount of the price.
+          example: 199999
+        recurring:
+          description: The recurring details of the price (if type is recurring).
           allOf:
-          - $ref: '#/components/schemas/WeightOptionsDto'
-        dimensions:
-          description: Dimensions of the product
-          allOf:
-          - $ref: '#/components/schemas/PriceDimensionsDto'
+          - $ref: '#/components/schemas/RecurringDto'
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the price.
+          example: '2023-11-20T10:23:38.645Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the price.
+          example: '2024-01-23T09:57:04.852Z'
+        compareAtPrice:
+          type: number
+          description: The compare-at price for comparison purposes.
+          example: 2000000
+        trackInventory:
+          type: boolean
+          description: Indicates whether inventory tracking is enabled.
+          example: null
+        availableQuantity:
+          type: number
+          description: Available inventory stock quantity
+          example: 5
+        allowOutOfStockPurchases:
+          type: boolean
+          description: Continue selling when out of stock
+          example: true
+      required:
+      - _id
+      - name
+      - type
+      - currency
+      - amount
+    UpdateInventoryResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    PriceMetaDto:
+      type: object
+      properties:
+        source:
+          type: string
+          description: The source of the price.
+          enum:
+          - stripe
+          - woocommerce
+          - shopify
+          example: stripe
+        sourceId:
+          type: string
+          description: The id of the source of the price from where it is imported
+          example: '123'
+        stripePriceId:
+          type: string
+          description: The Stripe price ID associated with the price.
+          example: price_123
+        internalSource:
+          type: string
+          description: The internal source of the price.
+          enum:
+          - agency_plan
+          - funnel
+          - membership
+          - communities
+          - gokollab
+          - calendar
+          example: agency_plan
+      required:
+      - source
+      - stripePriceId
+      - internalSource
+    DeletePriceResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: returns true if the price is successfully deleted
+          example: true
+      required:
+      - status
+    InventoryItemDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the price
+          example: 6241712be68f7a98102ba272
+        name:
+          type: string
+          description: Name of the price/variant
+          example: Medium T-shirt
+        availableQuantity:
+          type: number
+          description: Available quantity in inventory
+          example: 50
+        sku:
+          type: string
+          description: SKU for the product variant
+          example: TSHIRT-MED-001
+        allowOutOfStockPurchases:
+          type: boolean
+          description: Whether out of stock purchases are allowed
+          example: false
+        product:
+          type: string
+          description: Product ID this price belongs to
+          example: 6241712be68f7a98102ba270
+        updatedAt:
+          type: string
+          description: Last update timestamp
+          example: '2023-12-12T09:27:42.355Z'
+        image:
+          type: string
+          description: Product image URL
+          example: https://example.com/images/product.jpg
+        productName:
+          type: string
+          description: Product name
+          example: T-shirt
+      required:
+      - _id
+      - name
+      - availableQuantity
+      - sku
+      - allowOutOfStockPurchases
+      - product
+      - updatedAt
+    UpdateInventoryDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        items:
+          description: Array of items to update in the inventory.
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateInventoryItemDto'
+      required:
+      - altId
+      - altType
+      - items
+    RecurringDto:
+      type: object
+      properties:
+        interval:
+          type: string
+          description: The interval at which the recurring event occurs.
+          example: day
+          enum:
+          - day
+          - month
+          - week
+          - year
+        intervalCount:
+          type: number
+          description: The number of intervals between each occurrence of the event.
+          example: 1
+      required:
+      - interval
+      - intervalCount
+    ListPricesResponseDto:
+      type: object
+      properties:
+        prices:
+          description: An array of prices
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultPriceResponseDto'
+        total:
+          type: number
+          default: Total number of prices available
+          example: 10
+      required:
+      - prices
+      - total
   securitySchemes:
     bearer:
       scheme: bearer

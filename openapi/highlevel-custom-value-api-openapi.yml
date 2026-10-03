@@ -283,23 +283,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    customValuesDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Custom Field Name
-        value:
-          type: string
-          example: Value
-      required:
-      - name
-      - value
-    CustomValueIdSuccessfulResponseDto:
-      type: object
-      properties:
-        customValue:
-          $ref: '#/components/schemas/CustomValueSchema'
     CustomValueSchema:
       type: object
       properties:
@@ -324,6 +307,18 @@ components:
         succeded:
           type: boolean
           example: true
+    customValuesDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Custom Field Name
+        value:
+          type: string
+          example: Value
+      required:
+      - name
+      - value
     CustomValuesListSuccessfulResponseDto:
       type: object
       properties:
@@ -331,6 +326,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CustomValueSchema'
+    CustomValueIdSuccessfulResponseDto:
+      type: object
+      properties:
+        customValue:
+          $ref: '#/components/schemas/CustomValueSchema'
   securitySchemes:
     bearer:
       scheme: bearer

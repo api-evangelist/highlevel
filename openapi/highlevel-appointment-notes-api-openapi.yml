@@ -211,6 +211,19 @@ paths:
         - calendars/events.write
 components:
   schemas:
+    NotesDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: GCs5KuzPqTls7vWclkEV
+        body:
+          type: string
+          example: lorem ipsum
+          description: Note body
+          maxLength: 5000
+      required:
+      - body
     GetNoteSchema:
       type: object
       properties:
@@ -236,6 +249,12 @@ components:
       properties:
         note:
           $ref: '#/components/schemas/GetNoteSchema'
+    DeleteNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
     GetNotesListSuccessfulResponseDto:
       type: object
       properties:
@@ -255,25 +274,6 @@ components:
         name:
           type: string
           example: John Doe
-    DeleteNoteSuccessfulResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-    NotesDTO:
-      type: object
-      properties:
-        userId:
-          type: string
-          example: GCs5KuzPqTls7vWclkEV
-        body:
-          type: string
-          example: lorem ipsum
-          description: Note body
-          maxLength: 5000
-      required:
-      - body
   securitySchemes:
     bearer:
       scheme: bearer

@@ -870,6 +870,45 @@ paths:
       - Facebook Integration
 components:
   schemas:
+    FbSetDefaultPageBodyDTO:
+      type: object
+      properties:
+        pageId:
+          type: string
+          description: Facebook page identifier
+          example: '103456789012345'
+      required:
+      - pageId
+    CreateConversationFormDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Conversation form name
+          example: Welcome Form
+        text:
+          type: string
+          description: Welcome message text
+          example: Hi! How can we help?
+        questions:
+          description: Quick-reply questions shown in the welcome message of the conversation form
+          example:
+          - question: How can we help?
+            response: Thanks for reaching out! A team member will assist you shortly.
+          - question: I want to learn more
+            response: Great! Here is a link to our services.
+          type: array
+          items:
+            $ref: '#/components/schemas/WelcomeMessageQuestion'
+      required:
+      - locationId
+      - name
+      - text
+      - questions
     CustomDisclaimer:
       type: object
       properties:
@@ -896,6 +935,52 @@ components:
       required:
       - title
       - body
+    FormQuestionOption:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Option key
+          example: option 1
+        value:
+          type: string
+          description: Option value
+          example: Option 1
+      required:
+      - key
+      - value
+    WelcomeMessageQuestion:
+      type: object
+      properties:
+        question:
+          type: string
+          description: Question title text
+          example: How can we help?
+        response:
+          type: string
+          description: Auto-response message
+          example: Thanks for reaching out
+      required:
+      - question
+    CustomDisclaimerCheckbox:
+      type: object
+      properties:
+        is_required:
+          type: boolean
+          description: Checkbox required flag
+          example: true
+        text:
+          type: string
+          description: Checkbox text label
+          example: I agree to terms
+        key:
+          type: string
+          description: Checkbox unique key
+          example: terms_checkbox
+      required:
+      - is_required
+      - text
+      - key
     CreateLeadFormDTO:
       type: object
       properties:
@@ -963,50 +1048,37 @@ components:
       - questions
       - privacyPolicyLink
       - thankYouPage
-    CreateConversationFormDTO:
+    LocationIdBodyDTO:
       type: object
       properties:
         locationId:
           type: string
           description: Location identifier
-          example: loc_abc123
-        name:
-          type: string
-          description: Conversation form name
-          example: Welcome Form
-        text:
-          type: string
-          description: Welcome message text
-          example: Hi! How can we help?
-        questions:
-          description: Quick-reply questions shown in the welcome message of the conversation form
-          example:
-          - question: How can we help?
-            response: Thanks for reaching out! A team member will assist you shortly.
-          - question: I want to learn more
-            response: Great! Here is a link to our services.
-          type: array
-          items:
-            $ref: '#/components/schemas/WelcomeMessageQuestion'
+          example: HChooFuiyPpVYzeJ4HMe
       required:
       - locationId
-      - name
-      - text
-      - questions
-    FormQuestionOption:
+    GreetingCard:
       type: object
       properties:
-        key:
+        title:
           type: string
-          description: Option key
-          example: option 1
-        value:
+          description: Greeting card title
+          example: Welcome!
+        style:
           type: string
-          description: Option value
-          example: Option 1
+          description: Greeting card style
+          example: LIST_STYLE
+        content:
+          description: Greeting card content
+          example:
+          - Learn more about our services
+          type: array
+          items:
+            type: string
       required:
-      - key
-      - value
+      - title
+      - style
+      - content
     CreateIntegrationDTO:
       type: object
       properties:
@@ -1025,34 +1097,6 @@ components:
       required:
       - locationId
       - pageId
-    LocationIdBodyDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: HChooFuiyPpVYzeJ4HMe
-      required:
-      - locationId
-    CustomDisclaimerCheckbox:
-      type: object
-      properties:
-        is_required:
-          type: boolean
-          description: Checkbox required flag
-          example: true
-        text:
-          type: string
-          description: Checkbox text label
-          example: I agree to terms
-        key:
-          type: string
-          description: Checkbox unique key
-          example: terms_checkbox
-      required:
-      - is_required
-      - text
-      - key
     FormQuestion:
       type: object
       properties:
@@ -1102,15 +1146,6 @@ components:
       required:
       - key
       - type
-    FbSetDefaultPageBodyDTO:
-      type: object
-      properties:
-        pageId:
-          type: string
-          description: Facebook page identifier
-          example: '103456789012345'
-      required:
-      - pageId
     ThankYouPage:
       type: object
       properties:
@@ -1147,41 +1182,6 @@ components:
       - body
       - buttonText
       - buttonType
-    WelcomeMessageQuestion:
-      type: object
-      properties:
-        question:
-          type: string
-          description: Question title text
-          example: How can we help?
-        response:
-          type: string
-          description: Auto-response message
-          example: Thanks for reaching out
-      required:
-      - question
-    GreetingCard:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Greeting card title
-          example: Welcome!
-        style:
-          type: string
-          description: Greeting card style
-          example: LIST_STYLE
-        content:
-          description: Greeting card content
-          example:
-          - Learn more about our services
-          type: array
-          items:
-            type: string
-      required:
-      - title
-      - style
-      - content
   securitySchemes:
     bearer:
       scheme: bearer

@@ -430,68 +430,6 @@ paths:
         - locations/customFields.write
 components:
   schemas:
-    CustomFieldsResponseDTO:
-      type: object
-      properties:
-        fields:
-          description: Custom Fields for the object.
-          type: array
-          items:
-            $ref: '#/components/schemas/ICustomField'
-        folders:
-          description: Custom Fields folder for the object.
-          type: array
-          items:
-            $ref: '#/components/schemas/ICustomField'
-    CustomFolderDeleteResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
-        id:
-          type: string
-          example: 3v34PM428h8vShlRW1KT
-        key:
-          type: string
-          example: custom_object.pet.name
-      required:
-      - succeded
-      - id
-      - key
-    CreateFolder:
-      type: object
-      properties:
-        objectKey:
-          type: string
-          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
-          example: custom_object.pet
-        name:
-          type: string
-          description: Field name
-          example: Name
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-      required:
-      - objectKey
-      - name
-      - locationId
-    UpdateFolder:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Field name
-          example: Name
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-      required:
-      - name
-      - locationId
     CreateCustomFieldsDTO:
       type: object
       properties:
@@ -575,6 +513,56 @@ components:
       - fieldKey
       - objectKey
       - parentId
+    UpdateFolder:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+          example: Name
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+      required:
+      - name
+      - locationId
+    ICustomFieldFolder:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the object
+        objectKey:
+          type: string
+          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
+          example: custom_object.pet
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          description: Field name
+          example: Name
+      required:
+      - id
+      - objectKey
+      - locationId
+      - name
+    CustomFieldsResponseDTO:
+      type: object
+      properties:
+        fields:
+          description: Custom Fields for the object.
+          type: array
+          items:
+            $ref: '#/components/schemas/ICustomField'
+        folders:
+          description: Custom Fields folder for the object.
+          type: array
+          items:
+            $ref: '#/components/schemas/ICustomField'
     ICustomField:
       type: object
       properties:
@@ -719,11 +707,22 @@ components:
       required:
       - locationId
       - showInForms
-    CustomFieldSuccessfulResponseDto:
+    CustomFolderDeleteResponseDto:
       type: object
       properties:
-        field:
-          $ref: '#/components/schemas/ICustomField'
+        succeded:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: 3v34PM428h8vShlRW1KT
+        key:
+          type: string
+          example: custom_object.pet.name
+      required:
+      - succeded
+      - id
+      - key
     OptionDTO:
       type: object
       properties:
@@ -739,29 +738,30 @@ components:
       required:
       - key
       - label
-    ICustomFieldFolder:
+    CreateFolder:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique identifier of the object
         objectKey:
           type: string
           description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
           example: custom_object.pet
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
         name:
           type: string
           description: Field name
           example: Name
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
       required:
-      - id
       - objectKey
-      - locationId
       - name
+      - locationId
+    CustomFieldSuccessfulResponseDto:
+      type: object
+      properties:
+        field:
+          $ref: '#/components/schemas/ICustomField'
   securitySchemes:
     bearer:
       scheme: bearer

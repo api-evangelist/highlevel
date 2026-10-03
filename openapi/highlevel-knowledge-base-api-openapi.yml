@@ -278,51 +278,50 @@ paths:
       - Location-Access: []
 components:
   schemas:
-    UpdateKnowledgeBaseResponseDTO:
+    KnowledgeBaseDataDTO:
       type: object
       properties:
-        success:
-          type: boolean
-      required:
-      - success
-    CreateKnowledgeBaseResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status of the operation
-          example: true
-        data:
-          description: Created knowledge base details
-          allOf:
-          - $ref: '#/components/schemas/KnowledgeBaseDataDTO'
-      required:
-      - success
-      - data
-    GetAllKnowledgeBasesPaginatedDataDTO:
-      type: object
-      properties:
-        knowledgeBases:
-          description: Array of knowledge bases
-          type: array
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseListItemDTO'
-        activeCount:
-          type: number
-          description: Total count of all active knowledge bases
-          example: 16
-        hasMore:
-          type: boolean
-          description: Whether there are more knowledge bases available
-          example: true
-        lastKnowledgeBaseId:
+        id:
           type: string
-          description: ID of the last knowledge base in this page (use for next page request)
+          description: Knowledge base ID
           example: ZwTB8S0yo0FIBY6OPZTD
+        name:
+          type: string
+          description: Knowledge base name
+          example: KB for Bot Training
+        nameLowerCase:
+          type: string
+          description: Knowledge base name in lowercase
+          example: kb for bot training
+        locationId:
+          type: string
+          description: Location ID
+          example: qIyivCmsuEOSnyoFYEej
+        kbMetadata:
+          type: object
+          description: Knowledge base metadata
+          example: {}
+        deleted:
+          type: boolean
+          description: Whether the knowledge base is deleted
+          example: false
+        createdAt:
+          type: string
+          description: Date when knowledge base was created
+          example: '2025-08-02T20:26:57.057Z'
+        updatedAt:
+          type: string
+          description: Date when knowledge base was last updated
+          example: '2025-08-02T20:26:57.057Z'
       required:
-      - knowledgeBases
-      - activeCount
-      - hasMore
+      - id
+      - name
+      - nameLowerCase
+      - locationId
+      - kbMetadata
+      - deleted
+      - createdAt
+      - updatedAt
     GetKnowledgeBaseByIdDataDTO:
       type: object
       properties:
@@ -371,18 +370,6 @@ components:
       - createdAt
       - updatedAt
       - kbMetadata
-    UnauthorizedDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 401
-        message:
-          type: string
-          example: 'Invalid token: access token is invalid'
-        error:
-          type: string
-          example: Unauthorized
     UpdateKnowledgeBaseDTO:
       type: object
       properties:
@@ -404,15 +391,6 @@ components:
       required:
       - name
       - locationId
-    BadRequestDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 400
-        message:
-          type: string
-          example: Bad Request
     KnowledgeBaseListItemDTO:
       type: object
       properties:
@@ -432,64 +410,15 @@ components:
       - id
       - name
       - createdAt
-    KnowledgeBaseDataDTO:
+    BadRequestDTO:
       type: object
       properties:
-        id:
+        statusCode:
+          type: number
+          example: 400
+        message:
           type: string
-          description: Knowledge base ID
-          example: ZwTB8S0yo0FIBY6OPZTD
-        name:
-          type: string
-          description: Knowledge base name
-          example: KB for Bot Training
-        nameLowerCase:
-          type: string
-          description: Knowledge base name in lowercase
-          example: kb for bot training
-        locationId:
-          type: string
-          description: Location ID
-          example: qIyivCmsuEOSnyoFYEej
-        kbMetadata:
-          type: object
-          description: Knowledge base metadata
-          example: {}
-        deleted:
-          type: boolean
-          description: Whether the knowledge base is deleted
-          example: false
-        createdAt:
-          type: string
-          description: Date when knowledge base was created
-          example: '2025-08-02T20:26:57.057Z'
-        updatedAt:
-          type: string
-          description: Date when knowledge base was last updated
-          example: '2025-08-02T20:26:57.057Z'
-      required:
-      - id
-      - name
-      - nameLowerCase
-      - locationId
-      - kbMetadata
-      - deleted
-      - createdAt
-      - updatedAt
-    GetKnowledgeBaseByIdResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status of the operation
-          example: true
-        data:
-          description: Knowledge base details
-          allOf:
-          - $ref: '#/components/schemas/GetKnowledgeBaseByIdDataDTO'
-      required:
-      - success
-      - data
+          example: Bad Request
     KnowledgeBaseMetadataDTO:
       type: object
       properties:
@@ -524,6 +453,18 @@ components:
       - files
       - webSearches
       - tables
+    UnauthorizedDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 401
+        message:
+          type: string
+          example: 'Invalid token: access token is invalid'
+        error:
+          type: string
+          example: Unauthorized
     DeleteKnowledgeBaseResponseDTO:
       type: object
       properties:
@@ -531,6 +472,51 @@ components:
           type: boolean
       required:
       - success
+    GetAllKnowledgeBasesPaginatedDataDTO:
+      type: object
+      properties:
+        knowledgeBases:
+          description: Array of knowledge bases
+          type: array
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseListItemDTO'
+        activeCount:
+          type: number
+          description: Total count of all active knowledge bases
+          example: 16
+        hasMore:
+          type: boolean
+          description: Whether there are more knowledge bases available
+          example: true
+        lastKnowledgeBaseId:
+          type: string
+          description: ID of the last knowledge base in this page (use for next page request)
+          example: ZwTB8S0yo0FIBY6OPZTD
+      required:
+      - knowledgeBases
+      - activeCount
+      - hasMore
+    UpdateKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+      - success
+    GetKnowledgeBaseByIdResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        data:
+          description: Knowledge base details
+          allOf:
+          - $ref: '#/components/schemas/GetKnowledgeBaseByIdDataDTO'
+      required:
+      - success
+      - data
     GetAllKnowledgeBasesPaginatedResponseDTO:
       type: object
       properties:
@@ -542,6 +528,20 @@ components:
           description: Paginated knowledge bases data
           allOf:
           - $ref: '#/components/schemas/GetAllKnowledgeBasesPaginatedDataDTO'
+      required:
+      - success
+      - data
+    CreateKnowledgeBaseResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        data:
+          description: Created knowledge base details
+          allOf:
+          - $ref: '#/components/schemas/KnowledgeBaseDataDTO'
       required:
       - success
       - data

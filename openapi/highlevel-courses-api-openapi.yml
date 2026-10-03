@@ -53,6 +53,25 @@ components:
       required:
       - locationId
       - products
+    ProductInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryInterface'
+        instructorDetails:
+          $ref: '#/components/schemas/InstructorDetails'
+      required:
+      - title
+      - description
+      - categories
     SubCategoryInterface:
       type: object
       properties:
@@ -69,6 +88,16 @@ components:
       required:
       - title
       - visibility
+    InstructorDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+      - name
+      - description
     CategoryInterface:
       type: object
       properties:
@@ -89,25 +118,6 @@ components:
       required:
       - title
       - visibility
-    ProductInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        imageUrl:
-          type: string
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryInterface'
-        instructorDetails:
-          $ref: '#/components/schemas/InstructorDetails'
-      required:
-      - title
-      - description
-      - categories
     PostMaterialInterface:
       type: object
       properties:
@@ -126,46 +136,12 @@ components:
       enum:
       - published
       - draft
-    PostInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        visibility:
-          $ref: '#/components/schemas/visibility'
-        thumbnailUrl:
-          type: string
-        contentType:
-          $ref: '#/components/schemas/contentType'
-        description:
-          type: string
-        bucketVideoUrl:
-          type: string
-        postMaterials:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostMaterialInterface'
-      required:
-      - title
-      - visibility
-      - contentType
-      - description
     contentType:
       type: string
       enum:
       - video
       - assignment
       - quiz
-    InstructorDetails:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      required:
-      - name
-      - description
     type:
       type: string
       enum:
@@ -222,6 +198,30 @@ components:
       - stl
       - woff
       - ttf
+    PostInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/visibility'
+        thumbnailUrl:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/contentType'
+        description:
+          type: string
+        bucketVideoUrl:
+          type: string
+        postMaterials:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMaterialInterface'
+      required:
+      - title
+      - visibility
+      - contentType
+      - description
   securitySchemes:
     bearer:
       scheme: bearer

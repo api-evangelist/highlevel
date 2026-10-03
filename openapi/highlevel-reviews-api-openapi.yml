@@ -437,6 +437,80 @@ components:
       - altType
       - reviews
       - status
+    UpdateProductReviewsResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    CountReviewsByStatusResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of review status counts
+          items:
+            type: array
+          type: array
+      required:
+      - data
+    ListProductReviewsResponseDto:
+      type: object
+      properties:
+        data:
+          description: Array of Collections
+          items:
+            type: array
+          type: array
+        total:
+          type: number
+          description: The total count of the collections present, which is useful to calculate the pagination
+      required:
+      - data
+      - total
+    DeleteProductReviewResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    UserDetailsDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the customer
+          example: John Doe
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          description: Email of the customer
+          example: example@example.com
+        phone:
+          type: string
+          description: Phone no of the customer
+          example: +1-555-555-5555
+        isCustomer:
+          type: boolean
+          description: Is the person an admin or customer
+          example: true
+      required:
+      - name
+      - email
     UpdateProductReviewDto:
       type: object
       properties:
@@ -478,29 +552,6 @@ components:
       - altType
       - productId
       - status
-    DeleteProductReviewResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
-    CountReviewsByStatusResponseDto:
-      type: object
-      properties:
-        data:
-          description: Array of review status counts
-          items:
-            type: array
-          type: array
-      required:
-      - data
     UpdateProductReviewObjectDto:
       type: object
       properties:
@@ -520,57 +571,6 @@ components:
       - reviewId
       - productId
       - storeId
-    ListProductReviewsResponseDto:
-      type: object
-      properties:
-        data:
-          description: Array of Collections
-          items:
-            type: array
-          type: array
-        total:
-          type: number
-          description: The total count of the collections present, which is useful to calculate the pagination
-      required:
-      - data
-      - total
-    UserDetailsDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the customer
-          example: John Doe
-          minLength: 1
-          maxLength: 100
-        email:
-          type: string
-          description: Email of the customer
-          example: example@example.com
-        phone:
-          type: string
-          description: Phone no of the customer
-          example: +1-555-555-5555
-        isCustomer:
-          type: boolean
-          description: Is the person an admin or customer
-          example: true
-      required:
-      - name
-      - email
-    UpdateProductReviewsResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
     ProductReviewDto:
       type: object
       properties:
