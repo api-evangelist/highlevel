@@ -809,155 +809,286 @@ paths:
         - invoices.readonly
 components:
   schemas:
-    CreateInvoiceResponseDto:
+    BusinessDetailsDto:
       type: object
       properties:
-        _id:
+        logoUrl:
           type: string
-          description: Invoice Id
-          example: 6578278e879ad2646715ba9c
-        status:
-          type: string
-          description: Invoice Status
-          example: draft
-          enum:
-          - draft
-          - sent
-          - payment_processing
-          - paid
-          - void
-          - partially_paid
-        liveMode:
-          type: boolean
-          description: Live Mode
-          example: false
-        amountPaid:
-          type: number
-          description: Amount Paid
-          example: 0
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
+          description: Business Logo URL
+          example: https://example.com/logo.png
         name:
           type: string
-          description: Name of the invoice
-          example: New Invoice
-        businessDetails:
-          type: object
-          description: Business Details
-          example:
-            name: Alex
-            address:
-              addressLine1: 9931 Beechwood
-              city: St. Houston
-              state: TX
-              countryCode: USA
-              postalCode: 559-6993
-            phoneNo: +1-214-559-6993
-            website: www.example.com
-        invoiceNumber:
-          type: number
-          description: Invoice Number
-          example: '19'
-        currency:
+          description: Business Name
+          example: ABC Corp.
+        phoneNo:
           type: string
-          description: Currency
-          example: USD
-        contactDetails:
-          type: object
-          description: Contact Details
-          example:
-            id: c6tZZU0rJBf30ZXx9Gli
-            phoneNo: +1-214-559-6993
-            email: alex@example.com
-            customFields: []
-            name: Alex
-            address:
-              countryCode: US
-        issueDate:
+          description: Business Phone Number
+          example: +1-214-559-6993
+        address:
+          description: Business Address
+          example: 9931 Beechwood, TX
+          allOf:
+          - $ref: '#/components/schemas/AddressDto'
+        website:
           type: string
-          description: Issue date in YYYY-MM-DD format
-          example: '2023-01-01'
-        dueDate:
-          type: string
-          description: Due date in YYYY-MM-DD format
-          example: '2023-01-01'
-        discount:
-          type: object
-          description: Discount
-          example:
-            type: percentage
-            value: 0
-        invoiceItems:
-          description: Invoice Items
-          example:
-          - taxes: []
-            _id: c6tZZU0rJBf30ZXx9Gli
-            productId: c6tZZU0rJBf30ZXx9Gli
-            priceId: c6tZZU0rJBf30ZXx9Gli
-            currency: USD
-            name: Macbook Pro
-            qty: 1
-            amount: 999
+          description: Business Website Link
+          example: wwww.example.com
+        customValues:
+          description: Custom Values
           type: array
           items:
             type: string
+    SepaDirectDebitDTO:
+      type: object
+      properties:
+        bank_code:
+          type: string
+        last4:
+          type: string
+        branch_code:
+          type: string
+      required:
+      - bank_code
+      - last4
+      - branch_code
+    PaymentMethodDto:
+      type: object
+      properties:
+        stripe:
+          description: Payment Method
+          allOf:
+          - $ref: '#/components/schemas/StripePaymentMethodDto'
+      required:
+      - stripe
+    ReminderDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Flag indicating if the reminder is enabled or not
+          example: true
+        emailTemplate:
+          type: string
+          description: Email template to be used for sending reminders
+          example: default
+        smsTemplate:
+          type: string
+          description: SMS template to be used for sending reminders
+          example: default
+        emailSubject:
+          type: string
+          description: Subject of the reminder
+          example: Reminder
+        reminderId:
+          type: string
+          description: Unique identifier for the reminder
+          example: 9333e45f-a27d-4659-90e5-76c5ef06d094
+        reminderName:
+          type: string
+          description: Name of the reminder
+          example: Special Reminder
+        reminderTime:
+          type: string
+          description: Time condition for the reminder
+          example: before
+          enum:
+          - before
+          - after
+        intervalType:
+          type: string
+          description: Interval type for the reminder
+          example: daily
+          enum:
+          - yearly
+          - monthly
+          - weekly
+          - daily
+          - hourly
+          - minutely
+          - secondly
+        maxReminders:
+          type: number
+          description: Maximum number of reminders that can be sent
+          example: 3
+        reminderInvoiceCondition:
+          type: string
+          description: Condition for sending the reminder
+          example: invoice_sent
+          enum:
+          - invoice_sent
+          - invoice_overdue
+        reminderNumber:
+          type: number
+          description: frequency gap of the reminder to exeucte
+          example: 10
+        startTime:
+          type: string
+          description: Business Hour Start Time
+          example: 9:00 AM
+        endTime:
+          type: string
+          description: Business Hour End Time
+          example: 5:00 PM
+        timezone:
+          type: string
+          description: Timezone at which reminder will be sent
+          example: businessTZ
+      required:
+      - enabled
+      - emailTemplate
+      - smsTemplate
+      - emailSubject
+      - reminderId
+      - reminderName
+      - reminderTime
+      - intervalType
+      - maxReminders
+      - reminderInvoiceCondition
+      - reminderNumber
+    ChequeDto:
+      type: object
+      properties:
+        number:
+          type: string
+          description: check number
+          example: 129-129-129-912
+      required:
+      - number
+    ListInvoicesResponseDto:
+      type: object
+      properties:
+        invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetInvoiceResponseDto'
         total:
           type: number
-          description: Total Amount
-          example: 999
-        title:
-          type: string
-          description: Title
-          example: INVOICE
-        amountDue:
-          type: number
-          description: Total Amount Due
-          example: 999
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
-        automaticTaxesEnabled:
-          type: boolean
-          description: Automatic taxes enabled for the Invoice
-          example: true
-        automaticTaxesCalculated:
-          type: boolean
-          description: Is Automatic taxes calculated for the Invoice items
-          example: true
-        paymentSchedule:
-          type: object
-          description: split invoice into payment schedule summing up to full invoice amount
+          description: Total number of invoices
+          example: 100
       required:
-      - _id
-      - status
-      - liveMode
-      - amountPaid
+      - invoices
+      - total
+    InvoiceProductSettingsDto:
+      type: object
+      properties:
+        enableImportProductDescription:
+          type: boolean
+          description: Flag indicating if the product description import is enabled or not
+          example: true
+        descriptionOptional:
+          type: boolean
+          description: Flag indicating if the product description is optional or not
+          example: true
+    PatchInvoiceStatsLastViewedDto:
+      type: object
+      properties:
+        invoiceId:
+          type: string
+          description: Invoice Id
+          example: 6578278e879ad2646715ba9c
+      required:
+      - invoiceId
+    ContactDetailsDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Contact ID
+          example: 6578278e879ad2646715ba9c
+        name:
+          type: string
+          description: Contact Name
+          example: Alex
+        phoneNo:
+          type: string
+          description: Contact Phone Number
+          example: '+1234567890'
+        email:
+          type: string
+          description: Contact Email
+          example: alex@example.com
+        additionalEmails:
+          description: Secondary email addresses for the contact to be saved
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalEmailsDto'
+        companyName:
+          type: string
+          description: Contact Company Name
+          example: ABC Corp.
+        address:
+          $ref: '#/components/schemas/AddressDto'
+        customFields:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - phoneNo
+      - email
+    UpdateInvoiceLateFeesConfigurationDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        lateFeesConfiguration:
+          description: late fees configuration
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+      required:
       - altId
       - altType
-      - name
-      - businessDetails
-      - invoiceNumber
-      - currency
-      - contactDetails
-      - issueDate
-      - dueDate
-      - invoiceItems
-      - total
-      - title
-      - amountDue
-      - createdAt
-      - updatedAt
+      - lateFeesConfiguration
+    SendInvoiceDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        userId:
+          type: string
+          description: Please ensure that the UserId corresponds to an authorized personnel, either by an employee ID or agency ID, to access this location. This account will serve as the primary channel for all future communications and updates.
+          example: 6578278e879ad2646715ba9c
+        action:
+          type: string
+          enum:
+          - sms_and_email
+          - send_manually
+          - email
+          - sms
+        liveMode:
+          type: boolean
+        sentFrom:
+          description: sender details for invoice, valid only if invoice is not sent manually
+          allOf:
+          - $ref: '#/components/schemas/InvoiceSettingsSenderConfigurationDto'
+        autoPayment:
+          description: auto-payment configuration
+          allOf:
+          - $ref: '#/components/schemas/AutoPaymentDetailsDto'
+      required:
+      - altId
+      - altType
+      - userId
+      - action
+      - liveMode
     UpdateInvoiceResponseDto:
       type: object
       properties:
@@ -1107,85 +1238,735 @@ components:
       - amountDue
       - createdAt
       - updatedAt
-    DiscountDto:
+    VoidInvoiceDto:
       type: object
       properties:
-        value:
-          type: number
-          description: Discount Value
-          example: 10
-          default: 0
-        type:
+        altId:
           type: string
-          description: Discount type
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
           enum:
-          - percentage
-          - fixed
-          example: percentage
-          default: percentage
-        validOnProductIds:
-          description: Product Ids on which discount is applicable
-          example: '[ ''6579751d56f60276e5bd4154'' ]'
-          type: array
-          items:
-            type: string
+          - location
+          example: location
       required:
-      - type
-    PatchInvoiceStatsLastViewedDto:
+      - altId
+      - altType
+    CustomNotificationItemDto:
       type: object
       properties:
-        invoiceId:
+        enabled:
+          type: boolean
+          description: Flag indicating if the notification is enabled or not
+        emailTemplate:
+          type: string
+          description: Template to be used for sending email
+        smsTemplate:
+          type: string
+          description: Template to be used for sending sms
+        fromName:
+          type: string
+          description: Name to be used while sending email
+          example: Alex
+        fromEmail:
+          type: string
+          description: Email address to be used for sending email
+          example: alex@example.com
+        emailSubject:
+          type: string
+          description: Subject of email which is sent out
+          example: Thank you for purchasing
+        defaultEmailTemplateId:
+          type: string
+          description: Default email TemplateId to be used for sending via email
+          example: dhwjqi2899012990w2u
+      required:
+      - enabled
+      - emailTemplate
+      - smsTemplate
+    DeleteInvoiceResponseDto:
+      type: object
+      properties:
+        _id:
           type: string
           description: Invoice Id
           example: 6578278e879ad2646715ba9c
+        status:
+          type: string
+          description: Invoice Status
+          example: draft
+          enum:
+          - draft
+          - sent
+          - payment_processing
+          - paid
+          - void
+          - partially_paid
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        amountPaid:
+          type: number
+          description: Amount Paid
+          example: 0
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        businessDetails:
+          type: object
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          type: object
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+        issueDate:
+          type: string
+          description: Issue date in YYYY-MM-DD format
+          example: '2023-01-01'
+        dueDate:
+          type: string
+          description: Due date in YYYY-MM-DD format
+          example: '2023-01-01'
+        discount:
+          type: object
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+        invoiceItems:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        amountDue:
+          type: number
+          description: Total Amount Due
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        automaticTaxesCalculated:
+          type: boolean
+          description: Is Automatic taxes calculated for the Invoice items
+          example: true
+        paymentSchedule:
+          type: object
+          description: split invoice into payment schedule summing up to full invoice amount
       required:
-      - invoiceId
-    SentToDto:
+      - _id
+      - status
+      - liveMode
+      - amountPaid
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - invoiceNumber
+      - currency
+      - contactDetails
+      - issueDate
+      - dueDate
+      - invoiceItems
+      - total
+      - title
+      - amountDue
+      - createdAt
+      - updatedAt
+    AdditionalEmailsDto:
       type: object
       properties:
         email:
-          description: Email Address
-          example:
-          - alex@example.com
-          type: array
-          items:
-            type: string
-        emailCc:
-          description: cc to be kept in any sent out emails
-          example:
-          - alex@example.com
-          type: array
-          items:
-            type: string
-        emailBcc:
-          description: bcc to be kept in any sent out emails
-          example:
-          - alex@example.com
-          type: array
-          items:
-            type: string
-        phoneNo:
-          description: Contact Phone Number
-          example:
-          - +1-214-559-6993
-          type: array
-          items:
-            type: string
+          type: string
+          example: alex@example.com
       required:
       - email
-    SendInvoicesResponseDto:
+    AttachmentsDto:
       type: object
       properties:
-        invoice:
-          $ref: '#/components/schemas/DefaultInvoiceResponseDto'
-        smsData:
-          type: object
-        emailData:
-          type: object
+        id:
+          type: string
+          description: Id of the file selected
+          example: 6241712be68f7a98102ba272
+        name:
+          type: string
+          description: 'Name of the file '
+          example: Electronics.pdf
+        url:
+          type: string
+          description: URL of the file
+          example: https://example.com/digital-delivery
+        type:
+          type: string
+          description: Type of the file
+        size:
+          type: number
+          description: Size of the file
+          example: 10000
       required:
-      - invoice
-      - smsData
-      - emailData
+      - id
+      - name
+      - url
+      - type
+      - size
+    CreateInvoiceResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Invoice Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: string
+          description: Invoice Status
+          example: draft
+          enum:
+          - draft
+          - sent
+          - payment_processing
+          - paid
+          - void
+          - partially_paid
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        amountPaid:
+          type: number
+          description: Amount Paid
+          example: 0
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        businessDetails:
+          type: object
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          type: object
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+        issueDate:
+          type: string
+          description: Issue date in YYYY-MM-DD format
+          example: '2023-01-01'
+        dueDate:
+          type: string
+          description: Due date in YYYY-MM-DD format
+          example: '2023-01-01'
+        discount:
+          type: object
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+        invoiceItems:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        amountDue:
+          type: number
+          description: Total Amount Due
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        automaticTaxesCalculated:
+          type: boolean
+          description: Is Automatic taxes calculated for the Invoice items
+          example: true
+        paymentSchedule:
+          type: object
+          description: split invoice into payment schedule summing up to full invoice amount
+      required:
+      - _id
+      - status
+      - liveMode
+      - amountPaid
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - invoiceNumber
+      - currency
+      - contactDetails
+      - issueDate
+      - dueDate
+      - invoiceItems
+      - total
+      - title
+      - amountDue
+      - createdAt
+      - updatedAt
+    CustomNotificationDto:
+      type: object
+      properties:
+        customerSendInvoice:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamPaymentSuccess:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerPaymentSuccess:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamAutoPaymentSuccess:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerAutoPaymentSuccess:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamPaymentFailure:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerPaymentFailure:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamAutoPaymentFailure:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerAutoPaymentFailure:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerAutoPaymentInfo:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerAutoPaymentAmountChanged:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamAutoPaymentSkip:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamRecurringSendInvoiceFailed:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        customerSendEstimate:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamEstimateAccepted:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+        teamEstimateDeclined:
+          $ref: '#/components/schemas/CustomNotificationItemDto'
+      required:
+      - customerSendInvoice
+      - teamPaymentSuccess
+      - customerPaymentSuccess
+      - teamAutoPaymentSuccess
+      - customerAutoPaymentSuccess
+      - teamPaymentFailure
+      - customerPaymentFailure
+      - teamAutoPaymentFailure
+      - customerAutoPaymentFailure
+      - customerAutoPaymentInfo
+      - customerAutoPaymentAmountChanged
+      - teamAutoPaymentSkip
+      - teamRecurringSendInvoiceFailed
+      - customerSendEstimate
+      - teamEstimateAccepted
+      - teamEstimateDeclined
+    RemindersConfigurationDto:
+      type: object
+      properties:
+        reminderExecutionDetailsList:
+          description: List of reminders
+          allOf:
+          - $ref: '#/components/schemas/ReminderExecutionDetailsList'
+        reminderSettings:
+          description: Reminder settings
+          allOf:
+          - $ref: '#/components/schemas/ReminderSettingsDto'
+      required:
+      - reminderExecutionDetailsList
+      - reminderSettings
+    DefaultInvoiceResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Invoice Id
+          example: 6578278e879ad2646715ba9c
+        status:
+          type: string
+          description: Invoice Status
+          example: draft
+          enum:
+          - draft
+          - sent
+          - payment_processing
+          - paid
+          - void
+          - partially_paid
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        amountPaid:
+          type: number
+          description: Amount Paid
+          example: 0
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the invoice
+          example: New Invoice
+        businessDetails:
+          type: object
+          description: Business Details
+          example:
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          type: object
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+        issueDate:
+          type: string
+          description: Issue date in YYYY-MM-DD format
+          example: '2023-01-01'
+        dueDate:
+          type: string
+          description: Due date in YYYY-MM-DD format
+          example: '2023-01-01'
+        discount:
+          type: object
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+        invoiceItems:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
+          type: array
+          items:
+            type: string
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        amountDue:
+          type: number
+          description: Total Amount Due
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        automaticTaxesCalculated:
+          type: boolean
+          description: Is Automatic taxes calculated for the Invoice items
+          example: true
+        paymentSchedule:
+          type: object
+          description: split invoice into payment schedule summing up to full invoice amount
+      required:
+      - _id
+      - status
+      - liveMode
+      - amountPaid
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - invoiceNumber
+      - currency
+      - contactDetails
+      - issueDate
+      - dueDate
+      - invoiceItems
+      - total
+      - title
+      - amountDue
+      - createdAt
+      - updatedAt
+    GenerateInvoiceNumberResponseDto:
+      type: object
+      properties:
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+    InvoiceSettingsBusinessDetailsDto:
+      type: object
+      properties:
+        logoUrl:
+          type: string
+        name:
+          type: string
+        phoneNo:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        website:
+          type: string
+        customValues:
+          type: array
+          items:
+            type: string
+      required:
+      - name
+    ProcessingFeeDto:
+      type: object
+      properties:
+        charges:
+          description: charges for the processing fee
+          items:
+            type: array
+          type: array
+        collectedMiscellaneousCharges:
+          type: number
+          description: collected miscellaneous charges
+          example: 10
+        paidCharges:
+          description: paid miscellaneous charges
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+      required:
+      - charges
+    AddressDto:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address Line 1
+          example: 9931 Beechwood
+        addressLine2:
+          type: string
+          description: Address Line 2
+          example: Beechwood
+        city:
+          type: string
+          description: City
+          example: St. Houston
+        state:
+          type: string
+          description: State
+          example: TX
+        countryCode:
+          type: string
+          description: Country Code
+          example: US
+        postalCode:
+          type: string
+          description: Postal Code
+          example: 559-6993
+    InvoiceItemDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Invoice Item Name
+          example: ABC Product
+        description:
+          type: string
+          description: Invoice descriptions
+          example: ABC Corp.
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9c
+        priceId:
+          type: string
+          description: Price Id
+          example: 6578278e879ad2646715ba9c
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        amount:
+          type: number
+          description: Product amount
+          example: 999
+        qty:
+          type: number
+          description: Product Quantity
+          example: 1
+        taxes:
+          description: Tax
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemTaxDto'
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category id for calculating automatic tax
+          example: 6578278e879ad2646715ba9c
+        isSetupFeeItem:
+          type: boolean
+          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
+        type:
+          type: string
+          description: Price type of the item
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        taxInclusive:
+          type: boolean
+          description: true if item amount is tax inclusive
+          example: true
+          default: false
+      required:
+      - name
+      - currency
+      - amount
+      - qty
     BacsDirectDebitDTO:
       type: object
       properties:
@@ -1196,185 +1977,241 @@ components:
       required:
       - sort_code
       - last4
-    ListInvoicesResponseDto:
+    LateFeesConfigurationDto:
       type: object
       properties:
-        invoices:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetInvoiceResponseDto'
-        total:
+        enable:
+          type: boolean
+          description: Enable late fees
+          example: true
+        value:
           type: number
-          description: Total number of invoices
-          example: 100
-      required:
-      - invoices
-      - total
-    ReminderSettingsDto:
-      type: object
-      properties:
-        defaultEmailTemplateId:
+          description: Late Fees Value
+          example: 10
+        type:
           type: string
-          description: default template Id of reminder
-          example: dhwjqi2899012990w2u
-        reminders:
-          description: List of reminders
-          type: array
-          items:
-            $ref: '#/components/schemas/ReminderDto'
+          description: Late Fees Type
+          example: fixed
+          enum:
+          - fixed
+          - percentage
+        frequency:
+          description: Late Fees Frequency
+          allOf:
+          - $ref: '#/components/schemas/LateFeesFrequencyDto'
+        grace:
+          description: Late Fees Grace
+          allOf:
+          - $ref: '#/components/schemas/LateFeesGraceDto'
+        maxLateFees:
+          description: Max late fees payable
+          allOf:
+          - $ref: '#/components/schemas/LateFeesMaxFeesDto'
       required:
-      - defaultEmailTemplateId
-      - reminders
-    LateFeesGraceDto:
+      - enable
+      - value
+      - type
+      - frequency
+    LateFeesFrequencyDto:
       type: object
       properties:
         intervalCount:
           type: number
-          description: Late fees grace interval count
+          description: Late fees interval count
           example: 10
         interval:
           type: string
-          description: Late fees grace interval
+          description: Late fees interval
           example: day
           enum:
+          - minute
+          - hour
           - day
+          - week
+          - month
+          - one_time
       required:
       - intervalCount
       - interval
-    ContactDetailsDto:
+    GetInvoiceResponseDto:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          description: Contact ID
+          description: Invoice Id
           example: 6578278e879ad2646715ba9c
-        name:
+        status:
           type: string
-          description: Contact Name
-          example: Alex
-        phoneNo:
-          type: string
-          description: Contact Phone Number
-          example: '+1234567890'
-        email:
-          type: string
-          description: Contact Email
-          example: alex@example.com
-        additionalEmails:
-          description: Secondary email addresses for the contact to be saved
-          type: array
-          items:
-            $ref: '#/components/schemas/AdditionalEmailsDto'
-        companyName:
-          type: string
-          description: Contact Company Name
-          example: ABC Corp.
-        address:
-          $ref: '#/components/schemas/AddressDto'
-        customFields:
-          description: Custom Values
-          type: array
-          items:
-            type: string
-      required:
-      - id
-      - name
-      - phoneNo
-      - email
-    GetInvoiceSettingsResponseDto:
-      type: object
-      properties:
+          description: Invoice Status
+          example: draft
+          enum:
+          - draft
+          - sent
+          - payment_processing
+          - paid
+          - void
+          - partially_paid
+        liveMode:
+          type: boolean
+          description: Live Mode
+          example: false
+        amountPaid:
+          type: number
+          description: Amount Paid
+          example: 0
         altId:
           type: string
-          description: Sub-Account Id
+          description: Location Id or Agency Id
           example: 6578278e879ad2646715ba9c
         altType:
           type: string
-          description: Alt Type
           enum:
           - location
-          example: location
-        termsNote:
+        name:
           type: string
-          description: Terms and conditions for invoices
-          example: Payment is due within 30 days.
-        estimatesTermsNote:
-          type: string
-          description: Terms and conditions for estimates
-          example: This estimate is valid for 30 days.
-        title:
-          type: string
-          description: Title for invoices
-          example: INVOICE
-          maxLength: 40
-        estimatesTitle:
-          type: string
-          description: Title for estimates
-          example: ESTIMATE
-          maxLength: 40
-        invoiceNumberPrefix:
-          type: string
-          description: Prefix for invoice numbers
-          example: INV-
-          maxLength: 10
-        estimateNumberPrefix:
-          type: string
-          description: Prefix for estimate numbers
-          example: EST-
-          maxLength: 10
-        dueAfterXDays:
-          type: number
-          description: Number of days after which invoice is due
-          example: 30
-        estimatesExpireAfterXDays:
-          type: number
-          description: Number of days after which estimate expires
-          example: 30
-        minimumPercentagePartialPayment:
-          type: number
-          description: Minimum percentage for partial payment
-          example: 25
-        customFields:
-          description: Custom fields array
+          description: Name of the invoice
+          example: New Invoice
+        businessDetails:
+          type: object
+          description: Business Details
           example:
-          - 6578278e879ad2646715baxc
-          - 6901e9fb77ac4d701ba0b996
-          maxItems: 3
+            name: Alex
+            address:
+              addressLine1: 9931 Beechwood
+              city: St. Houston
+              state: TX
+              countryCode: USA
+              postalCode: 559-6993
+            phoneNo: +1-214-559-6993
+            website: www.example.com
+        invoiceNumber:
+          type: number
+          description: Invoice Number
+          example: '19'
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        contactDetails:
+          type: object
+          description: Contact Details
+          example:
+            id: c6tZZU0rJBf30ZXx9Gli
+            phoneNo: +1-214-559-6993
+            email: alex@example.com
+            customFields: []
+            name: Alex
+            address:
+              countryCode: US
+        issueDate:
+          type: string
+          description: Issue date in YYYY-MM-DD format
+          example: '2023-01-01'
+        dueDate:
+          type: string
+          description: Due date in YYYY-MM-DD format
+          example: '2023-01-01'
+        discount:
+          type: object
+          description: Discount
+          example:
+            type: percentage
+            value: 0
+        invoiceItems:
+          description: Invoice Items
+          example:
+          - taxes: []
+            _id: c6tZZU0rJBf30ZXx9Gli
+            productId: c6tZZU0rJBf30ZXx9Gli
+            priceId: c6tZZU0rJBf30ZXx9Gli
+            currency: USD
+            name: Macbook Pro
+            qty: 1
+            amount: 999
           type: array
           items:
             type: string
-        customNotification:
-          description: Custom notification settings
+        total:
+          type: number
+          description: Total Amount
+          example: 999
+        title:
+          type: string
+          description: Title
+          example: INVOICE
+        amountDue:
+          type: number
+          description: Total Amount Due
+          example: 999
+        createdAt:
+          type: string
+          description: created at
+          example: '2023-12-12T09:27:42.355Z'
+        updatedAt:
+          type: string
+          description: updated at
+          example: '2023-12-12T09:27:42.355Z'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        automaticTaxesCalculated:
+          type: boolean
+          description: Is Automatic taxes calculated for the Invoice items
+          example: true
+        paymentSchedule:
+          type: object
+          description: split invoice into payment schedule summing up to full invoice amount
+        totalSummary:
+          $ref: '#/components/schemas/TotalSummaryDto'
+        remindersConfiguration:
+          description: Reminders Configuration
           allOf:
-          - $ref: '#/components/schemas/CustomNotificationDto'
-        businessDetails:
-          description: Business details
-          allOf:
-          - $ref: '#/components/schemas/InvoiceSettingsBusinessDetailsDto'
-        senderConfiguration:
-          description: Sender configuration
-          allOf:
-          - $ref: '#/components/schemas/InvoiceSettingsSenderConfigurationDto'
-        productSettings:
-          description: Product settings
-          allOf:
-          - $ref: '#/components/schemas/InvoiceProductSettingsDto'
-        reminderSettings:
-          description: Reminder settings
-          allOf:
-          - $ref: '#/components/schemas/ReminderSettingsDto'
-        lateFeesConfiguration:
-          description: Late fees configuration
-          allOf:
-          - $ref: '#/components/schemas/LateFeesConfigurationDto'
-        tipsConfiguration:
-          description: Tips configuration
-          allOf:
-          - $ref: '#/components/schemas/TipsConfigurationDto'
-        paymentMethods:
-          description: Payment methods configuration
-          allOf:
-          - $ref: '#/components/schemas/PaymentMethodDto'
+          - $ref: '#/components/schemas/RemindersConfigurationDto'
+      required:
+      - _id
+      - status
+      - liveMode
+      - amountPaid
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - invoiceNumber
+      - currency
+      - contactDetails
+      - issueDate
+      - dueDate
+      - invoiceItems
+      - total
+      - title
+      - amountDue
+      - createdAt
+      - updatedAt
+      - totalSummary
+    RecordPaymentResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: status
+          example: true
+        invoice:
+          $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+      required:
+      - success
+      - invoice
+    InvoiceSettingsSenderConfigurationDto:
+      type: object
+      properties:
+        fromName:
+          type: string
+          description: Sender name to be used while sending email notification
+          example: Alex
+        fromEmail:
+          type: string
+          description: Email id to be used while sending email notification
+          example: alex@example.com
     Address:
       type: object
       properties:
@@ -1638,261 +2475,39 @@ components:
           - ZW
         postalCode:
           type: string
-    AttachmentsDto:
+    SentToDto:
       type: object
       properties:
-        id:
-          type: string
-          description: Id of the file selected
-          example: 6241712be68f7a98102ba272
-        name:
-          type: string
-          description: 'Name of the file '
-          example: Electronics.pdf
-        url:
-          type: string
-          description: URL of the file
-          example: https://example.com/digital-delivery
-        type:
-          type: string
-          description: Type of the file
-        size:
-          type: number
-          description: Size of the file
-          example: 10000
-      required:
-      - id
-      - name
-      - url
-      - type
-      - size
-    VoidInvoiceDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-      required:
-      - altId
-      - altType
-    USBankAccountDto:
-      type: object
-      properties:
-        bank_name:
-          type: string
-        last4:
-          type: string
-      required:
-      - bank_name
-      - last4
-    DefaultInvoiceResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Invoice Id
-          example: 6578278e879ad2646715ba9c
-        status:
-          type: string
-          description: Invoice Status
-          example: draft
-          enum:
-          - draft
-          - sent
-          - payment_processing
-          - paid
-          - void
-          - partially_paid
-        liveMode:
-          type: boolean
-          description: Live Mode
-          example: false
-        amountPaid:
-          type: number
-          description: Amount Paid
-          example: 0
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        name:
-          type: string
-          description: Name of the invoice
-          example: New Invoice
-        businessDetails:
-          type: object
-          description: Business Details
+        email:
+          description: Email Address
           example:
-            name: Alex
-            address:
-              addressLine1: 9931 Beechwood
-              city: St. Houston
-              state: TX
-              countryCode: USA
-              postalCode: 559-6993
-            phoneNo: +1-214-559-6993
-            website: www.example.com
-        invoiceNumber:
-          type: number
-          description: Invoice Number
-          example: '19'
-        currency:
-          type: string
-          description: Currency
-          example: USD
-        contactDetails:
-          type: object
-          description: Contact Details
-          example:
-            id: c6tZZU0rJBf30ZXx9Gli
-            phoneNo: +1-214-559-6993
-            email: alex@example.com
-            customFields: []
-            name: Alex
-            address:
-              countryCode: US
-        issueDate:
-          type: string
-          description: Issue date in YYYY-MM-DD format
-          example: '2023-01-01'
-        dueDate:
-          type: string
-          description: Due date in YYYY-MM-DD format
-          example: '2023-01-01'
-        discount:
-          type: object
-          description: Discount
-          example:
-            type: percentage
-            value: 0
-        invoiceItems:
-          description: Invoice Items
-          example:
-          - taxes: []
-            _id: c6tZZU0rJBf30ZXx9Gli
-            productId: c6tZZU0rJBf30ZXx9Gli
-            priceId: c6tZZU0rJBf30ZXx9Gli
-            currency: USD
-            name: Macbook Pro
-            qty: 1
-            amount: 999
+          - alex@example.com
           type: array
           items:
             type: string
-        total:
-          type: number
-          description: Total Amount
-          example: 999
-        title:
-          type: string
-          description: Title
-          example: INVOICE
-        amountDue:
-          type: number
-          description: Total Amount Due
-          example: 999
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
-        automaticTaxesEnabled:
-          type: boolean
-          description: Automatic taxes enabled for the Invoice
-          example: true
-        automaticTaxesCalculated:
-          type: boolean
-          description: Is Automatic taxes calculated for the Invoice items
-          example: true
-        paymentSchedule:
-          type: object
-          description: split invoice into payment schedule summing up to full invoice amount
+        emailCc:
+          description: cc to be kept in any sent out emails
+          example:
+          - alex@example.com
+          type: array
+          items:
+            type: string
+        emailBcc:
+          description: bcc to be kept in any sent out emails
+          example:
+          - alex@example.com
+          type: array
+          items:
+            type: string
+        phoneNo:
+          description: Contact Phone Number
+          example:
+          - +1-214-559-6993
+          type: array
+          items:
+            type: string
       required:
-      - _id
-      - status
-      - liveMode
-      - amountPaid
-      - altId
-      - altType
-      - name
-      - businessDetails
-      - invoiceNumber
-      - currency
-      - contactDetails
-      - issueDate
-      - dueDate
-      - invoiceItems
-      - total
-      - title
-      - amountDue
-      - createdAt
-      - updatedAt
-    CustomNotificationDto:
-      type: object
-      properties:
-        customerSendInvoice:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamPaymentSuccess:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerPaymentSuccess:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamAutoPaymentSuccess:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerAutoPaymentSuccess:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamPaymentFailure:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerPaymentFailure:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamAutoPaymentFailure:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerAutoPaymentFailure:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerAutoPaymentInfo:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerAutoPaymentAmountChanged:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamAutoPaymentSkip:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamRecurringSendInvoiceFailed:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        customerSendEstimate:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamEstimateAccepted:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-        teamEstimateDeclined:
-          $ref: '#/components/schemas/CustomNotificationItemDto'
-      required:
-      - customerSendInvoice
-      - teamPaymentSuccess
-      - customerPaymentSuccess
-      - teamAutoPaymentSuccess
-      - customerAutoPaymentSuccess
-      - teamPaymentFailure
-      - customerPaymentFailure
-      - teamAutoPaymentFailure
-      - customerAutoPaymentFailure
-      - customerAutoPaymentInfo
-      - customerAutoPaymentAmountChanged
-      - teamAutoPaymentSkip
-      - teamRecurringSendInvoiceFailed
-      - customerSendEstimate
-      - teamEstimateAccepted
-      - teamEstimateDeclined
+      - email
     CardDto:
       type: object
       properties:
@@ -1903,149 +2518,19 @@ components:
       required:
       - brand
       - last4
-    ProcessingFeeDto:
+    SendInvoicesResponseDto:
       type: object
       properties:
-        charges:
-          description: charges for the processing fee
-          items:
-            type: array
-          type: array
-        collectedMiscellaneousCharges:
-          type: number
-          description: collected miscellaneous charges
-          example: 10
-        paidCharges:
-          description: paid miscellaneous charges
-          type: array
-          items:
-            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+        invoice:
+          $ref: '#/components/schemas/DefaultInvoiceResponseDto'
+        smsData:
+          type: object
+        emailData:
+          type: object
       required:
-      - charges
-    UpdateInvoiceLateFeesConfigurationDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        lateFeesConfiguration:
-          description: late fees configuration
-          allOf:
-          - $ref: '#/components/schemas/LateFeesConfigurationDto'
-      required:
-      - altId
-      - altType
-      - lateFeesConfiguration
-    ReminderExecutionDetailsList:
-      type: object
-      properties: {}
-    ProcessingFeePaidChargeDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: name of the processing fee
-          example: Processing Fee
-        charge:
-          type: number
-          description: charge for the processing fee
-          example: 10
-        amount:
-          type: number
-          description: amount of the processing fee
-          example: 10
-        _id:
-          type: string
-          description: id of the processing fee
-          example: 673d01d7d547648a8dab6211
-      required:
-      - name
-      - charge
-      - amount
-      - _id
-    ItemTaxDto:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        rate:
-          type: number
-        calculation:
-          type: string
-          enum:
-          - exclusive
-        description:
-          type: string
-        taxId:
-          type: string
-      required:
-      - _id
-      - name
-      - rate
-    PaymentScheduleDto:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Payment schedule type
-          enum:
-          - fixed
-          - percentage
-          example: percentage
-        schedules:
-          description: payment schedule item
-          type: array
-          items:
-            type: string
-      required:
-      - type
-      - schedules
-    BecsDirectDebitDTO:
-      type: object
-      properties:
-        bsb_number:
-          type: string
-        last4:
-          type: string
-      required:
-      - bsb_number
-      - last4
-    AdditionalEmailsDto:
-      type: object
-      properties:
-        email:
-          type: string
-          example: alex@example.com
-      required:
-      - email
-    TotalSummaryDto:
-      type: object
-      properties:
-        subTotal:
-          type: number
-          description: subTotal
-          example: 999
-        discount:
-          type: number
-          description: discount
-          example: 0
-        tax:
-          type: number
-          description: tax
-          example: 0
-      required:
-      - subTotal
-      - discount
-      - tax
+      - invoice
+      - smsData
+      - emailData
     RecordPaymentDto:
       type: object
       properties:
@@ -2101,6 +2586,45 @@ components:
       - card
       - cheque
       - notes
+    LateFeesMaxFeesDto:
+      type: object
+      properties:
+        type:
+          type: string
+          example: fixed
+          enum:
+          - fixed
+        value:
+          type: number
+          example: '10'
+          description: Max late fees to pay
+      required:
+      - type
+      - value
+    ReminderSettingsDto:
+      type: object
+      properties:
+        defaultEmailTemplateId:
+          type: string
+          description: default template Id of reminder
+          example: dhwjqi2899012990w2u
+        reminders:
+          description: List of reminders
+          type: array
+          items:
+            $ref: '#/components/schemas/ReminderDto'
+      required:
+      - defaultEmailTemplateId
+      - reminders
+    StripePaymentMethodDto:
+      type: object
+      properties:
+        enableBankDebitOnly:
+          type: boolean
+          description: Enable Bank Debit Only
+          example: false
+      required:
+      - enableBankDebitOnly
     CreateInvoiceDto:
       type: object
       properties:
@@ -2204,15 +2728,272 @@ components:
       - issueDate
       - sentTo
       - liveMode
-    ChequeDto:
+    PaymentScheduleDto:
       type: object
       properties:
-        number:
+        type:
           type: string
-          description: check number
-          example: 129-129-129-912
+          description: Payment schedule type
+          enum:
+          - fixed
+          - percentage
+          example: percentage
+        schedules:
+          description: payment schedule item
+          type: array
+          items:
+            type: string
       required:
-      - number
+      - type
+      - schedules
+    ProcessingFeePaidChargeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the processing fee
+          example: Processing Fee
+        charge:
+          type: number
+          description: charge for the processing fee
+          example: 10
+        amount:
+          type: number
+          description: amount of the processing fee
+          example: 10
+        _id:
+          type: string
+          description: id of the processing fee
+          example: 673d01d7d547648a8dab6211
+      required:
+      - name
+      - charge
+      - amount
+      - _id
+    BecsDirectDebitDTO:
+      type: object
+      properties:
+        bsb_number:
+          type: string
+        last4:
+          type: string
+      required:
+      - bsb_number
+      - last4
+    USBankAccountDto:
+      type: object
+      properties:
+        bank_name:
+          type: string
+        last4:
+          type: string
+      required:
+      - bank_name
+      - last4
+    LateFeesGraceDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees grace interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees grace interval
+          example: day
+          enum:
+          - day
+      required:
+      - intervalCount
+      - interval
+    GetInvoiceSettingsResponseDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Sub-Account Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        termsNote:
+          type: string
+          description: Terms and conditions for invoices
+          example: Payment is due within 30 days.
+        estimatesTermsNote:
+          type: string
+          description: Terms and conditions for estimates
+          example: This estimate is valid for 30 days.
+        title:
+          type: string
+          description: Title for invoices
+          example: INVOICE
+          maxLength: 40
+        estimatesTitle:
+          type: string
+          description: Title for estimates
+          example: ESTIMATE
+          maxLength: 40
+        invoiceNumberPrefix:
+          type: string
+          description: Prefix for invoice numbers
+          example: INV-
+          maxLength: 10
+        estimateNumberPrefix:
+          type: string
+          description: Prefix for estimate numbers
+          example: EST-
+          maxLength: 10
+        dueAfterXDays:
+          type: number
+          description: Number of days after which invoice is due
+          example: 30
+        estimatesExpireAfterXDays:
+          type: number
+          description: Number of days after which estimate expires
+          example: 30
+        minimumPercentagePartialPayment:
+          type: number
+          description: Minimum percentage for partial payment
+          example: 25
+        customFields:
+          description: Custom fields array
+          example:
+          - 6578278e879ad2646715baxc
+          - 6901e9fb77ac4d701ba0b996
+          maxItems: 3
+          type: array
+          items:
+            type: string
+        customNotification:
+          description: Custom notification settings
+          allOf:
+          - $ref: '#/components/schemas/CustomNotificationDto'
+        businessDetails:
+          description: Business details
+          allOf:
+          - $ref: '#/components/schemas/InvoiceSettingsBusinessDetailsDto'
+        senderConfiguration:
+          description: Sender configuration
+          allOf:
+          - $ref: '#/components/schemas/InvoiceSettingsSenderConfigurationDto'
+        productSettings:
+          description: Product settings
+          allOf:
+          - $ref: '#/components/schemas/InvoiceProductSettingsDto'
+        reminderSettings:
+          description: Reminder settings
+          allOf:
+          - $ref: '#/components/schemas/ReminderSettingsDto'
+        lateFeesConfiguration:
+          description: Late fees configuration
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+        tipsConfiguration:
+          description: Tips configuration
+          allOf:
+          - $ref: '#/components/schemas/TipsConfigurationDto'
+        paymentMethods:
+          description: Payment methods configuration
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodDto'
+    TotalSummaryDto:
+      type: object
+      properties:
+        subTotal:
+          type: number
+          description: subTotal
+          example: 999
+        discount:
+          type: number
+          description: discount
+          example: 0
+        tax:
+          type: number
+          description: tax
+          example: 0
+      required:
+      - subTotal
+      - discount
+      - tax
+    AutoPaymentDetailsDto:
+      type: object
+      properties:
+        enable:
+          type: boolean
+        type:
+          type: string
+        paymentMethodId:
+          type: string
+        customerId:
+          type: string
+        card:
+          $ref: '#/components/schemas/CardDto'
+        usBankAccount:
+          $ref: '#/components/schemas/USBankAccountDto'
+        sepaDirectDebit:
+          $ref: '#/components/schemas/SepaDirectDebitDTO'
+        bacsDirectDebit:
+          $ref: '#/components/schemas/BacsDirectDebitDTO'
+        becsDirectDebit:
+          $ref: '#/components/schemas/BecsDirectDebitDTO'
+        cardId:
+          type: string
+        provider:
+          type: object
+      required:
+      - enable
+    ItemTaxDto:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+        calculation:
+          type: string
+          enum:
+          - exclusive
+        description:
+          type: string
+        taxId:
+          type: string
+      required:
+      - _id
+      - name
+      - rate
+    ReminderExecutionDetailsList:
+      type: object
+      properties: {}
+    DiscountDto:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Discount Value
+          example: 10
+          default: 0
+        type:
+          type: string
+          description: Discount type
+          enum:
+          - percentage
+          - fixed
+          example: percentage
+          default: percentage
+        validOnProductIds:
+          description: Product Ids on which discount is applicable
+          example: '[ ''6579751d56f60276e5bd4154'' ]'
+          type: array
+          items:
+            type: string
+      required:
+      - type
     VoidInvoiceResponseDto:
       type: object
       properties:
@@ -2362,483 +3143,25 @@ components:
       - amountDue
       - createdAt
       - updatedAt
-    InvoiceSettingsSenderConfigurationDto:
+    TipsConfigurationDto:
       type: object
       properties:
-        fromName:
-          type: string
-          description: Sender name to be used while sending email notification
-          example: Alex
-        fromEmail:
-          type: string
-          description: Email id to be used while sending email notification
-          example: alex@example.com
-    InvoiceItemDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Invoice Item Name
-          example: ABC Product
-        description:
-          type: string
-          description: Invoice descriptions
-          example: ABC Corp.
-        productId:
-          type: string
-          description: Product Id
-          example: 6578278e879ad2646715ba9c
-        priceId:
-          type: string
-          description: Price Id
-          example: 6578278e879ad2646715ba9c
-        currency:
-          type: string
-          description: Currency
-          example: USD
-        amount:
-          type: number
-          description: Product amount
-          example: 999
-        qty:
-          type: number
-          description: Product Quantity
-          example: 1
-        taxes:
-          description: Tax
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemTaxDto'
-        automaticTaxCategoryId:
-          type: string
-          description: Tax category id for calculating automatic tax
-          example: 6578278e879ad2646715ba9c
-        isSetupFeeItem:
-          type: boolean
-          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
-        type:
-          type: string
-          description: Price type of the item
-          example: one_time
-          enum:
-          - one_time
-          - recurring
-        taxInclusive:
-          type: boolean
-          description: true if item amount is tax inclusive
-          example: true
-          default: false
-      required:
-      - name
-      - currency
-      - amount
-      - qty
-    DeleteInvoiceResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Invoice Id
-          example: 6578278e879ad2646715ba9c
-        status:
-          type: string
-          description: Invoice Status
-          example: draft
-          enum:
-          - draft
-          - sent
-          - payment_processing
-          - paid
-          - void
-          - partially_paid
-        liveMode:
-          type: boolean
-          description: Live Mode
-          example: false
-        amountPaid:
-          type: number
-          description: Amount Paid
-          example: 0
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        name:
-          type: string
-          description: Name of the invoice
-          example: New Invoice
-        businessDetails:
-          type: object
-          description: Business Details
+        tipsPercentage:
+          description: Percentage of tips allowed
           example:
-            name: Alex
-            address:
-              addressLine1: 9931 Beechwood
-              city: St. Houston
-              state: TX
-              countryCode: USA
-              postalCode: 559-6993
-            phoneNo: +1-214-559-6993
-            website: www.example.com
-        invoiceNumber:
-          type: number
-          description: Invoice Number
-          example: '19'
-        currency:
-          type: string
-          description: Currency
-          example: USD
-        contactDetails:
-          type: object
-          description: Contact Details
-          example:
-            id: c6tZZU0rJBf30ZXx9Gli
-            phoneNo: +1-214-559-6993
-            email: alex@example.com
-            customFields: []
-            name: Alex
-            address:
-              countryCode: US
-        issueDate:
-          type: string
-          description: Issue date in YYYY-MM-DD format
-          example: '2023-01-01'
-        dueDate:
-          type: string
-          description: Due date in YYYY-MM-DD format
-          example: '2023-01-01'
-        discount:
-          type: object
-          description: Discount
-          example:
-            type: percentage
-            value: 0
-        invoiceItems:
-          description: Invoice Items
-          example:
-          - taxes: []
-            _id: c6tZZU0rJBf30ZXx9Gli
-            productId: c6tZZU0rJBf30ZXx9Gli
-            priceId: c6tZZU0rJBf30ZXx9Gli
-            currency: USD
-            name: Macbook Pro
-            qty: 1
-            amount: 999
+          - 5
+          - 10
+          - 15
           type: array
           items:
             type: string
-        total:
-          type: number
-          description: Total Amount
-          example: 999
-        title:
-          type: string
-          description: Title
-          example: INVOICE
-        amountDue:
-          type: number
-          description: Total Amount Due
-          example: 999
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
-        automaticTaxesEnabled:
+        tipsEnabled:
           type: boolean
-          description: Automatic taxes enabled for the Invoice
+          description: Tips enabled status
           example: true
-        automaticTaxesCalculated:
-          type: boolean
-          description: Is Automatic taxes calculated for the Invoice items
-          example: true
-        paymentSchedule:
-          type: object
-          description: split invoice into payment schedule summing up to full invoice amount
       required:
-      - _id
-      - status
-      - liveMode
-      - amountPaid
-      - altId
-      - altType
-      - name
-      - businessDetails
-      - invoiceNumber
-      - currency
-      - contactDetails
-      - issueDate
-      - dueDate
-      - invoiceItems
-      - total
-      - title
-      - amountDue
-      - createdAt
-      - updatedAt
-    AddressDto:
-      type: object
-      properties:
-        addressLine1:
-          type: string
-          description: Address Line 1
-          example: 9931 Beechwood
-        addressLine2:
-          type: string
-          description: Address Line 2
-          example: Beechwood
-        city:
-          type: string
-          description: City
-          example: St. Houston
-        state:
-          type: string
-          description: State
-          example: TX
-        countryCode:
-          type: string
-          description: Country Code
-          example: US
-        postalCode:
-          type: string
-          description: Postal Code
-          example: 559-6993
-    RecordPaymentResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: status
-          example: true
-        invoice:
-          $ref: '#/components/schemas/DefaultInvoiceResponseDto'
-      required:
-      - success
-      - invoice
-    SendInvoiceDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        userId:
-          type: string
-          description: Please ensure that the UserId corresponds to an authorized personnel, either by an employee ID or agency ID, to access this location. This account will serve as the primary channel for all future communications and updates.
-          example: 6578278e879ad2646715ba9c
-        action:
-          type: string
-          enum:
-          - sms_and_email
-          - send_manually
-          - email
-          - sms
-        liveMode:
-          type: boolean
-        sentFrom:
-          description: sender details for invoice, valid only if invoice is not sent manually
-          allOf:
-          - $ref: '#/components/schemas/InvoiceSettingsSenderConfigurationDto'
-        autoPayment:
-          description: auto-payment configuration
-          allOf:
-          - $ref: '#/components/schemas/AutoPaymentDetailsDto'
-      required:
-      - altId
-      - altType
-      - userId
-      - action
-      - liveMode
-    StripePaymentMethodDto:
-      type: object
-      properties:
-        enableBankDebitOnly:
-          type: boolean
-          description: Enable Bank Debit Only
-          example: false
-      required:
-      - enableBankDebitOnly
-    ReminderDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Flag indicating if the reminder is enabled or not
-          example: true
-        emailTemplate:
-          type: string
-          description: Email template to be used for sending reminders
-          example: default
-        smsTemplate:
-          type: string
-          description: SMS template to be used for sending reminders
-          example: default
-        emailSubject:
-          type: string
-          description: Subject of the reminder
-          example: Reminder
-        reminderId:
-          type: string
-          description: Unique identifier for the reminder
-          example: 9333e45f-a27d-4659-90e5-76c5ef06d094
-        reminderName:
-          type: string
-          description: Name of the reminder
-          example: Special Reminder
-        reminderTime:
-          type: string
-          description: Time condition for the reminder
-          example: before
-          enum:
-          - before
-          - after
-        intervalType:
-          type: string
-          description: Interval type for the reminder
-          example: daily
-          enum:
-          - yearly
-          - monthly
-          - weekly
-          - daily
-          - hourly
-          - minutely
-          - secondly
-        maxReminders:
-          type: number
-          description: Maximum number of reminders that can be sent
-          example: 3
-        reminderInvoiceCondition:
-          type: string
-          description: Condition for sending the reminder
-          example: invoice_sent
-          enum:
-          - invoice_sent
-          - invoice_overdue
-        reminderNumber:
-          type: number
-          description: frequency gap of the reminder to exeucte
-          example: 10
-        startTime:
-          type: string
-          description: Business Hour Start Time
-          example: 9:00 AM
-        endTime:
-          type: string
-          description: Business Hour End Time
-          example: 5:00 PM
-        timezone:
-          type: string
-          description: Timezone at which reminder will be sent
-          example: businessTZ
-      required:
-      - enabled
-      - emailTemplate
-      - smsTemplate
-      - emailSubject
-      - reminderId
-      - reminderName
-      - reminderTime
-      - intervalType
-      - maxReminders
-      - reminderInvoiceCondition
-      - reminderNumber
-    GenerateInvoiceNumberResponseDto:
-      type: object
-      properties:
-        invoiceNumber:
-          type: number
-          description: Invoice Number
-          example: '19'
-    SepaDirectDebitDTO:
-      type: object
-      properties:
-        bank_code:
-          type: string
-        last4:
-          type: string
-        branch_code:
-          type: string
-      required:
-      - bank_code
-      - last4
-      - branch_code
-    PaymentMethodDto:
-      type: object
-      properties:
-        stripe:
-          description: Payment Method
-          allOf:
-          - $ref: '#/components/schemas/StripePaymentMethodDto'
-      required:
-      - stripe
-    LateFeesMaxFeesDto:
-      type: object
-      properties:
-        type:
-          type: string
-          example: fixed
-          enum:
-          - fixed
-        value:
-          type: number
-          example: '10'
-          description: Max late fees to pay
-      required:
-      - type
-      - value
-    BusinessDetailsDto:
-      type: object
-      properties:
-        logoUrl:
-          type: string
-          description: Business Logo URL
-          example: https://example.com/logo.png
-        name:
-          type: string
-          description: Business Name
-          example: ABC Corp.
-        phoneNo:
-          type: string
-          description: Business Phone Number
-          example: +1-214-559-6993
-        address:
-          description: Business Address
-          example: 9931 Beechwood, TX
-          allOf:
-          - $ref: '#/components/schemas/AddressDto'
-        website:
-          type: string
-          description: Business Website Link
-          example: wwww.example.com
-        customValues:
-          description: Custom Values
-          type: array
-          items:
-            type: string
-    InvoiceProductSettingsDto:
-      type: object
-      properties:
-        enableImportProductDescription:
-          type: boolean
-          description: Flag indicating if the product description import is enabled or not
-          example: true
-        descriptionOptional:
-          type: boolean
-          description: Flag indicating if the product description is optional or not
-          example: true
+      - tipsPercentage
+      - tipsEnabled
     UpdateInvoiceDto:
       type: object
       properties:
@@ -2952,329 +3275,6 @@ components:
       - invoiceItems
       - issueDate
       - dueDate
-    GetInvoiceResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Invoice Id
-          example: 6578278e879ad2646715ba9c
-        status:
-          type: string
-          description: Invoice Status
-          example: draft
-          enum:
-          - draft
-          - sent
-          - payment_processing
-          - paid
-          - void
-          - partially_paid
-        liveMode:
-          type: boolean
-          description: Live Mode
-          example: false
-        amountPaid:
-          type: number
-          description: Amount Paid
-          example: 0
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        name:
-          type: string
-          description: Name of the invoice
-          example: New Invoice
-        businessDetails:
-          type: object
-          description: Business Details
-          example:
-            name: Alex
-            address:
-              addressLine1: 9931 Beechwood
-              city: St. Houston
-              state: TX
-              countryCode: USA
-              postalCode: 559-6993
-            phoneNo: +1-214-559-6993
-            website: www.example.com
-        invoiceNumber:
-          type: number
-          description: Invoice Number
-          example: '19'
-        currency:
-          type: string
-          description: Currency
-          example: USD
-        contactDetails:
-          type: object
-          description: Contact Details
-          example:
-            id: c6tZZU0rJBf30ZXx9Gli
-            phoneNo: +1-214-559-6993
-            email: alex@example.com
-            customFields: []
-            name: Alex
-            address:
-              countryCode: US
-        issueDate:
-          type: string
-          description: Issue date in YYYY-MM-DD format
-          example: '2023-01-01'
-        dueDate:
-          type: string
-          description: Due date in YYYY-MM-DD format
-          example: '2023-01-01'
-        discount:
-          type: object
-          description: Discount
-          example:
-            type: percentage
-            value: 0
-        invoiceItems:
-          description: Invoice Items
-          example:
-          - taxes: []
-            _id: c6tZZU0rJBf30ZXx9Gli
-            productId: c6tZZU0rJBf30ZXx9Gli
-            priceId: c6tZZU0rJBf30ZXx9Gli
-            currency: USD
-            name: Macbook Pro
-            qty: 1
-            amount: 999
-          type: array
-          items:
-            type: string
-        total:
-          type: number
-          description: Total Amount
-          example: 999
-        title:
-          type: string
-          description: Title
-          example: INVOICE
-        amountDue:
-          type: number
-          description: Total Amount Due
-          example: 999
-        createdAt:
-          type: string
-          description: created at
-          example: '2023-12-12T09:27:42.355Z'
-        updatedAt:
-          type: string
-          description: updated at
-          example: '2023-12-12T09:27:42.355Z'
-        automaticTaxesEnabled:
-          type: boolean
-          description: Automatic taxes enabled for the Invoice
-          example: true
-        automaticTaxesCalculated:
-          type: boolean
-          description: Is Automatic taxes calculated for the Invoice items
-          example: true
-        paymentSchedule:
-          type: object
-          description: split invoice into payment schedule summing up to full invoice amount
-        totalSummary:
-          $ref: '#/components/schemas/TotalSummaryDto'
-        remindersConfiguration:
-          description: Reminders Configuration
-          allOf:
-          - $ref: '#/components/schemas/RemindersConfigurationDto'
-      required:
-      - _id
-      - status
-      - liveMode
-      - amountPaid
-      - altId
-      - altType
-      - name
-      - businessDetails
-      - invoiceNumber
-      - currency
-      - contactDetails
-      - issueDate
-      - dueDate
-      - invoiceItems
-      - total
-      - title
-      - amountDue
-      - createdAt
-      - updatedAt
-      - totalSummary
-    AutoPaymentDetailsDto:
-      type: object
-      properties:
-        enable:
-          type: boolean
-        type:
-          type: string
-        paymentMethodId:
-          type: string
-        customerId:
-          type: string
-        card:
-          $ref: '#/components/schemas/CardDto'
-        usBankAccount:
-          $ref: '#/components/schemas/USBankAccountDto'
-        sepaDirectDebit:
-          $ref: '#/components/schemas/SepaDirectDebitDTO'
-        bacsDirectDebit:
-          $ref: '#/components/schemas/BacsDirectDebitDTO'
-        becsDirectDebit:
-          $ref: '#/components/schemas/BecsDirectDebitDTO'
-        cardId:
-          type: string
-        provider:
-          type: object
-      required:
-      - enable
-    LateFeesFrequencyDto:
-      type: object
-      properties:
-        intervalCount:
-          type: number
-          description: Late fees interval count
-          example: 10
-        interval:
-          type: string
-          description: Late fees interval
-          example: day
-          enum:
-          - minute
-          - hour
-          - day
-          - week
-          - month
-          - one_time
-      required:
-      - intervalCount
-      - interval
-    CustomNotificationItemDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Flag indicating if the notification is enabled or not
-        emailTemplate:
-          type: string
-          description: Template to be used for sending email
-        smsTemplate:
-          type: string
-          description: Template to be used for sending sms
-        fromName:
-          type: string
-          description: Name to be used while sending email
-          example: Alex
-        fromEmail:
-          type: string
-          description: Email address to be used for sending email
-          example: alex@example.com
-        emailSubject:
-          type: string
-          description: Subject of email which is sent out
-          example: Thank you for purchasing
-        defaultEmailTemplateId:
-          type: string
-          description: Default email TemplateId to be used for sending via email
-          example: dhwjqi2899012990w2u
-      required:
-      - enabled
-      - emailTemplate
-      - smsTemplate
-    RemindersConfigurationDto:
-      type: object
-      properties:
-        reminderExecutionDetailsList:
-          description: List of reminders
-          allOf:
-          - $ref: '#/components/schemas/ReminderExecutionDetailsList'
-        reminderSettings:
-          description: Reminder settings
-          allOf:
-          - $ref: '#/components/schemas/ReminderSettingsDto'
-      required:
-      - reminderExecutionDetailsList
-      - reminderSettings
-    InvoiceSettingsBusinessDetailsDto:
-      type: object
-      properties:
-        logoUrl:
-          type: string
-        name:
-          type: string
-        phoneNo:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        website:
-          type: string
-        customValues:
-          type: array
-          items:
-            type: string
-      required:
-      - name
-    TipsConfigurationDto:
-      type: object
-      properties:
-        tipsPercentage:
-          description: Percentage of tips allowed
-          example:
-          - 5
-          - 10
-          - 15
-          type: array
-          items:
-            type: string
-        tipsEnabled:
-          type: boolean
-          description: Tips enabled status
-          example: true
-      required:
-      - tipsPercentage
-      - tipsEnabled
-    LateFeesConfigurationDto:
-      type: object
-      properties:
-        enable:
-          type: boolean
-          description: Enable late fees
-          example: true
-        value:
-          type: number
-          description: Late Fees Value
-          example: 10
-        type:
-          type: string
-          description: Late Fees Type
-          example: fixed
-          enum:
-          - fixed
-          - percentage
-        frequency:
-          description: Late Fees Frequency
-          allOf:
-          - $ref: '#/components/schemas/LateFeesFrequencyDto'
-        grace:
-          description: Late Fees Grace
-          allOf:
-          - $ref: '#/components/schemas/LateFeesGraceDto'
-        maxLateFees:
-          description: Max late fees payable
-          allOf:
-          - $ref: '#/components/schemas/LateFeesMaxFeesDto'
-      required:
-      - enable
-      - value
-      - type
-      - frequency
   securitySchemes:
     bearer:
       scheme: bearer

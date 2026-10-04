@@ -329,40 +329,6 @@ paths:
       - Medias
 components:
   schemas:
-    UpdateMediaObject:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the file or folder to be updated
-          example: 686f9817f0d3165be9fbcef6
-        name:
-          type: string
-          description: New name for the file or folder
-          example: Updated File Name.pdf
-      required:
-      - id
-    UpdateObject:
-      type: object
-      properties:
-        name:
-          type: string
-          description: New name for the file or folder
-          example: Updated File Name.pdf
-        altType:
-          type: string
-          description: Type of entity that owns the file or folder
-          enum:
-          - location
-          example: location
-        altId:
-          type: string
-          description: Location identifier that owns the file or folder
-          example: sx6wyHhbFdRXh302LLNR
-      required:
-      - name
-      - altType
-      - altId
     DeleteMediaObjectsBodyParams:
       type: object
       properties:
@@ -395,31 +361,45 @@ components:
       - altType
       - altId
       - status
-    CreateFolderParams:
+    UpdateMediaObject:
       type: object
       properties:
-        altId:
+        id:
           type: string
-          description: Location Id
-          example: sx6wyHhbFdRXh302LLNR
-        altType:
-          type: string
-          description: Type of entity (location only)
-          enum:
-          - location
-          example: location
+          description: Unique identifier of the file or folder to be updated
+          example: 686f9817f0d3165be9fbcef6
         name:
           type: string
-          description: Name of the folder to be created
-          example: New Folder
-        parentId:
-          type: string
-          description: ID of the parent folder (optional)
-          example: 64af50c42d567a3b4f5989e0
+          description: New name for the file or folder
+          example: Updated File Name.pdf
       required:
-      - altId
-      - altType
-      - name
+      - id
+    GetFilesResponseDTO:
+      type: object
+      properties:
+        files:
+          description: Array of File Objects
+          example:
+            altId: locationId
+            altType: location
+            name: file name
+            parentId: parent folder id
+            url: file url
+            path: file path
+          type: array
+          items:
+            type: string
+      required:
+      - files
+    DeleteMediaObjectItem:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier of the file or folder to be deleted
+          example: 686f630df0d3166d68fbcec2
+      required:
+      - _id
     UpdateMediaObjects:
       type: object
       properties:
@@ -445,23 +425,31 @@ components:
       - altId
       - altType
       - filesToBeUpdated
-    GetFilesResponseDTO:
+    CreateFolderParams:
       type: object
       properties:
-        files:
-          description: Array of File Objects
-          example:
-            altId: locationId
-            altType: location
-            name: file name
-            parentId: parent folder id
-            url: file url
-            path: file path
-          type: array
-          items:
-            type: string
+        altId:
+          type: string
+          description: Location Id
+          example: sx6wyHhbFdRXh302LLNR
+        altType:
+          type: string
+          description: Type of entity (location only)
+          enum:
+          - location
+          example: location
+        name:
+          type: string
+          description: Name of the folder to be created
+          example: New Folder
+        parentId:
+          type: string
+          description: ID of the parent folder (optional)
+          example: 64af50c42d567a3b4f5989e0
       required:
-      - files
+      - altId
+      - altType
+      - name
     UploadFileResponseDTO:
       type: object
       properties:
@@ -476,15 +464,27 @@ components:
       required:
       - fileId
       - url
-    DeleteMediaObjectItem:
+    UpdateObject:
       type: object
       properties:
-        _id:
+        name:
           type: string
-          description: Unique identifier of the file or folder to be deleted
-          example: 686f630df0d3166d68fbcec2
+          description: New name for the file or folder
+          example: Updated File Name.pdf
+        altType:
+          type: string
+          description: Type of entity that owns the file or folder
+          enum:
+          - location
+          example: location
+        altId:
+          type: string
+          description: Location identifier that owns the file or folder
+          example: sx6wyHhbFdRXh302LLNR
       required:
-      - _id
+      - name
+      - altType
+      - altId
     FolderDTO:
       type: object
       properties:

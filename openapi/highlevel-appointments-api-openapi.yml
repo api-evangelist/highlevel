@@ -62,13 +62,6 @@ paths:
         - contacts.readonly
 components:
   schemas:
-    GetEventsSuccessfulResponseDto:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetEventSchema'
     GetEventSchema:
       type: object
       properties:
@@ -131,6 +124,13 @@ components:
           type: array
           items:
             type: string
+    GetEventsSuccessfulResponseDto:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetEventSchema'
   securitySchemes:
     bearer:
       scheme: bearer

@@ -478,36 +478,54 @@ paths:
         - calendars/events.write
 components:
   schemas:
-    BlockSlotCreateRequestDTO:
+    DeleteEventSuccessfulResponseDto:
       type: object
       properties:
-        title:
+        succeeded:
+          type: boolean
+          example: true
+    GetCalendarEventSuccessfulResponseDTO:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/CalendarEventDTO'
+    BlockedSlotSuccessfulResponseDto:
+      type: object
+      properties:
+        id:
           type: string
-          description: Title
-          example: Test Event
-        calendarId:
-          type: string
-          description: Either calendarId or assignedUserId can be set, not both.
-          example: CVokAlI8fgw4WYWoCtQz
-        assignedUserId:
-          type: string
-          description: Either calendarId or assignedUserId can be set, not both.
-          example: CVokAlI8fgw4WYWoCtQz
+          description: Id
+          example: 0TkCdp9PfvLeWKYRRvIz
         locationId:
           type: string
           description: Location Id
           example: C2QujeCh8ZnC7al2InWR
-        startTime:
+        title:
           type: string
+          description: Title
+          example: My event
+        startTime:
+          type: object
           description: Start Time
           example: '2021-06-23T03:30:00+05:30'
         endTime:
-          type: string
+          type: object
           description: End Time
           example: '2021-06-23T04:30:00+05:30'
+        calendarId:
+          type: string
+          description: Calendar id
+          example: CVokAlI8fgw4WYWoCtQz
+        assignedUserId:
+          type: string
+          description: Assigned User Id
+          example: 0007BWpSzSwfiuSl0tR2
       required:
-      - calendarId
+      - id
       - locationId
+      - title
+      - startTime
+      - endTime
     AppointmentEditSchema:
       type: object
       properties:
@@ -598,6 +616,20 @@ components:
           type: string
           description: End Time
           example: '2021-06-23T04:30:00+05:30'
+    DeleteAppointmentSchema:
+      type: object
+      properties: {}
+    CreatedOrUpdatedBy:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: The ID of the user who created or updated the appointment
+        source:
+          type: string
+          description: The source of the appointment
+      required:
+      - source
     AppointmentSchemaResponse:
       type: object
       properties:
@@ -671,6 +703,43 @@ components:
       - locationId
       - contactId
       - id
+    BlockSlotCreateRequestDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title
+          example: Test Event
+        calendarId:
+          type: string
+          description: Either calendarId or assignedUserId can be set, not both.
+          example: CVokAlI8fgw4WYWoCtQz
+        assignedUserId:
+          type: string
+          description: Either calendarId or assignedUserId can be set, not both.
+          example: CVokAlI8fgw4WYWoCtQz
+        locationId:
+          type: string
+          description: Location Id
+          example: C2QujeCh8ZnC7al2InWR
+        startTime:
+          type: string
+          description: Start Time
+          example: '2021-06-23T03:30:00+05:30'
+        endTime:
+          type: string
+          description: End Time
+          example: '2021-06-23T04:30:00+05:30'
+      required:
+      - calendarId
+      - locationId
+    GetCalendarEventsSuccessfulResponseDTO:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarEventDTO'
     CalendarEventDTO:
       type: object
       properties:
@@ -783,96 +852,6 @@ components:
       - endTime
       - dateAdded
       - dateUpdated
-    GetCalendarEventSuccessfulResponseDTO:
-      type: object
-      properties:
-        event:
-          $ref: '#/components/schemas/CalendarEventDTO'
-    BlockSlotEditRequestDTO:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Title
-          example: Test Event
-        calendarId:
-          type: string
-          description: Either calendarId or assignedUserId can be set, not both.
-          example: CVokAlI8fgw4WYWoCtQz
-        assignedUserId:
-          type: string
-          description: Either calendarId or assignedUserId can be set, not both.
-          example: CVokAlI8fgw4WYWoCtQz
-        locationId:
-          type: string
-          description: Location Id
-          example: C2QujeCh8ZnC7al2InWR
-        startTime:
-          type: string
-          description: Start Time
-          example: '2021-06-23T03:30:00+05:30'
-        endTime:
-          type: string
-          description: End Time
-          example: '2021-06-23T04:30:00+05:30'
-      required:
-      - calendarId
-      - locationId
-    GetCalendarEventsSuccessfulResponseDTO:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/CalendarEventDTO'
-    BlockedSlotSuccessfulResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id
-          example: 0TkCdp9PfvLeWKYRRvIz
-        locationId:
-          type: string
-          description: Location Id
-          example: C2QujeCh8ZnC7al2InWR
-        title:
-          type: string
-          description: Title
-          example: My event
-        startTime:
-          type: object
-          description: Start Time
-          example: '2021-06-23T03:30:00+05:30'
-        endTime:
-          type: object
-          description: End Time
-          example: '2021-06-23T04:30:00+05:30'
-        calendarId:
-          type: string
-          description: Calendar id
-          example: CVokAlI8fgw4WYWoCtQz
-        assignedUserId:
-          type: string
-          description: Assigned User Id
-          example: 0007BWpSzSwfiuSl0tR2
-      required:
-      - id
-      - locationId
-      - title
-      - startTime
-      - endTime
-    CreatedOrUpdatedBy:
-      type: object
-      properties:
-        userId:
-          type: string
-          description: The ID of the user who created or updated the appointment
-        source:
-          type: string
-          description: The source of the appointment
-      required:
-      - source
     AppointmentCreateSchema:
       type: object
       properties:
@@ -976,15 +955,36 @@ components:
       - locationId
       - contactId
       - startTime
-    DeleteAppointmentSchema:
-      type: object
-      properties: {}
-    DeleteEventSuccessfulResponseDto:
+    BlockSlotEditRequestDTO:
       type: object
       properties:
-        succeeded:
-          type: boolean
-          example: true
+        title:
+          type: string
+          description: Title
+          example: Test Event
+        calendarId:
+          type: string
+          description: Either calendarId or assignedUserId can be set, not both.
+          example: CVokAlI8fgw4WYWoCtQz
+        assignedUserId:
+          type: string
+          description: Either calendarId or assignedUserId can be set, not both.
+          example: CVokAlI8fgw4WYWoCtQz
+        locationId:
+          type: string
+          description: Location Id
+          example: C2QujeCh8ZnC7al2InWR
+        startTime:
+          type: string
+          description: Start Time
+          example: '2021-06-23T03:30:00+05:30'
+        endTime:
+          type: string
+          description: End Time
+          example: '2021-06-23T04:30:00+05:30'
+      required:
+      - calendarId
+      - locationId
   securitySchemes:
     bearer:
       scheme: bearer

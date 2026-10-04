@@ -271,6 +271,34 @@ components:
     BusinessCreatedByOrUpdatedBy:
       type: object
       properties: {}
+    GetBusinessByLocationResponseDto:
+      type: object
+      properties:
+        businesses:
+          description: Business Response
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessDto'
+      required:
+      - businesses
+    GetBusinessByIdResponseDto:
+      type: object
+      properties:
+        business:
+          description: Business Response
+          allOf:
+          - $ref: '#/components/schemas/BusinessDto'
+      required:
+      - business
+    DeleteBusinessResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success value
+          example: true
+      required:
+      - success
     UpdateBusinessResponseDto:
       type: object
       properties:
@@ -285,73 +313,6 @@ components:
       required:
       - success
       - buiseness
-    GetBusinessByLocationResponseDto:
-      type: object
-      properties:
-        businesses:
-          description: Business Response
-          type: array
-          items:
-            $ref: '#/components/schemas/BusinessDto'
-      required:
-      - businesses
-    DeleteBusinessResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success value
-          example: true
-      required:
-      - success
-    GetBusinessByIdResponseDto:
-      type: object
-      properties:
-        business:
-          description: Business Response
-          allOf:
-          - $ref: '#/components/schemas/BusinessDto'
-      required:
-      - business
-    CreateBusinessDto:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Microsoft
-        locationId:
-          type: string
-          example: 5DP4iH6HLkQsiKESj6rh
-        phone:
-          type: string
-          example: '+18832327657'
-        email:
-          type: string
-          example: john@deo.com
-        website:
-          type: string
-          example: www.xyz.com
-        address:
-          type: string
-          example: street adress
-        city:
-          type: string
-          example: new york
-        postalCode:
-          type: string
-          example: '12312312'
-        state:
-          type: string
-          example: new york
-        country:
-          type: string
-          example: us
-        description:
-          type: string
-          example: business description
-      required:
-      - name
-      - locationId
     BusinessDto:
       type: object
       properties:
@@ -449,6 +410,45 @@ components:
         description:
           type: string
           example: business description
+    CreateBusinessDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Microsoft
+        locationId:
+          type: string
+          example: 5DP4iH6HLkQsiKESj6rh
+        phone:
+          type: string
+          example: '+18832327657'
+        email:
+          type: string
+          example: john@deo.com
+        website:
+          type: string
+          example: www.xyz.com
+        address:
+          type: string
+          example: street adress
+        city:
+          type: string
+          example: new york
+        postalCode:
+          type: string
+          example: '12312312'
+        state:
+          type: string
+          example: new york
+        country:
+          type: string
+          example: us
+        description:
+          type: string
+          example: business description
+      required:
+      - name
+      - locationId
   securitySchemes:
     bearer:
       scheme: bearer

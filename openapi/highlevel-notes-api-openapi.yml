@@ -286,26 +286,6 @@ paths:
         - contacts.write
 components:
   schemas:
-    NotesDTO:
-      type: object
-      properties:
-        userId:
-          type: string
-          example: GCs5KuzPqTls7vWclkEV
-        body:
-          type: string
-          example: lorem ipsum
-        title:
-          type: string
-          example: Follow-up summary
-        color:
-          type: string
-          example: '#FFAA00'
-        pinned:
-          type: boolean
-          example: false
-      required:
-      - body
     GetNoteSchema:
       type: object
       properties:
@@ -333,11 +313,6 @@ components:
         pinned:
           type: boolean
           example: false
-    GetCreateUpdateNoteSuccessfulResponseDto:
-      type: object
-      properties:
-        note:
-          $ref: '#/components/schemas/GetNoteSchema'
     UpdateNoteDTO:
       type: object
       properties:
@@ -362,6 +337,31 @@ components:
         succeded:
           type: boolean
           example: true
+    NotesDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: GCs5KuzPqTls7vWclkEV
+        body:
+          type: string
+          example: lorem ipsum
+        title:
+          type: string
+          example: Follow-up summary
+        color:
+          type: string
+          example: '#FFAA00'
+        pinned:
+          type: boolean
+          example: false
+      required:
+      - body
+    GetCreateUpdateNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        note:
+          $ref: '#/components/schemas/GetNoteSchema'
     GetNotesListSuccessfulResponseDto:
       type: object
       properties:

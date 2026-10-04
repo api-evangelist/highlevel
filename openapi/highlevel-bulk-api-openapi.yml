@@ -88,6 +88,44 @@ paths:
       - Bulk
 components:
   schemas:
+    ContactsBusinessUpdate:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: PX8m5VwxEbcpFlzYEPVG
+        ids:
+          example:
+          - IDqvFHGColiyK6jiatuz
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+            maxLength: 50
+        businessId:
+          type:
+          - string
+          - 'null'
+          example: 63b7ec34ea409a9a8bd2a4ff
+      required:
+      - locationId
+      - ids
+      - businessId
+    ContactsBulkUpateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        ids:
+          example:
+          - pOC0uJ97VYOKH2m3fkMD
+          type: array
+          items:
+            type: string
+      required:
+      - success
+      - ids
     UpdateTagsResponseDTO:
       type: object
       properties:
@@ -159,44 +197,6 @@ components:
       - contacts
       - tags
       - locationId
-    ContactsBusinessUpdate:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: PX8m5VwxEbcpFlzYEPVG
-        ids:
-          example:
-          - IDqvFHGColiyK6jiatuz
-          - pOC0uJ97VYOKH2m3fkMD
-          type: array
-          items:
-            type: string
-            maxLength: 50
-        businessId:
-          type:
-          - string
-          - 'null'
-          example: 63b7ec34ea409a9a8bd2a4ff
-      required:
-      - locationId
-      - ids
-      - businessId
-    ContactsBulkUpateResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        ids:
-          example:
-          - pOC0uJ97VYOKH2m3fkMD
-          type: array
-          items:
-            type: string
-      required:
-      - success
-      - ids
   securitySchemes:
     bearer:
       scheme: bearer

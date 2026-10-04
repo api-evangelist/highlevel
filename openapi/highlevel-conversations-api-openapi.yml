@@ -195,25 +195,6 @@ paths:
         - conversations.write
 components:
   schemas:
-    UpdateConversationDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location ID as string
-          example: tDtDnQdgm2LXpyiqYvZ6
-        unreadCount:
-          type: number
-          description: Count of unread messages in the conversation
-          example: 1
-        starred:
-          type: boolean
-          description: Starred status of the conversation.
-          example: true
-        feedback:
-          type: object
-      required:
-      - locationId
     ConversationDto:
       type: object
       properties:
@@ -312,29 +293,49 @@ components:
       - locationId
       - contactId
       - deleted
-    CreateConversationSuccessResponse:
+    ConversationCreateResponseDto:
       type: object
       properties:
-        success:
+        id:
+          type: string
+          description: Unique identifier for the conversation
+          example: tDtDnQdgm2LXpyiqYvZ6
+        dateUpdated:
+          type: string
+          description: Date when the conversation was last updated
+          example: '2023-10-01T12:00:00Z'
+        dateAdded:
+          type: string
+          description: Date when the conversation was created
+          example: '2023-10-01T12:00:00Z'
+        deleted:
           type: boolean
-          description: Indicates whether the API request was successful.
-          example: true
-        conversation:
-          description: Conversation data of the provided conversation ID.
-          allOf:
-          - $ref: '#/components/schemas/ConversationCreateResponseDto'
+          description: Flag indicating if this conversation has been deleted
+          example: false
+        contactId:
+          type: string
+          description: Unique identifier of the contact associated with this conversation
+          example: ve9EPM428kjkvShlRW1KT
+        locationId:
+          type: string
+          description: Unique identifier of the business location where this conversation takes place
+          example: ve9EPM428kjkvShlRW1KT
+        lastMessageDate:
+          type: string
+          description: Date of the last message in the conversation
+          example: '2023-10-01T12:00:00Z'
+        assignedTo:
+          type: string
+          description: Unique identifier of the team member assigned to this conversation
+          example: ve9EPM428kjkvShlRW1KT
       required:
-      - success
-      - conversation
-    DeleteConversationSuccessfulResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Boolean value as the API response.
-          example: true
-      required:
-      - success
+      - id
+      - dateUpdated
+      - dateAdded
+      - deleted
+      - contactId
+      - locationId
+      - lastMessageDate
     CreateConversationDto:
       type: object
       properties:
@@ -363,6 +364,48 @@ components:
       required:
       - success
       - conversation
+    DeleteConversationSuccessfulResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Boolean value as the API response.
+          example: true
+      required:
+      - success
+    CreateConversationSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the API request was successful.
+          example: true
+        conversation:
+          description: Conversation data of the provided conversation ID.
+          allOf:
+          - $ref: '#/components/schemas/ConversationCreateResponseDto'
+      required:
+      - success
+      - conversation
+    UpdateConversationDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID as string
+          example: tDtDnQdgm2LXpyiqYvZ6
+        unreadCount:
+          type: number
+          description: Count of unread messages in the conversation
+          example: 1
+        starred:
+          type: boolean
+          description: Starred status of the conversation.
+          example: true
+        feedback:
+          type: object
+      required:
+      - locationId
     GetConversationByIdResponse:
       type: object
       properties:
@@ -409,49 +452,6 @@ components:
       - type
       - unreadCount
       - id
-    ConversationCreateResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the conversation
-          example: tDtDnQdgm2LXpyiqYvZ6
-        dateUpdated:
-          type: string
-          description: Date when the conversation was last updated
-          example: '2023-10-01T12:00:00Z'
-        dateAdded:
-          type: string
-          description: Date when the conversation was created
-          example: '2023-10-01T12:00:00Z'
-        deleted:
-          type: boolean
-          description: Flag indicating if this conversation has been deleted
-          example: false
-        contactId:
-          type: string
-          description: Unique identifier of the contact associated with this conversation
-          example: ve9EPM428kjkvShlRW1KT
-        locationId:
-          type: string
-          description: Unique identifier of the business location where this conversation takes place
-          example: ve9EPM428kjkvShlRW1KT
-        lastMessageDate:
-          type: string
-          description: Date of the last message in the conversation
-          example: '2023-10-01T12:00:00Z'
-        assignedTo:
-          type: string
-          description: Unique identifier of the team member assigned to this conversation
-          example: ve9EPM428kjkvShlRW1KT
-      required:
-      - id
-      - dateUpdated
-      - dateAdded
-      - deleted
-      - contactId
-      - locationId
-      - lastMessageDate
   securitySchemes:
     bearer:
       scheme: bearer

@@ -62,13 +62,6 @@ paths:
         - conversations/livechat.write
 components:
   schemas:
-    CreateLiveChatMessageFeedbackResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-      required:
-      - success
     UserTypingBody:
       type: object
       properties:
@@ -93,6 +86,13 @@ components:
       - isTyping
       - visitorId
       - conversationId
+    CreateLiveChatMessageFeedbackResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+      - success
   securitySchemes:
     bearer:
       scheme: bearer

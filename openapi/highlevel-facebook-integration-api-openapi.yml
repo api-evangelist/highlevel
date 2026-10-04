@@ -870,45 +870,42 @@ paths:
       - Facebook Integration
 components:
   schemas:
-    FbSetDefaultPageBodyDTO:
+    ThankYouPage:
       type: object
       properties:
-        pageId:
+        title:
           type: string
-          description: Facebook page identifier
-          example: '103456789012345'
+          description: Thank you page title
+          example: Thank You!
+        body:
+          type: string
+          description: Thank you page body
+          example: We will contact you soon
+        buttonText:
+          type: string
+          description: Button text label
+          example: Visit Website
+        buttonType:
+          type: string
+          description: Button action type
+          example: VIEW_WEBSITE
+        buttonLink:
+          type: string
+          description: Button destination link
+          example: https://example.com
+        businessPhone:
+          type: string
+          description: Business phone number
+          example: '+1234567890'
+        countryCode:
+          type: string
+          description: Phone country code
+          example: US
       required:
-      - pageId
-    CreateConversationFormDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        name:
-          type: string
-          description: Conversation form name
-          example: Welcome Form
-        text:
-          type: string
-          description: Welcome message text
-          example: Hi! How can we help?
-        questions:
-          description: Quick-reply questions shown in the welcome message of the conversation form
-          example:
-          - question: How can we help?
-            response: Thanks for reaching out! A team member will assist you shortly.
-          - question: I want to learn more
-            response: Great! Here is a link to our services.
-          type: array
-          items:
-            $ref: '#/components/schemas/WelcomeMessageQuestion'
-      required:
-      - locationId
-      - name
-      - text
-      - questions
+      - title
+      - body
+      - buttonText
+      - buttonType
     CustomDisclaimer:
       type: object
       properties:
@@ -935,20 +932,55 @@ components:
       required:
       - title
       - body
-    FormQuestionOption:
+    FormQuestion:
       type: object
       properties:
+        label:
+          type: string
+          description: Question label text shown to the user
+          example: What is your name?
         key:
           type: string
-          description: Option key
-          example: option 1
-        value:
+          description: Question key
+          example: name
+        type:
           type: string
-          description: Option value
-          example: Option 1
+          description: Question input type — use a prefilled type for standard fields or CUSTOM / SHORT_ANSWER for freeform questions
+          example: SHORT_ANSWER
+          enum:
+          - CUSTOM
+          - CITY
+          - COMPANY_NAME
+          - COUNTRY
+          - DATE_OF_BIRTH
+          - EMAIL
+          - FIRST_NAME
+          - FULL_NAME
+          - GENDER
+          - JOB_TITLE
+          - LAST_NAME
+          - MARITAL_STATUS
+          - MILITARY_STATUS
+          - PHONE
+          - POST_CODE
+          - RELATIONSHIP_STATUS
+          - STATE
+          - STREET_ADDRESS
+          - WORK_EMAIL
+          - WORK_PHONE_NUMBER
+          - ZIP
+          - SHORT_ANSWER
+        options:
+          description: Answer options for multiple-choice questions (only applies to CUSTOM type)
+          example:
+          - value: 'Yes'
+          - value: 'No'
+          type: array
+          items:
+            $ref: '#/components/schemas/FormQuestionOption'
       required:
       - key
-      - value
+      - type
     WelcomeMessageQuestion:
       type: object
       properties:
@@ -981,6 +1013,15 @@ components:
       - is_required
       - text
       - key
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
     CreateLeadFormDTO:
       type: object
       properties:
@@ -1048,15 +1089,6 @@ components:
       - questions
       - privacyPolicyLink
       - thankYouPage
-    LocationIdBodyDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: HChooFuiyPpVYzeJ4HMe
-      required:
-      - locationId
     GreetingCard:
       type: object
       properties:
@@ -1079,6 +1111,20 @@ components:
       - title
       - style
       - content
+    FormQuestionOption:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Option key
+          example: option 1
+        value:
+          type: string
+          description: Option value
+          example: Option 1
+      required:
+      - key
+      - value
     CreateIntegrationDTO:
       type: object
       properties:
@@ -1097,91 +1143,45 @@ components:
       required:
       - locationId
       - pageId
-    FormQuestion:
+    CreateConversationFormDTO:
       type: object
       properties:
-        label:
+        locationId:
           type: string
-          description: Question label text shown to the user
-          example: What is your name?
-        key:
+          description: Location identifier
+          example: loc_abc123
+        name:
           type: string
-          description: Question key
-          example: name
-        type:
+          description: Conversation form name
+          example: Welcome Form
+        text:
           type: string
-          description: Question input type — use a prefilled type for standard fields or CUSTOM / SHORT_ANSWER for freeform questions
-          example: SHORT_ANSWER
-          enum:
-          - CUSTOM
-          - CITY
-          - COMPANY_NAME
-          - COUNTRY
-          - DATE_OF_BIRTH
-          - EMAIL
-          - FIRST_NAME
-          - FULL_NAME
-          - GENDER
-          - JOB_TITLE
-          - LAST_NAME
-          - MARITAL_STATUS
-          - MILITARY_STATUS
-          - PHONE
-          - POST_CODE
-          - RELATIONSHIP_STATUS
-          - STATE
-          - STREET_ADDRESS
-          - WORK_EMAIL
-          - WORK_PHONE_NUMBER
-          - ZIP
-          - SHORT_ANSWER
-        options:
-          description: Answer options for multiple-choice questions (only applies to CUSTOM type)
+          description: Welcome message text
+          example: Hi! How can we help?
+        questions:
+          description: Quick-reply questions shown in the welcome message of the conversation form
           example:
-          - value: 'Yes'
-          - value: 'No'
+          - question: How can we help?
+            response: Thanks for reaching out! A team member will assist you shortly.
+          - question: I want to learn more
+            response: Great! Here is a link to our services.
           type: array
           items:
-            $ref: '#/components/schemas/FormQuestionOption'
+            $ref: '#/components/schemas/WelcomeMessageQuestion'
       required:
-      - key
-      - type
-    ThankYouPage:
+      - locationId
+      - name
+      - text
+      - questions
+    FbSetDefaultPageBodyDTO:
       type: object
       properties:
-        title:
+        pageId:
           type: string
-          description: Thank you page title
-          example: Thank You!
-        body:
-          type: string
-          description: Thank you page body
-          example: We will contact you soon
-        buttonText:
-          type: string
-          description: Button text label
-          example: Visit Website
-        buttonType:
-          type: string
-          description: Button action type
-          example: VIEW_WEBSITE
-        buttonLink:
-          type: string
-          description: Button destination link
-          example: https://example.com
-        businessPhone:
-          type: string
-          description: Business phone number
-          example: '+1234567890'
-        countryCode:
-          type: string
-          description: Phone country code
-          example: US
+          description: Facebook page identifier
+          example: '103456789012345'
       required:
-      - title
-      - body
-      - buttonText
-      - buttonType
+      - pageId
   securitySchemes:
     bearer:
       scheme: bearer

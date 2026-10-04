@@ -276,223 +276,6 @@ paths:
         - payments/orders.collectPayment
 components:
   schemas:
-    ChequeDto:
-      type: object
-      properties:
-        number:
-          type: string
-          description: check number
-          example: 129-129-129-912
-      required:
-      - number
-    GetOrderResponseSchema:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier for the order.
-          example: 653f5e0cde5a1314e62a837c
-        altId:
-          type: string
-          description: 'AltId is the unique identifier eg: location id.'
-          example: 3SwdhCu3svxI8AKsPJt6
-        altType:
-          type: string
-          example: location
-          description: AltType is the type of identifier.
-        contactId:
-          type: string
-          example: XPLSw2SVagl12LMDeTmQ
-          description: Contact id corresponding to the order.
-        currency:
-          type: string
-          example: USD
-          description: Currency in which order was created.
-        amount:
-          type: number
-          example: '100'
-          description: Order value.
-        status:
-          type: string
-          description: The status of the order (e.g., completed).
-          example: completed
-        liveMode:
-          type: boolean
-          example: 'false'
-          description: Order is in live / test mode.
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the order.
-          example: '2023-11-20T10:23:36.515Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the order.
-          example: '2024-01-23T09:57:04.846Z'
-        fulfillmentStatus:
-          type: string
-          description: Fulfillment status of the order.
-          example: unfulfilled
-        contactSnapshot:
-          type: object
-          description: Contact details of the order.
-          example: '{ last_name: "Mcclain", type: "lead", first_name_lower_case: "rogan", email: "anish+11@gohighlevel.com", last_name_lower_case: "mcclain", location_id: "o6241QsiRwUIJHyjuhos", company_name: "Jordan and Cox Trading"}'
-        amountSummary:
-          description: Amount details of the order.
-          example: '{ subtotal: 100, discount: 5 }'
-          allOf:
-          - $ref: '#/components/schemas/AmountSummary'
-        source:
-          description: Source details of the order.
-          example: '{ type: "invoice", id: "61dd48ff65b013bc39bb09c6" }'
-          allOf:
-          - $ref: '#/components/schemas/OrderSource'
-        items:
-          description: Item details of the order.
-          example: '{ _id: 61dd33e88058b9f967ca79dc, authorizeAmount: 0, locationId: "SBAWb4yu7A4LSc0skQ6g", name: "Sample Product": price: {}, product: { name: "Testing product", productType: "SERVICE" }}'
-          type: array
-          items:
-            type: string
-        coupon:
-          type: object
-          description: Coupon details of the order.
-          example: '{ code: "FEST10", _id: "63455e48901b43d4ef364a20" }'
-        trackingId:
-          type: string
-          description: Tracking id of the order.
-          example: 63319ef9-de0a-4c84-aebd-3585fb4a0cdf
-        fingerprint:
-          type: string
-          description: Fingerprint id of the order.
-          example: 5d51db5a-42b0-4b04-ba88-2c046c982a3a
-        meta:
-          type: object
-          description: Meta details of the order.
-          example: '{ couponSessionExpired: true }'
-        markAsTest:
-          type: boolean
-          description: Is test order.
-          example: 'false'
-        traceId:
-          type: string
-          description: Trace id of the order.
-          example: d3b16a92-a8ed-4e6b-8467-844750f78ed5
-        automaticTaxesCalculated:
-          type: boolean
-          description: Automatic taxes applied for the Order
-          example: true
-        taxCalculationProvider:
-          type: object
-          description: Provider name for automatic tax calculation
-          example: taxjar
-        createdBy:
-          type: string
-          example: user123
-          description: User ID who created the order.
-      required:
-      - _id
-      - altId
-      - altType
-      - status
-      - createdAt
-      - updatedAt
-    AmountSummary:
-      type: object
-      properties:
-        subtotal:
-          type: number
-          example: '100'
-          description: Order sub-total value.
-        discount:
-          type: number
-          example: '10'
-          description: Discount value on order.
-      required:
-      - subtotal
-    CardDto:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - visa
-          - mastercard
-          - other
-          example: mastercard
-        last4:
-          type: string
-          description: Last 4 digit of the card
-          example: '1234'
-      required:
-      - type
-      - last4
-    OrderSource:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - funnel
-          - website
-          - invoice
-          - calendar
-          - text2Pay
-          - document_contracts
-          - membership
-          - mobile_app
-          - communities
-          - point_of_sale
-          - manual
-          - form
-          - survey
-          - payment_link
-          - external
-        subType:
-          type: string
-          enum:
-          - one_step_order_form
-          - two_step_order_form
-          - upsell
-          - tap_to_pay
-          - card_payment
-          - store
-          - contact_view
-          - email_campaign
-          - payments_dashboard
-          - shopify
-          - subscription_view
-          - store_upsell
-          - woocommerce
-          - service
-          - meeting
-          - imported_csv
-          - qr_code
-          - saas_one_time
-          - saas_subscription
-        id:
-          type: string
-        name:
-          type: string
-        meta:
-          type: object
-      required:
-      - type
-      - id
-    ListOrdersResponseDto:
-      type: object
-      properties:
-        data:
-          description: An array of orders
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderResponseSchema'
-        totalCount:
-          type: number
-          description: total orders count
-      required:
-      - data
-      - totalCount
     OrderResponseSchema:
       type: object
       properties:
@@ -655,6 +438,223 @@ components:
       - altId
       - altType
       - mode
+    ChequeDto:
+      type: object
+      properties:
+        number:
+          type: string
+          description: check number
+          example: 129-129-129-912
+      required:
+      - number
+    OrderSource:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - funnel
+          - website
+          - invoice
+          - calendar
+          - text2Pay
+          - document_contracts
+          - membership
+          - mobile_app
+          - communities
+          - point_of_sale
+          - manual
+          - form
+          - survey
+          - payment_link
+          - external
+        subType:
+          type: string
+          enum:
+          - one_step_order_form
+          - two_step_order_form
+          - upsell
+          - tap_to_pay
+          - card_payment
+          - store
+          - contact_view
+          - email_campaign
+          - payments_dashboard
+          - shopify
+          - subscription_view
+          - store_upsell
+          - woocommerce
+          - service
+          - meeting
+          - imported_csv
+          - qr_code
+          - saas_one_time
+          - saas_subscription
+        id:
+          type: string
+        name:
+          type: string
+        meta:
+          type: object
+      required:
+      - type
+      - id
+    ListOrdersResponseDto:
+      type: object
+      properties:
+        data:
+          description: An array of orders
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderResponseSchema'
+        totalCount:
+          type: number
+          description: total orders count
+      required:
+      - data
+      - totalCount
+    AmountSummary:
+      type: object
+      properties:
+        subtotal:
+          type: number
+          example: '100'
+          description: Order sub-total value.
+        discount:
+          type: number
+          example: '10'
+          description: Discount value on order.
+      required:
+      - subtotal
+    CardDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - visa
+          - mastercard
+          - other
+          example: mastercard
+        last4:
+          type: string
+          description: Last 4 digit of the card
+          example: '1234'
+      required:
+      - type
+      - last4
+    GetOrderResponseSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the order.
+          example: 653f5e0cde5a1314e62a837c
+        altId:
+          type: string
+          description: 'AltId is the unique identifier eg: location id.'
+          example: 3SwdhCu3svxI8AKsPJt6
+        altType:
+          type: string
+          example: location
+          description: AltType is the type of identifier.
+        contactId:
+          type: string
+          example: XPLSw2SVagl12LMDeTmQ
+          description: Contact id corresponding to the order.
+        currency:
+          type: string
+          example: USD
+          description: Currency in which order was created.
+        amount:
+          type: number
+          example: '100'
+          description: Order value.
+        status:
+          type: string
+          description: The status of the order (e.g., completed).
+          example: completed
+        liveMode:
+          type: boolean
+          example: 'false'
+          description: Order is in live / test mode.
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the order.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the order.
+          example: '2024-01-23T09:57:04.846Z'
+        fulfillmentStatus:
+          type: string
+          description: Fulfillment status of the order.
+          example: unfulfilled
+        contactSnapshot:
+          type: object
+          description: Contact details of the order.
+          example: '{ last_name: "Mcclain", type: "lead", first_name_lower_case: "rogan", email: "anish+11@gohighlevel.com", last_name_lower_case: "mcclain", location_id: "o6241QsiRwUIJHyjuhos", company_name: "Jordan and Cox Trading"}'
+        amountSummary:
+          description: Amount details of the order.
+          example: '{ subtotal: 100, discount: 5 }'
+          allOf:
+          - $ref: '#/components/schemas/AmountSummary'
+        source:
+          description: Source details of the order.
+          example: '{ type: "invoice", id: "61dd48ff65b013bc39bb09c6" }'
+          allOf:
+          - $ref: '#/components/schemas/OrderSource'
+        items:
+          description: Item details of the order.
+          example: '{ _id: 61dd33e88058b9f967ca79dc, authorizeAmount: 0, locationId: "SBAWb4yu7A4LSc0skQ6g", name: "Sample Product": price: {}, product: { name: "Testing product", productType: "SERVICE" }}'
+          type: array
+          items:
+            type: string
+        coupon:
+          type: object
+          description: Coupon details of the order.
+          example: '{ code: "FEST10", _id: "63455e48901b43d4ef364a20" }'
+        trackingId:
+          type: string
+          description: Tracking id of the order.
+          example: 63319ef9-de0a-4c84-aebd-3585fb4a0cdf
+        fingerprint:
+          type: string
+          description: Fingerprint id of the order.
+          example: 5d51db5a-42b0-4b04-ba88-2c046c982a3a
+        meta:
+          type: object
+          description: Meta details of the order.
+          example: '{ couponSessionExpired: true }'
+        markAsTest:
+          type: boolean
+          description: Is test order.
+          example: 'false'
+        traceId:
+          type: string
+          description: Trace id of the order.
+          example: d3b16a92-a8ed-4e6b-8467-844750f78ed5
+        automaticTaxesCalculated:
+          type: boolean
+          description: Automatic taxes applied for the Order
+          example: true
+        taxCalculationProvider:
+          type: object
+          description: Provider name for automatic tax calculation
+          example: taxjar
+        createdBy:
+          type: string
+          example: user123
+          description: User ID who created the order.
+      required:
+      - _id
+      - altId
+      - altType
+      - status
+      - createdAt
+      - updatedAt
     PostRecordOrderPaymentResponse:
       type: object
       properties:

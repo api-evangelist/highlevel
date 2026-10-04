@@ -106,16 +106,6 @@ paths:
         - opportunities.readonly
 components:
   schemas:
-    LostReasonsResponseSchema:
-      type: object
-      properties:
-        lostReasons:
-          type: array
-          items:
-            $ref: '#/components/schemas/LostReasonResponseSchema'
-        total:
-          type: number
-          example: 100
     LostReasonResponseSchema:
       type: object
       properties:
@@ -141,6 +131,16 @@ components:
           type: string
           description: created at
           example: '2023-06-19T12:04:22.488Z'
+    LostReasonsResponseSchema:
+      type: object
+      properties:
+        lostReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/LostReasonResponseSchema'
+        total:
+          type: number
+          example: 100
   securitySchemes:
     bearer:
       scheme: bearer

@@ -330,32 +330,19 @@ paths:
         - products/collection.write
 components:
   schemas:
-    ListCollectionResponseDto:
+    DefaultCollectionResponseDto:
       type: object
       properties:
         data:
-          description: Array of Collections
-          items:
-            type: array
-          type: array
-        total:
-          type: number
-          description: The total count of the collections present, which is useful to calculate the pagination
-      required:
-      - data
-      - total
-    UpdateProductCollectionResponseDto:
-      type: object
-      properties:
+          description: Collection Data
+          allOf:
+          - $ref: '#/components/schemas/ProductCategories'
         status:
           type: boolean
-          description: Status of api action
+          description: Status of the operation
           example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
       required:
+      - data
       - status
     CreateProductCollectionsDto:
       type: object
@@ -395,17 +382,64 @@ components:
       - altType
       - name
       - slug
-    CollectionSEODto:
+    UpdateProductCollectionsDto:
       type: object
       properties:
-        title:
+        altId:
           type: string
-          description: The title which will be displayed as an SEO format
+          description: Location Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: The type of alt. For now it is only LOCATION
+          enum:
+          - location
+          example: LOCATION
+        name:
+          type: string
+          description: Name of the Product Collection
           example: Best Sellers
-        description:
+        slug:
           type: string
-          description: The description which would be displayed in preview purposes
-          example: Collections where all the best products are available
+          description: Slug of the Product Collection which helps in navigation
+          example: best-sellers
+        image:
+          type: string
+          description: The URL of the image that is going to be displayed as the collection Thumbnail
+          example: http://example.com/watermark.png
+        seo:
+          description: The metadata information which will be displayed in SEO previews
+          allOf:
+          - $ref: '#/components/schemas/CollectionSEODto'
+      required:
+      - altId
+      - altType
+    UpdateProductCollectionResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
+    DeleteProductCollectionResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
     CollectionSchema:
       type: object
       properties:
@@ -445,33 +479,31 @@ components:
       - image
       - seo
       - createdAt
-    DefaultCollectionResponseDto:
+    CollectionSEODto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title which will be displayed as an SEO format
+          example: Best Sellers
+        description:
+          type: string
+          description: The description which would be displayed in preview purposes
+          example: Collections where all the best products are available
+    ListCollectionResponseDto:
       type: object
       properties:
         data:
-          description: Collection Data
-          allOf:
-          - $ref: '#/components/schemas/ProductCategories'
-        status:
-          type: boolean
-          description: Status of the operation
-          example: true
+          description: Array of Collections
+          items:
+            type: array
+          type: array
+        total:
+          type: number
+          description: The total count of the collections present, which is useful to calculate the pagination
       required:
       - data
-      - status
-    DeleteProductCollectionResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
+      - total
     CreateCollectionResponseDto:
       type: object
       properties:
@@ -481,38 +513,6 @@ components:
           - $ref: '#/components/schemas/CollectionSchema'
       required:
       - data
-    UpdateProductCollectionsDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: The type of alt. For now it is only LOCATION
-          enum:
-          - location
-          example: LOCATION
-        name:
-          type: string
-          description: Name of the Product Collection
-          example: Best Sellers
-        slug:
-          type: string
-          description: Slug of the Product Collection which helps in navigation
-          example: best-sellers
-        image:
-          type: string
-          description: The URL of the image that is going to be displayed as the collection Thumbnail
-          example: http://example.com/watermark.png
-        seo:
-          description: The metadata information which will be displayed in SEO previews
-          allOf:
-          - $ref: '#/components/schemas/CollectionSEODto'
-      required:
-      - altId
-      - altType
     ProductCategories:
       type: object
       properties: {}

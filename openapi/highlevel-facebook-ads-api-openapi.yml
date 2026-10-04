@@ -1574,328 +1574,6 @@ paths:
       - Facebook Ads
 components:
   schemas:
-    AudienceLocaleDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Locale display name
-          example: English (US)
-        key:
-          type: number
-          description: Facebook locale key
-          example: 6
-      required:
-      - name
-      - key
-    UpdateCustomAudienceDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        contactId:
-          type: string
-          description: Contact identifier
-          example: contact_123
-        fbAdAccountId:
-          type: string
-          description: Facebook ad account ID
-          example: act_123456
-      required:
-      - locationId
-      - contactId
-    PublishAdDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-      required:
-      - locationId
-    AudienceLocationGeometry:
-      type: object
-      properties:
-        location:
-          type: object
-          description: Geographic coordinates
-          example:
-            lat: 40.7128
-            lng: -74.006
-        location_type:
-          type: string
-          description: Geocoding result type
-          example: APPROXIMATE
-      required:
-      - location
-      - location_type
-    UpsertConversionPixelDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        conversionPixelId:
-          type: string
-          description: Conversion pixel ID
-          example: px_123
-        name:
-          type: string
-          description: Pixel name
-          example: My Pixel
-        igUserId:
-          type: string
-          description: Instagram user ID
-          example: ig_user_123
-        type:
-          type: string
-          description: Pixel event type
-          example: LEAD_EVENT
-      required:
-      - locationId
-      - type
-    UpsertAdsetDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Ad set identifier
-          example: adset_123
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        name:
-          type: string
-          description: Ad set name
-          example: Targeting Group A
-        pageId:
-          type: string
-          description: Facebook page ID
-          example: '123456789'
-        instagramActorId:
-          type: string
-          description: Instagram actor ID
-          example: ig_123
-        messagingPlatforms:
-          type: string
-          description: Messaging platforms
-          enum:
-          - WHATSAPP
-          - MESSENGER
-          - INSTAGRAM_DIRECT
-        whatsappNumber:
-          type: string
-          description: WhatsApp phone number
-          example: '+1234567890'
-        audience:
-          description: Targeting audience configuration including geo-locations, locales, placements, and custom audiences
-          allOf:
-          - $ref: '#/components/schemas/FacebookAudienceDTO'
-        budget:
-          description: Ad set budget config
-          allOf:
-          - $ref: '#/components/schemas/Budget'
-        conversionLocation:
-          type: string
-          description: Conversion location
-          example: website
-        customEventType:
-          type: string
-          description: Custom event type
-          example: Purchase
-        pixelId:
-          type: string
-          description: Conversion pixel ID
-          example: px_123
-        campaignId:
-          type: string
-          description: Parent campaign ID
-          example: camp_123
-      required:
-      - locationId
-      - campaignId
-    FbUpdateAudienceBodyDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: HChooFuiyPpVYzeJ4HMe
-        name:
-          type: string
-          description: Audience name
-          example: My Custom Audience
-        description:
-          type: string
-          description: Audience description
-          example: Lookalike audience from website visitors
-      required:
-      - locationId
-      - name
-      - description
-    FacebookAudienceDTO:
-      type: object
-      properties:
-        geo_locations:
-          description: Geographic locations to target or exclude
-          example:
-          - key: US
-            name: United States
-            type: country
-            selectionType: include
-          - key: '2421836'
-            name: New York
-            type: city
-            selectionType: include
-            radius: 25
-            radiusUnit: mile
-          type: array
-          items:
-            $ref: '#/components/schemas/AudienceLocationDTO'
-        locales:
-          description: Language locales to target
-          example:
-          - name: English (US)
-            key: 6
-          type: array
-          items:
-            $ref: '#/components/schemas/AudienceLocaleDTO'
-        placements:
-          description: Ad placement positions per platform (only used when placementType is "manual")
-          allOf:
-          - $ref: '#/components/schemas/AudiencePlacementsDTO'
-        placementType:
-          type: string
-          description: Placement strategy — "auto" lets Facebook choose, "manual" uses the placements config
-          example: auto
-          enum:
-          - auto
-          - manual
-        lookalike:
-          description: Lookalike audiences to target
-          example:
-          - id: '23851234567890'
-            name: Lookalike - Website Visitors
-          type: array
-          items:
-            $ref: '#/components/schemas/AudienceCustomAudienceItemDTO'
-        retargeting:
-          description: Retargeting custom audiences to target
-          example:
-          - id: '23851234567891'
-            name: Website Visitors - Last 30 Days
-          type: array
-          items:
-            $ref: '#/components/schemas/AudienceCustomAudienceItemDTO'
-        interests:
-          description: Interest-based targeting criteria
-          example:
-          - id: '6003139266461'
-            name: Fitness and wellness
-            type: interests
-          type: array
-          items:
-            $ref: '#/components/schemas/AudienceInterestDTO'
-        age_min:
-          type: number
-          description: Minimum age for targeting
-          example: 18
-        age_max:
-          type: number
-          description: Maximum age for targeting
-          example: 65
-        genders:
-          description: Gender targeting (1 = male, 2 = female)
-          example:
-          - 1
-          - 2
-          type: array
-          items:
-            type: number
-      required:
-      - geo_locations
-    AudienceCustomAudienceItemDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Custom audience ID
-          example: '23851234567890'
-        name:
-          type: string
-          description: Custom audience name
-          example: Website Visitors - Last 30 Days
-      required:
-      - id
-      - name
-    AudienceLocationDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Facebook location key
-          example: US
-        name:
-          type: string
-          description: Location display name
-          example: United States
-        type:
-          type: string
-          description: Geographic location type
-          example: country
-          enum:
-          - country
-          - city
-          - region
-          - country_group
-          - geo_market
-          - large_geo_area
-          - medium_geo_area
-          - small_geo_area
-          - subcity
-          - neighborhood
-          - zip
-          - address
-        selectionType:
-          type: string
-          description: Whether the location is included or excluded from targeting
-          example: include
-          enum:
-          - include
-          - exclude
-        radius:
-          type: number
-          description: Targeting radius around the location (for city/address types)
-          example: 25
-        radiusUnit:
-          type: string
-          description: Unit for the targeting radius
-          example: mi
-          enum:
-          - km
-          - mi
-        geometry:
-          description: Geometry data for address-based targeting
-          allOf:
-          - $ref: '#/components/schemas/AudienceLocationGeometry'
-      required:
-      - key
-      - name
-      - type
-      - selectionType
-    LocationIdBodyDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: HChooFuiyPpVYzeJ4HMe
-      required:
-      - locationId
     MediaDTO:
       type: object
       properties:
@@ -1937,79 +1615,71 @@ components:
       required:
       - src
       - type
-    UpdateCustomAudienceBatchDTO:
+    AudienceLocationGeometry:
+      type: object
+      properties:
+        location:
+          type: object
+          description: Geographic coordinates
+          example:
+            lat: 40.7128
+            lng: -74.006
+        location_type:
+          type: string
+          description: Geocoding result type
+          example: APPROXIMATE
+      required:
+      - location
+      - location_type
+    AudienceLocaleDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Locale display name
+          example: English (US)
+        key:
+          type: number
+          description: Facebook locale key
+          example: 6
+      required:
+      - name
+      - key
+    UpsertConversionPixelDTO:
       type: object
       properties:
         locationId:
           type: string
           description: Location identifier
           example: loc_abc123
-        csvPath:
+        conversionPixelId:
           type: string
-          description: CSV file path
-          example: /uploads/audience.csv
-        operationType:
-          type: string
-          description: Batch operation type
-          example: ADD
-        smartlistIds:
-          description: Smartlist IDs array
-          example:
-          - list_1
-          - list_2
-          type: array
-          items:
-            type: string
-        dynamicAudience:
-          type: string
-          description: Dynamic audience flag
-          example: 'true'
-      required:
-      - locationId
-      - operationType
-    Budget:
-      type: object
-      properties:
-        budgetType:
-          type: string
-          description: Budget type
-          example: DAILY
-          enum:
-          - DAILY
-          - LIFETIME
-        amount:
-          type: number
-          description: Budget amount
-          example: 1000
-        scheduleStartDate:
-          type: string
-          description: Schedule start date
-          example: '2024-01-01'
-        scheduleEndDate:
-          type: string
-          description: Schedule end date
-          example: '2024-01-31'
-      required:
-      - budgetType
-      - amount
-    AudienceInterestDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Interest ID
-          example: '6003139266461'
+          description: Conversion pixel ID
+          example: px_123
         name:
           type: string
-          description: Interest name
-          example: Fitness and wellness
+          description: Pixel name
+          example: My Pixel
+        igUserId:
+          type: string
+          description: Instagram user ID
+          example: ig_user_123
         type:
           type: string
-          description: Interest category type (defaults to "interests" if omitted)
-          example: interests
+          description: Pixel event type
+          example: LEAD_EVENT
       required:
-      - id
-      - name
+      - locationId
+      - type
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
     UpsertCampaignDTO:
       type: object
       properties:
@@ -2131,6 +1801,336 @@ components:
       - locationId
       - campaignId
       - adsetId
+    PublishAdDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+      required:
+      - locationId
+    AudienceInterestDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Interest ID
+          example: '6003139266461'
+        name:
+          type: string
+          description: Interest name
+          example: Fitness and wellness
+        type:
+          type: string
+          description: Interest category type (defaults to "interests" if omitted)
+          example: interests
+      required:
+      - id
+      - name
+    FbUpdateAudienceBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+        name:
+          type: string
+          description: Audience name
+          example: My Custom Audience
+        description:
+          type: string
+          description: Audience description
+          example: Lookalike audience from website visitors
+      required:
+      - locationId
+      - name
+      - description
+    FacebookAudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geographic locations to target or exclude
+          example:
+          - key: US
+            name: United States
+            type: country
+            selectionType: include
+          - key: '2421836'
+            name: New York
+            type: city
+            selectionType: include
+            radius: 25
+            radiusUnit: mile
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceLocationDTO'
+        locales:
+          description: Language locales to target
+          example:
+          - name: English (US)
+            key: 6
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceLocaleDTO'
+        placements:
+          description: Ad placement positions per platform (only used when placementType is "manual")
+          allOf:
+          - $ref: '#/components/schemas/AudiencePlacementsDTO'
+        placementType:
+          type: string
+          description: Placement strategy — "auto" lets Facebook choose, "manual" uses the placements config
+          example: auto
+          enum:
+          - auto
+          - manual
+        lookalike:
+          description: Lookalike audiences to target
+          example:
+          - id: '23851234567890'
+            name: Lookalike - Website Visitors
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceCustomAudienceItemDTO'
+        retargeting:
+          description: Retargeting custom audiences to target
+          example:
+          - id: '23851234567891'
+            name: Website Visitors - Last 30 Days
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceCustomAudienceItemDTO'
+        interests:
+          description: Interest-based targeting criteria
+          example:
+          - id: '6003139266461'
+            name: Fitness and wellness
+            type: interests
+          type: array
+          items:
+            $ref: '#/components/schemas/AudienceInterestDTO'
+        age_min:
+          type: number
+          description: Minimum age for targeting
+          example: 18
+        age_max:
+          type: number
+          description: Maximum age for targeting
+          example: 65
+        genders:
+          description: Gender targeting (1 = male, 2 = female)
+          example:
+          - 1
+          - 2
+          type: array
+          items:
+            type: number
+      required:
+      - geo_locations
+    UpsertAdsetDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ad set identifier
+          example: adset_123
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Ad set name
+          example: Targeting Group A
+        pageId:
+          type: string
+          description: Facebook page ID
+          example: '123456789'
+        instagramActorId:
+          type: string
+          description: Instagram actor ID
+          example: ig_123
+        messagingPlatforms:
+          type: string
+          description: Messaging platforms
+          enum:
+          - WHATSAPP
+          - MESSENGER
+          - INSTAGRAM_DIRECT
+        whatsappNumber:
+          type: string
+          description: WhatsApp phone number
+          example: '+1234567890'
+        audience:
+          description: Targeting audience configuration including geo-locations, locales, placements, and custom audiences
+          allOf:
+          - $ref: '#/components/schemas/FacebookAudienceDTO'
+        budget:
+          description: Ad set budget config
+          allOf:
+          - $ref: '#/components/schemas/Budget'
+        conversionLocation:
+          type: string
+          description: Conversion location
+          example: website
+        customEventType:
+          type: string
+          description: Custom event type
+          example: Purchase
+        pixelId:
+          type: string
+          description: Conversion pixel ID
+          example: px_123
+        campaignId:
+          type: string
+          description: Parent campaign ID
+          example: camp_123
+      required:
+      - locationId
+      - campaignId
+    Budget:
+      type: object
+      properties:
+        budgetType:
+          type: string
+          description: Budget type
+          example: DAILY
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+          description: Budget amount
+          example: 1000
+        scheduleStartDate:
+          type: string
+          description: Schedule start date
+          example: '2024-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date
+          example: '2024-01-31'
+      required:
+      - budgetType
+      - amount
+    UpdateCustomAudienceBatchDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        csvPath:
+          type: string
+          description: CSV file path
+          example: /uploads/audience.csv
+        operationType:
+          type: string
+          description: Batch operation type
+          example: ADD
+        smartlistIds:
+          description: Smartlist IDs array
+          example:
+          - list_1
+          - list_2
+          type: array
+          items:
+            type: string
+        dynamicAudience:
+          type: string
+          description: Dynamic audience flag
+          example: 'true'
+      required:
+      - locationId
+      - operationType
+    AudienceCustomAudienceItemDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Custom audience ID
+          example: '23851234567890'
+        name:
+          type: string
+          description: Custom audience name
+          example: Website Visitors - Last 30 Days
+      required:
+      - id
+      - name
+    AudienceLocationDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Facebook location key
+          example: US
+        name:
+          type: string
+          description: Location display name
+          example: United States
+        type:
+          type: string
+          description: Geographic location type
+          example: country
+          enum:
+          - country
+          - city
+          - region
+          - country_group
+          - geo_market
+          - large_geo_area
+          - medium_geo_area
+          - small_geo_area
+          - subcity
+          - neighborhood
+          - zip
+          - address
+        selectionType:
+          type: string
+          description: Whether the location is included or excluded from targeting
+          example: include
+          enum:
+          - include
+          - exclude
+        radius:
+          type: number
+          description: Targeting radius around the location (for city/address types)
+          example: 25
+        radiusUnit:
+          type: string
+          description: Unit for the targeting radius
+          example: mi
+          enum:
+          - km
+          - mi
+        geometry:
+          description: Geometry data for address-based targeting
+          allOf:
+          - $ref: '#/components/schemas/AudienceLocationGeometry'
+      required:
+      - key
+      - name
+      - type
+      - selectionType
+    UpdateCustomAudienceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        contactId:
+          type: string
+          description: Contact identifier
+          example: contact_123
+        fbAdAccountId:
+          type: string
+          description: Facebook ad account ID
+          example: act_123456
+      required:
+      - locationId
+      - contactId
     AudiencePlacementsDTO:
       type: object
       properties:

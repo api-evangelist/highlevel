@@ -393,24 +393,6 @@ paths:
         - associations.readonly
 components:
   schemas:
-    DeleteAssociationsResponseDTO:
-      type: object
-      properties:
-        deleted:
-          type: boolean
-          example: true
-          description: Deletion status
-        id:
-          type: string
-          example: 6d6f6e676f5f6576656e7473
-          description: Association Id
-        message:
-          type: string
-          example: Association deleted successfully
-      required:
-      - deleted
-      - id
-      - message
     createAssociationReqDto:
       type: object
       properties:
@@ -444,6 +426,36 @@ components:
       - firstObjectKey
       - secondObjectLabel
       - secondObjectKey
+    UpdateAssociationReqDto:
+      type: object
+      properties:
+        firstObjectLabel:
+          type: object
+          example: student
+        secondObjectLabel:
+          type: object
+          example: tutor
+      required:
+      - firstObjectLabel
+      - secondObjectLabel
+    DeleteAssociationsResponseDTO:
+      type: object
+      properties:
+        deleted:
+          type: boolean
+          example: true
+          description: Deletion status
+        id:
+          type: string
+          example: 6d6f6e676f5f6576656e7473
+          description: Association Id
+        message:
+          type: string
+          example: Association deleted successfully
+      required:
+      - deleted
+      - id
+      - message
     GetPostSuccessfulResponseDto:
       type: object
       properties:
@@ -486,18 +498,6 @@ components:
       - secondObjectLabel
       - secondObjectKey
       - associationType
-    UpdateAssociationReqDto:
-      type: object
-      properties:
-        firstObjectLabel:
-          type: object
-          example: student
-        secondObjectLabel:
-          type: object
-          example: tutor
-      required:
-      - firstObjectLabel
-      - secondObjectLabel
   securitySchemes:
     bearer:
       scheme: bearer

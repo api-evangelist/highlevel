@@ -925,6 +925,573 @@ paths:
         - conversations/message.readonly
 components:
   schemas:
+    CompleteFileUploadDto:
+      type: object
+      properties:
+        uploadId:
+          type: string
+          description: Upload ID from request response
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        filePath:
+          type: string
+          description: File path from request response
+          example: location/loc123/conversations/conv456/uuid.mp4
+        locationId:
+          type: string
+          description: Location ID
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          description: Conversation ID
+          example: ve9EPM428h8vShlRW1KT
+        filename:
+          type: string
+          description: Original filename (for response mapping)
+          example: video.mp4
+      required:
+      - uploadId
+      - filePath
+      - locationId
+      - conversationId
+      - filename
+    ProcessMessageBodyDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Message Type
+          example: SMS
+          enum:
+          - SMS
+          - RCS
+          - Email
+          - WhatsApp
+          - GMB
+          - IG
+          - FB
+          - Custom
+          - WebChat
+          - Live_Chat
+          - Call
+          - IVR_Call
+          - Campaign_Call
+          - Campaign_VoiceMail
+          - TIKTOK
+          - ALL_IN_ONE_CHAT
+          - FORM_SUBMISSION
+        attachments:
+          description: Array of attachments
+          type: array
+          items:
+            type: string
+        message:
+          type: string
+          description: Message Body
+        conversationId:
+          type: string
+          description: Conversation Id
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          description: Contact Id
+          example: ve9EPM428h8vShlRW1KT
+        conversationProviderId:
+          type: string
+          description: Conversation Provider Id
+          example: 61d6d1f9cdac7612faf80753
+        html:
+          type: string
+          description: HTML Body of Email
+        subject:
+          type: string
+          description: Subject of the Email
+        emailFrom:
+          type: string
+          description: Email address to send from. This field is associated with the contact record and cannot be dynamically changed.
+          example: sender@company.com
+        emailTo:
+          type: string
+          description: Recipient email address. This field is associated with the contact record and cannot be dynamically changed.
+        emailCc:
+          description: List of email address to CC
+          example:
+          - john1@doe.com
+          - john2@doe.com
+          type: array
+          items:
+            type: string
+        emailBcc:
+          description: List of email address to BCC
+          example:
+          - john1@doe.com
+          - john2@doe.com
+          type: array
+          items:
+            type: string
+        emailMessageId:
+          type: string
+          description: Send the email message id for which this email should be threaded. This is for replying to a specific email
+        altId:
+          type: string
+          description: external mail provider's message id
+          example: 61d6d1f9cdac7612faf80753
+        direction:
+          type: object
+          description: Message direction, if required can be set manually, default is outbound
+          default: outbound
+          example:
+          - outbound
+          - inbound
+        date:
+          format: date-time
+          type: string
+          description: Date of the inbound message
+        call:
+          description: Phone call dialer and receiver information
+          allOf:
+          - $ref: '#/components/schemas/CallDataDTO'
+      required:
+      - type
+      - conversationId
+      - contactId
+      - conversationProviderId
+    UploadFilesResponseDto:
+      type: object
+      properties:
+        uploadedFiles:
+          type: object
+        twilioMediaSids:
+          description: Twilio media SIDs for group SMS (when isGroupSms=true)
+          example:
+          - MExxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          type: array
+          items:
+            type: string
+      required:
+      - uploadedFiles
+    ErrorDto:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code
+          example: '1'
+        type:
+          type: string
+          description: Error Type
+          example: saas
+        message:
+          type: string
+          description: Error Message
+          example: There was an error from the provider
+      required:
+      - code
+      - type
+      - message
+    SendReviewReplyDto:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Conversation ID (must have reviewId)
+          example: conv123
+        locationId:
+          type: string
+          description: Location ID
+          example: loc123
+        message:
+          type: string
+          description: Review reply message text
+          example: Thank you for your review!
+      required:
+      - conversationId
+      - locationId
+      - message
+    AddMessageAttachmentsDto:
+      type: object
+      properties:
+        attachments:
+          description: Array of attachment URLs to set on the message (replaces existing). Maximum 5 URLs.
+          example:
+          - https://provider.com/recordings/call-123.mp3
+          type: array
+          items:
+            type: string
+      required:
+      - attachments
+    GetMessageTranscriptionResponseDto:
+      type: object
+      properties:
+        mediaChannel:
+          type: number
+          description: Media channel describes the user interaction channel
+          example: '1'
+        sentenceIndex:
+          type: number
+          description: Index of the sentence in the transcription
+          example: '1'
+        startTime:
+          type: number
+          description: Start time of the sentence in milliseconds
+          example: '34'
+        endTime:
+          type: number
+          description: End time of the sentence in milliseconds
+          example: '45'
+        transcript:
+          type: string
+          description: Transcript of the sentence
+          example: This call may be recorded for quality assurance purposes.
+        confidence:
+          type: number
+          description: Confidence of the transcription
+          example: '0.5'
+      required:
+      - mediaChannel
+      - sentenceIndex
+      - startTime
+      - endTime
+      - transcript
+      - confidence
+    UpdateMessageStatusDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Message status
+          example: read
+          enum:
+          - delivered
+          - failed
+          - pending
+          - read
+        error:
+          description: Error object from the conversation provider
+          allOf:
+          - $ref: '#/components/schemas/ErrorDto'
+        emailMessageId:
+          type: string
+          description: Email message Id
+          example: ve9EPM428h8vShlRW1KT
+        recipients:
+          description: Email delivery status for additional email recipients.
+          type: array
+          items:
+            type: string
+      required:
+      - status
+    UploadFilesErrorResponseDto:
+      type: object
+      properties:
+        status:
+          type: number
+          description: HTTP Status code of the request
+          example: 413
+          enum:
+          - 400
+          - 413
+          - 415
+        message:
+          type: string
+          description: Error message of the request
+          example: Failed to upload the files
+      required:
+      - status
+      - message
+    GetMessageResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        type:
+          type: number
+          example: 1
+        messageType:
+          type: string
+          description: Type of the message as a string
+          example: SMS
+          enum:
+          - TYPE_CALL
+          - TYPE_SMS
+          - TYPE_RCS
+          - TYPE_EMAIL
+          - TYPE_SMS_REVIEW_REQUEST
+          - TYPE_WEBCHAT
+          - TYPE_SMS_NO_SHOW_REQUEST
+          - TYPE_CAMPAIGN_SMS
+          - TYPE_CAMPAIGN_CALL
+          - TYPE_CAMPAIGN_EMAIL
+          - TYPE_CAMPAIGN_VOICEMAIL
+          - TYPE_FACEBOOK
+          - TYPE_CAMPAIGN_FACEBOOK
+          - TYPE_CAMPAIGN_MANUAL_CALL
+          - TYPE_CAMPAIGN_MANUAL_SMS
+          - TYPE_GMB
+          - TYPE_CAMPAIGN_GMB
+          - TYPE_REVIEW
+          - TYPE_INSTAGRAM
+          - TYPE_WHATSAPP
+          - TYPE_CUSTOM_SMS
+          - TYPE_CUSTOM_EMAIL
+          - TYPE_CUSTOM_PROVIDER_SMS
+          - TYPE_CUSTOM_PROVIDER_EMAIL
+          - TYPE_IVR_CALL
+          - TYPE_ACTIVITY_CONTACT
+          - TYPE_ACTIVITY_INVOICE
+          - TYPE_ACTIVITY_PAYMENT
+          - TYPE_ACTIVITY_OPPORTUNITY
+          - TYPE_LIVE_CHAT
+          - TYPE_LIVE_CHAT_INFO_MESSAGE
+          - TYPE_ACTIVITY_APPOINTMENT
+          - TYPE_FACEBOOK_COMMENT
+          - TYPE_INSTAGRAM_COMMENT
+          - TYPE_CUSTOM_CALL
+          - TYPE_INTERNAL_COMMENT
+          - TYPE_ACTIVITY_EMPLOYEE_ACTION_LOG
+          - TYPE_TIKTOK
+          - TYPE_TIKTOK_COMMENT
+          - TYPE_ACTIVITY_WHATSAPP
+          - TYPE_FORM_SUBMISSION
+          - TYPE_SMS_REACTION
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        dateAdded:
+          type: string
+          example: '2024-03-27T18:13:49.000Z'
+        body:
+          type: string
+          example: Hi there
+        direction:
+          type: string
+          enum:
+          - inbound
+          - outbound
+        status:
+          type: string
+          enum:
+          - connected
+          - delivered
+          - failed
+          - opened
+          - pending
+          - read
+          - scheduled
+          - sent
+          - undelivered
+          - clicked
+          - opt_out
+          - queued
+        contentType:
+          type: string
+          example: text/plain
+        attachments:
+          description: An array of attachment URLs. Attachments will be empty for Call and Voicemails, type 1 and 10. Please use get call recording API to fetch call recording and voicemails.
+          type: array
+          items:
+            type: string
+        meta:
+          $ref: '#/components/schemas/MessageMeta'
+        source:
+          type: string
+          enum:
+          - workflow
+          - bulk_actions
+          - campaign
+          - api
+          - app
+          description: Message source
+        userId:
+          type: string
+          description: User Id
+          example: ve9EPM428kjkvShlRW1KT
+        conversationProviderId:
+          type: string
+          description: Conversation Provider Id
+          example: ve9EPM428kjkvShlRW1KT
+        chatWidgetId:
+          type: string
+          description: Chat Widget Id
+          example: 67b0cc8cf14b19d85ace7s35
+      required:
+      - id
+      - type
+      - messageType
+      - locationId
+      - contactId
+      - conversationId
+      - dateAdded
+      - direction
+      - contentType
+    InitiateFileUploadResponseDto:
+      type: object
+      properties:
+        uploadUrl:
+          type: string
+          description: Signed URL for direct upload to GCS. Use PUT request with file content.
+          example: https://storage.googleapis.com/bucket/path?X-Goog-Algorithm=...
+        uploadId:
+          type: string
+          description: Unique upload ID for tracking and completing the upload
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        filePath:
+          type: string
+          description: File path in GCS bucket (needed for confirmation endpoint)
+          example: location/loc123/conversations/conv456/uuid.mp4
+        expiresAt:
+          type: number
+          description: URL expiration timestamp (Unix milliseconds)
+          example: 1701619200000
+        maxFileSize:
+          type: number
+          description: Maximum allowed file size in bytes
+          example: 104857600
+      required:
+      - uploadUrl
+      - uploadId
+      - filePath
+      - expiresAt
+      - maxFileSize
+    SendMessageResponseDto:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Conversation ID.
+          example: ABC12h2F6uBrIkfXYazb
+        emailMessageId:
+          type: string
+          description: This contains the email message id (only for Email type). Use this ID to send inbound replies to GHL to create a threaded email.
+          example: rnGyqh2F6uBrIkfhFo9A
+        messageId:
+          type: string
+          description: This is the main Message ID
+          example: t22c6DQcTDf3MjRhwf77
+        messageIds:
+          description: When sending via the GMB channel, we will be returning list of `messageIds` instead of single `messageId`.
+          type: array
+          items:
+            type: string
+        msg:
+          type: string
+          description: Additional response message when sending a workflow message
+          example: Message queued successfully.
+        forwardData:
+          description: Optional metadata for forwarded email
+          example:
+            forwardWholeThread: false
+            messageId: t22c6DQcTDf3MjRhwf77
+            emailMessageId: rnGyqh2F6uBrIkfhFo9A
+            forwardToEmail: recipient@example.com
+            recipientContactId: DEF56h2F6uBrIkfXYacd
+          allOf:
+          - $ref: '#/components/schemas/ForwardResponseDto'
+        status:
+          type: string
+          description: Message status
+          example: delivered
+          enum:
+          - delivered
+          - failed
+          - pending
+          - read
+      required:
+      - conversationId
+      - messageId
+      - status
+    ExportMessagesResponseDto:
+      type: object
+      properties:
+        messages:
+          description: Array of messages
+          type: array
+          items:
+            $ref: '#/components/schemas/GetMessageResponseDto'
+        nextCursor:
+          type: string
+          description: Cursor for fetching next page. Null if no more results.
+          example: eyJwaXRJZCI6ImFiYy0xMjMiLCJsYXN0U29ydCI6WzE2NDY4NjQ0MDBdLCJsYXN0SWQiOiIxMjMifQ==
+        total:
+          type: number
+          description: Total number of messages matching the query
+          example: 1234
+      required:
+      - messages
+      - total
+    GetMessagesByConversationResponseDto:
+      type: object
+      properties:
+        lastMessageId:
+          type: string
+          description: Id of the last message in the messages array
+          example: p1mRSHeLDhAms5q0LMr4
+        nextPage:
+          type: boolean
+          description: Next page value true indicates only 20 message is in the response. Rest of the messages are in the next page. Please use the lastMessageId value in the query to get the next page messages
+          example: true
+        messages:
+          description: Array of messages
+          type: array
+          items:
+            $ref: '#/components/schemas/GetMessageResponseDto'
+      required:
+      - lastMessageId
+      - nextPage
+      - messages
+    CompleteFileUploadResponseDto:
+      type: object
+      properties:
+        uploadedFiles:
+          type: object
+          description: Map of filename to public URL
+          example:
+            video.mp4: https://your-domain.com/conversations-assets/location/.../video.mp4
+        metadata:
+          type: object
+          description: File metadata
+          example:
+            size: 52428800
+            contentType: video/mp4
+      required:
+      - uploadedFiles
+      - metadata
+    UploadFilesDto:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Conversation Id
+          example: ve9EPM428h8vShlRW1KT
+        contactId:
+          type: string
+          description: Contact Id
+          example: ve9EPM428h8vShlRW1KT
+        locationId:
+          type: string
+        attachmentUrls:
+          type: array
+          items:
+            type: string
+        chatServiceSid:
+          type: string
+          description: Twilio chat service SID for group SMS uploads
+          example: ISxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        isGroupSms:
+          type: string
+          description: Flag to indicate group SMS upload flow. When true, only 1 file upload is allowed per request.
+          example: 'true'
+      required:
+      - conversationId
+      - contactId
+      - locationId
+      - attachmentUrls
     SendMessageBodyDto:
       type: object
       properties:
@@ -1074,62 +1641,6 @@ components:
       - subType
       - contactId
       - status
-    CompleteFileUploadDto:
-      type: object
-      properties:
-        uploadId:
-          type: string
-          description: Upload ID from request response
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        filePath:
-          type: string
-          description: File path from request response
-          example: location/loc123/conversations/conv456/uuid.mp4
-        locationId:
-          type: string
-          description: Location ID
-          example: ve9EPM428h8vShlRW1KT
-        conversationId:
-          type: string
-          description: Conversation ID
-          example: ve9EPM428h8vShlRW1KT
-        filename:
-          type: string
-          description: Original filename (for response mapping)
-          example: video.mp4
-      required:
-      - uploadId
-      - filePath
-      - locationId
-      - conversationId
-      - filename
-    UpdateMessageStatusDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Message status
-          example: read
-          enum:
-          - delivered
-          - failed
-          - pending
-          - read
-        error:
-          description: Error object from the conversation provider
-          allOf:
-          - $ref: '#/components/schemas/ErrorDto'
-        emailMessageId:
-          type: string
-          description: Email message Id
-          example: ve9EPM428h8vShlRW1KT
-        recipients:
-          description: Email delivery status for additional email recipients.
-          type: array
-          items:
-            type: string
-      required:
-      - status
     ProcessOutboundMessageBodyDto:
       type: object
       properties:
@@ -1168,6 +1679,30 @@ components:
       - type
       - conversationId
       - conversationProviderId
+    CallDataDTO:
+      type: object
+      properties:
+        to:
+          type: string
+          description: Phone number of the receiver
+          example: '+15037081210'
+        from:
+          type: string
+          description: Phone number of the dialer
+          example: '+15037081210'
+        status:
+          type: string
+          description: Call status
+          example: completed
+          enum:
+          - pending
+          - completed
+          - answered
+          - busy
+          - no-answer
+          - failed
+          - canceled
+          - voicemail
     ForwardResponseDto:
       type: object
       properties:
@@ -1203,287 +1738,6 @@ components:
           type: string
           description: Conversation ID of the recipient of the forwarded email (destination)
           example: GHI78h2F6uBrIkfXYefg
-    InitiateFileUploadResponseDto:
-      type: object
-      properties:
-        uploadUrl:
-          type: string
-          description: Signed URL for direct upload to GCS. Use PUT request with file content.
-          example: https://storage.googleapis.com/bucket/path?X-Goog-Algorithm=...
-        uploadId:
-          type: string
-          description: Unique upload ID for tracking and completing the upload
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        filePath:
-          type: string
-          description: File path in GCS bucket (needed for confirmation endpoint)
-          example: location/loc123/conversations/conv456/uuid.mp4
-        expiresAt:
-          type: number
-          description: URL expiration timestamp (Unix milliseconds)
-          example: 1701619200000
-        maxFileSize:
-          type: number
-          description: Maximum allowed file size in bytes
-          example: 104857600
-      required:
-      - uploadUrl
-      - uploadId
-      - filePath
-      - expiresAt
-      - maxFileSize
-    SendReviewReplyDto:
-      type: object
-      properties:
-        conversationId:
-          type: string
-          description: Conversation ID (must have reviewId)
-          example: conv123
-        locationId:
-          type: string
-          description: Location ID
-          example: loc123
-        message:
-          type: string
-          description: Review reply message text
-          example: Thank you for your review!
-      required:
-      - conversationId
-      - locationId
-      - message
-    GetMessageTranscriptionResponseDto:
-      type: object
-      properties:
-        mediaChannel:
-          type: number
-          description: Media channel describes the user interaction channel
-          example: '1'
-        sentenceIndex:
-          type: number
-          description: Index of the sentence in the transcription
-          example: '1'
-        startTime:
-          type: number
-          description: Start time of the sentence in milliseconds
-          example: '34'
-        endTime:
-          type: number
-          description: End time of the sentence in milliseconds
-          example: '45'
-        transcript:
-          type: string
-          description: Transcript of the sentence
-          example: This call may be recorded for quality assurance purposes.
-        confidence:
-          type: number
-          description: Confidence of the transcription
-          example: '0.5'
-      required:
-      - mediaChannel
-      - sentenceIndex
-      - startTime
-      - endTime
-      - transcript
-      - confidence
-    ProcessMessageResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        conversationId:
-          type: string
-          description: Conversation ID.
-          example: ABC12h2F6uBrIkfXYazb
-        messageId:
-          type: string
-          description: This is the main Message ID
-          example: t22c6DQcTDf3MjRhwf77
-        message:
-          type: string
-        contactId:
-          type: string
-        dateAdded:
-          format: date-time
-          type: string
-        emailMessageId:
-          type: string
-      required:
-      - success
-      - conversationId
-      - messageId
-      - message
-    UploadFilesResponseDto:
-      type: object
-      properties:
-        uploadedFiles:
-          type: object
-        twilioMediaSids:
-          description: Twilio media SIDs for group SMS (when isGroupSms=true)
-          example:
-          - MExxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-          type: array
-          items:
-            type: string
-      required:
-      - uploadedFiles
-    ErrorDto:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code
-          example: '1'
-        type:
-          type: string
-          description: Error Type
-          example: saas
-        message:
-          type: string
-          description: Error Message
-          example: There was an error from the provider
-      required:
-      - code
-      - type
-      - message
-    CompleteFileUploadResponseDto:
-      type: object
-      properties:
-        uploadedFiles:
-          type: object
-          description: Map of filename to public URL
-          example:
-            video.mp4: https://your-domain.com/conversations-assets/location/.../video.mp4
-        metadata:
-          type: object
-          description: File metadata
-          example:
-            size: 52428800
-            contentType: video/mp4
-      required:
-      - uploadedFiles
-      - metadata
-    UploadFilesDto:
-      type: object
-      properties:
-        conversationId:
-          type: string
-          description: Conversation Id
-          example: ve9EPM428h8vShlRW1KT
-        contactId:
-          type: string
-          description: Contact Id
-          example: ve9EPM428h8vShlRW1KT
-        locationId:
-          type: string
-        attachmentUrls:
-          type: array
-          items:
-            type: string
-        chatServiceSid:
-          type: string
-          description: Twilio chat service SID for group SMS uploads
-          example: ISxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        isGroupSms:
-          type: string
-          description: Flag to indicate group SMS upload flow. When true, only 1 file upload is allowed per request.
-          example: 'true'
-      required:
-      - conversationId
-      - contactId
-      - locationId
-      - attachmentUrls
-    AddMessageAttachmentsDto:
-      type: object
-      properties:
-        attachments:
-          description: Array of attachment URLs to set on the message (replaces existing). Maximum 5 URLs.
-          example:
-          - https://provider.com/recordings/call-123.mp3
-          type: array
-          items:
-            type: string
-      required:
-      - attachments
-    InitiateFileUploadDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location ID
-          example: ve9EPM428h8vShlRW1KT
-        conversationId:
-          type: string
-          description: Conversation ID
-          example: ve9EPM428h8vShlRW1KT
-        filename:
-          type: string
-          description: Original filename with extension
-          example: video.mp4
-        contentType:
-          type: string
-          description: MIME type of the file
-          example: video/mp4
-        fileSize:
-          type: number
-          description: File size in bytes (optional, for pre-validation)
-          example: 52428800
-        channel:
-          type: string
-          description: Channel type for size limits (WHATSAPP for 100MB limit, others for 5MB)
-          example: WHATSAPP
-      required:
-      - locationId
-      - conversationId
-      - filename
-      - contentType
-      - channel
-    SendMessageResponseDto:
-      type: object
-      properties:
-        conversationId:
-          type: string
-          description: Conversation ID.
-          example: ABC12h2F6uBrIkfXYazb
-        emailMessageId:
-          type: string
-          description: This contains the email message id (only for Email type). Use this ID to send inbound replies to GHL to create a threaded email.
-          example: rnGyqh2F6uBrIkfhFo9A
-        messageId:
-          type: string
-          description: This is the main Message ID
-          example: t22c6DQcTDf3MjRhwf77
-        messageIds:
-          description: When sending via the GMB channel, we will be returning list of `messageIds` instead of single `messageId`.
-          type: array
-          items:
-            type: string
-        msg:
-          type: string
-          description: Additional response message when sending a workflow message
-          example: Message queued successfully.
-        forwardData:
-          description: Optional metadata for forwarded email
-          example:
-            forwardWholeThread: false
-            messageId: t22c6DQcTDf3MjRhwf77
-            emailMessageId: rnGyqh2F6uBrIkfhFo9A
-            forwardToEmail: recipient@example.com
-            recipientContactId: DEF56h2F6uBrIkfXYacd
-          allOf:
-          - $ref: '#/components/schemas/ForwardResponseDto'
-        status:
-          type: string
-          description: Message status
-          example: delivered
-          enum:
-          - delivered
-          - failed
-          - pending
-          - read
-      required:
-      - conversationId
-      - messageId
-      - status
     CancelScheduledResponseDto:
       type: object
       properties:
@@ -1498,239 +1752,6 @@ components:
       required:
       - status
       - message
-    GetMessageResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        type:
-          type: number
-          example: 1
-        messageType:
-          type: string
-          description: Type of the message as a string
-          example: SMS
-          enum:
-          - TYPE_CALL
-          - TYPE_SMS
-          - TYPE_RCS
-          - TYPE_EMAIL
-          - TYPE_SMS_REVIEW_REQUEST
-          - TYPE_WEBCHAT
-          - TYPE_SMS_NO_SHOW_REQUEST
-          - TYPE_CAMPAIGN_SMS
-          - TYPE_CAMPAIGN_CALL
-          - TYPE_CAMPAIGN_EMAIL
-          - TYPE_CAMPAIGN_VOICEMAIL
-          - TYPE_FACEBOOK
-          - TYPE_CAMPAIGN_FACEBOOK
-          - TYPE_CAMPAIGN_MANUAL_CALL
-          - TYPE_CAMPAIGN_MANUAL_SMS
-          - TYPE_GMB
-          - TYPE_CAMPAIGN_GMB
-          - TYPE_REVIEW
-          - TYPE_INSTAGRAM
-          - TYPE_WHATSAPP
-          - TYPE_CUSTOM_SMS
-          - TYPE_CUSTOM_EMAIL
-          - TYPE_CUSTOM_PROVIDER_SMS
-          - TYPE_CUSTOM_PROVIDER_EMAIL
-          - TYPE_IVR_CALL
-          - TYPE_ACTIVITY_CONTACT
-          - TYPE_ACTIVITY_INVOICE
-          - TYPE_ACTIVITY_PAYMENT
-          - TYPE_ACTIVITY_OPPORTUNITY
-          - TYPE_LIVE_CHAT
-          - TYPE_LIVE_CHAT_INFO_MESSAGE
-          - TYPE_ACTIVITY_APPOINTMENT
-          - TYPE_FACEBOOK_COMMENT
-          - TYPE_INSTAGRAM_COMMENT
-          - TYPE_CUSTOM_CALL
-          - TYPE_INTERNAL_COMMENT
-          - TYPE_ACTIVITY_EMPLOYEE_ACTION_LOG
-          - TYPE_TIKTOK
-          - TYPE_TIKTOK_COMMENT
-          - TYPE_ACTIVITY_WHATSAPP
-          - TYPE_FORM_SUBMISSION
-          - TYPE_SMS_REACTION
-        locationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        contactId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        conversationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        dateAdded:
-          type: string
-          example: '2024-03-27T18:13:49.000Z'
-        body:
-          type: string
-          example: Hi there
-        direction:
-          type: string
-          enum:
-          - inbound
-          - outbound
-        status:
-          type: string
-          enum:
-          - connected
-          - delivered
-          - failed
-          - opened
-          - pending
-          - read
-          - scheduled
-          - sent
-          - undelivered
-          - clicked
-          - opt_out
-          - queued
-        contentType:
-          type: string
-          example: text/plain
-        attachments:
-          description: An array of attachment URLs. Attachments will be empty for Call and Voicemails, type 1 and 10. Please use get call recording API to fetch call recording and voicemails.
-          type: array
-          items:
-            type: string
-        meta:
-          $ref: '#/components/schemas/MessageMeta'
-        source:
-          type: string
-          enum:
-          - workflow
-          - bulk_actions
-          - campaign
-          - api
-          - app
-          description: Message source
-        userId:
-          type: string
-          description: User Id
-          example: ve9EPM428kjkvShlRW1KT
-        conversationProviderId:
-          type: string
-          description: Conversation Provider Id
-          example: ve9EPM428kjkvShlRW1KT
-        chatWidgetId:
-          type: string
-          description: Chat Widget Id
-          example: 67b0cc8cf14b19d85ace7s35
-      required:
-      - id
-      - type
-      - messageType
-      - locationId
-      - contactId
-      - conversationId
-      - dateAdded
-      - direction
-      - contentType
-    ProcessMessageBodyDto:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Message Type
-          example: SMS
-          enum:
-          - SMS
-          - RCS
-          - Email
-          - WhatsApp
-          - GMB
-          - IG
-          - FB
-          - Custom
-          - WebChat
-          - Live_Chat
-          - Call
-          - IVR_Call
-          - Campaign_Call
-          - Campaign_VoiceMail
-          - TIKTOK
-          - ALL_IN_ONE_CHAT
-          - FORM_SUBMISSION
-        attachments:
-          description: Array of attachments
-          type: array
-          items:
-            type: string
-        message:
-          type: string
-          description: Message Body
-        conversationId:
-          type: string
-          description: Conversation Id
-          example: ve9EPM428h8vShlRW1KT
-        contactId:
-          type: string
-          description: Contact Id
-          example: ve9EPM428h8vShlRW1KT
-        conversationProviderId:
-          type: string
-          description: Conversation Provider Id
-          example: 61d6d1f9cdac7612faf80753
-        html:
-          type: string
-          description: HTML Body of Email
-        subject:
-          type: string
-          description: Subject of the Email
-        emailFrom:
-          type: string
-          description: Email address to send from. This field is associated with the contact record and cannot be dynamically changed.
-          example: sender@company.com
-        emailTo:
-          type: string
-          description: Recipient email address. This field is associated with the contact record and cannot be dynamically changed.
-        emailCc:
-          description: List of email address to CC
-          example:
-          - john1@doe.com
-          - john2@doe.com
-          type: array
-          items:
-            type: string
-        emailBcc:
-          description: List of email address to BCC
-          example:
-          - john1@doe.com
-          - john2@doe.com
-          type: array
-          items:
-            type: string
-        emailMessageId:
-          type: string
-          description: Send the email message id for which this email should be threaded. This is for replying to a specific email
-        altId:
-          type: string
-          description: external mail provider's message id
-          example: 61d6d1f9cdac7612faf80753
-        direction:
-          type: object
-          description: Message direction, if required can be set manually, default is outbound
-          default: outbound
-          example:
-          - outbound
-          - inbound
-        date:
-          format: date-time
-          type: string
-          description: Date of the inbound message
-        call:
-          description: Phone call dialer and receiver information
-          allOf:
-          - $ref: '#/components/schemas/CallDataDTO'
-      required:
-      - type
-      - conversationId
-      - contactId
-      - conversationProviderId
     ForwardConfigDto:
       type: object
       properties:
@@ -1772,6 +1793,39 @@ components:
           example: GHI78h2F6uBrIkfXYefg
       required:
       - isForwarded
+    InitiateFileUploadDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location ID
+          example: ve9EPM428h8vShlRW1KT
+        conversationId:
+          type: string
+          description: Conversation ID
+          example: ve9EPM428h8vShlRW1KT
+        filename:
+          type: string
+          description: Original filename with extension
+          example: video.mp4
+        contentType:
+          type: string
+          description: MIME type of the file
+          example: video/mp4
+        fileSize:
+          type: number
+          description: File size in bytes (optional, for pre-validation)
+          example: 52428800
+        channel:
+          type: string
+          description: Channel type for size limits (WHATSAPP for 100MB limit, others for 5MB)
+          example: WHATSAPP
+      required:
+      - locationId
+      - conversationId
+      - filename
+      - contentType
+      - channel
     MessageMeta:
       type: object
       properties:
@@ -1800,86 +1854,32 @@ components:
               messageIds:
               - ve9EPM428kjkvShlRW1KT
               - ve9EPs1028kjkvShlRW1KT
-    GetMessagesByConversationResponseDto:
+    ProcessMessageResponseDto:
       type: object
       properties:
-        lastMessageId:
-          type: string
-          description: Id of the last message in the messages array
-          example: p1mRSHeLDhAms5q0LMr4
-        nextPage:
+        success:
           type: boolean
-          description: Next page value true indicates only 20 message is in the response. Rest of the messages are in the next page. Please use the lastMessageId value in the query to get the next page messages
-          example: true
-        messages:
-          description: Array of messages
-          type: array
-          items:
-            $ref: '#/components/schemas/GetMessageResponseDto'
-      required:
-      - lastMessageId
-      - nextPage
-      - messages
-    ExportMessagesResponseDto:
-      type: object
-      properties:
-        messages:
-          description: Array of messages
-          type: array
-          items:
-            $ref: '#/components/schemas/GetMessageResponseDto'
-        nextCursor:
+        conversationId:
           type: string
-          description: Cursor for fetching next page. Null if no more results.
-          example: eyJwaXRJZCI6ImFiYy0xMjMiLCJsYXN0U29ydCI6WzE2NDY4NjQ0MDBdLCJsYXN0SWQiOiIxMjMifQ==
-        total:
-          type: number
-          description: Total number of messages matching the query
-          example: 1234
-      required:
-      - messages
-      - total
-    CallDataDTO:
-      type: object
-      properties:
-        to:
+          description: Conversation ID.
+          example: ABC12h2F6uBrIkfXYazb
+        messageId:
           type: string
-          description: Phone number of the receiver
-          example: '+15037081210'
-        from:
-          type: string
-          description: Phone number of the dialer
-          example: '+15037081210'
-        status:
-          type: string
-          description: Call status
-          example: completed
-          enum:
-          - pending
-          - completed
-          - answered
-          - busy
-          - no-answer
-          - failed
-          - canceled
-          - voicemail
-    UploadFilesErrorResponseDto:
-      type: object
-      properties:
-        status:
-          type: number
-          description: HTTP Status code of the request
-          example: 413
-          enum:
-          - 400
-          - 413
-          - 415
+          description: This is the main Message ID
+          example: t22c6DQcTDf3MjRhwf77
         message:
           type: string
-          description: Error message of the request
-          example: Failed to upload the files
+        contactId:
+          type: string
+        dateAdded:
+          format: date-time
+          type: string
+        emailMessageId:
+          type: string
       required:
-      - status
+      - success
+      - conversationId
+      - messageId
       - message
   securitySchemes:
     bearer:

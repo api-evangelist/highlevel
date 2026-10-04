@@ -63,6 +63,38 @@ paths:
         - objects/record.readonly
 components:
   schemas:
+    SearchRecordsBody:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        page:
+          type: number
+          description: Page
+          example: 1
+        pageLimit:
+          type: number
+          description: Page Limit
+          example: 10
+        query:
+          type: string
+          example: Buddy
+          description: Pass this query parameter to search using your searchable properties. For example, if you have a custom object called “Pets” and have configured “name” as a searchable property, you can pass name:Buddy to search for pets with the name “Buddy.”
+        searchAfter:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - page
+      - pageLimit
+      - query
+      - searchAfter
     RecordResponseDTO:
       type: object
       properties:
@@ -166,38 +198,6 @@ components:
           example: 20
       required:
       - total
-    SearchRecordsBody:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        page:
-          type: number
-          description: Page
-          example: 1
-        pageLimit:
-          type: number
-          description: Page Limit
-          example: 10
-        query:
-          type: string
-          example: Buddy
-          description: Pass this query parameter to search using your searchable properties. For example, if you have a custom object called “Pets” and have configured “name” as a searchable property, you can pass name:Buddy to search for pets with the name “Buddy.”
-        searchAfter:
-          example:
-          - sx6wyHhbFdRXh302Lunr
-          - sx6wyHhbFdRXh302Lunr
-          type: array
-          items:
-            type: string
-      required:
-      - locationId
-      - page
-      - pageLimit
-      - query
-      - searchAfter
     CreatedByResponseDTO:
       type: object
       properties:

@@ -455,72 +455,35 @@ paths:
         - blogs/list.readonly
 components:
   schemas:
-    AuthorResponseDTO:
+    AuthorsResponseDTO:
       type: object
       properties:
-        _id:
-          type: string
-          example: lMOzIQZne5m6zQ528sT6
-        name:
-          type: string
-          example: HighLevel
-        locationId:
-          type: string
-          example: lMOzIQZne5m6zQ528sT6
-        updatedAt:
-          type: string
-          example: '2025-01-03T11:06:35.822Z'
-        canonicalLink:
-          type: string
-          example: https://tryghl.blog/post/technology
-      required:
-      - _id
-      - name
-      - locationId
-      - updatedAt
-      - canonicalLink
-    BlogGetResponseWrapperDTO:
-      type: object
-      properties:
-        data:
+        authors:
           type: array
-          description: Object containing response data of blog
+          description: Array of authors
           items:
-            $ref: '#/components/schemas/BlogResponseDTO'
+            $ref: '#/components/schemas/AuthorResponseDTO'
       required:
-      - data
-    BlogResponseDTO:
+      - authors
+    BlogPostUpdateResponseWrapperDTO:
       type: object
       properties:
-        _id:
-          type: string
-          example: lMOzIQZne5m6zQ528sT6
-          description: Unique identifier of the blog
-        name:
-          type: string
-          example: My blog
-          description: Name of the blog
+        updatedBlogPost:
+          type: object
+          description: Object containing response data of blog post update
+          $ref: '#/components/schemas/BlogPostResponseDTO'
       required:
-      - _id
-      - name
-    BlogPostGetResponseWrapperDTO:
+      - updatedBlogPost
+    CategoriesResponseDTO:
       type: object
       properties:
-        blogs:
+        categories:
           type: array
-          description: Object containing response data of blog posts
+          description: Array of categories
           items:
-            $ref: '#/components/schemas/BlogPostResponseDTO'
+            $ref: '#/components/schemas/CategoryResponseDTO'
       required:
-      - blogs
-    UrlSlugCheckResponseDTO:
-      type: object
-      properties:
-        exists:
-          type: boolean
-          description: Indicates whether the url slug exists or not
-      required:
-      - exists
+      - categories
     UpdateBlogPostParams:
       type: object
       properties:
@@ -598,16 +561,92 @@ components:
       - author
       - urlSlug
       - publishedAt
-    CategoriesResponseDTO:
+    BlogPostCreateResponseWrapperDTO:
       type: object
       properties:
-        categories:
-          type: array
-          description: Array of categories
-          items:
-            $ref: '#/components/schemas/CategoryResponseDTO'
+        data:
+          type: object
+          description: Object containing response data of blog post create.
+          $ref: '#/components/schemas/BlogPostResponseDTO'
       required:
+      - data
+    CreateBlogPostParams:
+      type: object
+      properties:
+        title:
+          example: Your blog title
+          type: string
+        locationId:
+          example: Location ID
+          type: string
+        blogId:
+          example: Blog ID
+          type: string
+          description: You can find the blog id from blog site dashboard link
+        imageUrl:
+          example: Image URl
+          type: string
+        description:
+          example: A short description
+          type: string
+        rawHTML:
+          example: <h1>Your blog content</h1>
+          type: string
+        status:
+          type: string
+          example: This can be PUBLISHED OR SCHEDULED OR ARCHIVED OR DRAFT
+          schema:
+            type: string
+          enum:
+          - DRAFT
+          - PUBLISHED
+          - SCHEDULED
+          - ARCHIVED
+        imageAltText:
+          example: Alt text for your blog image
+          type: string
+        categories:
+          example:
+          - 9c48df2694a849b6089f9d0d3513efe
+          - 6683abde331c041f32c07aee
+          type: array
+          items:
+            type: string
+          description: This needs to be array of category ids, which you can get from the category get api call.
+        tags:
+          example:
+          - blog
+          - seo
+          type: array
+          items:
+            type: string
+        author:
+          example: 6683abde331c041f32c07aea
+          type: string
+          description: This needs to be author id, which you can get from the author get api call.
+        urlSlug:
+          example: any-blog-post-url
+          type: string
+        canonicalLink:
+          example: https://tryghl.blog/post/testing-unsplash
+          type: string
+        publishedAt:
+          example: '2025-02-05T18:30:47.000Z'
+          type: string
+          description: Provide ISO timestamp
+      required:
+      - title
+      - locationId
+      - blogId
+      - imageUrl
+      - description
+      - rawHTML
+      - status
+      - imageAltText
       - categories
+      - author
+      - urlSlug
+      - publishedAt
     BlogPostResponseDTO:
       type: object
       properties:
@@ -687,93 +726,6 @@ components:
       - urlSlug
       - publishedAt
       - updatedAt
-    AuthorsResponseDTO:
-      type: object
-      properties:
-        authors:
-          type: array
-          description: Array of authors
-          items:
-            $ref: '#/components/schemas/AuthorResponseDTO'
-      required:
-      - authors
-    CreateBlogPostParams:
-      type: object
-      properties:
-        title:
-          example: Your blog title
-          type: string
-        locationId:
-          example: Location ID
-          type: string
-        blogId:
-          example: Blog ID
-          type: string
-          description: You can find the blog id from blog site dashboard link
-        imageUrl:
-          example: Image URl
-          type: string
-        description:
-          example: A short description
-          type: string
-        rawHTML:
-          example: <h1>Your blog content</h1>
-          type: string
-        status:
-          type: string
-          example: This can be PUBLISHED OR SCHEDULED OR ARCHIVED OR DRAFT
-          schema:
-            type: string
-          enum:
-          - DRAFT
-          - PUBLISHED
-          - SCHEDULED
-          - ARCHIVED
-        imageAltText:
-          example: Alt text for your blog image
-          type: string
-        categories:
-          example:
-          - 9c48df2694a849b6089f9d0d3513efe
-          - 6683abde331c041f32c07aee
-          type: array
-          items:
-            type: string
-          description: This needs to be array of category ids, which you can get from the category get api call.
-        tags:
-          example:
-          - blog
-          - seo
-          type: array
-          items:
-            type: string
-        author:
-          example: 6683abde331c041f32c07aea
-          type: string
-          description: This needs to be author id, which you can get from the author get api call.
-        urlSlug:
-          example: any-blog-post-url
-          type: string
-        canonicalLink:
-          example: https://tryghl.blog/post/testing-unsplash
-          type: string
-        publishedAt:
-          example: '2025-02-05T18:30:47.000Z'
-          type: string
-          description: Provide ISO timestamp
-      required:
-      - title
-      - locationId
-      - blogId
-      - imageUrl
-      - description
-      - rawHTML
-      - status
-      - imageAltText
-      - categories
-      - author
-      - urlSlug
-      - publishedAt
     CategoryResponseDTO:
       type: object
       properties:
@@ -802,22 +754,70 @@ components:
       - updatedAt
       - canonicalLink
       - urlSlug
-    BlogPostUpdateResponseWrapperDTO:
+    BlogPostGetResponseWrapperDTO:
       type: object
       properties:
-        updatedBlogPost:
-          type: object
-          description: Object containing response data of blog post update
-          $ref: '#/components/schemas/BlogPostResponseDTO'
+        blogs:
+          type: array
+          description: Object containing response data of blog posts
+          items:
+            $ref: '#/components/schemas/BlogPostResponseDTO'
       required:
-      - updatedBlogPost
-    BlogPostCreateResponseWrapperDTO:
+      - blogs
+    AuthorResponseDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: lMOzIQZne5m6zQ528sT6
+        name:
+          type: string
+          example: HighLevel
+        locationId:
+          type: string
+          example: lMOzIQZne5m6zQ528sT6
+        updatedAt:
+          type: string
+          example: '2025-01-03T11:06:35.822Z'
+        canonicalLink:
+          type: string
+          example: https://tryghl.blog/post/technology
+      required:
+      - _id
+      - name
+      - locationId
+      - updatedAt
+      - canonicalLink
+    UrlSlugCheckResponseDTO:
+      type: object
+      properties:
+        exists:
+          type: boolean
+          description: Indicates whether the url slug exists or not
+      required:
+      - exists
+    BlogResponseDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: lMOzIQZne5m6zQ528sT6
+          description: Unique identifier of the blog
+        name:
+          type: string
+          example: My blog
+          description: Name of the blog
+      required:
+      - _id
+      - name
+    BlogGetResponseWrapperDTO:
       type: object
       properties:
         data:
-          type: object
-          description: Object containing response data of blog post create.
-          $ref: '#/components/schemas/BlogPostResponseDTO'
+          type: array
+          description: Object containing response data of blog
+          items:
+            $ref: '#/components/schemas/BlogResponseDTO'
       required:
       - data
   securitySchemes:

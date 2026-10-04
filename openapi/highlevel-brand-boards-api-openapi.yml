@@ -369,89 +369,78 @@ paths:
       - Brand Boards
 components:
   schemas:
-    MetaData:
+    CreateBrandBoardParam:
       type: object
       properties:
-        updatedBy:
+        locationId:
           type: string
-          description: User ID who last updated the brand board
-          example: user_abc123
-        lastAction:
+          description: Location ID where the brand board will be created
+          example: ve9EPM428h8vShlRW1KT
+        name:
           type: string
-          description: Last action performed on the brand board
-          example: UPDATE
-        sourceId:
+          description: Name of the brand board
+          example: My Brand Board
+        logos:
+          description: Array of logos for the brand board
+          type: array
+          items:
+            $ref: '#/components/schemas/Logo'
+        colors:
+          description: Array of colors for the brand board
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+        fonts:
+          description: Array of fonts for the brand board
+          type: array
+          items:
+            $ref: '#/components/schemas/Font'
+        default:
+          type: boolean
+          description: Set as the default brand board for this location
+          example: true
+        brandBoardId:
           type: string
-          description: Source brand board ID if created from a template
+          description: Source brand board ID to copy from (creates a new brand board based on this template)
           example: 507f1f77bcf86cd799439011
-        sourceType:
+        parentId:
           type: string
-          description: How the brand board was created
-          example: blank
+          description: Parent folder ID in media library for organizing brand boards
+          example: 507f1f77bcf86cd799439011
+        type:
+          type: string
+          description: Source type indicating how the brand board was created
           enum:
           - template
           - blank
           - snapshot
-    BrandBoardListItemDTO:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Brand board ID
-          example: 507f1f77bcf86cd799439011
-        name:
-          type: string
-          description: Brand board name
-          example: My Brand Board
-        updatedAt:
-          type: string
-          description: Last update timestamp
-          example: '2024-01-05T12:00:00.000Z'
-        default:
-          type: boolean
-          description: Whether this is the default brand board for the location
-          example: false
-        meta:
-          description: Metadata about the brand board
-          allOf:
-          - $ref: '#/components/schemas/MetaData'
+          example: blank
       required:
-      - _id
+      - locationId
       - name
-      - updatedAt
-    Color:
+    Font:
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier for the color
-          example: color_xyz789
-        hexa:
+          description: Unique identifier for the font
+          example: font_def456
+        font:
           type: string
-          description: Color in HEXA format (with alpha)
-          example: '#FF5733FF'
-        rgba:
+          description: Font family name
+          example: Montserrat
+        fallback:
           type: string
-          description: Color in RGBA format
-          example: rgba(255, 87, 51, 1)
-        hex:
-          type: string
-          description: Color in HEX format
-          example: '#FF5733'
-        rgb:
-          type: string
-          description: Color in RGB format
-          example: rgb(255, 87, 51)
+          description: Fallback font family
+          example: sans-serif
         label:
           type: string
-          description: Display label for the color
-          example: Brand Orange
+          description: Display label for the font
+          example: Heading Font
       required:
       - id
-      - hexa
-      - rgba
-      - hex
-      - rgb
+      - font
+      - fallback
       - label
     GetBrandBoardSuccessDTO:
       type: object
@@ -521,79 +510,150 @@ components:
       - name
       - default
       - deleted
-    Font:
+    Logo:
       type: object
       properties:
         id:
           type: string
-          description: Unique identifier for the font
-          example: font_def456
-        font:
+          description: Unique identifier for the logo
+          example: logo_abc123
+        url:
           type: string
-          description: Font family name
-          example: Montserrat
-        fallback:
-          type: string
-          description: Fallback font family
-          example: sans-serif
+          description: Public URL of the logo image. Used for uploading to the brand board folder in media library
+          example: https://storage.googleapis.com/bucket/logos/my-logo.png
         label:
           type: string
-          description: Display label for the font
-          example: Heading Font
+          description: Display label for the logo (e.g., Primary, Secondary)
+          example: Primary Logo
+        path:
+          type: string
+          description: Storage path of the logo in the media library
+          example: /locations/ve9EPM428h8vShlRW1KT/logos/my-logo.png
       required:
       - id
-      - font
-      - fallback
+      - url
       - label
-    CreateBrandBoardParam:
+      - path
+    GetBrandBoardsByLocationSuccessDTO:
       type: object
       properties:
-        locationId:
+        brandBoards:
+          description: Array of brand boards for the location
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandBoardListItemDTO'
+        totalCount:
+          type: number
+          description: Total number of brand boards matching the query
+          example: 42
+      required:
+      - brandBoards
+      - totalCount
+    Color:
+      type: object
+      properties:
+        id:
           type: string
-          description: Location ID where the brand board will be created
-          example: ve9EPM428h8vShlRW1KT
+          description: Unique identifier for the color
+          example: color_xyz789
+        hexa:
+          type: string
+          description: Color in HEXA format (with alpha)
+          example: '#FF5733FF'
+        rgba:
+          type: string
+          description: Color in RGBA format
+          example: rgba(255, 87, 51, 1)
+        hex:
+          type: string
+          description: Color in HEX format
+          example: '#FF5733'
+        rgb:
+          type: string
+          description: Color in RGB format
+          example: rgb(255, 87, 51)
+        label:
+          type: string
+          description: Display label for the color
+          example: Brand Orange
+      required:
+      - id
+      - hexa
+      - rgba
+      - hex
+      - rgb
+      - label
+    BrandBoardListItemDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Brand board ID
+          example: 507f1f77bcf86cd799439011
         name:
           type: string
-          description: Name of the brand board
+          description: Brand board name
           example: My Brand Board
-        logos:
-          description: Array of logos for the brand board
-          type: array
-          items:
-            $ref: '#/components/schemas/Logo'
-        colors:
-          description: Array of colors for the brand board
-          type: array
-          items:
-            $ref: '#/components/schemas/Color'
-        fonts:
-          description: Array of fonts for the brand board
-          type: array
-          items:
-            $ref: '#/components/schemas/Font'
+        updatedAt:
+          type: string
+          description: Last update timestamp
+          example: '2024-01-05T12:00:00.000Z'
         default:
           type: boolean
-          description: Set as the default brand board for this location
-          example: true
-        brandBoardId:
+          description: Whether this is the default brand board for the location
+          example: false
+        meta:
+          description: Metadata about the brand board
+          allOf:
+          - $ref: '#/components/schemas/MetaData'
+      required:
+      - _id
+      - name
+      - updatedAt
+    NotFoundDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 404
+        message:
           type: string
-          description: Source brand board ID to copy from (creates a new brand board based on this template)
+          example: Not Found
+        error:
+          type: string
+          example: The requested resource was not found
+    InvalidLocationDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 403
+        message:
+          type: string
+          example: The token does not have access to this location
+    MetaData:
+      type: object
+      properties:
+        updatedBy:
+          type: string
+          description: User ID who last updated the brand board
+          example: user_abc123
+        lastAction:
+          type: string
+          description: Last action performed on the brand board
+          example: UPDATE
+        sourceId:
+          type: string
+          description: Source brand board ID if created from a template
           example: 507f1f77bcf86cd799439011
-        parentId:
+        sourceType:
           type: string
-          description: Parent folder ID in media library for organizing brand boards
-          example: 507f1f77bcf86cd799439011
-        type:
-          type: string
-          description: Source type indicating how the brand board was created
+          description: How the brand board was created
+          example: blank
           enum:
           - template
           - blank
           - snapshot
-          example: blank
-      required:
-      - locationId
-      - name
     UpdateBrandBoardBody:
       type: object
       properties:
@@ -624,66 +684,6 @@ components:
           type: string
           description: Parent folder ID in media library (reserved for future use)
           example: 507f1f77bcf86cd799439011
-    GetBrandBoardsByLocationSuccessDTO:
-      type: object
-      properties:
-        brandBoards:
-          description: Array of brand boards for the location
-          type: array
-          items:
-            $ref: '#/components/schemas/BrandBoardListItemDTO'
-        totalCount:
-          type: number
-          description: Total number of brand boards matching the query
-          example: 42
-      required:
-      - brandBoards
-      - totalCount
-    NotFoundDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 404
-        message:
-          type: string
-          example: Not Found
-        error:
-          type: string
-          example: The requested resource was not found
-    Logo:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the logo
-          example: logo_abc123
-        url:
-          type: string
-          description: Public URL of the logo image. Used for uploading to the brand board folder in media library
-          example: https://storage.googleapis.com/bucket/logos/my-logo.png
-        label:
-          type: string
-          description: Display label for the logo (e.g., Primary, Secondary)
-          example: Primary Logo
-        path:
-          type: string
-          description: Storage path of the logo in the media library
-          example: /locations/ve9EPM428h8vShlRW1KT/logos/my-logo.png
-      required:
-      - id
-      - url
-      - label
-      - path
-    InvalidLocationDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 403
-        message:
-          type: string
-          example: The token does not have access to this location
   securitySchemes:
     bearer:
       scheme: bearer

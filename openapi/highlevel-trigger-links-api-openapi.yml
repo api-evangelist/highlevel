@@ -279,6 +279,12 @@ components:
       - locationId
       - name
       - redirectTo
+    DeleteLinksSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
     LinkUpdateDto:
       type: object
       properties:
@@ -291,24 +297,6 @@ components:
       required:
       - name
       - redirectTo
-    GetLinksSuccessfulResponseDto:
-      type: object
-      properties:
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/LinkSchema'
-    DeleteLinksSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
-    GetLinkSuccessfulResponseDto:
-      type: object
-      properties:
-        link:
-          $ref: '#/components/schemas/LinkSchema'
     LinkSchema:
       type: object
       properties:
@@ -327,6 +315,18 @@ components:
         locationId:
           type: string
           example: ve9EPM428h8vShlRW1KT
+    GetLinksSuccessfulResponseDto:
+      type: object
+      properties:
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkSchema'
+    GetLinkSuccessfulResponseDto:
+      type: object
+      properties:
+        link:
+          $ref: '#/components/schemas/LinkSchema'
   securitySchemes:
     bearer:
       scheme: bearer

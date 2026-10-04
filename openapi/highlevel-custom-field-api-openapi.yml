@@ -360,6 +360,12 @@ paths:
         - locations/customFields.write
 components:
   schemas:
+    CustomFieldDeleteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
     textBoxListOptionsSchema:
       type: object
       properties:
@@ -369,59 +375,6 @@ components:
         prefillValue:
           type: string
           example: ''
-    CreateCustomFieldsDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Custom Field
-        dataType:
-          type: string
-          example: TEXT
-        placeholder:
-          type: string
-          example: Placeholder Text
-        acceptedFormat:
-          example:
-          - .pdf
-          - .docx
-          - .jpeg
-          type: array
-          items:
-            type: string
-        isMultipleFile:
-          type: boolean
-          example: false
-        maxNumberOfFiles:
-          type: number
-          example: 2
-        textBoxListOptions:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/textBoxListOptionsSchema'
-            - $ref: '#/components/schemas/textBoxListOptionsSchema'
-        position:
-          type: number
-          example: 0
-          default: 0
-        model:
-          type: string
-          description: Model of the custom field you want to create
-          example: opportunity
-          enum:
-          - contact
-          - opportunity
-      required:
-      - name
-      - dataType
-    CustomFieldsListSuccessfulResponseDto:
-      type: object
-      properties:
-        customFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldSchema'
     CustomFieldSchema:
       type: object
       properties:
@@ -473,6 +426,44 @@ components:
           enum:
           - contact
           - opportunity
+    FileUploadResponseDto:
+      type: object
+      properties:
+        uploadedFiles:
+          type: object
+          description: Uploaded files
+          example:
+            FileName.csv: https://highlevel-private-staging.storage.googleapis.com/location/Ar4JQgIyuzRsVuwD9RSK/custom-Field/UpZLmohmKEQYn0ymqplY/56e0d7fc-085c-4a07-9e1d-6d8fdac7e710.csv
+        meta:
+          description: Meta data of uploaded files
+          example:
+          - fieldname: FileName.csv
+            originalname: FileName.csv
+            encoding: 7bit
+            mimetype: text/csv
+            size: 2061
+            url: https://highlevel-private-staging.storage.googleapis.com/location/Ar4JQgIyuzRsVuwD9RSK/custom-Field/UpZLmohmKEQYn0ymqplY/56e0d7fc-085c-4a07-9e1d-6d8fdac7e710.csv
+          type: array
+          items:
+            type: string
+    FileUploadBody:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id(Contact Id/Opportunity Id/Custom Field Id)
+          example: aWdODOBVOlH1RUFKWQke
+        maxFiles:
+          type: string
+          description: Max number of files
+          example: '15'
+    CustomFieldsListSuccessfulResponseDto:
+      type: object
+      properties:
+        customFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldSchema'
     UpdateCustomFieldsDTO:
       type: object
       properties:
@@ -515,48 +506,57 @@ components:
           - opportunity
       required:
       - name
-    FileUploadResponseDto:
-      type: object
-      properties:
-        uploadedFiles:
-          type: object
-          description: Uploaded files
-          example:
-            FileName.csv: https://highlevel-private-staging.storage.googleapis.com/location/Ar4JQgIyuzRsVuwD9RSK/custom-Field/UpZLmohmKEQYn0ymqplY/56e0d7fc-085c-4a07-9e1d-6d8fdac7e710.csv
-        meta:
-          description: Meta data of uploaded files
-          example:
-          - fieldname: FileName.csv
-            originalname: FileName.csv
-            encoding: 7bit
-            mimetype: text/csv
-            size: 2061
-            url: https://highlevel-private-staging.storage.googleapis.com/location/Ar4JQgIyuzRsVuwD9RSK/custom-Field/UpZLmohmKEQYn0ymqplY/56e0d7fc-085c-4a07-9e1d-6d8fdac7e710.csv
-          type: array
-          items:
-            type: string
-    CustomFieldDeleteSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
     CustomFieldSuccessfulResponseDto:
       type: object
       properties:
         customField:
           $ref: '#/components/schemas/CustomFieldSchema'
-    FileUploadBody:
+    CreateCustomFieldsDTO:
       type: object
       properties:
-        id:
+        name:
           type: string
-          description: Id(Contact Id/Opportunity Id/Custom Field Id)
-          example: aWdODOBVOlH1RUFKWQke
-        maxFiles:
+          example: Custom Field
+        dataType:
           type: string
-          description: Max number of files
-          example: '15'
+          example: TEXT
+        placeholder:
+          type: string
+          example: Placeholder Text
+        acceptedFormat:
+          example:
+          - .pdf
+          - .docx
+          - .jpeg
+          type: array
+          items:
+            type: string
+        isMultipleFile:
+          type: boolean
+          example: false
+        maxNumberOfFiles:
+          type: number
+          example: 2
+        textBoxListOptions:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/textBoxListOptionsSchema'
+            - $ref: '#/components/schemas/textBoxListOptionsSchema'
+        position:
+          type: number
+          example: 0
+          default: 0
+        model:
+          type: string
+          description: Model of the custom field you want to create
+          example: opportunity
+          enum:
+          - contact
+          - opportunity
+      required:
+      - name
+      - dataType
   securitySchemes:
     bearer:
       scheme: bearer

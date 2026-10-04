@@ -245,35 +245,6 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
-    FollowersDTO:
-      type: object
-      properties:
-        followers:
-          example:
-          - sx6wyHhbFdRXh302Lunr
-          - sx6wyHhbFdRXh302Lunr
-          type: array
-          items:
-            type: string
-      required:
-      - followers
-    CreateAddFollowersSuccessfulResponseDto:
-      type: object
-      properties:
-        followers:
-          example:
-          - sx6wyHhbFdRXh302Lunr
-          - sx6wyHhbFdRXh302LLss
-          type: array
-          items:
-            type: string
-        followersAdded:
-          example:
-          - Mx6wyHhbFdRXh302Luer
-          - Ka6wyHhbFdRXh302LLsAm
-          type: array
-          items:
-            type: string
     DeleteFollowersSuccessfulResponseDto:
       type: object
       properties:
@@ -291,6 +262,35 @@ components:
           type: array
           items:
             type: string
+    CreateAddFollowersSuccessfulResponseDto:
+      type: object
+      properties:
+        followers:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302LLss
+          type: array
+          items:
+            type: string
+        followersAdded:
+          example:
+          - Mx6wyHhbFdRXh302Luer
+          - Ka6wyHhbFdRXh302LLsAm
+          type: array
+          items:
+            type: string
+    FollowersDTO:
+      type: object
+      properties:
+        followers:
+          example:
+          - sx6wyHhbFdRXh302Lunr
+          - sx6wyHhbFdRXh302Lunr
+          type: array
+          items:
+            type: string
+      required:
+      - followers
   securitySchemes:
     bearer:
       scheme: bearer

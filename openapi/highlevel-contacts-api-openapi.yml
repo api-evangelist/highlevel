@@ -430,153 +430,116 @@ paths:
         - contacts.readonly
 components:
   schemas:
-    InboundDndSettingsSchema:
+    UpdateContactDto:
       type: object
       properties:
-        all:
-          $ref: '#/components/schemas/InboundDndSettingSchema'
-    AttributionSource:
-      type: object
-      properties:
-        url:
+        firstName:
+          type:
+          - string
+          - 'null'
+          example: rosan
+        lastName:
+          type:
+          - string
+          - 'null'
+          example: Deo
+        name:
+          type:
+          - string
+          - 'null'
+          example: rosan Deo
+        email:
+          type:
+          - string
+          - 'null'
+          example: rosan@deos.com
+        phone:
+          type:
+          - string
+          - 'null'
+          example: +1 888-888-8888
+        address1:
+          type:
+          - string
+          - 'null'
+          example: 3535 1st St N
+        city:
+          type:
+          - string
+          - 'null'
+          example: Dolomite
+        state:
+          type:
+          - string
+          - 'null'
+          example: AL
+        postalCode:
           type: string
-          example: Trigger Link
-        campaign:
+          example: '35061'
+        website:
           type:
           - string
           - 'null'
-        utmSource:
+          example: https://www.tesla.com
+        timezone:
           type:
           - string
           - 'null'
-        utmMedium:
+          example: America/Chihuahua
+        dnd:
+          type: boolean
+          example: true
+        dndSettings:
+          $ref: '#/components/schemas/DndSettingsSchema'
+        inboundDndSettings:
+          $ref: '#/components/schemas/InboundDndSettingsSchema'
+        tags:
+          example:
+          - nisi sint commodo amet
+          - consequat
+          description: This field will overwrite all current tags associated with the contact. To update a tags, it is recommended to use the Add Tag or Remove Tag API instead.
+          type: array
+          items:
+            type: string
+        customFields:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/TextField'
+            - $ref: '#/components/schemas/LargeTextField'
+            - $ref: '#/components/schemas/SingleSelectField'
+            - $ref: '#/components/schemas/RadioField'
+            - $ref: '#/components/schemas/NumericField'
+            - $ref: '#/components/schemas/MonetoryField'
+            - $ref: '#/components/schemas/CheckboxField'
+            - $ref: '#/components/schemas/MultiSelectField'
+            - $ref: '#/components/schemas/FileField'
+        source:
           type:
           - string
           - 'null'
-        utmContent:
+          example: public api
+        dateOfBirth:
           type:
-          - string
+          - object
           - 'null'
-        referrer:
-          type:
-          - string
-          - 'null'
-          example: 'https: //www.google.com'
-        campaignId:
-          type:
-          - string
-          - 'null'
-        fbclid:
-          type:
-          - string
-          - 'null'
-        gclid:
-          type:
-          - string
-          - 'null'
-          example: CjOKCQjwnNyUBhCZARISAI9AYIFtNnIcWcYGIOQINz_ZoFI5SSLRRugSoPZoiEu27IZBY£1-MAIWmEaAo2VEALW_WCB
-        msclikid:
-          type:
-          - string
-          - 'null'
-        dclid:
-          type:
-          - string
-          - 'null'
-        fbc:
-          type:
-          - string
-          - 'null'
-        fbp:
-          type:
-          - string
-          - 'null'
-          example: fb. 1.1674748390986.1171287961
-        fbEventId:
-          type:
-          - string
-          - 'null'
-          example: Mozilla/5.0
-        userAgent:
-          type:
-          - string
-          - 'null'
-          example: Mozilla/5.0
-        ip:
-          type:
-          - string
-          - 'null'
-          example: 58.111.106.198
-        medium:
-          type:
-          - string
-          - 'null'
-          example: survey
-        mediumId:
-          type:
-          - string
-          - 'null'
-          example: FglfHAn30PRwsZVyQlKp
-      required:
-      - url
-    NumericField:
-      type: object
-      properties:
-        id:
+          description: 'The birth date of the contact. Supported formats: YYYY/MM/DD, MM/DD/YYYY, YYYY-MM-DD, MM-DD-YYYY, YYYY.MM.DD, MM.DD.YYYY, YYYY_MM_DD, MM_DD_YYYY'
+          example: '1990-09-25'
+        country:
           type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
-          type: string
-          example: my_custom_field
-        field_value:
-          type: object
-          example: 100
-      required:
-      - id
+          example: US
+        assignedTo:
+          type:
+          - string
+          - 'null'
+          example: y0BeYjuRIlDwsDcOHOJo
+          description: User's Id
     ContactsByIdSuccessfulResponseDto:
       type: object
       properties:
         contact:
           $ref: '#/components/schemas/GetContectByIdSchema'
-    SingleSelectField:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
-          type: string
-          example: my_custom_field
-        field_value:
-          type: string
-          example: My Selected Option
-      required:
-      - id
-    CustomFieldSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: MgobCB14YMVKuE4Ka8p1
-        value:
-          type: string
-          example: name
-    DndSettingsSchema:
-      type: object
-      properties:
-        Call:
-          $ref: '#/components/schemas/DndSettingSchema'
-        Email:
-          $ref: '#/components/schemas/DndSettingSchema'
-        SMS:
-          $ref: '#/components/schemas/DndSettingSchema'
-        WhatsApp:
-          $ref: '#/components/schemas/DndSettingSchema'
-        GMB:
-          $ref: '#/components/schemas/DndSettingSchema'
-        FB:
-          $ref: '#/components/schemas/DndSettingSchema'
-    CheckboxField:
+    MultiSelectField:
       type: object
       properties:
         id:
@@ -594,131 +557,30 @@ components:
             type: string
       required:
       - id
-    UpsertContactsSuccessfulResponseDto:
-      type: object
-      properties:
-        new:
-          type: boolean
-          example: true
-        contact:
-          $ref: '#/components/schemas/GetContectByIdSchema'
-        traceId:
-          type: string
-    GetContectByIdSchema:
+    FileField:
       type: object
       properties:
         id:
           type: string
-          example: seD4PfOuKoVMLkEZqohJ
-        name:
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
           type: string
-          example: rubika deo
-        locationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        firstName:
-          type: string
-          example: rubika
-        lastName:
-          type: string
-          example: Deo
-        email:
-          type: string
-          example: rubika@deos.com
-        emailLowerCase:
-          type: string
-          example: rubika@deos.com
-        timezone:
-          type: string
-          example: Asia/Calcutta
-        companyName:
-          type: string
-          example: DGS VolMAX
-        phone:
-          type: string
-          example: '+18832327657'
-        dnd:
-          type: boolean
-          example: true
-        dndSettings:
-          $ref: '#/components/schemas/DndSettingsSchema'
-        type:
-          type: string
-          example: read
-        source:
-          type: string
-          example: public api
-        assignedTo:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-        address1:
-          type: string
-          example: 3535 1st St N
-        city:
-          type: string
-          example: ruDolomitebika
-        state:
-          type: string
-          example: AL
-        country:
-          type: string
-          example: US
-        postalCode:
-          type: string
-          example: '35061'
-        website:
-          type: string
-          example: https://www.tesla.com
-        tags:
+          example: my_custom_field
+        field_value:
+          type: object
           example:
-          - nisi sint commodo amet
-          - consequat
-          type: array
-          items:
-            type: string
-        dateOfBirth:
-          type: string
-          example: Date format YYYY-MM-DD
-        dateAdded:
-          type: string
-          example: '2021-07-02T05:18:26.704Z'
-        dateUpdated:
-          type: string
-          example: '2021-07-02T05:18:26.704Z'
-        attachments:
-          type: string
-        ssn:
-          type: string
-        keyword:
-          type: string
-          example: test
-        firstNameLowerCase:
-          type: string
-          example: rubika
-        fullNameLowerCase:
-          type: string
-          example: rubika deo
-        lastNameLowerCase:
-          type: string
-          example: deo
-        lastActivity:
-          type: string
-          example: '2021-07-16T11:39:30.564Z'
-        customFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldSchema'
-        businessId:
-          type: string
-          example: 641c094001436dbc2081e642
-        attributionSource:
-          $ref: '#/components/schemas/AttributionSource'
-        lastAttributionSource:
-          $ref: '#/components/schemas/AttributionSource'
-        visitorId:
-          type: string
-          description: visitorId is the Unique ID assigned to each Live chat visitor.
-          example: ve9EPM428h8vShlRW1KT
+            f31175d4-2b06-4fc6-b7bc-74cd814c68cb:
+              meta:
+                fieldname: 1HeGizb13P0odwgOgKSs
+                originalname: IMG_20231215_164412935.jpg
+                encoding: 7bit
+                mimetype: image/jpeg
+                size: 1786611
+                uuid: f31175d4-2b06-4fc6-b7bc-74cd814c68cb
+              url: https://services.leadconnectorhq.com/documents/download/w2M9qTZ0ZJz8rGt02jdJ
+              documentId: w2M9qTZ0ZJz8rGt02jdJ
+      required:
+      - id
     CreateContactSchema:
       type: object
       properties:
@@ -839,14 +701,105 @@ components:
           type: string
           example: y0BeYjuRIlDwsDcOHOJo
           description: User's Id
-    UpdateContactsSuccessfulResponseDto:
+    ContactsSearchSuccessfulResponseDto:
+      type: object
+      properties:
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactsSearchSchema'
+        count:
+          type: number
+          example: 10
+    DndSettingsSchema:
+      type: object
+      properties:
+        Call:
+          $ref: '#/components/schemas/DndSettingSchema'
+        Email:
+          $ref: '#/components/schemas/DndSettingSchema'
+        SMS:
+          $ref: '#/components/schemas/DndSettingSchema'
+        WhatsApp:
+          $ref: '#/components/schemas/DndSettingSchema'
+        GMB:
+          $ref: '#/components/schemas/DndSettingSchema'
+        FB:
+          $ref: '#/components/schemas/DndSettingSchema'
+    LargeTextField:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          type: string
+          example: My Text
+      required:
+      - id
+    DeleteContactsSuccessfulResponseDto:
       type: object
       properties:
         succeded:
           type: boolean
           example: true
-        contact:
-          $ref: '#/components/schemas/GetContectByIdSchema'
+    RadioField:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          type: string
+          example: My Selected Option
+      required:
+      - id
+    SingleSelectField:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          type: string
+          example: My Selected Option
+      required:
+      - id
+    TextField:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          type: string
+          example: My Text
+      required:
+      - id
+    InboundDndSettingSchema:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+        message:
+          type: string
+      required:
+      - status
     CreateContactDto:
       type: object
       properties:
@@ -959,84 +912,15 @@ components:
           description: User's Id
       required:
       - locationId
-    DeleteContactsSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
-    LargeTextField:
+    CustomFieldSchema:
       type: object
       properties:
         id:
           type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
+          example: MgobCB14YMVKuE4Ka8p1
+        value:
           type: string
-          example: my_custom_field
-        field_value:
-          type: string
-          example: My Text
-      required:
-      - id
-    FileField:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
-          type: string
-          example: my_custom_field
-        field_value:
-          type: object
-          example:
-            f31175d4-2b06-4fc6-b7bc-74cd814c68cb:
-              meta:
-                fieldname: 1HeGizb13P0odwgOgKSs
-                originalname: IMG_20231215_164412935.jpg
-                encoding: 7bit
-                mimetype: image/jpeg
-                size: 1786611
-                uuid: f31175d4-2b06-4fc6-b7bc-74cd814c68cb
-              url: https://services.leadconnectorhq.com/documents/download/w2M9qTZ0ZJz8rGt02jdJ
-              documentId: w2M9qTZ0ZJz8rGt02jdJ
-      required:
-      - id
-    DndSettingSchema:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - active
-          - inactive
-          - permanent
-        message:
-          type: string
-        code:
-          type: string
-      required:
-      - status
-    CreateContactsSuccessfulResponseDto:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/CreateContactSchema'
-    RadioField:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
-          type: string
-          example: my_custom_field
-        field_value:
-          type: string
-          example: My Selected Option
-      required:
-      - id
+          example: name
     ContactsSearchSchema:
       type: object
       properties:
@@ -1084,7 +968,12 @@ components:
           type: array
           items:
             type: string
-    TextField:
+    CreateContactsSuccessfulResponseDto:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/CreateContactSchema'
+    MonetoryField:
       type: object
       properties:
         id:
@@ -1094,154 +983,20 @@ components:
           type: string
           example: my_custom_field
         field_value:
-          type: string
-          example: My Text
+          type: object
+          example: 100.5
       required:
       - id
-    ContactsSearchSuccessfulResponseDto:
+    UpsertContactsSuccessfulResponseDto:
       type: object
       properties:
-        contacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContactsSearchSchema'
-        count:
-          type: number
-          example: 10
-    MultiSelectField:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
-          type: string
-          example: my_custom_field
-        field_value:
-          example:
-          - test
-          - test2
-          type: array
-          items:
-            type: string
-      required:
-      - id
-    UpdateContactDto:
-      type: object
-      properties:
-        firstName:
-          type:
-          - string
-          - 'null'
-          example: rosan
-        lastName:
-          type:
-          - string
-          - 'null'
-          example: Deo
-        name:
-          type:
-          - string
-          - 'null'
-          example: rosan Deo
-        email:
-          type:
-          - string
-          - 'null'
-          example: rosan@deos.com
-        phone:
-          type:
-          - string
-          - 'null'
-          example: +1 888-888-8888
-        address1:
-          type:
-          - string
-          - 'null'
-          example: 3535 1st St N
-        city:
-          type:
-          - string
-          - 'null'
-          example: Dolomite
-        state:
-          type:
-          - string
-          - 'null'
-          example: AL
-        postalCode:
-          type: string
-          example: '35061'
-        website:
-          type:
-          - string
-          - 'null'
-          example: https://www.tesla.com
-        timezone:
-          type:
-          - string
-          - 'null'
-          example: America/Chihuahua
-        dnd:
+        new:
           type: boolean
           example: true
-        dndSettings:
-          $ref: '#/components/schemas/DndSettingsSchema'
-        inboundDndSettings:
-          $ref: '#/components/schemas/InboundDndSettingsSchema'
-        tags:
-          example:
-          - nisi sint commodo amet
-          - consequat
-          description: This field will overwrite all current tags associated with the contact. To update a tags, it is recommended to use the Add Tag or Remove Tag API instead.
-          type: array
-          items:
-            type: string
-        customFields:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/TextField'
-            - $ref: '#/components/schemas/LargeTextField'
-            - $ref: '#/components/schemas/SingleSelectField'
-            - $ref: '#/components/schemas/RadioField'
-            - $ref: '#/components/schemas/NumericField'
-            - $ref: '#/components/schemas/MonetoryField'
-            - $ref: '#/components/schemas/CheckboxField'
-            - $ref: '#/components/schemas/MultiSelectField'
-            - $ref: '#/components/schemas/FileField'
-        source:
-          type:
-          - string
-          - 'null'
-          example: public api
-        dateOfBirth:
-          type:
-          - object
-          - 'null'
-          description: 'The birth date of the contact. Supported formats: YYYY/MM/DD, MM/DD/YYYY, YYYY-MM-DD, MM-DD-YYYY, YYYY.MM.DD, MM.DD.YYYY, YYYY_MM_DD, MM_DD_YYYY'
-          example: '1990-09-25'
-        country:
+        contact:
+          $ref: '#/components/schemas/GetContectByIdSchema'
+        traceId:
           type: string
-          example: US
-        assignedTo:
-          type:
-          - string
-          - 'null'
-          example: y0BeYjuRIlDwsDcOHOJo
-          description: User's Id
-    InboundDndSettingSchema:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - active
-          - inactive
-        message:
-          type: string
-      required:
-      - status
     UpsertContactDto:
       type: object
       properties:
@@ -1360,7 +1115,91 @@ components:
           default: false
       required:
       - locationId
-    MonetoryField:
+    AttributionSource:
+      type: object
+      properties:
+        url:
+          type: string
+          example: Trigger Link
+        campaign:
+          type:
+          - string
+          - 'null'
+        utmSource:
+          type:
+          - string
+          - 'null'
+        utmMedium:
+          type:
+          - string
+          - 'null'
+        utmContent:
+          type:
+          - string
+          - 'null'
+        referrer:
+          type:
+          - string
+          - 'null'
+          example: 'https: //www.google.com'
+        campaignId:
+          type:
+          - string
+          - 'null'
+        fbclid:
+          type:
+          - string
+          - 'null'
+        gclid:
+          type:
+          - string
+          - 'null'
+          example: CjOKCQjwnNyUBhCZARISAI9AYIFtNnIcWcYGIOQINz_ZoFI5SSLRRugSoPZoiEu27IZBY£1-MAIWmEaAo2VEALW_WCB
+        msclikid:
+          type:
+          - string
+          - 'null'
+        dclid:
+          type:
+          - string
+          - 'null'
+        fbc:
+          type:
+          - string
+          - 'null'
+        fbp:
+          type:
+          - string
+          - 'null'
+          example: fb. 1.1674748390986.1171287961
+        fbEventId:
+          type:
+          - string
+          - 'null'
+          example: Mozilla/5.0
+        userAgent:
+          type:
+          - string
+          - 'null'
+          example: Mozilla/5.0
+        ip:
+          type:
+          - string
+          - 'null'
+          example: 58.111.106.198
+        medium:
+          type:
+          - string
+          - 'null'
+          example: survey
+        mediumId:
+          type:
+          - string
+          - 'null'
+          example: FglfHAn30PRwsZVyQlKp
+      required:
+      - url
+    NumericField:
       type: object
       properties:
         id:
@@ -1371,9 +1210,170 @@ components:
           example: my_custom_field
         field_value:
           type: object
-          example: 100.5
+          example: 100
       required:
       - id
+    GetContectByIdSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: seD4PfOuKoVMLkEZqohJ
+        name:
+          type: string
+          example: rubika deo
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        firstName:
+          type: string
+          example: rubika
+        lastName:
+          type: string
+          example: Deo
+        email:
+          type: string
+          example: rubika@deos.com
+        emailLowerCase:
+          type: string
+          example: rubika@deos.com
+        timezone:
+          type: string
+          example: Asia/Calcutta
+        companyName:
+          type: string
+          example: DGS VolMAX
+        phone:
+          type: string
+          example: '+18832327657'
+        dnd:
+          type: boolean
+          example: true
+        dndSettings:
+          $ref: '#/components/schemas/DndSettingsSchema'
+        type:
+          type: string
+          example: read
+        source:
+          type: string
+          example: public api
+        assignedTo:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        address1:
+          type: string
+          example: 3535 1st St N
+        city:
+          type: string
+          example: ruDolomitebika
+        state:
+          type: string
+          example: AL
+        country:
+          type: string
+          example: US
+        postalCode:
+          type: string
+          example: '35061'
+        website:
+          type: string
+          example: https://www.tesla.com
+        tags:
+          example:
+          - nisi sint commodo amet
+          - consequat
+          type: array
+          items:
+            type: string
+        dateOfBirth:
+          type: string
+          example: Date format YYYY-MM-DD
+        dateAdded:
+          type: string
+          example: '2021-07-02T05:18:26.704Z'
+        dateUpdated:
+          type: string
+          example: '2021-07-02T05:18:26.704Z'
+        attachments:
+          type: string
+        ssn:
+          type: string
+        keyword:
+          type: string
+          example: test
+        firstNameLowerCase:
+          type: string
+          example: rubika
+        fullNameLowerCase:
+          type: string
+          example: rubika deo
+        lastNameLowerCase:
+          type: string
+          example: deo
+        lastActivity:
+          type: string
+          example: '2021-07-16T11:39:30.564Z'
+        customFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldSchema'
+        businessId:
+          type: string
+          example: 641c094001436dbc2081e642
+        attributionSource:
+          $ref: '#/components/schemas/AttributionSource'
+        lastAttributionSource:
+          $ref: '#/components/schemas/AttributionSource'
+        visitorId:
+          type: string
+          description: visitorId is the Unique ID assigned to each Live chat visitor.
+          example: ve9EPM428h8vShlRW1KT
+    InboundDndSettingsSchema:
+      type: object
+      properties:
+        all:
+          $ref: '#/components/schemas/InboundDndSettingSchema'
+    DndSettingSchema:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          - permanent
+        message:
+          type: string
+        code:
+          type: string
+      required:
+      - status
+    CheckboxField:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          example:
+          - test
+          - test2
+          type: array
+          items:
+            type: string
+      required:
+      - id
+    UpdateContactsSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+        contact:
+          $ref: '#/components/schemas/GetContectByIdSchema'
   securitySchemes:
     bearer:
       scheme: bearer

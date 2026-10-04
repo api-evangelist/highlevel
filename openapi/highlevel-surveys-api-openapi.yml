@@ -168,6 +168,78 @@ paths:
         - surveys.readonly
 components:
   schemas:
+    metaSchema:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 1
+        currentPage:
+          type: number
+          example: 1
+        nextPage:
+          type:
+          - number
+          - 'null'
+          example: null
+        prevPage:
+          type:
+          - number
+          - 'null'
+          example: null
+    PageDetailsSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://example.com
+        title:
+          type: string
+          example: Example Page
+    GetSurveysSubmissionSuccessfulResponseDto:
+      type: object
+      properties:
+        submissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionSchema'
+        meta:
+          $ref: '#/components/schemas/metaSchema'
+    SubmissionSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: be759b9a-c3ec-4b29-ba07-fc3c89c77673
+        contactId:
+          type: string
+          example: 9NkT25Vor1v4aQatFsv2
+        createdAt:
+          type: string
+          example: '2020-11-01T18:02:21.000Z'
+        surveyId:
+          type: string
+          example: jjusM6EOngDExnbo2DbU
+        name:
+          type: string
+          example: test
+        email:
+          type: string
+          example: test@test.com
+        others:
+          $ref: '#/components/schemas/othersSchema'
+    GetSurveysSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: I5GFa3d3cKjojpe4VVUx
+        name:
+          type: string
+          example: Survey 1
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
     EventDataSchema:
       type: object
       properties:
@@ -224,43 +296,6 @@ components:
         contactSessionIds:
           allOf:
           - $ref: '#/components/schemas/ContactSessionIds'
-    metaSchema:
-      type: object
-      properties:
-        total:
-          type: number
-          example: 1
-        currentPage:
-          type: number
-          example: 1
-        nextPage:
-          type:
-          - number
-          - 'null'
-          example: null
-        prevPage:
-          type:
-          - number
-          - 'null'
-          example: null
-    GetSurveysSubmissionSuccessfulResponseDto:
-      type: object
-      properties:
-        submissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubmissionSchema'
-        meta:
-          $ref: '#/components/schemas/metaSchema'
-    PageDetailsSchema:
-      type: object
-      properties:
-        url:
-          type: string
-          example: https://example.com
-        title:
-          type: string
-          example: Example Page
     othersSchema:
       type: object
       properties:
@@ -282,52 +317,6 @@ components:
           type: array
           items:
             type: string
-    GetSurveysSuccessfulResponseDto:
-      type: object
-      properties:
-        surveys:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetSurveysSchema'
-        total:
-          type: number
-          example: 20
-          description: Number of surveys
-    GetSurveysSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: I5GFa3d3cKjojpe4VVUx
-        name:
-          type: string
-          example: Survey 1
-        locationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-    SubmissionSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: be759b9a-c3ec-4b29-ba07-fc3c89c77673
-        contactId:
-          type: string
-          example: 9NkT25Vor1v4aQatFsv2
-        createdAt:
-          type: string
-          example: '2020-11-01T18:02:21.000Z'
-        surveyId:
-          type: string
-          example: jjusM6EOngDExnbo2DbU
-        name:
-          type: string
-          example: test
-        email:
-          type: string
-          example: test@test.com
-        others:
-          $ref: '#/components/schemas/othersSchema'
     ContactSessionIds:
       type: object
       properties:
@@ -340,6 +329,17 @@ components:
           - 'null'
           items:
             type: string
+    GetSurveysSuccessfulResponseDto:
+      type: object
+      properties:
+        surveys:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetSurveysSchema'
+        total:
+          type: number
+          example: 20
+          description: Number of surveys
   securitySchemes:
     bearer:
       scheme: bearer

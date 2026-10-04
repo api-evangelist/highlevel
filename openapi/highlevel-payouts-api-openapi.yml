@@ -118,6 +118,15 @@ paths:
         - affiliate-manager.readonly
 components:
   schemas:
+    PayoutListMetaResponseDto:
+      type: object
+      properties:
+        count:
+          type: number
+          description: Total payouts matching the filters
+          example: 42
+      required:
+      - count
     PayoutListItemResponseDto:
       type: object
       properties:
@@ -214,15 +223,6 @@ components:
       - affiliateId
       - currency
       - amount
-    PayoutListMetaResponseDto:
-      type: object
-      properties:
-        count:
-          type: number
-          description: Total payouts matching the filters
-          example: 42
-      required:
-      - count
     OAuthAffiliateListItemResponseDto:
       type: object
       properties:

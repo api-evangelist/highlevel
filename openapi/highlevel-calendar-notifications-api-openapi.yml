@@ -281,14 +281,6 @@ paths:
         - calendars/events.write
 components:
   schemas:
-    CalendarNotificationDeleteResponseDTO:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Result of delete/update operation
-      required:
-      - message
     CreateCalendarNotificationDTO:
       type: object
       properties:
@@ -387,13 +379,6 @@ components:
       - receiverType
       - channel
       - notificationType
-    SchedulesDTO:
-      type: object
-      properties:
-        timeOffset:
-          type: number
-        unit:
-          type: string
     UpdateCalendarNotificationsDTO:
       type: object
       properties:
@@ -492,6 +477,21 @@ components:
         fromName:
           type: string
           description: From name for email/sms notification
+    SchedulesDTO:
+      type: object
+      properties:
+        timeOffset:
+          type: number
+        unit:
+          type: string
+    CalendarNotificationDeleteResponseDTO:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Result of delete/update operation
+      required:
+      - message
     CalendarNotificationResponseDTO:
       type: object
       properties:

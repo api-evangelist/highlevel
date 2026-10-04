@@ -238,14 +238,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    GetInstagramAccountsSchema:
-      type: object
-      properties:
-        accounts:
-          description: Instagram Account Details
-          type: array
-          items:
-            $ref: '#/components/schemas/InstagramAccountSchema'
     SocialMediaInstagramAccountSchema:
       type: object
       properties:
@@ -318,26 +310,32 @@ components:
           type: string
           description: updated date
           example: '2024-03-14T11:03:37.015Z'
-    AttachIGAccountDTO:
+    GetInstagramAccountsSchema:
       type: object
       properties:
-        originId:
+        accounts:
+          description: Instagram Account Details
+          type: array
+          items:
+            $ref: '#/components/schemas/InstagramAccountSchema'
+    InstagramAccountSchema:
+      type: object
+      properties:
+        id:
           type: string
-          example: 244405****11687
+          example: idu37swmmLbA02zgqKPpxITe2
         name:
           type: string
-          example: JOHN_DEO
+          example: Insta account
         avatar:
           type: string
+          example: avau37swmmLbA02zgqKPpxITe2
         pageId:
           type: string
-          example: 234234234242sd
-        companyId:
-          type: string
-          description: Company ID
-          example: sdfdsfdsfEWEsdfsdsW32dd
-      required:
-      - pageId
+          example: pidu37swmmLbA02zgqKPpxITe2
+        isConnected:
+          type: boolean
+          example: true
     GetInstagramAccountsResponseDTO:
       type: object
       properties:
@@ -361,6 +359,26 @@ components:
       - success
       - statusCode
       - message
+    AttachIGAccountDTO:
+      type: object
+      properties:
+        originId:
+          type: string
+          example: 244405****11687
+        name:
+          type: string
+          example: JOHN_DEO
+        avatar:
+          type: string
+        pageId:
+          type: string
+          example: 234234234242sd
+        companyId:
+          type: string
+          description: Company ID
+          example: sdfdsfdsfEWEsdfsdsW32dd
+      required:
+      - pageId
     SocialMediaInstagramAccountResponseDTO:
       type: object
       properties:
@@ -384,24 +402,6 @@ components:
       - success
       - statusCode
       - message
-    InstagramAccountSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: idu37swmmLbA02zgqKPpxITe2
-        name:
-          type: string
-          example: Insta account
-        avatar:
-          type: string
-          example: avau37swmmLbA02zgqKPpxITe2
-        pageId:
-          type: string
-          example: pidu37swmmLbA02zgqKPpxITe2
-        isConnected:
-          type: boolean
-          example: true
   securitySchemes:
     bearer:
       scheme: bearer

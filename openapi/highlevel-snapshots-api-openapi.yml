@@ -233,6 +233,13 @@ paths:
       - Agency-Access: []
 components:
   schemas:
+    GetSnapshotPushStatusSuccessfulResponseDTO:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotStatusSchema'
     SnapshotsSchema:
       type: object
       properties:
@@ -248,22 +255,33 @@ components:
           type: string
           example: own
           description: Type of snapshot - own or imported.
-    CreateSnapshotShareLinkSuccessfulResponseDTO:
+    CreateSnapshotShareLinkRequestDTO:
       type: object
       properties:
-        id:
+        snapshot_id:
           type: string
           example: 1eM2UgkfaECOYyUdCo9Pa
-          description: id for shared snapshot
-        shareLink:
+          description: id for snapshot to be shared
+        share_type:
           type: string
-          example: https://affiliates.gohighlevel.com/?share=1eM2UgkfaECOYyUdCo9Pa
-          description: Share Link for snapshot
-    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
+          example: permanent_link
+          description: Type of share link to generate
+          enum:
+          - link
+          - permanent_link
+          - agency_link
+          - location_link
+        relationship_number:
+          type: string
+          example: 0-128-926,1-208-926,2-008-926
+          description: Comma separated Relationship number of Agencies to create agency restricted share link
+        share_location_id:
+          type: string
+          example: l1C08ntBrFjLS0elLIYU, U1C08ntBrFjLS0elKIYP
+          description: Comma separated Sub-Account ids to create sub-account restricted share link
+      required:
+      - snapshot_id
+      - share_type
     GetSnapshotsSuccessfulResponseDto:
       type: object
       properties:
@@ -298,13 +316,17 @@ components:
           type: array
           items:
             type: string
-    GetSnapshotPushStatusSuccessfulResponseDTO:
+    CreateSnapshotShareLinkSuccessfulResponseDTO:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SnapshotStatusSchema'
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: id for shared snapshot
+        shareLink:
+          type: string
+          example: https://affiliates.gohighlevel.com/?share=1eM2UgkfaECOYyUdCo9Pa
+          description: Share Link for snapshot
     SnapshotStatusSchema:
       type: object
       properties:
@@ -325,33 +347,11 @@ components:
           type: string
           example: 10/28/2022, 6:24:54 PM
           description: 'Timestamp of when snapshot processing starts for sub-account '
-    CreateSnapshotShareLinkRequestDTO:
+    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
       type: object
       properties:
-        snapshot_id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: id for snapshot to be shared
-        share_type:
-          type: string
-          example: permanent_link
-          description: Type of share link to generate
-          enum:
-          - link
-          - permanent_link
-          - agency_link
-          - location_link
-        relationship_number:
-          type: string
-          example: 0-128-926,1-208-926,2-008-926
-          description: Comma separated Relationship number of Agencies to create agency restricted share link
-        share_location_id:
-          type: string
-          example: l1C08ntBrFjLS0elLIYU, U1C08ntBrFjLS0elKIYP
-          description: Comma separated Sub-Account ids to create sub-account restricted share link
-      required:
-      - snapshot_id
-      - share_type
+        data:
+          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
   securitySchemes:
     bearer:
       scheme: bearer

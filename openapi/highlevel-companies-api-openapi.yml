@@ -62,6 +62,76 @@ paths:
         - companies.readonly
 components:
   schemas:
+    GetCompanyByIdSuccessfulResponseDto:
+      type: object
+      properties:
+        company:
+          $ref: '#/components/schemas/GetCompanyByIdSchema'
+    IOnboardingDto:
+      type: object
+      properties:
+        pending:
+          type: boolean
+          example: 'true'
+        haveWebsite:
+          type: boolean
+          example: ''
+        websiteUrl:
+          type: string
+          example: ''
+        industryServed:
+          type: string
+          example: ''
+        customerCount:
+          type: string
+          example: ''
+        tools:
+          example: ''
+          type: array
+          items:
+            type: string
+        location:
+          type: boolean
+          example: ''
+        conversationDemo:
+          type: boolean
+          example: ''
+        locationId:
+          type: string
+          example: ''
+        snapshotId:
+          type: string
+          example: ''
+        planId:
+          type: string
+          description: Selected agency plan unique plan Id
+          example: plan_EOi37NLV12u68i
+        affiliateSignup:
+          type: boolean
+          description: Set to true if it is from affiliate
+          example: true
+        hasJoinedKickoffCall:
+          type: boolean
+          description: Set to true if user joined onboarding call
+          example: true
+        kickoffActionTaken:
+          type: boolean
+          description: Set to true if user joined onboarding call
+          example: true
+        hasJoinedImplementationCall:
+          type: boolean
+          description: Set to true if user joined implementation call
+          example: true
+        version:
+          type: string
+          description: This helps in A/B tracking of onboarding flow
+          example: '1'
+        metaData:
+          type: object
+          description: metaData for onboarding
+          example: true
+      required:
+      - pending
     GetCompanyByIdSchema:
       type: object
       properties:
@@ -231,76 +301,6 @@ components:
           type: boolean
           example: false
           description: Flag to determine if new sub-accounts should use default data
-    GetCompanyByIdSuccessfulResponseDto:
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/GetCompanyByIdSchema'
-    IOnboardingDto:
-      type: object
-      properties:
-        pending:
-          type: boolean
-          example: 'true'
-        haveWebsite:
-          type: boolean
-          example: ''
-        websiteUrl:
-          type: string
-          example: ''
-        industryServed:
-          type: string
-          example: ''
-        customerCount:
-          type: string
-          example: ''
-        tools:
-          example: ''
-          type: array
-          items:
-            type: string
-        location:
-          type: boolean
-          example: ''
-        conversationDemo:
-          type: boolean
-          example: ''
-        locationId:
-          type: string
-          example: ''
-        snapshotId:
-          type: string
-          example: ''
-        planId:
-          type: string
-          description: Selected agency plan unique plan Id
-          example: plan_EOi37NLV12u68i
-        affiliateSignup:
-          type: boolean
-          description: Set to true if it is from affiliate
-          example: true
-        hasJoinedKickoffCall:
-          type: boolean
-          description: Set to true if user joined onboarding call
-          example: true
-        kickoffActionTaken:
-          type: boolean
-          description: Set to true if user joined onboarding call
-          example: true
-        hasJoinedImplementationCall:
-          type: boolean
-          description: Set to true if user joined implementation call
-          example: true
-        version:
-          type: string
-          description: This helps in A/B tracking of onboarding flow
-          example: '1'
-        metaData:
-          type: object
-          description: metaData for onboarding
-          example: true
-      required:
-      - pending
   securitySchemes:
     bearer:
       scheme: bearer

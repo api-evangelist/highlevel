@@ -39,65 +39,6 @@ paths:
       - Courses
 components:
   schemas:
-    PublicExporterPayload:
-      type: object
-      properties:
-        locationId:
-          type: string
-        userId:
-          type: string
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductInterface'
-      required:
-      - locationId
-      - products
-    ProductInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        imageUrl:
-          type: string
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryInterface'
-        instructorDetails:
-          $ref: '#/components/schemas/InstructorDetails'
-      required:
-      - title
-      - description
-      - categories
-    SubCategoryInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        visibility:
-          $ref: '#/components/schemas/visibility'
-        thumbnailUrl:
-          type: string
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostInterface'
-      required:
-      - title
-      - visibility
-    InstructorDetails:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      required:
-      - name
-      - description
     CategoryInterface:
       type: object
       properties:
@@ -118,6 +59,49 @@ components:
       required:
       - title
       - visibility
+    ProductInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryInterface'
+        instructorDetails:
+          $ref: '#/components/schemas/InstructorDetails'
+      required:
+      - title
+      - description
+      - categories
+    InstructorDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+      - name
+      - description
+    PublicExporterPayload:
+      type: object
+      properties:
+        locationId:
+          type: string
+        userId:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductInterface'
+      required:
+      - locationId
+      - products
     PostMaterialInterface:
       type: object
       properties:
@@ -142,6 +126,46 @@ components:
       - video
       - assignment
       - quiz
+    SubCategoryInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/visibility'
+        thumbnailUrl:
+          type: string
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostInterface'
+      required:
+      - title
+      - visibility
+    PostInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/visibility'
+        thumbnailUrl:
+          type: string
+        contentType:
+          $ref: '#/components/schemas/contentType'
+        description:
+          type: string
+        bucketVideoUrl:
+          type: string
+        postMaterials:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostMaterialInterface'
+      required:
+      - title
+      - visibility
+      - contentType
+      - description
     type:
       type: string
       enum:
@@ -198,30 +222,6 @@ components:
       - stl
       - woff
       - ttf
-    PostInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        visibility:
-          $ref: '#/components/schemas/visibility'
-        thumbnailUrl:
-          type: string
-        contentType:
-          $ref: '#/components/schemas/contentType'
-        description:
-          type: string
-        bucketVideoUrl:
-          type: string
-        postMaterials:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostMaterialInterface'
-      required:
-      - title
-      - visibility
-      - contentType
-      - description
   securitySchemes:
     bearer:
       scheme: bearer

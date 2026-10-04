@@ -111,15 +111,27 @@ paths:
       - App Management
 components:
   schemas:
-    DeleteIntegrationResponse:
+    GetInstallerDetailsResponseDTO:
       type: object
       properties:
-        success:
-          type: boolean
-          description: The status of the uninstallation of the application
-          example: true
+        installationDetails:
+          description: Installation details
+          example:
+            companyId: company123
+            locationId: location123
+            companyName: Example Company
+            relationshipNumber: 0-002-230
+            companyEmail: contact@example.com
+            companyOwnerFullName: John Doe
+            userId: user123
+            isWhitelabelCompany: false
+            companyPlan: agency_monthly_497
+            companyHighLevelPlan: agency_monthly_497
+            marketplaceAppPlanId: plan123
+          allOf:
+          - $ref: '#/components/schemas/InstallerDetailsDTO'
       required:
-      - success
+      - installationDetails
     DeleteIntegrationBodyDto:
       type: object
       properties:
@@ -149,27 +161,6 @@ components:
       required:
       - domain
       - logoUrl
-    GetInstallerDetailsResponseDTO:
-      type: object
-      properties:
-        installationDetails:
-          description: Installation details
-          example:
-            companyId: company123
-            locationId: location123
-            companyName: Example Company
-            relationshipNumber: 0-002-230
-            companyEmail: contact@example.com
-            companyOwnerFullName: John Doe
-            userId: user123
-            isWhitelabelCompany: false
-            companyPlan: agency_monthly_497
-            companyHighLevelPlan: agency_monthly_497
-            marketplaceAppPlanId: plan123
-          allOf:
-          - $ref: '#/components/schemas/InstallerDetailsDTO'
-      required:
-      - installationDetails
     InstallerDetailsDTO:
       type: object
       properties:
@@ -239,6 +230,15 @@ components:
       - relationshipNumber
       - userId
       - isWhitelabelCompany
+    DeleteIntegrationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: The status of the uninstallation of the application
+          example: true
+      required:
+      - success
   securitySchemes:
     bearer:
       scheme: bearer

@@ -245,25 +245,6 @@ paths:
         - objects/schema.write
 components:
   schemas:
-    CustomObjectDisplayPropertyDetails:
-      type: object
-      properties:
-        key:
-          type: string
-          example: custom_objects.pet.name
-          description: key that would be used to refer the custom field internally (lowercase + underscore_separated). 'custom_objects.{{objectKey}}' would be added as prefix by default is not passed
-        name:
-          type: string
-          example: Pet name
-          description: Name of the Primary property name which will be displayed on the record page
-        dataType:
-          type: string
-          example: TEXT
-          description: Primary property data Type (it can either be TEXT or NUMERICAL type)
-      required:
-      - key
-      - name
-      - dataType
     ICustomObjectSchema:
       type: object
       properties:
@@ -319,43 +300,6 @@ components:
       - primaryDisplayProperty
       - dateAdded
       - dateUpdated
-    CustomObjectResponseDTO:
-      type: object
-      properties:
-        object:
-          $ref: '#/components/schemas/ICustomObjectSchema'
-    UpdateCustomObjectSchemaDTO:
-      type: object
-      properties:
-        labels:
-          example:
-            singular: Pet
-            plural: Pets
-          description: This is how your custom object will  be  displayed
-          allOf:
-          - $ref: '#/components/schemas/CustomObjectLabelUpdateDto'
-        description:
-          type:
-          - string
-          - 'null'
-          example: These are non vaccinated pets
-          description: Pet Object`s description
-        locationId:
-          type: string
-          description: location id
-          example: 632c34b4c9b7da3358ac9891
-        searchableProperties:
-          description: 'Searchable Fields: Provide the field key of your object that you want to search on, using the format (custom_object.<object_name>.<field_key>).'
-          example:
-          - custom_objects.mad.mad
-          - custom_objects.mad.record_1
-          - custom_objects.mad.nn
-          type: array
-          items:
-            type: string
-      required:
-      - locationId
-      - searchableProperties
     ICustomField:
       type: object
       properties:
@@ -453,17 +397,11 @@ components:
       - fieldKey
       - dateAdded
       - dateUpdated
-    CustomObjectLabelUpdateDto:
+    CustomObjectResponseDTO:
       type: object
       properties:
-        singular:
-          type: string
-          example: Car
-          description: Singular name of the custom object
-        plural:
-          type: string
-          example: Cars
-          description: Plural name of the custom object
+        object:
+          $ref: '#/components/schemas/ICustomObjectSchema'
     CustomObjectLabelDto:
       type: object
       properties:
@@ -478,21 +416,6 @@ components:
       required:
       - singular
       - plural
-    OptionDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Key of the option (Included in Create and Response, excluded in Update)
-        label:
-          type: string
-          description: Value of the option
-        url:
-          type: string
-          description: URL associated with the option (Optional, valid only for RADIO type)
-      required:
-      - key
-      - label
     CustomObjectListResponseDTO:
       type: object
       properties:
@@ -500,6 +423,83 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ICustomObjectSchema'
+    CustomObjectDisplayPropertyDetails:
+      type: object
+      properties:
+        key:
+          type: string
+          example: custom_objects.pet.name
+          description: key that would be used to refer the custom field internally (lowercase + underscore_separated). 'custom_objects.{{objectKey}}' would be added as prefix by default is not passed
+        name:
+          type: string
+          example: Pet name
+          description: Name of the Primary property name which will be displayed on the record page
+        dataType:
+          type: string
+          example: TEXT
+          description: Primary property data Type (it can either be TEXT or NUMERICAL type)
+      required:
+      - key
+      - name
+      - dataType
+    CustomObjectByIdResponseDTO:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/ICustomObjectSchema'
+        cache:
+          type: boolean
+          description: Is the response served from cache
+          example: true
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ICustomField'
+      required:
+      - cache
+    CustomObjectLabelUpdateDto:
+      type: object
+      properties:
+        singular:
+          type: string
+          example: Car
+          description: Singular name of the custom object
+        plural:
+          type: string
+          example: Cars
+          description: Plural name of the custom object
+    UpdateCustomObjectSchemaDTO:
+      type: object
+      properties:
+        labels:
+          example:
+            singular: Pet
+            plural: Pets
+          description: This is how your custom object will  be  displayed
+          allOf:
+          - $ref: '#/components/schemas/CustomObjectLabelUpdateDto'
+        description:
+          type:
+          - string
+          - 'null'
+          example: These are non vaccinated pets
+          description: Pet Object`s description
+        locationId:
+          type: string
+          description: location id
+          example: 632c34b4c9b7da3358ac9891
+        searchableProperties:
+          description: 'Searchable Fields: Provide the field key of your object that you want to search on, using the format (custom_object.<object_name>.<field_key>).'
+          example:
+          - custom_objects.mad.mad
+          - custom_objects.mad.record_1
+          - custom_objects.mad.nn
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - searchableProperties
     CreateCustomObjectSchemaDTO:
       type: object
       properties:
@@ -531,21 +531,21 @@ components:
       - key
       - locationId
       - primaryDisplayPropertyDetails
-    CustomObjectByIdResponseDTO:
+    OptionDTO:
       type: object
       properties:
-        object:
-          $ref: '#/components/schemas/ICustomObjectSchema'
-        cache:
-          type: boolean
-          description: Is the response served from cache
-          example: true
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ICustomField'
+        key:
+          type: string
+          description: Key of the option (Included in Create and Response, excluded in Update)
+        label:
+          type: string
+          description: Value of the option
+        url:
+          type: string
+          description: URL associated with the option (Optional, valid only for RADIO type)
       required:
-      - cache
+      - key
+      - label
   securitySchemes:
     bearer:
       scheme: bearer

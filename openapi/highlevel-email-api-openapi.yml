@@ -48,6 +48,20 @@ paths:
       - Email
 components:
   schemas:
+    CancelScheduledResponseDto:
+      type: object
+      properties:
+        status:
+          type: number
+          description: HTTP Status code of the request
+          example: 404
+        message:
+          type: string
+          description: Error message of the request
+          example: Failed cancel the scheduled message
+      required:
+      - status
+      - message
     GetEmailMessageResponseDto:
       type: object
       properties:
@@ -158,20 +172,6 @@ components:
       - contentType
       - from
       - to
-    CancelScheduledResponseDto:
-      type: object
-      properties:
-        status:
-          type: number
-          description: HTTP Status code of the request
-          example: 404
-        message:
-          type: string
-          description: Error message of the request
-          example: Failed cancel the scheduled message
-      required:
-      - status
-      - message
   securitySchemes:
     bearer:
       scheme: bearer

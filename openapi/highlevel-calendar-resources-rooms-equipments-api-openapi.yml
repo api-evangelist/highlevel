@@ -291,6 +291,38 @@ paths:
         - calendars/resources.write
 components:
   schemas:
+    CreateCalendarResourceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+          description: Quantity of the equipment.
+        outOfService:
+          type: number
+          description: Quantity of the out of service equipment.
+        capacity:
+          type: number
+          description: Capacity of the room.
+        calendarIds:
+          description: "Service calendar IDs to be mapped with the resource.\n\n    One equipment can only be mapped with one service calendar.\n    \nOne room can be mapped with multiple service calendars."
+          maxItems: 100
+          type: array
+          items:
+            type: string
+      required:
+      - locationId
+      - name
+      - description
+      - quantity
+      - outOfService
+      - capacity
+      - calendarIds
     CalendarResourceResponseDTO:
       type: object
       properties:
@@ -328,13 +360,6 @@ components:
       - name
       - resourceType
       - isActive
-    ResourceDeleteResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success
-          example: 'true'
     UpdateCalendarResourceDTO:
       type: object
       properties:
@@ -361,6 +386,13 @@ components:
             type: string
         isActive:
           type: boolean
+    ResourceDeleteResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success
+          example: 'true'
     CalendarResourceByIdResponseDTO:
       type: object
       properties:
@@ -406,38 +438,6 @@ components:
       - name
       - resourceType
       - isActive
-      - calendarIds
-    CreateCalendarResourceDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        quantity:
-          type: number
-          description: Quantity of the equipment.
-        outOfService:
-          type: number
-          description: Quantity of the out of service equipment.
-        capacity:
-          type: number
-          description: Capacity of the room.
-        calendarIds:
-          description: "Service calendar IDs to be mapped with the resource.\n\n    One equipment can only be mapped with one service calendar.\n    \nOne room can be mapped with multiple service calendars."
-          maxItems: 100
-          type: array
-          items:
-            type: string
-      required:
-      - locationId
-      - name
-      - description
-      - quantity
-      - outOfService
-      - capacity
       - calendarIds
   securitySchemes:
     bearer:

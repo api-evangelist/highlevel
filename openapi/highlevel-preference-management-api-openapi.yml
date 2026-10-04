@@ -237,6 +237,27 @@ paths:
       - Preference Management
 components:
   schemas:
+    UpdateCustomSubtypeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the custom subtype (max 100 characters)
+          example: Newsletter Subscription
+          maxLength: 100
+        description:
+          type: string
+          description: Description of the custom subtype (max 100 characters)
+          example: Updated weekly newsletter subscription preferences
+          maxLength: 100
+        archived:
+          type: boolean
+          description: Whether the custom subtype is archived
+          example: false
+        resubscription_legal_form_id:
+          type: string
+          description: Resubscription legal form ID (optional when archiving)
+          example: form_123456
     CreateCustomSubtypeDto:
       type: object
       properties:
@@ -265,58 +286,6 @@ components:
       - name
       - channel
       - language
-    SubscriptionActionDto:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Type of subscription action
-          enum:
-          - default
-          - custom
-          - resub_all
-          example: custom
-        subtype_name:
-          type: string
-          description: 'Subscription type name (required for default types: "One on One")'
-          enum:
-          - One on One
-          example: One on One
-        subtype_id:
-          type: string
-          description: Custom subscription type ID (required for custom types)
-          example: ve9EPM428h8vShlRW1KT
-        subtype_status:
-          type: string
-          description: Subscription status
-          enum:
-          - subscribed
-          - unsubscribed
-          example: unsubscribed
-      required:
-      - type
-      - subtype_status
-    UpdateCustomSubtypeDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the custom subtype (max 100 characters)
-          example: Newsletter Subscription
-          maxLength: 100
-        description:
-          type: string
-          description: Description of the custom subtype (max 100 characters)
-          example: Updated weekly newsletter subscription preferences
-          maxLength: 100
-        archived:
-          type: boolean
-          description: Whether the custom subtype is archived
-          example: false
-        resubscription_legal_form_id:
-          type: string
-          description: Resubscription legal form ID (optional when archiving)
-          example: form_123456
     UserSubscriptionChangeDto:
       type: object
       properties:
@@ -367,6 +336,37 @@ components:
       - contactId
       - email
       - subscription_action
+    SubscriptionActionDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of subscription action
+          enum:
+          - default
+          - custom
+          - resub_all
+          example: custom
+        subtype_name:
+          type: string
+          description: 'Subscription type name (required for default types: "One on One")'
+          enum:
+          - One on One
+          example: One on One
+        subtype_id:
+          type: string
+          description: Custom subscription type ID (required for custom types)
+          example: ve9EPM428h8vShlRW1KT
+        subtype_status:
+          type: string
+          description: Subscription status
+          enum:
+          - subscribed
+          - unsubscribed
+          example: unsubscribed
+      required:
+      - type
+      - subtype_status
   securitySchemes:
     bearer:
       scheme: bearer

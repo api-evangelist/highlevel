@@ -212,15 +212,13 @@ components:
       - path
       - target
       - action
-    RedirectListResponseDTO:
+    UpdateRedirectResponseDTO:
       type: object
       properties:
         data:
-          type: object
-          example:
-            count: 42
-            data: []
-          description: Object containing the count of redirects and an array of redirect data
+          description: Data containing details of the updated redirect
+          allOf:
+          - $ref: '#/components/schemas/RedirectResponseDTO'
       required:
       - data
     DeleteRedirectResponseDTO:
@@ -233,36 +231,6 @@ components:
           description: Status of the delete operation
       required:
       - data
-    CreateRedirectResponseDTO:
-      type: object
-      properties:
-        data:
-          description: Data containing details of the created redirect
-          allOf:
-          - $ref: '#/components/schemas/RedirectResponseDTO'
-      required:
-      - data
-    UpdateRedirectParams:
-      type: object
-      properties:
-        target:
-          type: string
-          example: https://www.google.com
-        action:
-          type: string
-          example: URL
-          enum:
-          - funnel
-          - website
-          - url
-          - all
-        locationId:
-          type: string
-          example: 6p2RxpgtMKQwO3E6IUaT
-      required:
-      - target
-      - action
-      - locationId
     RedirectResponseDTO:
       type: object
       properties:
@@ -307,15 +275,47 @@ components:
       - type
       - target
       - action
-    UpdateRedirectResponseDTO:
+    RedirectListResponseDTO:
       type: object
       properties:
         data:
-          description: Data containing details of the updated redirect
+          type: object
+          example:
+            count: 42
+            data: []
+          description: Object containing the count of redirects and an array of redirect data
+      required:
+      - data
+    CreateRedirectResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Data containing details of the created redirect
           allOf:
           - $ref: '#/components/schemas/RedirectResponseDTO'
       required:
       - data
+    UpdateRedirectParams:
+      type: object
+      properties:
+        target:
+          type: string
+          example: https://www.google.com
+        action:
+          type: string
+          example: URL
+          enum:
+          - funnel
+          - website
+          - url
+          - all
+        locationId:
+          type: string
+          example: 6p2RxpgtMKQwO3E6IUaT
+      required:
+      - target
+      - action
+      - locationId
   securitySchemes:
     bearer:
       scheme: bearer

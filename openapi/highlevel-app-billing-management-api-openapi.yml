@@ -57,6 +57,80 @@ paths:
       - App Billing Management
 components:
   schemas:
+    SubscriptionPlanDTO:
+      type: object
+      properties:
+        resellingAmount:
+          type: number
+          description: The reselling amount
+          example: 0
+        baseAmount:
+          type: number
+          description: The base amount
+          example: 0
+        planId:
+          type: string
+          description: The plan id
+          example: 5ae000000000000000000000
+        features:
+          description: The features
+          example:
+          - feature1
+          - feature2
+          type: array
+          items:
+            type: string
+        paymentType:
+          type: string
+          description: The payment time
+          example: month
+        name:
+          type: string
+          description: The plan name
+          example: Monthly Plan - 999
+        paymentTime:
+          type: string
+          description: The payment time
+          example: month
+      required:
+      - resellingAmount
+      - baseAmount
+      - planId
+      - features
+      - paymentType
+      - name
+      - paymentTime
+    GetRebillingConfigResponseDTO:
+      type: object
+      properties:
+        plans:
+          description: The rebilling plans configuration
+          example:
+            subscription:
+            - resellingAmount: 0
+              baseAmount: 999
+              planId: 5ae000000000000000000000
+              features:
+              - feature1
+              - feature2
+              paymentType: month
+              name: Monthly Plan - 999
+              paymentTime: month
+            usage:
+            - productType: workflow_action
+              productName: Send Group iMessage
+              usageUnit: action / message
+              meterId: 680b97022b4a34420f5f9b93
+              meterName: Send Group iMessage
+              fixedPricePerUnit: 0.01001
+              priceType: fixed
+              minPricePerUnit: '0.01001'
+              maxPricePerUnit: '0.01001'
+              executionLimitPerCycle: 1000
+          allOf:
+          - $ref: '#/components/schemas/PlansDTO'
+      required:
+      - plans
     UsagePlanDTO:
       type: object
       properties:
@@ -114,80 +188,6 @@ components:
       - minPricePerUnit
       - maxPricePerUnit
       - executionLimitPerCycle
-    GetRebillingConfigResponseDTO:
-      type: object
-      properties:
-        plans:
-          description: The rebilling plans configuration
-          example:
-            subscription:
-            - resellingAmount: 0
-              baseAmount: 999
-              planId: 5ae000000000000000000000
-              features:
-              - feature1
-              - feature2
-              paymentType: month
-              name: Monthly Plan - 999
-              paymentTime: month
-            usage:
-            - productType: workflow_action
-              productName: Send Group iMessage
-              usageUnit: action / message
-              meterId: 680b97022b4a34420f5f9b93
-              meterName: Send Group iMessage
-              fixedPricePerUnit: 0.01001
-              priceType: fixed
-              minPricePerUnit: '0.01001'
-              maxPricePerUnit: '0.01001'
-              executionLimitPerCycle: 1000
-          allOf:
-          - $ref: '#/components/schemas/PlansDTO'
-      required:
-      - plans
-    SubscriptionPlanDTO:
-      type: object
-      properties:
-        resellingAmount:
-          type: number
-          description: The reselling amount
-          example: 0
-        baseAmount:
-          type: number
-          description: The base amount
-          example: 0
-        planId:
-          type: string
-          description: The plan id
-          example: 5ae000000000000000000000
-        features:
-          description: The features
-          example:
-          - feature1
-          - feature2
-          type: array
-          items:
-            type: string
-        paymentType:
-          type: string
-          description: The payment time
-          example: month
-        name:
-          type: string
-          description: The plan name
-          example: Monthly Plan - 999
-        paymentTime:
-          type: string
-          description: The payment time
-          example: month
-      required:
-      - resellingAmount
-      - baseAmount
-      - planId
-      - features
-      - paymentType
-      - name
-      - paymentTime
     PlansDTO:
       type: object
       properties:

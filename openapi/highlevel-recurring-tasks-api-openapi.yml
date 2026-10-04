@@ -310,15 +310,6 @@ components:
           type: boolean
           example: true
           description: Create initial task or not
-    RecurringTaskSingleResponseDTO:
-      type: object
-      properties:
-        recurringTask:
-          description: Recurring Tasks
-          allOf:
-          - $ref: '#/components/schemas/RecurringTaskResponseDTO'
-      required:
-      - recurringTask
     RecurringTaskCreateDTO:
       type: object
       properties:
@@ -438,6 +429,15 @@ components:
       - rruleOptions
       - totalOccurrence
       - deleted
+    RecurringTaskSingleResponseDTO:
+      type: object
+      properties:
+        recurringTask:
+          description: Recurring Tasks
+          allOf:
+          - $ref: '#/components/schemas/RecurringTaskResponseDTO'
+      required:
+      - recurringTask
   securitySchemes:
     bearer:
       scheme: bearer

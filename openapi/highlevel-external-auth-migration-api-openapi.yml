@@ -78,6 +78,24 @@ components:
           type: string
           description: Error message describing the internal server error
           example: Internal Server Error
+    MigrateConnectionResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+          description: Indicates if the migration was successful
+        identifier:
+          type: string
+          example: migration_12345
+          description: Unique identifier for the migrated connection
+        message:
+          type: string
+          example: Connection migrated successfully
+          description: Message describing the result
+      required:
+      - success
+      - identifier
     MigrateConnectionDto:
       type: object
       properties:
@@ -152,24 +170,6 @@ components:
       - appId
       - appVersionId
       - accountId
-    MigrateConnectionResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-          description: Indicates if the migration was successful
-        identifier:
-          type: string
-          example: migration_12345
-          description: Unique identifier for the migrated connection
-        message:
-          type: string
-          example: Connection migrated successfully
-          description: Message describing the result
-      required:
-      - success
-      - identifier
   securitySchemes:
     bearer:
       scheme: bearer

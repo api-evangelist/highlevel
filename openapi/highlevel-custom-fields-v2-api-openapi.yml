@@ -430,126 +430,6 @@ paths:
         - locations/customFields.write
 components:
   schemas:
-    CreateCustomFieldsDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        name:
-          type: string
-          description: Field name
-          example: Name
-        description:
-          type: string
-          description: Description of the field
-        placeholder:
-          type: string
-          description: Placeholder text for the field
-        showInForms:
-          type: boolean
-          description: Whether the field should be shown in forms
-        options:
-          description: Options for the field (Optional, valid only for SINGLE_OPTIONS, MULTIPLE_OPTIONS, RADIO, CHECKBOX, TEXTBOX_LIST type)
-          type: array
-          items:
-            $ref: '#/components/schemas/OptionDTO'
-        acceptedFormats:
-          type: string
-          enum:
-          - .pdf
-          - .docx
-          - .doc
-          - .jpg
-          - .jpeg
-          - .png
-          - .gif
-          - .csv
-          - .xlsx
-          - .xls
-          - all
-          description: 'Allowed file formats for uploads. Options include: .pdf, .docx, .doc, .jpg, .jpeg, .png, .gif, .csv, .xlsx, .xls, all'
-        dataType:
-          type: string
-          enum:
-          - TEXT
-          - LARGE_TEXT
-          - NUMERICAL
-          - PHONE
-          - MONETORY
-          - CHECKBOX
-          - SINGLE_OPTIONS
-          - MULTIPLE_OPTIONS
-          - DATE
-          - TEXTBOX_LIST
-          - FILE_UPLOAD
-          - RADIO
-          - EMAIL
-          description: Type of field that you are trying to create
-        fieldKey:
-          type: string
-          description: 'Field key. For Custom Object it''s formatted as "custom_object.{objectKey}.{fieldKey}". "custom_object" is a fixed prefix, "{objectKey}" is your custom object''s identifier, and "{fieldKey}" is the unique field name within that object. Example: "custom_object.pet.name" for a "name" field in a "pet" custom object.'
-          example: custom_object.pet.name
-        objectKey:
-          type: string
-          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
-          example: custom_object.pet
-        maxFileLimit:
-          type: number
-          description: Maximum file limit for uploads. Applicable only for fields with a data type of FILE_UPLOAD.
-          example: 2
-        allowCustomOption:
-          type: boolean
-          description: Determines if users can add a custom option value different from the predefined options in records for RADIO type fields. A custom value added in one record does not automatically become an option and will not appear as an option for other records.
-          example: true
-        parentId:
-          type: string
-          description: ID of the parent folder
-      required:
-      - locationId
-      - showInForms
-      - dataType
-      - fieldKey
-      - objectKey
-      - parentId
-    UpdateFolder:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Field name
-          example: Name
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-      required:
-      - name
-      - locationId
-    ICustomFieldFolder:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the object
-        objectKey:
-          type: string
-          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
-          example: custom_object.pet
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-        name:
-          type: string
-          description: Field name
-          example: Name
-      required:
-      - id
-      - objectKey
-      - locationId
-      - name
     CustomFieldsResponseDTO:
       type: object
       properties:
@@ -660,6 +540,93 @@ components:
       - fieldKey
       - dateAdded
       - dateUpdated
+    CustomFolderDeleteResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: 3v34PM428h8vShlRW1KT
+        key:
+          type: string
+          example: custom_object.pet.name
+      required:
+      - succeded
+      - id
+      - key
+    ICustomFieldFolder:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the object
+        objectKey:
+          type: string
+          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
+          example: custom_object.pet
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          description: Field name
+          example: Name
+      required:
+      - id
+      - objectKey
+      - locationId
+      - name
+    UpdateFolder:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name
+          example: Name
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+      required:
+      - name
+      - locationId
+    CreateFolder:
+      type: object
+      properties:
+        objectKey:
+          type: string
+          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
+          example: custom_object.pet
+        name:
+          type: string
+          description: Field name
+          example: Name
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+      required:
+      - objectKey
+      - name
+      - locationId
+    OptionDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Key of the option (Included in Create and Response, excluded in Update)
+        label:
+          type: string
+          description: Value of the option
+        url:
+          type: string
+          description: URL associated with the option (Optional, valid only for RADIO type)
+      required:
+      - key
+      - label
     UpdateCustomFieldsDTO:
       type: object
       properties:
@@ -707,61 +674,94 @@ components:
       required:
       - locationId
       - showInForms
-    CustomFolderDeleteResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
-        id:
-          type: string
-          example: 3v34PM428h8vShlRW1KT
-        key:
-          type: string
-          example: custom_object.pet.name
-      required:
-      - succeded
-      - id
-      - key
-    OptionDTO:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Key of the option (Included in Create and Response, excluded in Update)
-        label:
-          type: string
-          description: Value of the option
-        url:
-          type: string
-          description: URL associated with the option (Optional, valid only for RADIO type)
-      required:
-      - key
-      - label
-    CreateFolder:
-      type: object
-      properties:
-        objectKey:
-          type: string
-          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
-          example: custom_object.pet
-        name:
-          type: string
-          description: Field name
-          example: Name
-        locationId:
-          type: string
-          description: Location Id
-          example: ve9EPM428h8vShlRW1KT
-      required:
-      - objectKey
-      - name
-      - locationId
     CustomFieldSuccessfulResponseDto:
       type: object
       properties:
         field:
           $ref: '#/components/schemas/ICustomField'
+    CreateCustomFieldsDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: ve9EPM428h8vShlRW1KT
+        name:
+          type: string
+          description: Field name
+          example: Name
+        description:
+          type: string
+          description: Description of the field
+        placeholder:
+          type: string
+          description: Placeholder text for the field
+        showInForms:
+          type: boolean
+          description: Whether the field should be shown in forms
+        options:
+          description: Options for the field (Optional, valid only for SINGLE_OPTIONS, MULTIPLE_OPTIONS, RADIO, CHECKBOX, TEXTBOX_LIST type)
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionDTO'
+        acceptedFormats:
+          type: string
+          enum:
+          - .pdf
+          - .docx
+          - .doc
+          - .jpg
+          - .jpeg
+          - .png
+          - .gif
+          - .csv
+          - .xlsx
+          - .xls
+          - all
+          description: 'Allowed file formats for uploads. Options include: .pdf, .docx, .doc, .jpg, .jpeg, .png, .gif, .csv, .xlsx, .xls, all'
+        dataType:
+          type: string
+          enum:
+          - TEXT
+          - LARGE_TEXT
+          - NUMERICAL
+          - PHONE
+          - MONETORY
+          - CHECKBOX
+          - SINGLE_OPTIONS
+          - MULTIPLE_OPTIONS
+          - DATE
+          - TEXTBOX_LIST
+          - FILE_UPLOAD
+          - RADIO
+          - EMAIL
+          description: Type of field that you are trying to create
+        fieldKey:
+          type: string
+          description: 'Field key. For Custom Object it''s formatted as "custom_object.{objectKey}.{fieldKey}". "custom_object" is a fixed prefix, "{objectKey}" is your custom object''s identifier, and "{fieldKey}" is the unique field name within that object. Example: "custom_object.pet.name" for a "name" field in a "pet" custom object.'
+          example: custom_object.pet.name
+        objectKey:
+          type: string
+          description: 'The key for your custom object. This key uniquely identifies the custom object. Example: "custom_object.pet" for a custom object related to pets.'
+          example: custom_object.pet
+        maxFileLimit:
+          type: number
+          description: Maximum file limit for uploads. Applicable only for fields with a data type of FILE_UPLOAD.
+          example: 2
+        allowCustomOption:
+          type: boolean
+          description: Determines if users can add a custom option value different from the predefined options in records for RADIO type fields. A custom value added in one record does not automatically become an option and will not appear as an option for other records.
+          example: true
+        parentId:
+          type: string
+          description: ID of the parent folder
+      required:
+      - locationId
+      - showInForms
+      - dataType
+      - fieldKey
+      - objectKey
+      - parentId
   securitySchemes:
     bearer:
       scheme: bearer

@@ -253,24 +253,6 @@ paths:
         - users.write
 components:
   schemas:
-    RoleSchema:
-      type: object
-      properties:
-        type:
-          type: string
-          example: account
-        role:
-          type: string
-          example: admin
-        locationIds:
-          example:
-          - ve9EPM428h8vShlRW1KT
-          type: array
-          items:
-            type: string
-        restrictSubAccount:
-          type: boolean
-          example: true
     LocationSuccessfulResponseDto:
       type: object
       properties:
@@ -278,6 +260,249 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserSchema'
+    UserSuccessfulResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0IHuJvc2ofPAAA8GzTRi
+        name:
+          type: string
+          example: John Deo
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Deo
+        email:
+          type: string
+          example: john@deo.com
+        phone:
+          type: string
+          example: +1 808-868-8888
+        extension:
+          type: string
+          example: ''
+        permissions:
+          $ref: '#/components/schemas/PermissionsDto'
+        scopes:
+          type: string
+          enum:
+          - campaigns.readonly
+          - campaigns.write
+          - calendars.readonly
+          - calendars/events.write
+          - calendars/groups.write
+          - calendars.write
+          - contacts.write
+          - contacts/bulkActions.write
+          - workflows.readonly
+          - workflows.write
+          - triggers.write
+          - funnels.write
+          - forms.write
+          - surveys.write
+          - quizzes.write
+          - websites.write
+          - medias.write
+          - medias.readonly
+          - opportunities.write
+          - opportunities/leadValue.readonly
+          - opportunities/bulkActions.write
+          - reporting/phone.readonly
+          - reporting/adwords.readonly
+          - reporting/facebookAds.readonly
+          - reporting/attributions.readonly
+          - prospecting/auditReport.write
+          - reporting/reports.readonly
+          - reporting/agent.readonly
+          - reporting/reports.write
+          - reporting/stats.export
+          - payments.write
+          - payments/records.write
+          - payments/orders.readonly
+          - payments/orders.export
+          - payments/orders.import
+          - payments/orders.collectPayment
+          - payments/subscriptions.readonly
+          - payments/subscriptions.write
+          - payments/subscriptions.update
+          - payments/subscriptions.export
+          - payments/subscriptions.pauseResumeCancel
+          - payments/subscriptions.sharePaymentMethod
+          - payments/transactions.readonly
+          - payments/transactions.export
+          - payments/transactions.import
+          - payments/transactions.refund
+          - payments/transactions.viewReceipts
+          - payments/taxesSettings.readonly
+          - payments/settings.readonly
+          - payments/taxesSettings.updateInclusiveExclusive
+          - payments/taxesSettings.manageRates
+          - payments/taxesSettings.configureAutomatic
+          - products.readonly
+          - products.write
+          - products.delete
+          - products.duplicate
+          - products.bulkActions
+          - payments/settings.write
+          - payments/settings.configureReceipt
+          - payments/settings.configureSubscription
+          - invoices.write
+          - invoices.readonly
+          - invoices/schedule.readonly
+          - invoices/schedule.write
+          - invoices/template.readonly
+          - invoices/template.write
+          - reputation/review.write
+          - reputation/listing.write
+          - reputation/reviewsAIAgents.write
+          - reputation/gbp.write
+          - conversations.write
+          - conversations.readonly
+          - conversations/message.readonly
+          - conversations/message.write
+          - contentAI.write
+          - dashboard/stats.readonly
+          - locations/tags.write
+          - locations/tags.readonly
+          - marketing.write
+          - eliza.write
+          - settings.write
+          - socialplanner/post.write
+          - socialplanner/account.readonly
+          - socialplanner/account.write
+          - socialplanner/category.readonly
+          - socialplanner/category.write
+          - socialplanner/csv.readonly
+          - socialplanner/csv.write
+          - socialplanner/group.write
+          - socialplanner/hashtag.readonly
+          - socialplanner/hashtag.write
+          - socialplanner/oauth.readonly
+          - socialplanner/oauth.write
+          - socialplanner/post.readonly
+          - socialplanner/recurring.readonly
+          - socialplanner/recurring.write
+          - socialplanner/review.readonly
+          - socialplanner/review.write
+          - socialplanner/rss.readonly
+          - socialplanner/rss.write
+          - socialplanner/search.readonly
+          - socialplanner/setting.readonly
+          - socialplanner/setting.write
+          - socialplanner/stat.readonly
+          - socialplanner/tag.readonly
+          - socialplanner/tag.write
+          - socialplanner/filters.readonly
+          - socialplanner/medias.readonly
+          - socialplanner/medias.write
+          - socialplanner/watermarks.readonly
+          - socialplanner/watermarks.write
+          - socialplanner/metatag.readonly
+          - socialplanner/facebook.readonly
+          - socialplanner/linkedin.readonly
+          - socialplanner/twitter.readonly
+          - socialplanner/notification.readonly
+          - socialplanner/notification.write
+          - socialplanner/snapshot.readonly
+          - socialplanner/snapshot.write
+          - marketing/affiliate.write
+          - blogs.write
+          - membership.write
+          - communities.write
+          - gokollab.write
+          - certificates.write
+          - certificates.readonly
+          - adPublishing.write
+          - adPublishing.readonly
+          - prospecting.write
+          - prospecting.readonly
+          - prospecting/reports.readonly
+          - private-integration-location.readonly
+          - private-integration-location.write
+          - private-integration-company.readonly
+          - private-integration-company.write
+          - native-integrations.readonly
+          - native-integrations.write
+          - wordpress.write
+          - wordpress.read
+          - custom-menu-link.write
+          - qrcodes.write
+          - users/team-management.write
+          - users/team-management.readonly
+          - loginas.write
+          - users-sso-login-management.write
+          - users-sso-login-management.readonly
+          - sso-config.write
+          - snapshots/api.readonly
+          - snapshots/api.create
+          - snapshots/api.edit
+          - snapshots/api.push
+          - snapshots/api.refresh
+          - snapshots/api.share
+          - snapshots/api.delete
+          - internaltools.location-transfer.write
+          - internaltools.location-transfer.readonly
+          - affiliateportal.write
+          - affiliateportal.readonly
+          - companies.write
+          - internaltools.billing.write
+          - internaltools.billing.readonly
+          - internaltools.billing-common.readonly
+          - internaltools.billing-common.write
+          - voice-ai-agents.write
+          - voice-ai-agents.readonly
+          - voice-ai-common.readonly
+          - voice-ai-common.write
+          - voice-ai-agent-goals.readonly
+          - voice-ai-agent-goals.write
+          - voice-ai-dashboard.readonly
+          - agency/launchpad.write
+          - agency/launchpad.readonly
+          - launchpad/location.write
+          - launchpad/location.readonly
+          - text-ai-agents.write
+          - text-ai-agent-goals.readonly
+          - text-ai-agent-goals.write
+          - text-ai-agent-training.write
+          - text-ai-agents-dashboard.readonly
+          - locations.create
+          - locations.delete
+          - locations.export.list
+          - locations.features-limits.manage
+          - locations.pause-resume
+          - locations.agency-subaccounts.manage
+          - locations.billing.manage
+          - locations.details.manage
+          - audit-logs.readonly
+          - audit-logs.export
+        roles:
+          $ref: '#/components/schemas/RoleSchema'
+        lcPhone:
+          type: object
+          example:
+            locationId: '+1234556677'
+          description: LC Phone Inbound Phone Numbers
+        platformLanguage:
+          type: string
+          example: en_US
+          description: Platform language preference for the user
+          enum:
+          - en_US
+          - es
+          - fr_CA
+          - fr_FR
+          - nl
+          - de
+          - pt_PT
+          - pt_BR
+          - it
+          - sv
+          - da
+          - fi
+          - 'no'
     UserSchema:
       type: object
       properties:
@@ -688,712 +913,24 @@ components:
           type: boolean
           example: true
           default: true
-    UserSuccessfulResponseDto:
+    RoleSchema:
       type: object
       properties:
-        id:
-          type: string
-          example: 0IHuJvc2ofPAAA8GzTRi
-        name:
-          type: string
-          example: John Deo
-        firstName:
-          type: string
-          example: John
-        lastName:
-          type: string
-          example: Deo
-        email:
-          type: string
-          example: john@deo.com
-        phone:
-          type: string
-          example: +1 808-868-8888
-        extension:
-          type: string
-          example: ''
-        permissions:
-          $ref: '#/components/schemas/PermissionsDto'
-        scopes:
-          type: string
-          enum:
-          - campaigns.readonly
-          - campaigns.write
-          - calendars.readonly
-          - calendars/events.write
-          - calendars/groups.write
-          - calendars.write
-          - contacts.write
-          - contacts/bulkActions.write
-          - workflows.readonly
-          - workflows.write
-          - triggers.write
-          - funnels.write
-          - forms.write
-          - surveys.write
-          - quizzes.write
-          - websites.write
-          - medias.write
-          - medias.readonly
-          - opportunities.write
-          - opportunities/leadValue.readonly
-          - opportunities/bulkActions.write
-          - reporting/phone.readonly
-          - reporting/adwords.readonly
-          - reporting/facebookAds.readonly
-          - reporting/attributions.readonly
-          - prospecting/auditReport.write
-          - reporting/reports.readonly
-          - reporting/agent.readonly
-          - reporting/reports.write
-          - reporting/stats.export
-          - payments.write
-          - payments/records.write
-          - payments/orders.readonly
-          - payments/orders.export
-          - payments/orders.import
-          - payments/orders.collectPayment
-          - payments/subscriptions.readonly
-          - payments/subscriptions.write
-          - payments/subscriptions.update
-          - payments/subscriptions.export
-          - payments/subscriptions.pauseResumeCancel
-          - payments/subscriptions.sharePaymentMethod
-          - payments/transactions.readonly
-          - payments/transactions.export
-          - payments/transactions.import
-          - payments/transactions.refund
-          - payments/transactions.viewReceipts
-          - payments/taxesSettings.readonly
-          - payments/settings.readonly
-          - payments/taxesSettings.updateInclusiveExclusive
-          - payments/taxesSettings.manageRates
-          - payments/taxesSettings.configureAutomatic
-          - products.readonly
-          - products.write
-          - products.delete
-          - products.duplicate
-          - products.bulkActions
-          - payments/settings.write
-          - payments/settings.configureReceipt
-          - payments/settings.configureSubscription
-          - invoices.write
-          - invoices.readonly
-          - invoices/schedule.readonly
-          - invoices/schedule.write
-          - invoices/template.readonly
-          - invoices/template.write
-          - reputation/review.write
-          - reputation/listing.write
-          - reputation/reviewsAIAgents.write
-          - reputation/gbp.write
-          - conversations.write
-          - conversations.readonly
-          - conversations/message.readonly
-          - conversations/message.write
-          - contentAI.write
-          - dashboard/stats.readonly
-          - locations/tags.write
-          - locations/tags.readonly
-          - marketing.write
-          - eliza.write
-          - settings.write
-          - socialplanner/post.write
-          - socialplanner/account.readonly
-          - socialplanner/account.write
-          - socialplanner/category.readonly
-          - socialplanner/category.write
-          - socialplanner/csv.readonly
-          - socialplanner/csv.write
-          - socialplanner/group.write
-          - socialplanner/hashtag.readonly
-          - socialplanner/hashtag.write
-          - socialplanner/oauth.readonly
-          - socialplanner/oauth.write
-          - socialplanner/post.readonly
-          - socialplanner/recurring.readonly
-          - socialplanner/recurring.write
-          - socialplanner/review.readonly
-          - socialplanner/review.write
-          - socialplanner/rss.readonly
-          - socialplanner/rss.write
-          - socialplanner/search.readonly
-          - socialplanner/setting.readonly
-          - socialplanner/setting.write
-          - socialplanner/stat.readonly
-          - socialplanner/tag.readonly
-          - socialplanner/tag.write
-          - socialplanner/filters.readonly
-          - socialplanner/medias.readonly
-          - socialplanner/medias.write
-          - socialplanner/watermarks.readonly
-          - socialplanner/watermarks.write
-          - socialplanner/metatag.readonly
-          - socialplanner/facebook.readonly
-          - socialplanner/linkedin.readonly
-          - socialplanner/twitter.readonly
-          - socialplanner/notification.readonly
-          - socialplanner/notification.write
-          - socialplanner/snapshot.readonly
-          - socialplanner/snapshot.write
-          - marketing/affiliate.write
-          - blogs.write
-          - membership.write
-          - communities.write
-          - gokollab.write
-          - certificates.write
-          - certificates.readonly
-          - adPublishing.write
-          - adPublishing.readonly
-          - prospecting.write
-          - prospecting.readonly
-          - prospecting/reports.readonly
-          - private-integration-location.readonly
-          - private-integration-location.write
-          - private-integration-company.readonly
-          - private-integration-company.write
-          - native-integrations.readonly
-          - native-integrations.write
-          - wordpress.write
-          - wordpress.read
-          - custom-menu-link.write
-          - qrcodes.write
-          - users/team-management.write
-          - users/team-management.readonly
-          - loginas.write
-          - users-sso-login-management.write
-          - users-sso-login-management.readonly
-          - sso-config.write
-          - snapshots/api.readonly
-          - snapshots/api.create
-          - snapshots/api.edit
-          - snapshots/api.push
-          - snapshots/api.refresh
-          - snapshots/api.share
-          - snapshots/api.delete
-          - internaltools.location-transfer.write
-          - internaltools.location-transfer.readonly
-          - affiliateportal.write
-          - affiliateportal.readonly
-          - companies.write
-          - internaltools.billing.write
-          - internaltools.billing.readonly
-          - internaltools.billing-common.readonly
-          - internaltools.billing-common.write
-          - voice-ai-agents.write
-          - voice-ai-agents.readonly
-          - voice-ai-common.readonly
-          - voice-ai-common.write
-          - voice-ai-agent-goals.readonly
-          - voice-ai-agent-goals.write
-          - voice-ai-dashboard.readonly
-          - agency/launchpad.write
-          - agency/launchpad.readonly
-          - launchpad/location.write
-          - launchpad/location.readonly
-          - text-ai-agents.write
-          - text-ai-agent-goals.readonly
-          - text-ai-agent-goals.write
-          - text-ai-agent-training.write
-          - text-ai-agents-dashboard.readonly
-          - locations.create
-          - locations.delete
-          - locations.export.list
-          - locations.features-limits.manage
-          - locations.pause-resume
-          - locations.agency-subaccounts.manage
-          - locations.billing.manage
-          - locations.details.manage
-          - audit-logs.readonly
-          - audit-logs.export
-        roles:
-          $ref: '#/components/schemas/RoleSchema'
-        lcPhone:
-          type: object
-          example:
-            locationId: '+1234556677'
-          description: LC Phone Inbound Phone Numbers
-        platformLanguage:
-          type: string
-          example: en_US
-          description: Platform language preference for the user
-          enum:
-          - en_US
-          - es
-          - fr_CA
-          - fr_FR
-          - nl
-          - de
-          - pt_PT
-          - pt_BR
-          - it
-          - sv
-          - da
-          - fi
-          - 'no'
-    UpdateUserDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: John
-        lastName:
-          type: string
-          example: Deo
-        email:
-          type: string
-          example: john@deo.com
-          deprecated: true
-          description: Email update is no longer supported due to security reasons.
-        password:
-          type: string
-          example: '*******'
-        phone:
-          type: string
-          example: '+18832327657'
         type:
           type: string
           example: account
         role:
           type: string
           example: admin
-        companyId:
-          type: string
-          description: Company/Agency Id. Required for Agency Level access
-          example: UAXssdawIWAWD
         locationIds:
           example:
-          - C2QujeCh8ZnC7al2InWR
+          - ve9EPM428h8vShlRW1KT
           type: array
           items:
             type: string
-        permissions:
-          $ref: '#/components/schemas/PermissionsDto'
-        scopes:
-          type: array
-          example:
-          - contacts.write
-          - campaigns.readonly
-          description: Scopes allowed for users. Only scopes that have been passed will be enabled. If passed empty all the scopes will be get disabled
-          items:
-            type: string
-            enum:
-            - campaigns.readonly
-            - campaigns.write
-            - calendars.readonly
-            - calendars/events.write
-            - calendars/groups.write
-            - calendars.write
-            - contacts.write
-            - contacts/bulkActions.write
-            - workflows.readonly
-            - workflows.write
-            - triggers.write
-            - funnels.write
-            - forms.write
-            - surveys.write
-            - quizzes.write
-            - websites.write
-            - medias.write
-            - medias.readonly
-            - opportunities.write
-            - opportunities/leadValue.readonly
-            - opportunities/bulkActions.write
-            - reporting/phone.readonly
-            - reporting/adwords.readonly
-            - reporting/facebookAds.readonly
-            - reporting/attributions.readonly
-            - prospecting/auditReport.write
-            - reporting/reports.readonly
-            - reporting/agent.readonly
-            - reporting/reports.write
-            - reporting/stats.export
-            - payments.write
-            - payments/records.write
-            - payments/orders.readonly
-            - payments/orders.export
-            - payments/orders.import
-            - payments/orders.collectPayment
-            - payments/subscriptions.readonly
-            - payments/subscriptions.write
-            - payments/subscriptions.update
-            - payments/subscriptions.export
-            - payments/subscriptions.pauseResumeCancel
-            - payments/subscriptions.sharePaymentMethod
-            - payments/transactions.readonly
-            - payments/transactions.export
-            - payments/transactions.import
-            - payments/transactions.refund
-            - payments/transactions.viewReceipts
-            - payments/taxesSettings.readonly
-            - payments/settings.readonly
-            - payments/taxesSettings.updateInclusiveExclusive
-            - payments/taxesSettings.manageRates
-            - payments/taxesSettings.configureAutomatic
-            - products.readonly
-            - products.write
-            - products.delete
-            - products.duplicate
-            - products.bulkActions
-            - payments/settings.write
-            - payments/settings.configureReceipt
-            - payments/settings.configureSubscription
-            - invoices.write
-            - invoices.readonly
-            - invoices/schedule.readonly
-            - invoices/schedule.write
-            - invoices/template.readonly
-            - invoices/template.write
-            - reputation/review.write
-            - reputation/listing.write
-            - reputation/reviewsAIAgents.write
-            - reputation/gbp.write
-            - conversations.write
-            - conversations.readonly
-            - conversations/message.readonly
-            - conversations/message.write
-            - contentAI.write
-            - dashboard/stats.readonly
-            - locations/tags.write
-            - locations/tags.readonly
-            - marketing.write
-            - eliza.write
-            - settings.write
-            - socialplanner/post.write
-            - socialplanner/account.readonly
-            - socialplanner/account.write
-            - socialplanner/category.readonly
-            - socialplanner/category.write
-            - socialplanner/csv.readonly
-            - socialplanner/csv.write
-            - socialplanner/group.write
-            - socialplanner/hashtag.readonly
-            - socialplanner/hashtag.write
-            - socialplanner/oauth.readonly
-            - socialplanner/oauth.write
-            - socialplanner/post.readonly
-            - socialplanner/recurring.readonly
-            - socialplanner/recurring.write
-            - socialplanner/review.readonly
-            - socialplanner/review.write
-            - socialplanner/rss.readonly
-            - socialplanner/rss.write
-            - socialplanner/search.readonly
-            - socialplanner/setting.readonly
-            - socialplanner/setting.write
-            - socialplanner/stat.readonly
-            - socialplanner/tag.readonly
-            - socialplanner/tag.write
-            - socialplanner/filters.readonly
-            - socialplanner/medias.readonly
-            - socialplanner/medias.write
-            - socialplanner/watermarks.readonly
-            - socialplanner/watermarks.write
-            - socialplanner/metatag.readonly
-            - socialplanner/facebook.readonly
-            - socialplanner/linkedin.readonly
-            - socialplanner/twitter.readonly
-            - socialplanner/notification.readonly
-            - socialplanner/notification.write
-            - socialplanner/snapshot.readonly
-            - socialplanner/snapshot.write
-            - marketing/affiliate.write
-            - blogs.write
-            - membership.write
-            - communities.write
-            - gokollab.write
-            - certificates.write
-            - certificates.readonly
-            - adPublishing.write
-            - adPublishing.readonly
-            - prospecting.write
-            - prospecting.readonly
-            - prospecting/reports.readonly
-            - private-integration-location.readonly
-            - private-integration-location.write
-            - private-integration-company.readonly
-            - private-integration-company.write
-            - native-integrations.readonly
-            - native-integrations.write
-            - wordpress.write
-            - wordpress.read
-            - custom-menu-link.write
-            - qrcodes.write
-            - users/team-management.write
-            - users/team-management.readonly
-            - loginas.write
-            - users-sso-login-management.write
-            - users-sso-login-management.readonly
-            - sso-config.write
-            - snapshots/api.readonly
-            - snapshots/api.create
-            - snapshots/api.edit
-            - snapshots/api.push
-            - snapshots/api.refresh
-            - snapshots/api.share
-            - snapshots/api.delete
-            - internaltools.location-transfer.write
-            - internaltools.location-transfer.readonly
-            - affiliateportal.write
-            - affiliateportal.readonly
-            - companies.write
-            - internaltools.billing.write
-            - internaltools.billing.readonly
-            - internaltools.billing-common.readonly
-            - internaltools.billing-common.write
-            - voice-ai-agents.write
-            - voice-ai-agents.readonly
-            - voice-ai-common.readonly
-            - voice-ai-common.write
-            - voice-ai-agent-goals.readonly
-            - voice-ai-agent-goals.write
-            - voice-ai-dashboard.readonly
-            - agency/launchpad.write
-            - agency/launchpad.readonly
-            - launchpad/location.write
-            - launchpad/location.readonly
-            - text-ai-agents.write
-            - text-ai-agent-goals.readonly
-            - text-ai-agent-goals.write
-            - text-ai-agent-training.write
-            - text-ai-agents-dashboard.readonly
-            - locations.create
-            - locations.delete
-            - locations.export.list
-            - locations.features-limits.manage
-            - locations.pause-resume
-            - locations.agency-subaccounts.manage
-            - locations.billing.manage
-            - locations.details.manage
-            - audit-logs.readonly
-            - audit-logs.export
-        scopesAssignedToOnly:
-          type: array
-          example:
-          - contacts.write
-          - campaigns.readonly
-          description: Assigned Scopes allowed for users. Only scopes that have been passed will be enabled. If passed empty all the assigned scopes will be get disabled
-          items:
-            type: string
-            enum:
-            - campaigns.readonly
-            - campaigns.write
-            - calendars.readonly
-            - calendars/events.write
-            - calendars/groups.write
-            - calendars.write
-            - contacts.write
-            - contacts/bulkActions.write
-            - workflows.readonly
-            - workflows.write
-            - triggers.write
-            - funnels.write
-            - forms.write
-            - surveys.write
-            - quizzes.write
-            - websites.write
-            - medias.write
-            - medias.readonly
-            - opportunities.write
-            - opportunities/leadValue.readonly
-            - opportunities/bulkActions.write
-            - reporting/phone.readonly
-            - reporting/adwords.readonly
-            - reporting/facebookAds.readonly
-            - reporting/attributions.readonly
-            - prospecting/auditReport.write
-            - reporting/reports.readonly
-            - reporting/agent.readonly
-            - reporting/reports.write
-            - reporting/stats.export
-            - payments.write
-            - payments/records.write
-            - payments/orders.readonly
-            - payments/orders.export
-            - payments/orders.import
-            - payments/orders.collectPayment
-            - payments/subscriptions.readonly
-            - payments/subscriptions.write
-            - payments/subscriptions.update
-            - payments/subscriptions.export
-            - payments/subscriptions.pauseResumeCancel
-            - payments/subscriptions.sharePaymentMethod
-            - payments/transactions.readonly
-            - payments/transactions.export
-            - payments/transactions.import
-            - payments/transactions.refund
-            - payments/transactions.viewReceipts
-            - payments/taxesSettings.readonly
-            - payments/settings.readonly
-            - payments/taxesSettings.updateInclusiveExclusive
-            - payments/taxesSettings.manageRates
-            - payments/taxesSettings.configureAutomatic
-            - products.readonly
-            - products.write
-            - products.delete
-            - products.duplicate
-            - products.bulkActions
-            - payments/settings.write
-            - payments/settings.configureReceipt
-            - payments/settings.configureSubscription
-            - invoices.write
-            - invoices.readonly
-            - invoices/schedule.readonly
-            - invoices/schedule.write
-            - invoices/template.readonly
-            - invoices/template.write
-            - reputation/review.write
-            - reputation/listing.write
-            - reputation/reviewsAIAgents.write
-            - reputation/gbp.write
-            - conversations.write
-            - conversations.readonly
-            - conversations/message.readonly
-            - conversations/message.write
-            - contentAI.write
-            - dashboard/stats.readonly
-            - locations/tags.write
-            - locations/tags.readonly
-            - marketing.write
-            - eliza.write
-            - settings.write
-            - socialplanner/post.write
-            - socialplanner/account.readonly
-            - socialplanner/account.write
-            - socialplanner/category.readonly
-            - socialplanner/category.write
-            - socialplanner/csv.readonly
-            - socialplanner/csv.write
-            - socialplanner/group.write
-            - socialplanner/hashtag.readonly
-            - socialplanner/hashtag.write
-            - socialplanner/oauth.readonly
-            - socialplanner/oauth.write
-            - socialplanner/post.readonly
-            - socialplanner/recurring.readonly
-            - socialplanner/recurring.write
-            - socialplanner/review.readonly
-            - socialplanner/review.write
-            - socialplanner/rss.readonly
-            - socialplanner/rss.write
-            - socialplanner/search.readonly
-            - socialplanner/setting.readonly
-            - socialplanner/setting.write
-            - socialplanner/stat.readonly
-            - socialplanner/tag.readonly
-            - socialplanner/tag.write
-            - socialplanner/filters.readonly
-            - socialplanner/medias.readonly
-            - socialplanner/medias.write
-            - socialplanner/watermarks.readonly
-            - socialplanner/watermarks.write
-            - socialplanner/metatag.readonly
-            - socialplanner/facebook.readonly
-            - socialplanner/linkedin.readonly
-            - socialplanner/twitter.readonly
-            - socialplanner/notification.readonly
-            - socialplanner/notification.write
-            - socialplanner/snapshot.readonly
-            - socialplanner/snapshot.write
-            - marketing/affiliate.write
-            - blogs.write
-            - membership.write
-            - communities.write
-            - gokollab.write
-            - certificates.write
-            - certificates.readonly
-            - adPublishing.write
-            - adPublishing.readonly
-            - prospecting.write
-            - prospecting.readonly
-            - prospecting/reports.readonly
-            - private-integration-location.readonly
-            - private-integration-location.write
-            - private-integration-company.readonly
-            - private-integration-company.write
-            - native-integrations.readonly
-            - native-integrations.write
-            - wordpress.write
-            - wordpress.read
-            - custom-menu-link.write
-            - qrcodes.write
-            - users/team-management.write
-            - users/team-management.readonly
-            - loginas.write
-            - users-sso-login-management.write
-            - users-sso-login-management.readonly
-            - sso-config.write
-            - snapshots/api.readonly
-            - snapshots/api.create
-            - snapshots/api.edit
-            - snapshots/api.push
-            - snapshots/api.refresh
-            - snapshots/api.share
-            - snapshots/api.delete
-            - internaltools.location-transfer.write
-            - internaltools.location-transfer.readonly
-            - affiliateportal.write
-            - affiliateportal.readonly
-            - companies.write
-            - internaltools.billing.write
-            - internaltools.billing.readonly
-            - internaltools.billing-common.readonly
-            - internaltools.billing-common.write
-            - voice-ai-agents.write
-            - voice-ai-agents.readonly
-            - voice-ai-common.readonly
-            - voice-ai-common.write
-            - voice-ai-agent-goals.readonly
-            - voice-ai-agent-goals.write
-            - voice-ai-dashboard.readonly
-            - agency/launchpad.write
-            - agency/launchpad.readonly
-            - launchpad/location.write
-            - launchpad/location.readonly
-            - text-ai-agents.write
-            - text-ai-agent-goals.readonly
-            - text-ai-agent-goals.write
-            - text-ai-agent-training.write
-            - text-ai-agents-dashboard.readonly
-            - locations.create
-            - locations.delete
-            - locations.export.list
-            - locations.features-limits.manage
-            - locations.pause-resume
-            - locations.agency-subaccounts.manage
-            - locations.billing.manage
-            - locations.details.manage
-            - audit-logs.readonly
-            - audit-logs.export
-        profilePhoto:
-          type: string
-          example: https://img.png
-        twilioPhone:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            C2QujeCh8ZnC7al2InWR: '+18832327657'
-            M2QrtfVt8ZnC7cv2InDL: '+18832327657'
-          description: 'Per-location inbound Twilio number in E.164 format, keyed by location id (Call and Voicemail Inbound Number for direct Twilio, not LC Phone). Replacement semantics: if you send twilioPhone in the request body, the stored map is replaced entirely with this object (not merged). Any location id omitted from the object is removed from the saved map. Omit the twilioPhone property entirely to leave existing numbers unchanged. Send an empty object {} to clear all per-location numbers. To clear a single location only, set that location id to an empty string "".'
-        platformLanguage:
-          type: string
-          example: en_US
-          description: Platform language preference for the user
-          enum:
-          - en_US
-          - es
-          - fr_CA
-          - fr_FR
-          - nl
-          - de
-          - pt_PT
-          - pt_BR
-          - it
-          - sv
-          - da
-          - fi
-          - 'no'
+        restrictSubAccount:
+          type: boolean
+          example: true
     CreateUserDto:
       type: object
       properties:
@@ -1863,6 +1400,469 @@ components:
       - type
       - role
       - locationIds
+    UpdateUserDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Deo
+        email:
+          type: string
+          example: john@deo.com
+          deprecated: true
+          description: Email update is no longer supported due to security reasons.
+        password:
+          type: string
+          example: '*******'
+        phone:
+          type: string
+          example: '+18832327657'
+        type:
+          type: string
+          example: account
+        role:
+          type: string
+          example: admin
+        companyId:
+          type: string
+          description: Company/Agency Id. Required for Agency Level access
+          example: UAXssdawIWAWD
+        locationIds:
+          example:
+          - C2QujeCh8ZnC7al2InWR
+          type: array
+          items:
+            type: string
+        permissions:
+          $ref: '#/components/schemas/PermissionsDto'
+        scopes:
+          type: array
+          example:
+          - contacts.write
+          - campaigns.readonly
+          description: Scopes allowed for users. Only scopes that have been passed will be enabled. If passed empty all the scopes will be get disabled
+          items:
+            type: string
+            enum:
+            - campaigns.readonly
+            - campaigns.write
+            - calendars.readonly
+            - calendars/events.write
+            - calendars/groups.write
+            - calendars.write
+            - contacts.write
+            - contacts/bulkActions.write
+            - workflows.readonly
+            - workflows.write
+            - triggers.write
+            - funnels.write
+            - forms.write
+            - surveys.write
+            - quizzes.write
+            - websites.write
+            - medias.write
+            - medias.readonly
+            - opportunities.write
+            - opportunities/leadValue.readonly
+            - opportunities/bulkActions.write
+            - reporting/phone.readonly
+            - reporting/adwords.readonly
+            - reporting/facebookAds.readonly
+            - reporting/attributions.readonly
+            - prospecting/auditReport.write
+            - reporting/reports.readonly
+            - reporting/agent.readonly
+            - reporting/reports.write
+            - reporting/stats.export
+            - payments.write
+            - payments/records.write
+            - payments/orders.readonly
+            - payments/orders.export
+            - payments/orders.import
+            - payments/orders.collectPayment
+            - payments/subscriptions.readonly
+            - payments/subscriptions.write
+            - payments/subscriptions.update
+            - payments/subscriptions.export
+            - payments/subscriptions.pauseResumeCancel
+            - payments/subscriptions.sharePaymentMethod
+            - payments/transactions.readonly
+            - payments/transactions.export
+            - payments/transactions.import
+            - payments/transactions.refund
+            - payments/transactions.viewReceipts
+            - payments/taxesSettings.readonly
+            - payments/settings.readonly
+            - payments/taxesSettings.updateInclusiveExclusive
+            - payments/taxesSettings.manageRates
+            - payments/taxesSettings.configureAutomatic
+            - products.readonly
+            - products.write
+            - products.delete
+            - products.duplicate
+            - products.bulkActions
+            - payments/settings.write
+            - payments/settings.configureReceipt
+            - payments/settings.configureSubscription
+            - invoices.write
+            - invoices.readonly
+            - invoices/schedule.readonly
+            - invoices/schedule.write
+            - invoices/template.readonly
+            - invoices/template.write
+            - reputation/review.write
+            - reputation/listing.write
+            - reputation/reviewsAIAgents.write
+            - reputation/gbp.write
+            - conversations.write
+            - conversations.readonly
+            - conversations/message.readonly
+            - conversations/message.write
+            - contentAI.write
+            - dashboard/stats.readonly
+            - locations/tags.write
+            - locations/tags.readonly
+            - marketing.write
+            - eliza.write
+            - settings.write
+            - socialplanner/post.write
+            - socialplanner/account.readonly
+            - socialplanner/account.write
+            - socialplanner/category.readonly
+            - socialplanner/category.write
+            - socialplanner/csv.readonly
+            - socialplanner/csv.write
+            - socialplanner/group.write
+            - socialplanner/hashtag.readonly
+            - socialplanner/hashtag.write
+            - socialplanner/oauth.readonly
+            - socialplanner/oauth.write
+            - socialplanner/post.readonly
+            - socialplanner/recurring.readonly
+            - socialplanner/recurring.write
+            - socialplanner/review.readonly
+            - socialplanner/review.write
+            - socialplanner/rss.readonly
+            - socialplanner/rss.write
+            - socialplanner/search.readonly
+            - socialplanner/setting.readonly
+            - socialplanner/setting.write
+            - socialplanner/stat.readonly
+            - socialplanner/tag.readonly
+            - socialplanner/tag.write
+            - socialplanner/filters.readonly
+            - socialplanner/medias.readonly
+            - socialplanner/medias.write
+            - socialplanner/watermarks.readonly
+            - socialplanner/watermarks.write
+            - socialplanner/metatag.readonly
+            - socialplanner/facebook.readonly
+            - socialplanner/linkedin.readonly
+            - socialplanner/twitter.readonly
+            - socialplanner/notification.readonly
+            - socialplanner/notification.write
+            - socialplanner/snapshot.readonly
+            - socialplanner/snapshot.write
+            - marketing/affiliate.write
+            - blogs.write
+            - membership.write
+            - communities.write
+            - gokollab.write
+            - certificates.write
+            - certificates.readonly
+            - adPublishing.write
+            - adPublishing.readonly
+            - prospecting.write
+            - prospecting.readonly
+            - prospecting/reports.readonly
+            - private-integration-location.readonly
+            - private-integration-location.write
+            - private-integration-company.readonly
+            - private-integration-company.write
+            - native-integrations.readonly
+            - native-integrations.write
+            - wordpress.write
+            - wordpress.read
+            - custom-menu-link.write
+            - qrcodes.write
+            - users/team-management.write
+            - users/team-management.readonly
+            - loginas.write
+            - users-sso-login-management.write
+            - users-sso-login-management.readonly
+            - sso-config.write
+            - snapshots/api.readonly
+            - snapshots/api.create
+            - snapshots/api.edit
+            - snapshots/api.push
+            - snapshots/api.refresh
+            - snapshots/api.share
+            - snapshots/api.delete
+            - internaltools.location-transfer.write
+            - internaltools.location-transfer.readonly
+            - affiliateportal.write
+            - affiliateportal.readonly
+            - companies.write
+            - internaltools.billing.write
+            - internaltools.billing.readonly
+            - internaltools.billing-common.readonly
+            - internaltools.billing-common.write
+            - voice-ai-agents.write
+            - voice-ai-agents.readonly
+            - voice-ai-common.readonly
+            - voice-ai-common.write
+            - voice-ai-agent-goals.readonly
+            - voice-ai-agent-goals.write
+            - voice-ai-dashboard.readonly
+            - agency/launchpad.write
+            - agency/launchpad.readonly
+            - launchpad/location.write
+            - launchpad/location.readonly
+            - text-ai-agents.write
+            - text-ai-agent-goals.readonly
+            - text-ai-agent-goals.write
+            - text-ai-agent-training.write
+            - text-ai-agents-dashboard.readonly
+            - locations.create
+            - locations.delete
+            - locations.export.list
+            - locations.features-limits.manage
+            - locations.pause-resume
+            - locations.agency-subaccounts.manage
+            - locations.billing.manage
+            - locations.details.manage
+            - audit-logs.readonly
+            - audit-logs.export
+        scopesAssignedToOnly:
+          type: array
+          example:
+          - contacts.write
+          - campaigns.readonly
+          description: Assigned Scopes allowed for users. Only scopes that have been passed will be enabled. If passed empty all the assigned scopes will be get disabled
+          items:
+            type: string
+            enum:
+            - campaigns.readonly
+            - campaigns.write
+            - calendars.readonly
+            - calendars/events.write
+            - calendars/groups.write
+            - calendars.write
+            - contacts.write
+            - contacts/bulkActions.write
+            - workflows.readonly
+            - workflows.write
+            - triggers.write
+            - funnels.write
+            - forms.write
+            - surveys.write
+            - quizzes.write
+            - websites.write
+            - medias.write
+            - medias.readonly
+            - opportunities.write
+            - opportunities/leadValue.readonly
+            - opportunities/bulkActions.write
+            - reporting/phone.readonly
+            - reporting/adwords.readonly
+            - reporting/facebookAds.readonly
+            - reporting/attributions.readonly
+            - prospecting/auditReport.write
+            - reporting/reports.readonly
+            - reporting/agent.readonly
+            - reporting/reports.write
+            - reporting/stats.export
+            - payments.write
+            - payments/records.write
+            - payments/orders.readonly
+            - payments/orders.export
+            - payments/orders.import
+            - payments/orders.collectPayment
+            - payments/subscriptions.readonly
+            - payments/subscriptions.write
+            - payments/subscriptions.update
+            - payments/subscriptions.export
+            - payments/subscriptions.pauseResumeCancel
+            - payments/subscriptions.sharePaymentMethod
+            - payments/transactions.readonly
+            - payments/transactions.export
+            - payments/transactions.import
+            - payments/transactions.refund
+            - payments/transactions.viewReceipts
+            - payments/taxesSettings.readonly
+            - payments/settings.readonly
+            - payments/taxesSettings.updateInclusiveExclusive
+            - payments/taxesSettings.manageRates
+            - payments/taxesSettings.configureAutomatic
+            - products.readonly
+            - products.write
+            - products.delete
+            - products.duplicate
+            - products.bulkActions
+            - payments/settings.write
+            - payments/settings.configureReceipt
+            - payments/settings.configureSubscription
+            - invoices.write
+            - invoices.readonly
+            - invoices/schedule.readonly
+            - invoices/schedule.write
+            - invoices/template.readonly
+            - invoices/template.write
+            - reputation/review.write
+            - reputation/listing.write
+            - reputation/reviewsAIAgents.write
+            - reputation/gbp.write
+            - conversations.write
+            - conversations.readonly
+            - conversations/message.readonly
+            - conversations/message.write
+            - contentAI.write
+            - dashboard/stats.readonly
+            - locations/tags.write
+            - locations/tags.readonly
+            - marketing.write
+            - eliza.write
+            - settings.write
+            - socialplanner/post.write
+            - socialplanner/account.readonly
+            - socialplanner/account.write
+            - socialplanner/category.readonly
+            - socialplanner/category.write
+            - socialplanner/csv.readonly
+            - socialplanner/csv.write
+            - socialplanner/group.write
+            - socialplanner/hashtag.readonly
+            - socialplanner/hashtag.write
+            - socialplanner/oauth.readonly
+            - socialplanner/oauth.write
+            - socialplanner/post.readonly
+            - socialplanner/recurring.readonly
+            - socialplanner/recurring.write
+            - socialplanner/review.readonly
+            - socialplanner/review.write
+            - socialplanner/rss.readonly
+            - socialplanner/rss.write
+            - socialplanner/search.readonly
+            - socialplanner/setting.readonly
+            - socialplanner/setting.write
+            - socialplanner/stat.readonly
+            - socialplanner/tag.readonly
+            - socialplanner/tag.write
+            - socialplanner/filters.readonly
+            - socialplanner/medias.readonly
+            - socialplanner/medias.write
+            - socialplanner/watermarks.readonly
+            - socialplanner/watermarks.write
+            - socialplanner/metatag.readonly
+            - socialplanner/facebook.readonly
+            - socialplanner/linkedin.readonly
+            - socialplanner/twitter.readonly
+            - socialplanner/notification.readonly
+            - socialplanner/notification.write
+            - socialplanner/snapshot.readonly
+            - socialplanner/snapshot.write
+            - marketing/affiliate.write
+            - blogs.write
+            - membership.write
+            - communities.write
+            - gokollab.write
+            - certificates.write
+            - certificates.readonly
+            - adPublishing.write
+            - adPublishing.readonly
+            - prospecting.write
+            - prospecting.readonly
+            - prospecting/reports.readonly
+            - private-integration-location.readonly
+            - private-integration-location.write
+            - private-integration-company.readonly
+            - private-integration-company.write
+            - native-integrations.readonly
+            - native-integrations.write
+            - wordpress.write
+            - wordpress.read
+            - custom-menu-link.write
+            - qrcodes.write
+            - users/team-management.write
+            - users/team-management.readonly
+            - loginas.write
+            - users-sso-login-management.write
+            - users-sso-login-management.readonly
+            - sso-config.write
+            - snapshots/api.readonly
+            - snapshots/api.create
+            - snapshots/api.edit
+            - snapshots/api.push
+            - snapshots/api.refresh
+            - snapshots/api.share
+            - snapshots/api.delete
+            - internaltools.location-transfer.write
+            - internaltools.location-transfer.readonly
+            - affiliateportal.write
+            - affiliateportal.readonly
+            - companies.write
+            - internaltools.billing.write
+            - internaltools.billing.readonly
+            - internaltools.billing-common.readonly
+            - internaltools.billing-common.write
+            - voice-ai-agents.write
+            - voice-ai-agents.readonly
+            - voice-ai-common.readonly
+            - voice-ai-common.write
+            - voice-ai-agent-goals.readonly
+            - voice-ai-agent-goals.write
+            - voice-ai-dashboard.readonly
+            - agency/launchpad.write
+            - agency/launchpad.readonly
+            - launchpad/location.write
+            - launchpad/location.readonly
+            - text-ai-agents.write
+            - text-ai-agent-goals.readonly
+            - text-ai-agent-goals.write
+            - text-ai-agent-training.write
+            - text-ai-agents-dashboard.readonly
+            - locations.create
+            - locations.delete
+            - locations.export.list
+            - locations.features-limits.manage
+            - locations.pause-resume
+            - locations.agency-subaccounts.manage
+            - locations.billing.manage
+            - locations.details.manage
+            - audit-logs.readonly
+            - audit-logs.export
+        profilePhoto:
+          type: string
+          example: https://img.png
+        twilioPhone:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            C2QujeCh8ZnC7al2InWR: '+18832327657'
+            M2QrtfVt8ZnC7cv2InDL: '+18832327657'
+          description: 'Per-location inbound Twilio number in E.164 format, keyed by location id (Call and Voicemail Inbound Number for direct Twilio, not LC Phone). Replacement semantics: if you send twilioPhone in the request body, the stored map is replaced entirely with this object (not merged). Any location id omitted from the object is removed from the saved map. Omit the twilioPhone property entirely to leave existing numbers unchanged. Send an empty object {} to clear all per-location numbers. To clear a single location only, set that location id to an empty string "".'
+        platformLanguage:
+          type: string
+          example: en_US
+          description: Platform language preference for the user
+          enum:
+          - en_US
+          - es
+          - fr_CA
+          - fr_FR
+          - nl
+          - de
+          - pt_PT
+          - pt_BR
+          - it
+          - sv
+          - da
+          - fi
+          - 'no'
   securitySchemes:
     bearer:
       scheme: bearer

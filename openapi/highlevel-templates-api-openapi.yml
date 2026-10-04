@@ -441,58 +441,28 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
-    SaveBuilderDataDto:
+    TemplateSettings:
+      type: object
+      properties: {}
+    BuilderUpdateSuccessfulDTO:
       type: object
       properties:
-        locationId:
+        ok:
           type: string
-          example: ve9EPM428h8vShlRW1KT
-        templateId:
+          example: 'true'
+          description: ok
+        traceId:
           type: string
-          example: zYy3YOUuHxgomU1uYJty
-        updatedBy:
+          example: 0c52e980-41f6-4be7-8c4b-32332ss
+          description: trace id
+        previewUrl:
           type: string
-          example: zYy3YOUuHxgomU1uYJty
-        dnd:
-          example: '{elements:[], attrs:{}, templateSettings:{}}'
-          allOf:
-          - $ref: '#/components/schemas/IBuilderJsonMapper'
-        html:
+          example: https://example.com
+          description: preview url
+        templateDownloadUrl:
           type: string
-          example: ''
-        editorType:
-          type: string
-          enum:
-          - html
-          - builder
-        previewText:
-          type: string
-          example: zYy3YOUuHxgomU1uYJty
-        isPlainText:
-          type: boolean
-          example: 'false'
-      required:
-      - locationId
-      - templateId
-      - updatedBy
-      - dnd
-      - html
-      - editorType
-    IBuilderJsonMapper:
-      type: object
-      properties:
-        elements:
-          type: array
-          items:
-            type: string
-        attrs:
-          type: object
-        templateSettings:
-          $ref: '#/components/schemas/TemplateSettings'
-      required:
-      - elements
-      - attrs
-      - templateSettings
+          example: https://example.com
+          description: template data download url
     CreateBuilderDto:
       type: object
       properties:
@@ -547,36 +517,6 @@ components:
       - locationId
       - type
       - importProvider
-    BuilderUpdateSuccessfulDTO:
-      type: object
-      properties:
-        ok:
-          type: string
-          example: 'true'
-          description: ok
-        traceId:
-          type: string
-          example: 0c52e980-41f6-4be7-8c4b-32332ss
-          description: trace id
-        previewUrl:
-          type: string
-          example: https://example.com
-          description: preview url
-        templateDownloadUrl:
-          type: string
-          example: https://example.com
-          description: template data download url
-    DeleteBuilderSuccesfulResponseDto:
-      type: object
-      properties:
-        ok:
-          type: string
-          example: 'true'
-          description: ok
-        traceId:
-          type: string
-          example: 0c52e980-41f6-4be7-8c4b-32332ss
-          description: trace id
     FetchBuilderSuccesfulResponseDto:
       type: object
       properties:
@@ -616,9 +556,6 @@ components:
           type: string
           example: builder
           description: type
-    TemplateSettings:
-      type: object
-      properties: {}
     CreateBuilderSuccesfulResponseDto:
       type: object
       properties:
@@ -633,40 +570,69 @@ components:
       required:
       - redirect
       - traceId
-    TemplateListPaginationResponseDTO:
+    IBuilderJsonMapper:
       type: object
       properties:
-        data:
-          description: Array of templates
+        elements:
           type: array
           items:
-            $ref: '#/components/schemas/TemplateListResponseDTO'
-        total:
-          type: number
-          example: 2
-          description: Total number of templates
+            type: string
+        attrs:
+          type: object
+        templateSettings:
+          $ref: '#/components/schemas/TemplateSettings'
+      required:
+      - elements
+      - attrs
+      - templateSettings
+    DeleteBuilderSuccesfulResponseDto:
+      type: object
+      properties:
+        ok:
+          type: string
+          example: 'true'
+          description: ok
         traceId:
           type: string
-          example: d5656876-86a5-46fb-84df-788f1da7937a
-          description: Trace ID for request tracking
-      required:
-      - data
-      - total
-    SendTemplateResponseDto:
+          example: 0c52e980-41f6-4be7-8c4b-32332ss
+          description: trace id
+    SaveBuilderDataDto:
       type: object
       properties:
-        success:
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        templateId:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        updatedBy:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        dnd:
+          example: '{elements:[], attrs:{}, templateSettings:{}}'
+          allOf:
+          - $ref: '#/components/schemas/IBuilderJsonMapper'
+        html:
+          type: string
+          example: ''
+        editorType:
+          type: string
+          enum:
+          - html
+          - builder
+        previewText:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        isPlainText:
           type: boolean
-          description: Success status
-          example: true
-        links:
-          description: Links for all recipients
-          type: array
-          items:
-            $ref: '#/components/schemas/ProposalEstimateLinksDto'
+          example: 'false'
       required:
-      - success
-      - links
+      - locationId
+      - templateId
+      - updatedBy
+      - dnd
+      - html
+      - editorType
     BadRequestDTO:
       type: object
       properties:
@@ -676,38 +642,6 @@ components:
         message:
           type: string
           example: Bad Request
-    SendDocumentFromPublicApiBodyDto:
-      type: object
-      properties:
-        templateId:
-          type: string
-          description: Template Id
-          example: hTlkh7t8gujsahgg93
-        userId:
-          type: string
-          description: User Id
-          example: hTlkh7t8gujsahgg93
-        sendDocument:
-          type: boolean
-          description: Send Document
-          example: true
-        locationId:
-          type: string
-          description: Location Id
-          example: hTlkh7t8gujsahgg93
-        contactId:
-          type: string
-          description: Contact Id
-          example: hTlkh7t8gujsahgg93
-        opportunityId:
-          type: string
-          description: Opportunity Id
-          example: hTlkh7t8gujsahgg93
-      required:
-      - templateId
-      - userId
-      - locationId
-      - contactId
     TemplateListResponseDTO:
       type: object
       properties:
@@ -779,6 +713,25 @@ components:
       - createdAt
       - updatedAt
       - id
+    TemplateListPaginationResponseDTO:
+      type: object
+      properties:
+        data:
+          description: Array of templates
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListResponseDTO'
+        total:
+          type: number
+          example: 2
+          description: Total number of templates
+        traceId:
+          type: string
+          example: d5656876-86a5-46fb-84df-788f1da7937a
+          description: Trace ID for request tracking
+      required:
+      - data
+      - total
     ProposalEstimateLinksDto:
       type: object
       properties:
@@ -830,6 +783,53 @@ components:
       - documentRevision
       - createdBy
       - deleted
+    SendTemplateResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status
+          example: true
+        links:
+          description: Links for all recipients
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposalEstimateLinksDto'
+      required:
+      - success
+      - links
+    SendDocumentFromPublicApiBodyDto:
+      type: object
+      properties:
+        templateId:
+          type: string
+          description: Template Id
+          example: hTlkh7t8gujsahgg93
+        userId:
+          type: string
+          description: User Id
+          example: hTlkh7t8gujsahgg93
+        sendDocument:
+          type: boolean
+          description: Send Document
+          example: true
+        locationId:
+          type: string
+          description: Location Id
+          example: hTlkh7t8gujsahgg93
+        contactId:
+          type: string
+          description: Contact Id
+          example: hTlkh7t8gujsahgg93
+        opportunityId:
+          type: string
+          description: Opportunity Id
+          example: hTlkh7t8gujsahgg93
+      required:
+      - templateId
+      - userId
+      - locationId
+      - contactId
   securitySchemes:
     bearer:
       scheme: bearer
