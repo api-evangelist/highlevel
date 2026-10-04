@@ -1,0 +1,322 @@
+slug: highlevel
+provider: HighLevel
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 31
+edges:
+- tag: Facebook Ads
+  spec_file: highlevel-facebook-ads-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.9
+  evidence: POST /ad-publishing/facebook/campaigns/{campaignId}/publish 'Publish campaign'; 'Get conversion
+    pixels'; 'Get custom audiences'; schemas UpsertAdsetDTO, UpsertCampaignDTO, AudienceInterestDTO
+  reason: Operations create and publish Facebook ad campaigns, ad sets, ads, custom audiences and conversion
+    pixels — paid social media advertising execution, squarely digital marketing management.
+- tag: Google Ads
+  spec_file: highlevel-google-ads-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.9
+  evidence: POST /ad-publishing/google/ads/{adId}/publish  google-publish-ad; POST /ad-publishing/google/keyword-ideas;
+    GET /ad-publishing/google/targeting/search
+  reason: Operations publish Google ads, manage keywords, targeting, audiences and conversions — paid
+    media execution, squarely Digital Marketing Management.
+- tag: LinkedIn Ads
+  spec_file: highlevel-linkedin-ads-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.9
+  evidence: POST /ad-publishing/linkedin/ads/{adId}/publish  li-publish-campaign-group; POST /ad-publishing/linkedin/{accountId}/form  Create
+    lead form
+  reason: Publishing and managing LinkedIn ad campaign groups, targeting and lead forms — paid social
+    media advertising execution.
+- tag: Opportunities
+  spec_file: highlevel-opportunities-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.9
+  evidence: POST /opportunities/ create-opportunity Create Opportunity; PUT /opportunities/{id}/status
+    Update Opportunity Status
+  reason: CRUD over sales opportunities including status progression — the classic lead/opportunity/deal
+    lifecycle in HighLevel's CRM.
+- tag: Contacts
+  spec_file: highlevel-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.85
+  evidence: POST /contacts/ create-contact "Create Contact", POST /contacts/upsert "Upsert Contact"; schemas
+    CreateContactDto, ContactsSearchSchema, DndSettingsSchema
+  reason: Full CRUD plus upsert over contact records with custom fields, attribution source and DND consent
+    settings is canonical CRM customer master-data management on a platform whose own description leads
+    with CRM.
+- tag: Coupons
+  spec_file: highlevel-coupons-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.85
+  evidence: POST /payments/coupon create-coupon "Create Coupon"; schemas CouponDto, ApplyToFuturePaymentsConfigDto
+  reason: Creating, listing and expiring discount coupons applied to payments is discount and promotion
+    management; the ApplyToFuturePaymentsConfig schema confirms these are commercial price reductions,
+    not technical tokens.
+- tag: Invoice
+  spec_file: highlevel-invoice-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.85
+  evidence: POST /invoices/  create-invoice  Create Invoice; POST /invoices/{invoiceId}/send  Send invoice;
+    POST /invoices/{invoiceId}/record-payment  Record a manual payment for an invoice
+  reason: Full customer invoicing lifecycle including creation, sending, voiding, late fees and payment
+    recording — Accounts Receivable / customer invoicing.
+- tag: Blogs
+  spec_file: highlevel-blogs-api-openapi.yml
+  capability_id: BC-400.70
+  capability_id_l1: BC-400
+  capability_name: Content Marketing Management
+  confidence: 0.82
+  evidence: POST /blogs/posts create-blog-post "Create Blog Post"; GET /blogs/authors "Get all authors";
+    GET /blogs/categories
+  reason: Operations author, update and publish blog posts with authors and categories — editorial content
+    production and distribution, i.e. Content Marketing Management.
+- tag: Facebook Integration
+  spec_file: highlevel-facebook-integration-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.8
+  evidence: GET /ad-publishing/facebook/ad-accounts 'Get ad accounts'; POST /ad-publishing/facebook/page/{pageId}/forms
+    'Create page lead form'; POST /ad-publishing/facebook/integration 'Create Facebook integration'
+  reason: Connects Facebook pages, Instagram accounts, ad accounts and lead forms to the ad-publishing
+    product — paid-social channel setup within digital marketing. Lead-form creation also touches demand
+    generation, slight ambiguity on sub-capability.
+- tag: Lost reason
+  spec_file: highlevel-lost-reason-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.8
+  evidence: GET /opportunities/lost-reason  get-lost-reason; LostReasonsResponseSchema
+  reason: Lost reasons belong to the Opportunities API and describe why a deal was lost — part of opportunity/pipeline
+    lifecycle management.
+- tag: Pipelines
+  spec_file: highlevel-pipelines-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.8
+  evidence: GET /opportunities/pipelines get-pipelines Get Pipelines; PipelinesResponseSchema
+  reason: Retrieval of sales pipelines within the Opportunities API — pipeline structure for deal management.
+- tag: Post
+  spec_file: highlevel-post-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.8
+  evidence: POST /social-media-posting/{locationId}/posts create-post Create post; GMBPostSchema, TiktokPostSchema
+  reason: Authoring, scheduling-style CRUD and approval of social media posts across networks — digital/social
+    marketing execution.
+- tag: Saas
+  spec_file: highlevel-saas-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.8
+  evidence: '"Update SaaS subscription", "Enable SaaS for Sub-Account (Formerly Location)", "Get Location
+    Subscription Details", "Get Agency Plans", "Pause location", UpdateRebillingDto'
+  reason: Operations activate SaaS for sub-accounts, read and update their subscriptions, pause them and
+    expose plans and rebilling — the commercial subscription lifecycle for tenants. Evidence spans provisioning,
+    modification and plan design, so no single L2 is asserted.
+- tag: Statistics
+  spec_file: highlevel-statistics-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.78
+  evidence: POST /social-media-posting/statistics  get-social-media-statistics  'Get Social Media Statistics'
+  reason: The single operation returns performance statistics for social media posting, which is squarely
+    digital marketing measurement (web/social/marketing automation) rather than generic analytics plumbing.
+- tag: FAQs
+  spec_file: highlevel-faqs-api-openapi.yml
+  capability_id: BC-430.40
+  capability_id_l1: BC-430
+  capability_name: Self-Service Management
+  confidence: 0.75
+  evidence: GET /knowledge-bases/faqs 'Get all FAQs by knowledge base with pagination support'; POST /knowledge-bases/faqs
+    'Create a new FAQ inside knowledge base'
+  reason: CRUD over FAQ entries inside a knowledge base maps directly to the Self-Service Management sub-capability,
+    explicitly described as 'FAQ, knowledge base, chatbots, self-service portals'.
+- tag: Funnel
+  spec_file: highlevel-funnel-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.75
+  evidence: GET /funnels/funnel/list  getFunnels  Fetch List of Funnels; GET /funnels/page  Fetch list
+    of funnel pages
+  reason: Funnels and funnel pages are marketing landing-page/web assets used for demand capture; closest
+    fit is Digital Marketing Management (web/marketing automation). Some ambiguity vs. Demand Generation.
+- tag: Google Reporting
+  spec_file: highlevel-google-reporting-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.75
+  evidence: GET /ad-publishing/google/reporting/campaign/{campaignId}  google-get-campaign-reporting
+  reason: Campaign-level paid media performance reporting within the ad-publishing API; part of digital
+    marketing measurement. Could also be seen as Marketing Operations measurement.
+- tag: LinkedIn Reporting
+  spec_file: highlevel-linkedin-reporting-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.75
+  evidence: GET /ad-publishing/linkedin/reporting  li-get-ad-analytics  Get ad analytics
+  reason: Paid social ad analytics and campaign-group reporting — measurement of digital advertising performance.
+- tag: Order fulfillments
+  spec_file: highlevel-order-fulfillments-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.75
+  evidence: POST /payments/orders/{orderId}/fulfillments create-order-fulfillment Create order fulfillment;
+    schema FulfillmentTracking
+  reason: Operations create and list fulfillments against orders, with fulfilled items and tracking —
+    order fulfilment execution.
+- tag: Prices
+  spec_file: highlevel-prices-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.75
+  evidence: POST /products/{productId}/price create-price-for-product; PUT /products/{productId}/price/{priceId}
+    update-price-by-id-for-product
+  reason: Creation and maintenance of product price records (with recurring/membership variants) — price
+    book maintenance; inventory endpoints are secondary.
+- tag: Sub-Account (Formerly Location)
+  spec_file: highlevel-sub-account-formerly-location-api-openapi.yml
+  capability_id: BC-4230.10
+  capability_id_l1: BC-4230
+  capability_name: Tenant Provisioning & Lifecycle
+  confidence: 0.75
+  evidence: POST /locations/ create-location 'Create Sub-Account (Formerly Location)'; DELETE /locations/{locationId}
+    'Delete Sub-Account'
+  reason: Full CRUD over sub-accounts (locations) — the per-client tenants of HighLevel's multi-tenant
+    agency platform, including provisioning settings (TwilioSchema, MailgunSchema, SnapshotPutSchema).
+    That is tenant creation/decommissioning, i.e. tenant provisioning and lifecycle.
+- tag: Text2Pay
+  spec_file: highlevel-text2pay-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.75
+  evidence: POST /invoices/text2pay text2pay-invoice Create & Send; schemas InvoiceItemDto, PaymentScheduleDto,
+    LateFeesGraceDto
+  reason: Creates and sends an invoice with payment link, items, taxes, late fees and payment schedule
+    — customer invoicing and collection, i.e. accounts receivable.
+- tag: Brand Boards
+  spec_file: highlevel-brand-boards-api-openapi.yml
+  capability_id: BC-400.20
+  capability_id_l1: BC-400
+  capability_name: Brand Management
+  confidence: 0.72
+  evidence: POST /brand-boards/ createBrandBoard "Create a new brand board"; schemas Color, Font, Logo
+  reason: Brand boards store colour, font and logo assets per location — management of brand identity
+    assets. Mapped to Brand Management, with some residual chance this is treated as pure design-asset
+    tooling.
+- tag: Account
+  spec_file: highlevel-account-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: openapi title "Social Media Posting Account API"; GET /social-media-posting/{locationId}/accounts
+    — Get Accounts; DELETE /social-media-posting/{locationId}/accounts/{id} — Delete Account
+  reason: The 'Account' tag here means connected social-media publishing accounts within the Social Media
+    Posting API, i.e. managing the social channels used for posting. That is digital/social marketing
+    channel management rather than financial or customer accounts. Confidence held at 0.7 because the
+    surface is only connection management, not campaign execution itself.
+- tag: CSV
+  spec_file: highlevel-csv-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: POST /social-media-posting/{locationId}/csv upload-csv "Upload CSV"; PATCH .../csv/{id} "Start
+    CSV Finalize"; GMBPostSchema, TiktokPostSchema
+  reason: Bulk import and finalisation of social media posts across accounts (TikTok, GMB) — social publishing,
+    part of Digital Marketing Management. Confidence moderated because the tag itself is a file-import
+    mechanism.
+- tag: Campaigns
+  spec_file: highlevel-campaigns-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.7
+  evidence: POST /contacts/{contactId}/campaigns/{campaignId} "Add Contact to Campaign"; GET /emails/schedule
+    fetch-campaigns "Get Campaigns"
+  reason: Enrolling and removing contacts from marketing campaigns and listing scheduled email campaigns
+    — lifecycle/demand generation marketing. Some ambiguity between Demand Generation and Digital Marketing
+    automation.
+- tag: Estimate
+  spec_file: highlevel-estimate-api-openapi.yml
+  capability_id: BC-410.40
+  capability_id_l1: BC-410
+  capability_name: Quote & Configuration Management
+  confidence: 0.7
+  evidence: POST /invoices/estimate 'Create New Estimate'; POST /invoices/estimate/{estimateId}/send 'Send
+    Estimate'; POST /invoices/estimate/{estimateId}/invoice 'Create Invoice from Estimate'
+  reason: Full estimate (quote) lifecycle — creation, numbering, templates, sending, and conversion to
+    an invoice — which is quote management in the lead-to-order flow. Some overlap with accounts receivable
+    invoicing lowers confidence slightly.
+- tag: Google Integration
+  spec_file: highlevel-google-integration-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: GET /ad-publishing/google/ad-accounts  google-get-ad-accounts; POST /ad-publishing/google/integration
+  reason: Connects and manages Google ad accounts for the ad-publishing surface; supports paid media operations,
+    though the operations themselves are account-linking plumbing.
+- tag: LinkedIn Integration
+  spec_file: highlevel-linkedin-integration-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: GET /ad-publishing/linkedin/ad-accounts  li-get-ad-accounts; POST /ad-publishing/linkedin/integration
+  reason: Linking and managing LinkedIn ad accounts for paid social publishing; supports digital marketing,
+    though largely connector configuration.
+- tag: Notes
+  spec_file: highlevel-notes-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: GET /contacts/{contactId}/notes  get-all-notes; POST /contacts/{contactId}/notes  create-note
+  reason: Notes attached to contact records in the CRM — part of maintaining customer data/records. Thin
+    but clearly contact-record-scoped.
+- tag: Users
+  spec_file: highlevel-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /users/ create-user; schemas RoleSchema, PermissionsDto, CreateUserDto
+  reason: CRUD over platform user accounts with roles and permissions scoped to locations — identity and
+    access administration, not HR employee records.

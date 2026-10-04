@@ -48,6 +48,9 @@ maintainers:
   email: info@apis.io
 
 common:
+- type: CapabilityMap
+  url: capabilities/highlevel-capability-edges.yml
+  name: HighLevel Business Capability Map
 - type: RateLimits
   url: rate-limits/highlevel-rate-limits.yml
 - type: Webhooks
