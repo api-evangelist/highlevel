@@ -1,0 +1,12 @@
+{
+ "url": "https://raw.githubusercontent.com/gohighlevel/highlevel-api-docs/HEAD/apps/saas-api.json",
+ "requested_url": "https://raw.githubusercontent.com/gohighlevel/highlevel-api-docs/HEAD/apps/saas-api.json",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 76848,
+ "sha256": "d3a1c71437702676bf35f01e3398d8e6f5fb37cbcaabe6e72092d31e3dac6cc4",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
