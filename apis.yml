@@ -20,7 +20,7 @@ specificationVersion: '0.20'
 
 created: '2026-09-22'
 
-modified: '2026-09-22'
+modified: '2026-10-06'
 
 tags:
 - Company
@@ -48,6 +48,8 @@ maintainers:
   email: info@apis.io
 
 common:
+- url: https://www.gohighlevel.com/blog
+  type: Blog
 - type: CapabilityMap
   url: capabilities/highlevel-capability-edges.yml
   name: HighLevel Business Capability Map
