@@ -42,3 +42,28 @@ plans:
   - Advanced API Access
 docs: https://www.gohighlevel.com/pricing
 note: 1 extracted row(s) were dropped because their quote was not on the page.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Starter
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Unlimited
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Agency Pro
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
