@@ -1,0 +1,30 @@
+# Front Door AI Index — highlevel — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: highlevel
+  lexicon_version: '1.0'
+  probed_at: '2026-09-25'
+  host: gohighlevel.com
+  final_host: www.gohighlevel.com
+  ownership: own
+  owner: highlevel
+  shares_host_with: null
+  inherited_from: null
+  alias_of: null
+  verdict: scored
+  score: 5
+  band: 4
+  band_label: moderate
+  host_score: 5
+  density: 5.61
+  words: 892
+  tiers:
+    agentic: 0
+    core: 5
+    model: 0
+  ambiguous: 2
+  top_terms:
+    AI: 5
+    agent: 1
+    automation: 1
