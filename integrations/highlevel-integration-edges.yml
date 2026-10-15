@@ -5,6 +5,7 @@ source:
 - https://composio.dev/toolkits/highlevel
 checked:
 - https://composio.dev/toolkits/highlevel
+- https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://monid.ai/tools/highlevel
 - https://n8n.io/integrations/highlevel/
 - https://zapier.com/apps/highlevel/integrations
@@ -570,5 +571,31 @@ marketplace_apps:
   - key: HIGHLEVEL_UPDATE_VOICE_AI_AGENTS
   - key: HIGHLEVEL_UPLOAD_FILE_CUSTOM_FIELDS
   - key: HIGHLEVEL_UPLOAD_MEDIA_FILE
-edges: []
+edges:
+- partner_name: Pipedream
+  partner: pipedream
+  partner_match: aggregator
+  type: marketplace
+  marketplace: pipedream-components
+  channel: open-source-node
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/highlevel_oauth
+  category: null
+  contract_reference:
+    register: Pipedream components (PipedreamHQ/pipedream components/)
+    spec_file: null
+    role: ipaas-connector:pipedream
+    registered_name: highlevel oauth
+    matched_domain: gohighlevel.com
+    matched_by: domain
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: highlevel_oauth
+    actions: true
+    sources: true
+    builder: Pipedream repo (component)
+  detected_by: sweep-workflow-automation.py
+  first_seen: '2026-10-15'
 templates: []
