@@ -217,6 +217,71 @@ paths:
         - oauth.readonly
 components:
   schemas:
+    InstalledLocationSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 0IHuJvc2ofPAAA8GzTRi
+          description: Location ID
+        name:
+          type: string
+          example: John Deo
+          description: Name of the location
+        address:
+          type: string
+          example: 47 W 13th St, New York, NY 10011, USA
+          description: Address linked to location
+        isInstalled:
+          type: boolean
+          example: true
+          description: Check if the requested app is installed for following location
+        versionId:
+          type: string
+          example: 6578278e879ad2646715ba9c
+          description: Version ID of the installed app version for this location
+        installedAt:
+          format: date-time
+          type: string
+          example: '2024-01-15T10:30:00.000Z'
+          description: Timestamp when the app was installed on this location
+      required:
+      - _id
+      - name
+      - address
+    GetAccessCodebodyDto:
+      type: object
+      properties:
+        client_id:
+          type: string
+          description: The ID provided by GHL for your integration
+        client_secret:
+          type: string
+        grant_type:
+          type: string
+          enum:
+          - authorization_code
+          - refresh_token
+          - client_credentials
+        code:
+          type: string
+        refresh_token:
+          type: string
+        user_type:
+          type: string
+          description: The type of token to be requested
+          example: Location
+          enum:
+          - Company
+          - Location
+        redirect_uri:
+          type: string
+          description: The redirect URI for your application
+          example: https://myapp.com/oauth/callback/gohighlevel
+      required:
+      - client_id
+      - client_secret
+      - grant_type
     GetAccessCodeSuccessfulResponseDto:
       type: object
       properties:
@@ -274,51 +339,6 @@ components:
           example: true
       required:
       - userId
-    GetLocationAccessCodeBodyDto:
-      type: object
-      properties:
-        companyId:
-          type: string
-          description: Company Id of location you want to request token for
-        locationId:
-          type: string
-          description: The location ID for which you want to obtain accessToken
-      required:
-      - companyId
-      - locationId
-    GetAccessCodebodyDto:
-      type: object
-      properties:
-        client_id:
-          type: string
-          description: The ID provided by GHL for your integration
-        client_secret:
-          type: string
-        grant_type:
-          type: string
-          enum:
-          - authorization_code
-          - refresh_token
-          - client_credentials
-        code:
-          type: string
-        refresh_token:
-          type: string
-        user_type:
-          type: string
-          description: The type of token to be requested
-          example: Location
-          enum:
-          - Company
-          - Location
-        redirect_uri:
-          type: string
-          description: The redirect URI for your application
-          example: https://myapp.com/oauth/callback/gohighlevel
-      required:
-      - client_id
-      - client_secret
-      - grant_type
     GetLocationAccessTokenSuccessfulResponseDto:
       type: object
       properties:
@@ -374,38 +394,18 @@ components:
           type: boolean
           description: Boolean to control if user wants app to be automatically installed to future locations
           example: true
-    InstalledLocationSchema:
+    GetLocationAccessCodeBodyDto:
       type: object
       properties:
-        _id:
+        companyId:
           type: string
-          example: 0IHuJvc2ofPAAA8GzTRi
-          description: Location ID
-        name:
+          description: Company Id of location you want to request token for
+        locationId:
           type: string
-          example: John Deo
-          description: Name of the location
-        address:
-          type: string
-          example: 47 W 13th St, New York, NY 10011, USA
-          description: Address linked to location
-        isInstalled:
-          type: boolean
-          example: true
-          description: Check if the requested app is installed for following location
-        versionId:
-          type: string
-          example: 6578278e879ad2646715ba9c
-          description: Version ID of the installed app version for this location
-        installedAt:
-          format: date-time
-          type: string
-          example: '2024-01-15T10:30:00.000Z'
-          description: Timestamp when the app was installed on this location
+          description: The location ID for which you want to obtain accessToken
       required:
-      - _id
-      - name
-      - address
+      - companyId
+      - locationId
   securitySchemes:
     bearer:
       scheme: bearer

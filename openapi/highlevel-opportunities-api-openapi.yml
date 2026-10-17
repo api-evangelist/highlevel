@@ -320,6 +320,95 @@ paths:
         - opportunities.write
 components:
   schemas:
+    SearchOpportunitiesContactResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: byMEV0NQinDhq8ZfiOi2
+        name:
+          type: string
+          example: John Deo
+        companyName:
+          type: string
+          example: Tesla Inc
+        email:
+          type: string
+          example: john@deo.com
+        phone:
+          type: string
+          example: +1202-555-0107
+        tags:
+          type: array
+          items:
+            type: string
+    customFieldsInputObjectSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          type: object
+          example: {}
+      required:
+      - id
+    customFieldsInputArraySchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6dvNaf7VhkQ9snc5vnjJ
+        key:
+          type: string
+          example: my_custom_field
+        field_value:
+          example:
+          - test
+          - test2
+          type: array
+          items:
+            type: string
+      required:
+      - id
+    UpdateOpportunityDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+          description: pipeline Id
+          example: bCkKGpDsyPP4peuKowkG
+        name:
+          type: string
+          example: First Opps
+        pipelineStageId:
+          type: string
+          example: 7915dedc-8f18-44d5-8bc3-77c04e994a10
+        status:
+          type: string
+          enum:
+          - open
+          - won
+          - lost
+          - abandoned
+          - all
+        monetaryValue:
+          type: number
+          example: 220
+        assignedTo:
+          type: string
+          example: 082goXVW3lIExEQPOnd3
+        customFields:
+          type: array
+          description: Update custom fields to opportunities.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/customFieldsInputStringSchema'
+            - $ref: '#/components/schemas/customFieldsInputArraySchema'
+            - $ref: '#/components/schemas/customFieldsInputObjectSchema'
     UpdateStatusDto:
       type: object
       properties:
@@ -337,52 +426,6 @@ components:
           example: CLu7BaljjqrEjBGKTNNe
       required:
       - status
-    customFieldsInputStringSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-          description: Pass either `id` or `key` of custom field
-        key:
-          type: string
-          example: my_custom_field
-          description: Pass either `id` or `key` of custom field
-        field_value:
-          type: string
-          example: '9039160788'
-    UpsertOpportunitySuccessfulResponseDto:
-      type: object
-      properties:
-        opportunity:
-          type: object
-          description: Updated / New Opportunity
-        new:
-          type: boolean
-          example: true
-      required:
-      - opportunity
-      - new
-    CustomFieldResponseSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: MgobCB14YMVKuE4Ka8p1
-        fieldValue:
-          description: The value of the custom field
-          oneOf:
-          - type: string
-          - type: object
-          - type: array
-            items:
-              type: string
-          - type: array
-            items:
-              type: object
-      required:
-      - id
-      - fieldValue
     CreateDto:
       type: object
       properties:
@@ -430,74 +473,24 @@ components:
       - name
       - status
       - contactId
-    SearchOpportunitiesContactResponseSchema:
+    UpsertOpportunitySuccessfulResponseDto:
       type: object
       properties:
-        id:
-          type: string
-          example: byMEV0NQinDhq8ZfiOi2
-        name:
-          type: string
-          example: John Deo
-        companyName:
-          type: string
-          example: Tesla Inc
-        email:
-          type: string
-          example: john@deo.com
-        phone:
-          type: string
-          example: +1202-555-0107
-        tags:
-          type: array
-          items:
-            type: string
+        opportunity:
+          type: object
+          description: Updated / New Opportunity
+        new:
+          type: boolean
+          example: true
+      required:
+      - opportunity
+      - new
     DeleteUpdateOpportunitySuccessfulResponseDto:
       type: object
       properties:
         succeded:
           type: boolean
           example: true
-    GetPostOpportunitySuccessfulResponseDto:
-      type: object
-      properties:
-        opportunity:
-          $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
-    UpdateOpportunityDto:
-      type: object
-      properties:
-        pipelineId:
-          type: string
-          description: pipeline Id
-          example: bCkKGpDsyPP4peuKowkG
-        name:
-          type: string
-          example: First Opps
-        pipelineStageId:
-          type: string
-          example: 7915dedc-8f18-44d5-8bc3-77c04e994a10
-        status:
-          type: string
-          enum:
-          - open
-          - won
-          - lost
-          - abandoned
-          - all
-        monetaryValue:
-          type: number
-          example: 220
-        assignedTo:
-          type: string
-          example: 082goXVW3lIExEQPOnd3
-        customFields:
-          type: array
-          description: Update custom fields to opportunities.
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/customFieldsInputStringSchema'
-            - $ref: '#/components/schemas/customFieldsInputArraySchema'
-            - $ref: '#/components/schemas/customFieldsInputObjectSchema'
     SearchOpportunitiesResponseSchema:
       type: object
       properties:
@@ -576,38 +569,40 @@ components:
             type: array
         externalObjectId:
           type: string
-    customFieldsInputObjectSchema:
+    CustomFieldResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: MgobCB14YMVKuE4Ka8p1
+        fieldValue:
+          description: The value of the custom field
+          oneOf:
+          - type: string
+          - type: object
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: object
+      required:
+      - id
+      - fieldValue
+    customFieldsInputStringSchema:
       type: object
       properties:
         id:
           type: string
           example: 6dvNaf7VhkQ9snc5vnjJ
+          description: Pass either `id` or `key` of custom field
         key:
           type: string
           example: my_custom_field
+          description: Pass either `id` or `key` of custom field
         field_value:
-          type: object
-          example: {}
-      required:
-      - id
-    customFieldsInputArraySchema:
-      type: object
-      properties:
-        id:
           type: string
-          example: 6dvNaf7VhkQ9snc5vnjJ
-        key:
-          type: string
-          example: my_custom_field
-        field_value:
-          example:
-          - test
-          - test2
-          type: array
-          items:
-            type: string
-      required:
-      - id
+          example: '9039160788'
     UpsertOpportunityDto:
       type: object
       properties:
@@ -671,6 +666,11 @@ components:
       - followers
       - isRemoveAllFollowers
       - followersActionType
+    GetPostOpportunitySuccessfulResponseDto:
+      type: object
+      properties:
+        opportunity:
+          $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
   securitySchemes:
     bearer:
       scheme: bearer

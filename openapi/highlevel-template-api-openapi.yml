@@ -637,170 +637,6 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
-    BusinessDetailsDto:
-      type: object
-      properties:
-        logoUrl:
-          type: string
-          description: Business Logo URL
-          example: https://example.com/logo.png
-        name:
-          type: string
-          description: Business Name
-          example: ABC Corp.
-        phoneNo:
-          type: string
-          description: Business Phone Number
-          example: +1-214-559-6993
-        address:
-          description: Business Address
-          example: 9931 Beechwood, TX
-          allOf:
-          - $ref: '#/components/schemas/AddressDto'
-        website:
-          type: string
-          description: Business Website Link
-          example: wwww.example.com
-        customValues:
-          description: Custom Values
-          type: array
-          items:
-            type: string
-    PaymentMethodDto:
-      type: object
-      properties:
-        stripe:
-          description: Payment Method
-          allOf:
-          - $ref: '#/components/schemas/StripePaymentMethodDto'
-      required:
-      - stripe
-    ListTemplatesResponseDto:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetTemplateResponseDto'
-        totalCount:
-          type: number
-          description: Total number of Templates
-          example: 100
-      required:
-      - data
-      - totalCount
-    UpdateInvoiceLateFeesConfigurationDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        lateFeesConfiguration:
-          description: late fees configuration
-          allOf:
-          - $ref: '#/components/schemas/LateFeesConfigurationDto'
-      required:
-      - altId
-      - altType
-      - lateFeesConfiguration
-    UpdatePaymentMethodsConfigurationDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        paymentMethods:
-          description: Payment Methods for Invoices
-          allOf:
-          - $ref: '#/components/schemas/PaymentMethodDto'
-      required:
-      - altId
-      - altType
-    CreateInvoiceTemplateDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: location Id / company Id based on altType
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        internal:
-          type: boolean
-        name:
-          type: string
-          description: Name of the template
-          example: New Template
-        businessDetails:
-          $ref: '#/components/schemas/BusinessDetailsDto'
-        currency:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/InvoiceItemDto'
-        automaticTaxesEnabled:
-          type: boolean
-          description: Automatic taxes enabled for the Invoice
-          example: true
-        discount:
-          $ref: '#/components/schemas/DiscountDto'
-        termsNotes:
-          type: string
-        title:
-          type: string
-          description: Template title
-          example: New Template
-        tipsConfiguration:
-          description: Configuration for tips on invoices
-          allOf:
-          - $ref: '#/components/schemas/TipsConfigurationDto'
-        lateFeesConfiguration:
-          description: Late fees configuration for the invoices
-          allOf:
-          - $ref: '#/components/schemas/LateFeesConfigurationDto'
-        invoiceNumberPrefix:
-          type: string
-          description: prefix for invoice number
-          example: INV-
-        paymentMethods:
-          description: Payment Methods for Invoices
-          allOf:
-          - $ref: '#/components/schemas/PaymentMethodDto'
-        attachments:
-          description: attachments for the invoice
-          type: array
-          items:
-            type: string
-        miscellaneousCharges:
-          description: miscellaneous charges for the invoice
-          allOf:
-          - $ref: '#/components/schemas/ProcessingFeeDto'
-      required:
-      - altId
-      - altType
-      - name
-      - businessDetails
-      - currency
-      - items
     CreateInvoiceTemplateResponseDto:
       type: object
       properties:
@@ -886,6 +722,374 @@ components:
       - total
       - createdAt
       - updatedAt
+    ListTemplatesResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetTemplateResponseDto'
+        totalCount:
+          type: number
+          description: Total number of Templates
+          example: 100
+      required:
+      - data
+      - totalCount
+    ProcessingFeePaidChargeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the processing fee
+          example: Processing Fee
+        charge:
+          type: number
+          description: charge for the processing fee
+          example: 10
+        amount:
+          type: number
+          description: amount of the processing fee
+          example: 10
+        _id:
+          type: string
+          description: id of the processing fee
+          example: 673d01d7d547648a8dab6211
+      required:
+      - name
+      - charge
+      - amount
+      - _id
+    InvoiceItemDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Invoice Item Name
+          example: ABC Product
+        description:
+          type: string
+          description: Invoice descriptions
+          example: ABC Corp.
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9c
+        priceId:
+          type: string
+          description: Price Id
+          example: 6578278e879ad2646715ba9c
+        currency:
+          type: string
+          description: Currency
+          example: USD
+        amount:
+          type: number
+          description: Product amount
+          example: 999
+        qty:
+          type: number
+          description: Product Quantity
+          example: 1
+        taxes:
+          description: Tax
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemTaxDto'
+        automaticTaxCategoryId:
+          type: string
+          description: Tax category id for calculating automatic tax
+          example: 6578278e879ad2646715ba9c
+        isSetupFeeItem:
+          type: boolean
+          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
+        type:
+          type: string
+          description: Price type of the item
+          example: one_time
+          enum:
+          - one_time
+          - recurring
+        taxInclusive:
+          type: boolean
+          description: true if item amount is tax inclusive
+          example: true
+          default: false
+      required:
+      - name
+      - currency
+      - amount
+      - qty
+    StripePaymentMethodDto:
+      type: object
+      properties:
+        enableBankDebitOnly:
+          type: boolean
+          description: Enable Bank Debit Only
+          example: false
+      required:
+      - enableBankDebitOnly
+    ItemTaxDto:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
+        calculation:
+          type: string
+          enum:
+          - exclusive
+        description:
+          type: string
+        taxId:
+          type: string
+      required:
+      - _id
+      - name
+      - rate
+    BusinessDetailsDto:
+      type: object
+      properties:
+        logoUrl:
+          type: string
+          description: Business Logo URL
+          example: https://example.com/logo.png
+        name:
+          type: string
+          description: Business Name
+          example: ABC Corp.
+        phoneNo:
+          type: string
+          description: Business Phone Number
+          example: +1-214-559-6993
+        address:
+          description: Business Address
+          example: 9931 Beechwood, TX
+          allOf:
+          - $ref: '#/components/schemas/AddressDto'
+        website:
+          type: string
+          description: Business Website Link
+          example: wwww.example.com
+        customValues:
+          description: Custom Values
+          type: array
+          items:
+            type: string
+    TipsConfigurationDto:
+      type: object
+      properties:
+        tipsPercentage:
+          description: Percentage of tips allowed
+          example:
+          - 5
+          - 10
+          - 15
+          type: array
+          items:
+            type: string
+        tipsEnabled:
+          type: boolean
+          description: Tips enabled status
+          example: true
+      required:
+      - tipsPercentage
+      - tipsEnabled
+    LateFeesFrequencyDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees interval
+          example: day
+          enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - one_time
+      required:
+      - intervalCount
+      - interval
+    LateFeesConfigurationDto:
+      type: object
+      properties:
+        enable:
+          type: boolean
+          description: Enable late fees
+          example: true
+        value:
+          type: number
+          description: Late Fees Value
+          example: 10
+        type:
+          type: string
+          description: Late Fees Type
+          example: fixed
+          enum:
+          - fixed
+          - percentage
+        frequency:
+          description: Late Fees Frequency
+          allOf:
+          - $ref: '#/components/schemas/LateFeesFrequencyDto'
+        grace:
+          description: Late Fees Grace
+          allOf:
+          - $ref: '#/components/schemas/LateFeesGraceDto'
+        maxLateFees:
+          description: Max late fees payable
+          allOf:
+          - $ref: '#/components/schemas/LateFeesMaxFeesDto'
+      required:
+      - enable
+      - value
+      - type
+      - frequency
+    UpdateInvoiceLateFeesConfigurationDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        lateFeesConfiguration:
+          description: late fees configuration
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+      required:
+      - altId
+      - altType
+      - lateFeesConfiguration
+    LateFeesGraceDto:
+      type: object
+      properties:
+        intervalCount:
+          type: number
+          description: Late fees grace interval count
+          example: 10
+        interval:
+          type: string
+          description: Late fees grace interval
+          example: day
+          enum:
+          - day
+      required:
+      - intervalCount
+      - interval
+    AddressDto:
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address Line 1
+          example: 9931 Beechwood
+        addressLine2:
+          type: string
+          description: Address Line 2
+          example: Beechwood
+        city:
+          type: string
+          description: City
+          example: St. Houston
+        state:
+          type: string
+          description: State
+          example: TX
+        countryCode:
+          type: string
+          description: Country Code
+          example: US
+        postalCode:
+          type: string
+          description: Postal Code
+          example: 559-6993
+    UpdatePaymentMethodsConfigurationDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        paymentMethods:
+          description: Payment Methods for Invoices
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodDto'
+      required:
+      - altId
+      - altType
+    PaymentMethodDto:
+      type: object
+      properties:
+        stripe:
+          description: Payment Method
+          allOf:
+          - $ref: '#/components/schemas/StripePaymentMethodDto'
+      required:
+      - stripe
+    ProcessingFeeDto:
+      type: object
+      properties:
+        charges:
+          description: charges for the processing fee
+          items:
+            type: array
+          type: array
+        collectedMiscellaneousCharges:
+          type: number
+          description: collected miscellaneous charges
+          example: 10
+        paidCharges:
+          description: paid miscellaneous charges
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+      required:
+      - charges
+    DiscountDto:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Discount Value
+          example: 10
+          default: 0
+        type:
+          type: string
+          description: Discount type
+          enum:
+          - percentage
+          - fixed
+          example: percentage
+          default: percentage
+        validOnProductIds:
+          description: Product Ids on which discount is applicable
+          example: '[ ''6579751d56f60276e5bd4154'' ]'
+          type: array
+          items:
+            type: string
+      required:
+      - type
     UpdateInvoiceTemplateDto:
       type: object
       properties:
@@ -932,52 +1136,101 @@ components:
       - businessDetails
       - currency
       - items
-    ProcessingFeeDto:
+    LateFeesMaxFeesDto:
       type: object
       properties:
-        charges:
-          description: charges for the processing fee
-          items:
-            type: array
-          type: array
-        collectedMiscellaneousCharges:
+        type:
+          type: string
+          example: fixed
+          enum:
+          - fixed
+        value:
           type: number
-          description: collected miscellaneous charges
-          example: 10
-        paidCharges:
-          description: paid miscellaneous charges
-          type: array
-          items:
-            $ref: '#/components/schemas/ProcessingFeePaidChargeDto'
+          example: '10'
+          description: Max late fees to pay
       required:
-      - charges
-    AddressDto:
+      - type
+      - value
+    DeleteInvoiceTemplateResponseDto:
       type: object
       properties:
-        addressLine1:
+        success:
+          type: boolean
+          description: success
+          example: true
+      required:
+      - success
+    CreateInvoiceTemplateDto:
+      type: object
+      properties:
+        altId:
           type: string
-          description: Address Line 1
-          example: 9931 Beechwood
-        addressLine2:
+          description: location Id / company Id based on altType
+          example: 6578278e879ad2646715ba9c
+        altType:
           type: string
-          description: Address Line 2
-          example: Beechwood
-        city:
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        internal:
+          type: boolean
+        name:
           type: string
-          description: City
-          example: St. Houston
-        state:
+          description: Name of the template
+          example: New Template
+        businessDetails:
+          $ref: '#/components/schemas/BusinessDetailsDto'
+        currency:
           type: string
-          description: State
-          example: TX
-        countryCode:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItemDto'
+        automaticTaxesEnabled:
+          type: boolean
+          description: Automatic taxes enabled for the Invoice
+          example: true
+        discount:
+          $ref: '#/components/schemas/DiscountDto'
+        termsNotes:
           type: string
-          description: Country Code
-          example: US
-        postalCode:
+        title:
           type: string
-          description: Postal Code
-          example: 559-6993
+          description: Template title
+          example: New Template
+        tipsConfiguration:
+          description: Configuration for tips on invoices
+          allOf:
+          - $ref: '#/components/schemas/TipsConfigurationDto'
+        lateFeesConfiguration:
+          description: Late fees configuration for the invoices
+          allOf:
+          - $ref: '#/components/schemas/LateFeesConfigurationDto'
+        invoiceNumberPrefix:
+          type: string
+          description: prefix for invoice number
+          example: INV-
+        paymentMethods:
+          description: Payment Methods for Invoices
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodDto'
+        attachments:
+          description: attachments for the invoice
+          type: array
+          items:
+            type: string
+        miscellaneousCharges:
+          description: miscellaneous charges for the invoice
+          allOf:
+          - $ref: '#/components/schemas/ProcessingFeeDto'
+      required:
+      - altId
+      - altType
+      - name
+      - businessDetails
+      - currency
+      - items
     UpdateInvoiceTemplateResponseDto:
       type: object
       properties:
@@ -1063,131 +1316,6 @@ components:
       - total
       - createdAt
       - updatedAt
-    InvoiceItemDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Invoice Item Name
-          example: ABC Product
-        description:
-          type: string
-          description: Invoice descriptions
-          example: ABC Corp.
-        productId:
-          type: string
-          description: Product Id
-          example: 6578278e879ad2646715ba9c
-        priceId:
-          type: string
-          description: Price Id
-          example: 6578278e879ad2646715ba9c
-        currency:
-          type: string
-          description: Currency
-          example: USD
-        amount:
-          type: number
-          description: Product amount
-          example: 999
-        qty:
-          type: number
-          description: Product Quantity
-          example: 1
-        taxes:
-          description: Tax
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemTaxDto'
-        automaticTaxCategoryId:
-          type: string
-          description: Tax category id for calculating automatic tax
-          example: 6578278e879ad2646715ba9c
-        isSetupFeeItem:
-          type: boolean
-          description: Setupfee item, only created when 1st invoice of recurring schedule is generated
-        type:
-          type: string
-          description: Price type of the item
-          example: one_time
-          enum:
-          - one_time
-          - recurring
-        taxInclusive:
-          type: boolean
-          description: true if item amount is tax inclusive
-          example: true
-          default: false
-      required:
-      - name
-      - currency
-      - amount
-      - qty
-    LateFeesConfigurationDto:
-      type: object
-      properties:
-        enable:
-          type: boolean
-          description: Enable late fees
-          example: true
-        value:
-          type: number
-          description: Late Fees Value
-          example: 10
-        type:
-          type: string
-          description: Late Fees Type
-          example: fixed
-          enum:
-          - fixed
-          - percentage
-        frequency:
-          description: Late Fees Frequency
-          allOf:
-          - $ref: '#/components/schemas/LateFeesFrequencyDto'
-        grace:
-          description: Late Fees Grace
-          allOf:
-          - $ref: '#/components/schemas/LateFeesGraceDto'
-        maxLateFees:
-          description: Max late fees payable
-          allOf:
-          - $ref: '#/components/schemas/LateFeesMaxFeesDto'
-      required:
-      - enable
-      - value
-      - type
-      - frequency
-    LateFeesFrequencyDto:
-      type: object
-      properties:
-        intervalCount:
-          type: number
-          description: Late fees interval count
-          example: 10
-        interval:
-          type: string
-          description: Late fees interval
-          example: day
-          enum:
-          - minute
-          - hour
-          - day
-          - week
-          - month
-          - one_time
-      required:
-      - intervalCount
-      - interval
-    DeleteInvoiceTemplateResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: success
-          example: true
-      required:
-      - success
     GetTemplateResponseDto:
       type: object
       properties:
@@ -1273,146 +1401,6 @@ components:
       - total
       - createdAt
       - updatedAt
-    LateFeesMaxFeesDto:
-      type: object
-      properties:
-        type:
-          type: string
-          example: fixed
-          enum:
-          - fixed
-        value:
-          type: number
-          example: '10'
-          description: Max late fees to pay
-      required:
-      - type
-      - value
-    StripePaymentMethodDto:
-      type: object
-      properties:
-        enableBankDebitOnly:
-          type: boolean
-          description: Enable Bank Debit Only
-          example: false
-      required:
-      - enableBankDebitOnly
-    ProcessingFeePaidChargeDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: name of the processing fee
-          example: Processing Fee
-        charge:
-          type: number
-          description: charge for the processing fee
-          example: 10
-        amount:
-          type: number
-          description: amount of the processing fee
-          example: 10
-        _id:
-          type: string
-          description: id of the processing fee
-          example: 673d01d7d547648a8dab6211
-      required:
-      - name
-      - charge
-      - amount
-      - _id
-    LateFeesGraceDto:
-      type: object
-      properties:
-        intervalCount:
-          type: number
-          description: Late fees grace interval count
-          example: 10
-        interval:
-          type: string
-          description: Late fees grace interval
-          example: day
-          enum:
-          - day
-      required:
-      - intervalCount
-      - interval
-    ItemTaxDto:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        rate:
-          type: number
-        calculation:
-          type: string
-          enum:
-          - exclusive
-        description:
-          type: string
-        taxId:
-          type: string
-      required:
-      - _id
-      - name
-      - rate
-    DiscountDto:
-      type: object
-      properties:
-        value:
-          type: number
-          description: Discount Value
-          example: 10
-          default: 0
-        type:
-          type: string
-          description: Discount type
-          enum:
-          - percentage
-          - fixed
-          example: percentage
-          default: percentage
-        validOnProductIds:
-          description: Product Ids on which discount is applicable
-          example: '[ ''6579751d56f60276e5bd4154'' ]'
-          type: array
-          items:
-            type: string
-      required:
-      - type
-    TipsConfigurationDto:
-      type: object
-      properties:
-        tipsPercentage:
-          description: Percentage of tips allowed
-          example:
-          - 5
-          - 10
-          - 15
-          type: array
-          items:
-            type: string
-        tipsEnabled:
-          type: boolean
-          description: Tips enabled status
-          example: true
-      required:
-      - tipsPercentage
-      - tipsEnabled
-    GetTemplatesSuccessfulResponseDto:
-      type: object
-      properties:
-        templates:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/GetSmsTemplateResponseSchema'
-            - $ref: '#/components/schemas/GetEmailTemplateResponseSchema'
-        totalCount:
-          type: number
-          example: 100
     GetEmailTemplateResponseSchema:
       type: object
       properties:
@@ -1433,6 +1421,32 @@ components:
         locationId:
           type: string
           example: ve9EPM428h8vShlRW1KT
+    EmailTemplateSchema:
+      type: object
+      properties:
+        subject:
+          type: string
+          example: subject text
+        attachments:
+          example: []
+          type: array
+          items:
+            type: array
+        html:
+          type: string
+          example: '<html><head><style>body{font-family: sans-serif;}</style></head><body>testing</body></html>'
+    GetTemplatesSuccessfulResponseDto:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/GetSmsTemplateResponseSchema'
+            - $ref: '#/components/schemas/GetEmailTemplateResponseSchema'
+        totalCount:
+          type: number
+          example: 100
     GetSmsTemplateResponseSchema:
       type: object
       properties:
@@ -1469,20 +1483,6 @@ components:
           type: array
           items:
             type: array
-    EmailTemplateSchema:
-      type: object
-      properties:
-        subject:
-          type: string
-          example: subject text
-        attachments:
-          example: []
-          type: array
-          items:
-            type: array
-        html:
-          type: string
-          example: '<html><head><style>body{font-family: sans-serif;}</style></head><body>testing</body></html>'
   securitySchemes:
     bearer:
       scheme: bearer

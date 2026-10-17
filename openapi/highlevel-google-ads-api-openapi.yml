@@ -1309,6 +1309,67 @@ paths:
       - Google Ads
 components:
   schemas:
+    GoogleAdGroupAudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geo-location targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleGeoLocationDTO'
+        locales:
+          description: Language/locale targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleLocaleDTO'
+    FlexibleRuleUserListDTO:
+      type: object
+      properties:
+        inclusiveRuleOperator:
+          type: string
+          description: Operator for combining inclusive operands
+          example: AND
+        inclusiveOperands:
+          description: Inclusive rule operands
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleOperandDTO'
+        exclusiveOperands:
+          description: Exclusive rule operands
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleOperandDTO'
+      required:
+      - inclusiveOperands
+      - exclusiveOperands
+    GeoViewportDTO:
+      type: object
+      properties:
+        northeast:
+          description: Northeast corner of the viewport
+          allOf:
+          - $ref: '#/components/schemas/GeoLatLngDTO'
+        southwest:
+          description: Southwest corner of the viewport
+          allOf:
+          - $ref: '#/components/schemas/GeoLatLngDTO'
+    GoogleAssetImageDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Image URL
+        resourceName:
+          type: string
+          description: Google Ads resource name
+        name:
+          type: string
+          description: Asset name
+        error:
+          type: string
+          description: Error message if asset upload failed
+      required:
+      - url
     GoogleAdContentDTO:
       type: object
       properties:
@@ -1444,70 +1505,31 @@ components:
         customChannels:
           type: boolean
           description: Custom channels flag
-    GoogleGeoLocationDTO:
+    GoogleAssetsDTO:
       type: object
       properties:
-        key:
+        calls:
+          description: Call extension asset resource names
+          type: array
+          items:
+            type: string
+        sitelinks:
+          description: Sitelink asset resource names
+          type: array
+          items:
+            type: string
+        leadForm:
           type: string
-          description: Geo target constant resource name
-        id:
-          type: string
-          description: Location identifier (place_id)
-        name:
-          type: string
-          description: Location display name
-        country_name:
-          type: string
-          description: Country name
-        type:
-          type: string
-          description: Location type (city, region, country, address, etc.)
-        radius:
-          type: number
-          description: Radius for proximity targeting
-        radiusUnit:
-          type: string
-          description: Radius unit
-          enum:
-          - km
-          - mi
-        selectionType:
-          type: string
-          description: Include or exclude this location
-          enum:
-          - include
-          - exclude
-        resourceName:
-          type: string
-          description: Google Ads resource name
-        place_id:
-          type: string
-          description: Google place ID
-        formatted_address:
-          type: string
-          description: Full formatted address string
-        geometry:
-          description: Geometry data from Google Geocoding API
+          description: Lead form asset resource name
+        images:
+          description: Image assets
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleAssetImageDTO'
+        businessLogo:
+          description: Business logo asset
           allOf:
-          - $ref: '#/components/schemas/GeoGeometryDTO'
-        address_components:
-          description: Address components from Google Geocoding API
-          type: array
-          items:
-            $ref: '#/components/schemas/GeoAddressComponentDTO'
-    GoogleAdGroupAudienceDTO:
-      type: object
-      properties:
-        geo_locations:
-          description: Geo-location targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleGeoLocationDTO'
-        locales:
-          description: Language/locale targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleLocaleDTO'
+          - $ref: '#/components/schemas/GoogleAssetImageDTO'
     GoogleMediaDTO:
       type: object
       properties:
@@ -1533,52 +1555,6 @@ components:
         imageType:
           type: string
           description: Image type classification
-    StringRuleItemDTO:
-      type: object
-      properties:
-        operator:
-          type: string
-          description: Rule operator
-          example: CONTAINS
-        value:
-          type: string
-          description: Rule value
-          example: /products
-      required:
-      - operator
-      - value
-    GoogleCampaignAudienceDTO:
-      type: object
-      properties:
-        geo_locations:
-          description: Geo-location targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleGeoLocationDTO'
-        locales:
-          description: Language/locale targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleLocaleDTO'
-        gender:
-          description: Gender targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleDemographicTargetDTO'
-        ageRange:
-          description: Age range targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleDemographicTargetDTO'
-        segments:
-          description: Audience segment targeting
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleSegmentTargetDTO'
-        targetInterests:
-          description: Interest-based targeting
-          allOf:
-          - $ref: '#/components/schemas/GoogleTargetInterestsDTO'
     RuleOperandDTO:
       type: object
       properties:
@@ -1593,101 +1569,52 @@ components:
       required:
       - lookbackWindowDays
       - rule
-    GoogleAdGroupDTO:
+    GoogleKeywordItemDTO:
       type: object
       properties:
-        id:
+        keyword:
           type: string
-          description: Ad group identifier
-        adGroupId:
+          description: Keyword text
+        matchType:
           type: string
-          description: Google ad group identifier
-        name:
-          type: string
-          description: Ad group name
-          example: Ad Group 1
-        adCampaignId:
-          type: string
-          description: Ad campaign identifier
-        adContent:
-          description: Ad content items
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleAdContentDTO'
-        keywords:
-          description: Keyword targeting
-          allOf:
-          - $ref: '#/components/schemas/GoogleKeywordsDTO'
-        publishingStatus:
-          type: string
-          description: Ad group publishing status
-          enum:
-          - DRAFT
-          - SCHEDULED
-          - PUBLISHED
-          - PUBLISHING
-          - FAILED
-          - IN_REVIEW
-          - PAUSED
-          - ARCHIVED
-          - WITH_ISSUES
-          - REJECTED
-        adGroupError:
-          type: string
-          description: Ad group-level error from Google
-        googleAdGroupId:
-          type: string
-          description: Google Ads ad group resource ID
-        customChannels:
-          type: boolean
-          description: Custom channels flag
-        selectedChannels:
-          type: array
-          description: Selected channel placements
-          items:
-            type: string
-            enum:
-            - GMAIL
-            - YOUTUBE_IN_STREAM
-            - YOUTUBE_SHORTS
-            - YOUTUBE_IN_FEED
-            - DISCOVER
-            - DISPLAY
-        googleAudienceId:
-          type: string
-          description: Google audience resource ID
-        audience:
-          description: Ad group audience targeting
-          allOf:
-          - $ref: '#/components/schemas/GoogleAdGroupAudienceDTO'
-    KeywordSuggestionDTO:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Target URL
-          example: https://example.com
-        languageCode:
-          type: string
-          description: Language code
-          example: en
-        locations:
-          description: Target locations
-          example:
-          - US
-          - CA
-          type: array
-          items:
-            type: string
-        keywords:
-          description: Seed keywords
-          example:
-          - marketing
-          type: array
-          items:
-            type: string
+          description: Match type (BROAD, PHRASE, EXACT)
       required:
-      - url
+      - keyword
+      - matchType
+    AudienceDimensionDTO:
+      type: object
+      properties:
+        isAgeUnknown:
+          type: boolean
+          description: Include unknown age
+          example: false
+        ageRanges:
+          description: Age range filters
+          example:
+          - minAge: 25
+            maxAge: 34
+          type: array
+          items:
+            type: string
+        genders:
+          description: Gender targets
+          example:
+          - MALE
+          - FEMALE
+          type: array
+          items:
+            type: string
+        parentalStatuses:
+          description: Parental status targets
+          example:
+          - PARENT
+          type: array
+          items:
+            type: string
+        audienceSegments:
+          description: Audience segment references used for targeting
+          allOf:
+          - $ref: '#/components/schemas/AudienceSegmentsDTO'
     GoogleKeywordsDTO:
       type: object
       properties:
@@ -1701,53 +1628,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GoogleKeywordItemDTO'
-    MemberDTO:
-      type: object
-      properties:
-        memberType:
-          type: string
-          description: Member type
-          example: KEYWORD
-          enum:
-          - KEYWORD
-          - URL
-          - APP
-        keyword:
-          type: string
-          description: Keyword value
-          example: marketing
-        url:
-          type: string
-          description: URL value
-          example: https://example.com
-        app:
-          type: string
-          description: App identifier
-          example: com.example.app
-      required:
-      - memberType
-    RuleDTO:
-      type: object
-      properties:
-        ruleItemGroups:
-          description: List of rule item groups
-          type: array
-          items:
-            $ref: '#/components/schemas/RuleItemGroupDTO'
-      required:
-      - ruleItemGroups
-    GoogleSegmentTargetDTO:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Segment type
-        id:
-          type: string
-          description: Segment identifier
-      required:
-      - type
-      - id
     LeadFormAssetPayloadDTO:
       type: object
       properties:
@@ -1849,27 +1729,6 @@ components:
       - privacyPolicyUrl
       - fields
       - callToActionType
-    GoogleBudgetDTO:
-      type: object
-      properties:
-        budgetType:
-          type: string
-          description: Budget type
-          enum:
-          - DAILY
-          - LIFETIME
-        amount:
-          type: number
-          description: Budget amount in micros
-          example: 5000
-        scheduleStartDate:
-          type: string
-          description: Schedule start date
-          example: '2024-01-01'
-        scheduleEndDate:
-          type: string
-          description: Schedule end date
-          example: '2024-12-31'
     LeadFormFieldDTO:
       type: object
       properties:
@@ -1887,149 +1746,110 @@ components:
             type: string
       required:
       - inputType
-    RuleItemDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Rule item name
-          enum:
-          - url__
-          - referrer__
-          example: url__
-        stringRuleItem:
-          description: String rule item condition
-          allOf:
-          - $ref: '#/components/schemas/StringRuleItemDTO'
-      required:
-      - name
-      - stringRuleItem
-    AudienceDimensionDTO:
-      type: object
-      properties:
-        isAgeUnknown:
-          type: boolean
-          description: Include unknown age
-          example: false
-        ageRanges:
-          description: Age range filters
-          example:
-          - minAge: 25
-            maxAge: 34
-          type: array
-          items:
-            type: string
-        genders:
-          description: Gender targets
-          example:
-          - MALE
-          - FEMALE
-          type: array
-          items:
-            type: string
-        parentalStatuses:
-          description: Parental status targets
-          example:
-          - PARENT
-          type: array
-          items:
-            type: string
-        audienceSegments:
-          description: Audience segment references used for targeting
-          allOf:
-          - $ref: '#/components/schemas/AudienceSegmentsDTO'
-    GoogleNetworkSettingsDTO:
-      type: object
-      properties:
-        targetSearchNetwork:
-          type: boolean
-          description: Target Google Search Network
-        targetContentNetwork:
-          type: boolean
-          description: Target Google Display Network
-      required:
-      - targetSearchNetwork
-      - targetContentNetwork
-    AdScheduleTargetDTO:
-      type: object
-      properties:
-        startMinute:
-          type: string
-          description: Minute mark the schedule starts at
-          example: ZERO
-          enum:
-          - ZERO
-          - FIFTEEN
-          - THIRTY
-          - FORTY_FIVE
-        endMinute:
-          type: string
-          description: Minute mark the schedule ends at
-          example: ZERO
-          enum:
-          - ZERO
-          - FIFTEEN
-          - THIRTY
-          - FORTY_FIVE
-        dayOfWeek:
-          type: string
-          description: Day of the week for this schedule
-          example: MONDAY
-          enum:
-          - MONDAY
-          - TUESDAY
-          - WEDNESDAY
-          - THURSDAY
-          - FRIDAY
-          - SATURDAY
-          - SUNDAY
-        startHour:
-          type: number
-          description: Start hour in 24h format (0-23)
-          example: 9
-        endHour:
-          type: number
-          description: End hour in 24h format (0-23)
-          example: 17
-      required:
-      - startMinute
-      - endMinute
-      - dayOfWeek
-      - startHour
-      - endHour
-    RuleBasedUserListDTO:
-      type: object
-      properties:
-        prepopulationStatus:
-          type: string
-          description: Prepopulation status
-          enum:
-          - REQUESTED
-          example: REQUESTED
-        flexibleRuleUserList:
-          description: Flexible rule user list configuration
-          allOf:
-          - $ref: '#/components/schemas/FlexibleRuleUserListDTO'
-      required:
-      - flexibleRuleUserList
-    GoogleCampaignGoalDTO:
+    GoogleSegmentTargetDTO:
       type: object
       properties:
         type:
           type: string
-          description: Campaign goal type
-          enum:
-          - CONVERSIONS
-          - CLICK
-          - YOUTUBE_ENGAGEMENT
-        value:
+          description: Segment type
+        id:
           type: string
-          description: Goal value (e.g. conversion action resource name)
-        isCustomConversionGoal:
-          type: boolean
-          description: Whether this is a custom conversion goal
+          description: Segment identifier
       required:
       - type
+      - id
+    UpsertAudienceDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        resourceName:
+          type: string
+          description: Audience resource name
+          example: customers/123/audiences/456
+        name:
+          type: string
+          description: Audience name
+          example: My Audience
+        dimensions:
+          description: Audience dimensions
+          allOf:
+          - $ref: '#/components/schemas/AudienceDimensionDTO'
+        exclusionDimension:
+          description: Exclusion dimensions
+          allOf:
+          - $ref: '#/components/schemas/AudienceDimensionDTO'
+      required:
+      - locationId
+      - name
+    AudienceSegmentsDTO:
+      type: object
+      properties:
+        customAudiences:
+          description: Resource names of custom audience segments
+          example:
+          - customers/123/customAudiences/456
+          type: array
+          items:
+            type: string
+        userLists:
+          description: Resource names of user lists (remarketing lists, customer match lists, etc.)
+          example:
+          - customers/123/userLists/789
+          type: array
+          items:
+            type: string
+        userInterests:
+          description: Resource names of user interest segments (in-market or affinity audiences)
+          example:
+          - customers/123/userInterests/321
+          type: array
+          items:
+            type: string
+    GeoGeometryDTO:
+      type: object
+      properties:
+        location:
+          description: Location coordinates
+          allOf:
+          - $ref: '#/components/schemas/GeoLatLngDTO'
+        location_type:
+          type: string
+          description: Location type (e.g. APPROXIMATE)
+        viewport:
+          description: Viewport bounding box
+          allOf:
+          - $ref: '#/components/schemas/GeoViewportDTO'
+    KeywordSuggestionDTO:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Target URL
+          example: https://example.com
+        languageCode:
+          type: string
+          description: Language code
+          example: en
+        locations:
+          description: Target locations
+          example:
+          - US
+          - CA
+          type: array
+          items:
+            type: string
+        keywords:
+          description: Seed keywords
+          example:
+          - marketing
+          type: array
+          items:
+            type: string
+      required:
+      - url
     CreateOfflineUserListJobDTO:
       type: object
       properties:
@@ -2058,30 +1878,6 @@ components:
           example: false
       required:
       - locationId
-    GeoViewportDTO:
-      type: object
-      properties:
-        northeast:
-          description: Northeast corner of the viewport
-          allOf:
-          - $ref: '#/components/schemas/GeoLatLngDTO'
-        southwest:
-          description: Southwest corner of the viewport
-          allOf:
-          - $ref: '#/components/schemas/GeoLatLngDTO'
-    GoogleTargetInterestsDTO:
-      type: object
-      properties:
-        affinity:
-          description: Affinity audience IDs
-          type: array
-          items:
-            type: string
-        inMarket:
-          description: In-market audience IDs
-          type: array
-          items:
-            type: string
     CallAssetPayloadDTO:
       type: object
       properties:
@@ -2115,90 +1911,15 @@ components:
       required:
       - phoneNumber
       - countryCode
-    GoogleCarouselCardDTO:
+    GeoLatLngDTO:
       type: object
       properties:
-        headline:
-          type: string
-          description: Card headline
-          example: Shop Now
-        finalUrl:
-          type: string
-          description: Card final URL
-          example: https://example.com
-        callToActionLabel:
-          type: string
-          description: Call to action label
-        media:
-          description: Card media items
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleMediaDTO'
-    GoogleAdScheduleDTO:
-      type: object
-      properties:
-        dayOfWeek:
-          type: string
-          description: Day of week
-          enum:
-          - FRIDAY
-          - MONDAY
-          - SATURDAY
-          - SUNDAY
-          - THURSDAY
-          - TUESDAY
-          - UNKNOWN
-          - UNSPECIFIED
-          - WEDNESDAY
-          - ALL_DAYS
-          - MONDAY_TO_FRIDAY
-          - SATURDAY_AND_SUNDAY
-        from:
-          type: string
-          description: Start time (HH:MM)
-          example: 09:00
-        to:
-          type: string
-          description: End time (HH:MM)
-          example: '17:00'
-      required:
-      - dayOfWeek
-      - from
-      - to
-    GeoGeometryDTO:
-      type: object
-      properties:
-        location:
-          description: Location coordinates
-          allOf:
-          - $ref: '#/components/schemas/GeoLatLngDTO'
-        location_type:
-          type: string
-          description: Location type (e.g. APPROXIMATE)
-        viewport:
-          description: Viewport bounding box
-          allOf:
-          - $ref: '#/components/schemas/GeoViewportDTO'
-    CustomQuestionFieldDTO:
-      type: object
-      properties:
-        customQuestionText:
-          type: string
-          description: Custom question text shown to the user
-          example: What service are you interested in?
-        singleChoiceAnswers:
-          description: Answer choices for the custom question
-          example:
-          - answerTexts:
-            - Web Design
-            - SEO
-            - PPC
-          type: array
-          items:
-            type: string
-      required:
-      - customQuestionText
-      - singleChoiceAnswers
+        lat:
+          type: number
+          description: Latitude
+        lng:
+          type: number
+          description: Longitude
     CampaignDTO:
       type: object
       properties:
@@ -2311,32 +2032,339 @@ components:
       - name
       - locationId
       - advertisingChannelType
-    UpsertAudienceDTO:
+    RuleBasedUserListDTO:
+      type: object
+      properties:
+        prepopulationStatus:
+          type: string
+          description: Prepopulation status
+          enum:
+          - REQUESTED
+          example: REQUESTED
+        flexibleRuleUserList:
+          description: Flexible rule user list configuration
+          allOf:
+          - $ref: '#/components/schemas/FlexibleRuleUserListDTO'
+      required:
+      - flexibleRuleUserList
+    GoogleYouTubeVideoLinkDTO:
+      type: object
+      properties:
+        youtubeVideoId:
+          type: string
+          description: YouTube video ID
+      required:
+      - youtubeVideoId
+    GoogleCampaignAudienceDTO:
+      type: object
+      properties:
+        geo_locations:
+          description: Geo-location targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleGeoLocationDTO'
+        locales:
+          description: Language/locale targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleLocaleDTO'
+        gender:
+          description: Gender targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleDemographicTargetDTO'
+        ageRange:
+          description: Age range targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleDemographicTargetDTO'
+        segments:
+          description: Audience segment targeting
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleSegmentTargetDTO'
+        targetInterests:
+          description: Interest-based targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleTargetInterestsDTO'
+    GoogleAdGroupDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ad group identifier
+        adGroupId:
+          type: string
+          description: Google ad group identifier
+        name:
+          type: string
+          description: Ad group name
+          example: Ad Group 1
+        adCampaignId:
+          type: string
+          description: Ad campaign identifier
+        adContent:
+          description: Ad content items
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleAdContentDTO'
+        keywords:
+          description: Keyword targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleKeywordsDTO'
+        publishingStatus:
+          type: string
+          description: Ad group publishing status
+          enum:
+          - DRAFT
+          - SCHEDULED
+          - PUBLISHED
+          - PUBLISHING
+          - FAILED
+          - IN_REVIEW
+          - PAUSED
+          - ARCHIVED
+          - WITH_ISSUES
+          - REJECTED
+        adGroupError:
+          type: string
+          description: Ad group-level error from Google
+        googleAdGroupId:
+          type: string
+          description: Google Ads ad group resource ID
+        customChannels:
+          type: boolean
+          description: Custom channels flag
+        selectedChannels:
+          type: array
+          description: Selected channel placements
+          items:
+            type: string
+            enum:
+            - GMAIL
+            - YOUTUBE_IN_STREAM
+            - YOUTUBE_SHORTS
+            - YOUTUBE_IN_FEED
+            - DISCOVER
+            - DISPLAY
+        googleAudienceId:
+          type: string
+          description: Google audience resource ID
+        audience:
+          description: Ad group audience targeting
+          allOf:
+          - $ref: '#/components/schemas/GoogleAdGroupAudienceDTO'
+    UpsertAssetsDTO:
       type: object
       properties:
         locationId:
           type: string
           description: Location identifier
           example: loc_abc123
-        resourceName:
+        type:
           type: string
-          description: Audience resource name
-          example: customers/123/audiences/456
+          description: Asset type to create or update
+          example: CALL
+          enum:
+          - CALL
+          - SITELINK
+          - LEAD_FORM
+        payload:
+          description: 'Asset payload — shape depends on the type field: CallAssetPayload (CALL), SitelinkAssetPayload (SITELINK), or LeadFormAssetPayload (LEAD_FORM)'
+          oneOf:
+          - $ref: '#/components/schemas/CallAssetPayloadDTO'
+          - $ref: '#/components/schemas/SitelinkAssetPayloadDTO'
+          - $ref: '#/components/schemas/LeadFormAssetPayloadDTO'
+      required:
+      - locationId
+      - type
+      - payload
+    GoogleAdScheduleDTO:
+      type: object
+      properties:
+        dayOfWeek:
+          type: string
+          description: Day of week
+          enum:
+          - FRIDAY
+          - MONDAY
+          - SATURDAY
+          - SUNDAY
+          - THURSDAY
+          - TUESDAY
+          - UNKNOWN
+          - UNSPECIFIED
+          - WEDNESDAY
+          - ALL_DAYS
+          - MONDAY_TO_FRIDAY
+          - SATURDAY_AND_SUNDAY
+        from:
+          type: string
+          description: Start time (HH:MM)
+          example: 09:00
+        to:
+          type: string
+          description: End time (HH:MM)
+          example: '17:00'
+      required:
+      - dayOfWeek
+      - from
+      - to
+    RuleItemGroupDTO:
+      type: object
+      properties:
+        ruleItems:
+          description: List of rule items
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleItemDTO'
+      required:
+      - ruleItems
+    GoogleBudgetDTO:
+      type: object
+      properties:
+        budgetType:
+          type: string
+          description: Budget type
+          enum:
+          - DAILY
+          - LIFETIME
+        amount:
+          type: number
+          description: Budget amount in micros
+          example: 5000
+        scheduleStartDate:
+          type: string
+          description: Schedule start date
+          example: '2024-01-01'
+        scheduleEndDate:
+          type: string
+          description: Schedule end date
+          example: '2024-12-31'
+    RuleItemDTO:
+      type: object
+      properties:
         name:
           type: string
-          description: Audience name
-          example: My Audience
-        dimensions:
-          description: Audience dimensions
+          description: Rule item name
+          enum:
+          - url__
+          - referrer__
+          example: url__
+        stringRuleItem:
+          description: String rule item condition
           allOf:
-          - $ref: '#/components/schemas/AudienceDimensionDTO'
-        exclusionDimension:
-          description: Exclusion dimensions
+          - $ref: '#/components/schemas/StringRuleItemDTO'
+      required:
+      - name
+      - stringRuleItem
+    MemberDTO:
+      type: object
+      properties:
+        memberType:
+          type: string
+          description: Member type
+          example: KEYWORD
+          enum:
+          - KEYWORD
+          - URL
+          - APP
+        keyword:
+          type: string
+          description: Keyword value
+          example: marketing
+        url:
+          type: string
+          description: URL value
+          example: https://example.com
+        app:
+          type: string
+          description: App identifier
+          example: com.example.app
+      required:
+      - memberType
+    UpsertConversionDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        conversionId:
+          type: string
+          description: Conversion identifier
+          example: conv_456
+        name:
+          type: string
+          description: Conversion name
+          example: Purchase Conversion
+        type:
+          type: string
+          description: Conversion type
+          example: WEBPAGE
+          enum:
+          - UPLOAD_CLICKS
+          - UPLOAD_CALLS
+          - WEBPAGE
+          - LEAD_FORM_SUBMIT
+        category:
+          type: string
+          description: Conversion category
+          example: PURCHASE
+        valueSettings:
+          description: Value settings that control how monetary value is attributed to conversions
+          example:
+            defaultValue: '10.00'
+            defaultCurrencyCode: USD
+            alwaysUseDefaultValue: false
           allOf:
-          - $ref: '#/components/schemas/AudienceDimensionDTO'
+          - $ref: '#/components/schemas/ConversionValueSettings'
+        countingType:
+          type: string
+          description: How conversions are counted per interaction
+          example: ONE_PER_CLICK
+          enum:
+          - ONE_PER_CLICK
+          - MANY_PER_CLICK
+        attributionModel:
+          type: string
+          description: Attribution model used to credit conversions
+          example: GOOGLE_ADS_LAST_CLICK
+          enum:
+          - GOOGLE_SEARCH_ATTRIBUTION_DATA_DRIVEN
+          - GOOGLE_ADS_LAST_CLICK
+        clickThroughWindow:
+          type: number
+          description: Click-through conversion window in days
+          example: 30
       required:
       - locationId
       - name
+      - type
+      - category
+      - valueSettings
+      - countingType
+      - attributionModel
+      - clickThroughWindow
+    GoogleCarouselCardDTO:
+      type: object
+      properties:
+        headline:
+          type: string
+          description: Card headline
+          example: Shop Now
+        finalUrl:
+          type: string
+          description: Card final URL
+          example: https://example.com
+        callToActionLabel:
+          type: string
+          description: Call to action label
+        media:
+          description: Card media items
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleMediaDTO'
     GeoAddressComponentDTO:
       type: object
       properties:
@@ -2354,14 +2382,18 @@ components:
           type: array
           items:
             type: string
-    GoogleYouTubeVideoLinkDTO:
+    GoogleDemographicTargetDTO:
       type: object
       properties:
-        youtubeVideoId:
+        enum:
           type: string
-          description: YouTube video ID
+          description: Demographic enum value
+        negative:
+          type: boolean
+          description: Whether this is a negative target
       required:
-      - youtubeVideoId
+      - enum
+      - negative
     GoogleBiddingStrategyDTO:
       type: object
       properties:
@@ -2371,51 +2403,254 @@ components:
         value:
           type: number
           description: Bid value in micros
-    FlexibleRuleUserListDTO:
+    GoogleNetworkSettingsDTO:
       type: object
       properties:
-        inclusiveRuleOperator:
-          type: string
-          description: Operator for combining inclusive operands
-          example: AND
-        inclusiveOperands:
-          description: Inclusive rule operands
-          type: array
-          items:
-            $ref: '#/components/schemas/RuleOperandDTO'
-        exclusiveOperands:
-          description: Exclusive rule operands
-          type: array
-          items:
-            $ref: '#/components/schemas/RuleOperandDTO'
+        targetSearchNetwork:
+          type: boolean
+          description: Target Google Search Network
+        targetContentNetwork:
+          type: boolean
+          description: Target Google Display Network
       required:
-      - inclusiveOperands
-      - exclusiveOperands
-    GoogleAssetsDTO:
+      - targetSearchNetwork
+      - targetContentNetwork
+    GoogleLocaleDTO:
       type: object
       properties:
-        calls:
-          description: Call extension asset resource names
-          type: array
-          items:
-            type: string
-        sitelinks:
-          description: Sitelink asset resource names
-          type: array
-          items:
-            type: string
-        leadForm:
+        name:
           type: string
-          description: Lead form asset resource name
-        images:
-          description: Image assets
+          description: Language display name
+        key:
+          type: string
+          description: Language key
+        id:
+          type: string
+          description: Language identifier
+        resourceName:
+          type: string
+          description: Language resource name
+    GoogleCampaignGoalDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Campaign goal type
+          enum:
+          - CONVERSIONS
+          - CLICK
+          - YOUTUBE_ENGAGEMENT
+        value:
+          type: string
+          description: Goal value (e.g. conversion action resource name)
+        isCustomConversionGoal:
+          type: boolean
+          description: Whether this is a custom conversion goal
+      required:
+      - type
+    GoogleGeoLocationDTO:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Geo target constant resource name
+        id:
+          type: string
+          description: Location identifier (place_id)
+        name:
+          type: string
+          description: Location display name
+        country_name:
+          type: string
+          description: Country name
+        type:
+          type: string
+          description: Location type (city, region, country, address, etc.)
+        radius:
+          type: number
+          description: Radius for proximity targeting
+        radiusUnit:
+          type: string
+          description: Radius unit
+          enum:
+          - km
+          - mi
+        selectionType:
+          type: string
+          description: Include or exclude this location
+          enum:
+          - include
+          - exclude
+        resourceName:
+          type: string
+          description: Google Ads resource name
+        place_id:
+          type: string
+          description: Google place ID
+        formatted_address:
+          type: string
+          description: Full formatted address string
+        geometry:
+          description: Geometry data from Google Geocoding API
+          allOf:
+          - $ref: '#/components/schemas/GeoGeometryDTO'
+        address_components:
+          description: Address components from Google Geocoding API
           type: array
           items:
-            $ref: '#/components/schemas/GoogleAssetImageDTO'
-        businessLogo:
-          description: Business logo asset
-          allOf:
-          - $ref: '#/components/schemas/GoogleAssetImageDTO'
+            $ref: '#/components/schemas/GeoAddressComponentDTO'
+    ConversionValueSettings:
+      type: object
+      properties:
+        defaultValue:
+          type: number
+          description: Default monetary value assigned to each conversion
+          example: 10
+        defaultCurrencyCode:
+          type: string
+          description: ISO 4217 currency code for the default value
+          example: USD
+        alwaysUseDefaultValue:
+          type: boolean
+          description: When true, always uses the default value even if a transaction-specific value is provided
+          example: false
+      required:
+      - defaultValue
+      - defaultCurrencyCode
+      - alwaysUseDefaultValue
+    AdScheduleTargetDTO:
+      type: object
+      properties:
+        startMinute:
+          type: string
+          description: Minute mark the schedule starts at
+          example: ZERO
+          enum:
+          - ZERO
+          - FIFTEEN
+          - THIRTY
+          - FORTY_FIVE
+        endMinute:
+          type: string
+          description: Minute mark the schedule ends at
+          example: ZERO
+          enum:
+          - ZERO
+          - FIFTEEN
+          - THIRTY
+          - FORTY_FIVE
+        dayOfWeek:
+          type: string
+          description: Day of the week for this schedule
+          example: MONDAY
+          enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+        startHour:
+          type: number
+          description: Start hour in 24h format (0-23)
+          example: 9
+        endHour:
+          type: number
+          description: End hour in 24h format (0-23)
+          example: 17
+      required:
+      - startMinute
+      - endMinute
+      - dayOfWeek
+      - startHour
+      - endHour
+    CustomQuestionFieldDTO:
+      type: object
+      properties:
+        customQuestionText:
+          type: string
+          description: Custom question text shown to the user
+          example: What service are you interested in?
+        singleChoiceAnswers:
+          description: Answer choices for the custom question
+          example:
+          - answerTexts:
+            - Web Design
+            - SEO
+            - PPC
+          type: array
+          items:
+            type: string
+      required:
+      - customQuestionText
+      - singleChoiceAnswers
+    GoogleTargetInterestsDTO:
+      type: object
+      properties:
+        affinity:
+          description: Affinity audience IDs
+          type: array
+          items:
+            type: string
+        inMarket:
+          description: In-market audience IDs
+          type: array
+          items:
+            type: string
+    SitelinkAssetPayloadDTO:
+      type: object
+      properties:
+        resourceName:
+          type: string
+          description: Google Ads resource name for an existing sitelink asset
+          example: customers/123/assets/456
+        linkText:
+          type: string
+          description: Sitelink display text
+          example: Pricing
+        finalUrls:
+          type: string
+          description: Final landing page URL
+          example: https://example.com/pricing
+        description1:
+          type: string
+          description: First description line
+          example: See our plans and pricing
+        description2:
+          type: string
+          description: Second description line
+          example: Starting at $9/month
+        startDate:
+          type: string
+          description: Start date for the sitelink (YYYY-MM-DD)
+          example: '2024-01-01'
+        endDate:
+          type: string
+          description: End date for the sitelink (YYYY-MM-DD)
+          example: '2024-12-31'
+        adScheduleTargets:
+          description: Ad schedule targets restricting when the sitelink is shown
+          type: array
+          items:
+            $ref: '#/components/schemas/AdScheduleTargetDTO'
+      required:
+      - linkText
+      - finalUrls
+    StringRuleItemDTO:
+      type: object
+      properties:
+        operator:
+          type: string
+          description: Rule operator
+          example: CONTAINS
+        value:
+          type: string
+          description: Rule value
+          example: /products
+      required:
+      - operator
+      - value
     UpsertSegmentDTO:
       type: object
       properties:
@@ -2488,251 +2723,16 @@ components:
           - NARROW
       required:
       - name
-    UpsertAssetsDTO:
+    RuleDTO:
       type: object
       properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        type:
-          type: string
-          description: Asset type to create or update
-          example: CALL
-          enum:
-          - CALL
-          - SITELINK
-          - LEAD_FORM
-        payload:
-          description: 'Asset payload — shape depends on the type field: CallAssetPayload (CALL), SitelinkAssetPayload (SITELINK), or LeadFormAssetPayload (LEAD_FORM)'
-          oneOf:
-          - $ref: '#/components/schemas/CallAssetPayloadDTO'
-          - $ref: '#/components/schemas/SitelinkAssetPayloadDTO'
-          - $ref: '#/components/schemas/LeadFormAssetPayloadDTO'
-      required:
-      - locationId
-      - type
-      - payload
-    RuleItemGroupDTO:
-      type: object
-      properties:
-        ruleItems:
-          description: List of rule items
+        ruleItemGroups:
+          description: List of rule item groups
           type: array
           items:
-            $ref: '#/components/schemas/RuleItemDTO'
+            $ref: '#/components/schemas/RuleItemGroupDTO'
       required:
-      - ruleItems
-    AudienceSegmentsDTO:
-      type: object
-      properties:
-        customAudiences:
-          description: Resource names of custom audience segments
-          example:
-          - customers/123/customAudiences/456
-          type: array
-          items:
-            type: string
-        userLists:
-          description: Resource names of user lists (remarketing lists, customer match lists, etc.)
-          example:
-          - customers/123/userLists/789
-          type: array
-          items:
-            type: string
-        userInterests:
-          description: Resource names of user interest segments (in-market or affinity audiences)
-          example:
-          - customers/123/userInterests/321
-          type: array
-          items:
-            type: string
-    GoogleLocaleDTO:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Language display name
-        key:
-          type: string
-          description: Language key
-        id:
-          type: string
-          description: Language identifier
-        resourceName:
-          type: string
-          description: Language resource name
-    GoogleAssetImageDTO:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Image URL
-        resourceName:
-          type: string
-          description: Google Ads resource name
-        name:
-          type: string
-          description: Asset name
-        error:
-          type: string
-          description: Error message if asset upload failed
-      required:
-      - url
-    GeoLatLngDTO:
-      type: object
-      properties:
-        lat:
-          type: number
-          description: Latitude
-        lng:
-          type: number
-          description: Longitude
-    GoogleDemographicTargetDTO:
-      type: object
-      properties:
-        enum:
-          type: string
-          description: Demographic enum value
-        negative:
-          type: boolean
-          description: Whether this is a negative target
-      required:
-      - enum
-      - negative
-    UpsertConversionDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        conversionId:
-          type: string
-          description: Conversion identifier
-          example: conv_456
-        name:
-          type: string
-          description: Conversion name
-          example: Purchase Conversion
-        type:
-          type: string
-          description: Conversion type
-          example: WEBPAGE
-          enum:
-          - UPLOAD_CLICKS
-          - UPLOAD_CALLS
-          - WEBPAGE
-          - LEAD_FORM_SUBMIT
-        category:
-          type: string
-          description: Conversion category
-          example: PURCHASE
-        valueSettings:
-          description: Value settings that control how monetary value is attributed to conversions
-          example:
-            defaultValue: '10.00'
-            defaultCurrencyCode: USD
-            alwaysUseDefaultValue: false
-          allOf:
-          - $ref: '#/components/schemas/ConversionValueSettings'
-        countingType:
-          type: string
-          description: How conversions are counted per interaction
-          example: ONE_PER_CLICK
-          enum:
-          - ONE_PER_CLICK
-          - MANY_PER_CLICK
-        attributionModel:
-          type: string
-          description: Attribution model used to credit conversions
-          example: GOOGLE_ADS_LAST_CLICK
-          enum:
-          - GOOGLE_SEARCH_ATTRIBUTION_DATA_DRIVEN
-          - GOOGLE_ADS_LAST_CLICK
-        clickThroughWindow:
-          type: number
-          description: Click-through conversion window in days
-          example: 30
-      required:
-      - locationId
-      - name
-      - type
-      - category
-      - valueSettings
-      - countingType
-      - attributionModel
-      - clickThroughWindow
-    SitelinkAssetPayloadDTO:
-      type: object
-      properties:
-        resourceName:
-          type: string
-          description: Google Ads resource name for an existing sitelink asset
-          example: customers/123/assets/456
-        linkText:
-          type: string
-          description: Sitelink display text
-          example: Pricing
-        finalUrls:
-          type: string
-          description: Final landing page URL
-          example: https://example.com/pricing
-        description1:
-          type: string
-          description: First description line
-          example: See our plans and pricing
-        description2:
-          type: string
-          description: Second description line
-          example: Starting at $9/month
-        startDate:
-          type: string
-          description: Start date for the sitelink (YYYY-MM-DD)
-          example: '2024-01-01'
-        endDate:
-          type: string
-          description: End date for the sitelink (YYYY-MM-DD)
-          example: '2024-12-31'
-        adScheduleTargets:
-          description: Ad schedule targets restricting when the sitelink is shown
-          type: array
-          items:
-            $ref: '#/components/schemas/AdScheduleTargetDTO'
-      required:
-      - linkText
-      - finalUrls
-    GoogleKeywordItemDTO:
-      type: object
-      properties:
-        keyword:
-          type: string
-          description: Keyword text
-        matchType:
-          type: string
-          description: Match type (BROAD, PHRASE, EXACT)
-      required:
-      - keyword
-      - matchType
-    ConversionValueSettings:
-      type: object
-      properties:
-        defaultValue:
-          type: number
-          description: Default monetary value assigned to each conversion
-          example: 10
-        defaultCurrencyCode:
-          type: string
-          description: ISO 4217 currency code for the default value
-          example: USD
-        alwaysUseDefaultValue:
-          type: boolean
-          description: When true, always uses the default value even if a transaction-specific value is provided
-          example: false
-      required:
-      - defaultValue
-      - defaultCurrencyCode
-      - alwaysUseDefaultValue
+      - ruleItemGroups
   securitySchemes:
     bearer:
       scheme: bearer

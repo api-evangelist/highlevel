@@ -333,15 +333,49 @@ paths:
         - payments/custom-provider.write
 components:
   schemas:
-    UpdateCustomProviderCapabilitiesResponseSchema:
+    DeleteCustomProvidersResponseSchema:
       type: object
       properties:
         success:
           type: boolean
-          description: Whether the custom provider capabilities are updated or not. true represents capabilities are updated
+          description: Whether the custom provider config is disconnect or not. true represents config is disconnect
           example: 'true'
       required:
       - success
+    CreateCustomProvidersDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom provider
+          example: Company Paypal Integration
+        description:
+          type: string
+          description: Description of payment gateway. Shown on the payments integrations page as subtext
+          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
+        paymentsUrl:
+          type: string
+          description: This url will be loaded in iFrame to start a payment session.
+          example: https://testpayment.paypal.com
+        queryUrl:
+          type: string
+          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
+          example: https://testsubscription.paypal.com
+        imageUrl:
+          type: string
+          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
+          example: https://testsubscription.paypal.com
+        supportsSubscriptionSchedule:
+          type: boolean
+          description: Whether the config supports subscription schedule or not. true represents config supports subscription schedule
+          example: true
+      required:
+      - name
+      - description
+      - paymentsUrl
+      - queryUrl
+      - imageUrl
+      - supportsSubscriptionSchedule
     DisconnectCustomProvidersResponseSchema:
       type: object
       properties:
@@ -420,49 +454,6 @@ components:
       - deleted
       - createdAt
       - updatedAt
-    DeleteCustomProvidersConfigDto:
-      type: object
-      properties:
-        liveMode:
-          type: boolean
-          description: Whether the config is for test mode or live mode. true represents config is for live payments
-          example: 'true'
-      required:
-      - liveMode
-    CreateCustomProvidersDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the custom provider
-          example: Company Paypal Integration
-        description:
-          type: string
-          description: Description of payment gateway. Shown on the payments integrations page as subtext
-          example: This payment gateway supports payments in India via UPI, Net banking, cards and wallets.
-        paymentsUrl:
-          type: string
-          description: This url will be loaded in iFrame to start a payment session.
-          example: https://testpayment.paypal.com
-        queryUrl:
-          type: string
-          description: The url used for querying payments related events. Ex. verify, refund, subscription etc.
-          example: https://testsubscription.paypal.com
-        imageUrl:
-          type: string
-          description: Public image url for logo of the payment gateway displayed on the payments integrations page.
-          example: https://testsubscription.paypal.com
-        supportsSubscriptionSchedule:
-          type: boolean
-          description: Whether the config supports subscription schedule or not. true represents config supports subscription schedule
-          example: true
-      required:
-      - name
-      - description
-      - paymentsUrl
-      - queryUrl
-      - imageUrl
-      - supportsSubscriptionSchedule
     GetCustomProvidersResponseSchema:
       type: object
       properties:
@@ -532,46 +523,6 @@ components:
       - deleted
       - createdAt
       - updatedAt
-    CustomProviderKeys:
-      type: object
-      properties:
-        apiKey:
-          type: string
-          description: Api-key for custom payment provider config
-          example: y5ZQxryRFXZHvUJZdLeXXXXX
-        publishableKey:
-          type: string
-          description: Publishable-key for custom payment provider config
-          example: rzp_test_zPRoVMLOa0XXXX
-      required:
-      - apiKey
-      - publishableKey
-    UpdateCustomProviderCapabilitiesDto:
-      type: object
-      properties:
-        supportsSubscriptionSchedules:
-          type: boolean
-          description: Whether the marketplace app supports subscription schedules or not
-          example: true
-        companyId:
-          type: string
-          description: Company id. Mandatory if locationId is not provided
-          example: Yjnwuduw83e8x30sm0
-        locationId:
-          type: string
-          description: Location / Sub-account id. Mandatory if companyId is not provided
-          example: Yjnwuduw83e8x30sm0
-      required:
-      - supportsSubscriptionSchedules
-    DeleteCustomProvidersResponseSchema:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Whether the custom provider config is disconnect or not. true represents config is disconnect
-          example: 'true'
-      required:
-      - success
     CreateCustomProvidersResponseSchema:
       type: object
       properties:
@@ -641,6 +592,37 @@ components:
       - deleted
       - createdAt
       - updatedAt
+    UpdateCustomProviderCapabilitiesDto:
+      type: object
+      properties:
+        supportsSubscriptionSchedules:
+          type: boolean
+          description: Whether the marketplace app supports subscription schedules or not
+          example: true
+        companyId:
+          type: string
+          description: Company id. Mandatory if locationId is not provided
+          example: Yjnwuduw83e8x30sm0
+        locationId:
+          type: string
+          description: Location / Sub-account id. Mandatory if companyId is not provided
+          example: Yjnwuduw83e8x30sm0
+      required:
+      - supportsSubscriptionSchedules
+    CustomProviderKeys:
+      type: object
+      properties:
+        apiKey:
+          type: string
+          description: Api-key for custom payment provider config
+          example: y5ZQxryRFXZHvUJZdLeXXXXX
+        publishableKey:
+          type: string
+          description: Publishable-key for custom payment provider config
+          example: rzp_test_zPRoVMLOa0XXXX
+      required:
+      - apiKey
+      - publishableKey
     ConnectCustomProvidersConfigDto:
       type: object
       properties:
@@ -655,6 +637,24 @@ components:
       required:
       - live
       - test
+    DeleteCustomProvidersConfigDto:
+      type: object
+      properties:
+        liveMode:
+          type: boolean
+          description: Whether the config is for test mode or live mode. true represents config is for live payments
+          example: 'true'
+      required:
+      - liveMode
+    UpdateCustomProviderCapabilitiesResponseSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the custom provider capabilities are updated or not. true represents capabilities are updated
+          example: 'true'
+      required:
+      - success
   securitySchemes:
     bearer:
       scheme: bearer

@@ -119,21 +119,6 @@ paths:
         - affiliate-manager.readonly
 components:
   schemas:
-    CommissionAffiliateResponseDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Affiliate id
-          example: 6385d230f6d19db03eef6fb2
-        name:
-          type: string
-          description: Affiliate display name
-          example: John Doe
-        email:
-          type: string
-          description: Affiliate email
-          example: affiliate@example.com
     CommissionListMetaResponseDto:
       type: object
       properties:
@@ -143,20 +128,6 @@ components:
           example: 42
       required:
       - count
-    GetCommissionListResponseDto:
-      type: object
-      properties:
-        commissions:
-          description: Commission list
-          type: array
-          items:
-            $ref: '#/components/schemas/CommissionListItemResponseDto'
-        meta:
-          description: Pagination metadata
-          allOf:
-          - $ref: '#/components/schemas/CommissionListMetaResponseDto'
-      required:
-      - commissions
     CommissionListItemResponseDto:
       type: object
       properties:
@@ -281,6 +252,35 @@ components:
           type: boolean
           description: Whether the campaign is in live mode
           example: true
+    CommissionAffiliateResponseDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Affiliate id
+          example: 6385d230f6d19db03eef6fb2
+        name:
+          type: string
+          description: Affiliate display name
+          example: John Doe
+        email:
+          type: string
+          description: Affiliate email
+          example: affiliate@example.com
+    GetCommissionListResponseDto:
+      type: object
+      properties:
+        commissions:
+          description: Commission list
+          type: array
+          items:
+            $ref: '#/components/schemas/CommissionListItemResponseDto'
+        meta:
+          description: Pagination metadata
+          allOf:
+          - $ref: '#/components/schemas/CommissionListMetaResponseDto'
+      required:
+      - commissions
     CommissionCustomerResponseDto:
       type: object
       properties:

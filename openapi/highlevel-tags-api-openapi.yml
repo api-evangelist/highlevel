@@ -408,16 +408,6 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
-    CreateDeleteTagSuccessfulResponseDto:
-      type: object
-      properties:
-        tags:
-          example:
-          - minim
-          - velit magna
-          type: array
-          items:
-            type: string
     TagsDTO:
       type: object
       properties:
@@ -430,6 +420,16 @@ components:
             type: string
       required:
       - tags
+    CreateDeleteTagSuccessfulResponseDto:
+      type: object
+      properties:
+        tags:
+          example:
+          - minim
+          - velit magna
+          type: array
+          items:
+            type: string
     CreateAddTagSuccessfulResponseDto:
       type: object
       properties:
@@ -440,11 +440,6 @@ components:
           type: array
           items:
             type: string
-    LocationTagSuccessfulResponseDto:
-      type: object
-      properties:
-        tag:
-          $ref: '#/components/schemas/LocationTagsSchema'
     tagBody:
       type: object
       properties:
@@ -454,6 +449,13 @@ components:
           example: Tag
       required:
       - name
+    LocationTagsSuccessfulResponseDto:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationTagsSchema'
     LocationTagDeleteSuccessfulResponseDto:
       type: object
       properties:
@@ -472,13 +474,11 @@ components:
         id:
           type: string
           example: flGwEuzsfJOia1i1ikRN
-    LocationTagsSuccessfulResponseDto:
+    LocationTagSuccessfulResponseDto:
       type: object
       properties:
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/LocationTagsSchema'
+        tag:
+          $ref: '#/components/schemas/LocationTagsSchema'
   securitySchemes:
     bearer:
       scheme: bearer

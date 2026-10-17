@@ -218,6 +218,132 @@ paths:
         - payments/subscriptions.readonly
 components:
   schemas:
+    GetSubscriptionResponseSchema:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the subscription.
+          example: 64bf78af39118e4011926cba
+        altType:
+          type: object
+          example: location
+          description: AltType is the type of identifier.
+        altId:
+          type: string
+          description: 'AltId is the unique identifier eg: location id.'
+          example: 3SwdhCu3svxI8AKsPJt6
+        contactId:
+          type: string
+          example: XPLSw2SVagl12LMDeTmQ
+          description: Contact id corresponding to the subscription.
+        contactSnapshot:
+          type: object
+          description: Contact details of the subscriber.
+          example: '{ last_name: "Mcclain", type: "lead", first_name_lower_case: "rogan", email: "anish+11@gohighlevel.com", last_name_lower_case: "mcclain", location_id: "o6241QsiRwUIJHyjuhos", company_name: "Jordan and Cox Trading"}'
+        coupon:
+          type: object
+          description: Coupon details of the subscription.
+          example: '{ _id: "6374c6926d119a393fe1e556", usageCount: 5260, altId: "jVFIxsMY19D94nOSIOEO", altType: "location", name: "FREE-100%", code: "FREE100", discountType: "percentage", discountValue: 100 }'
+        currency:
+          type: string
+          example: USD
+          description: Currency in which subscription was made.
+        amount:
+          type: number
+          example: '100'
+          description: Subscription value.
+        status:
+          type: object
+          example: active
+          description: Subscription status.
+        liveMode:
+          type: boolean
+          example: 'false'
+          description: Subscription is in live / test mode.
+        entityType:
+          type: string
+          example: order
+          description: 'Entity type of subscription (eg: order).'
+        entityId:
+          type: string
+          example: 62f4db0f3059ecee61379012
+          description: 'Entity id for the subscription. e.g: order id'
+        entitySource:
+          description: Entity source details for the subscription.
+          example: '{ type: "funnel", id: "lx6ROqruHGVQD2PZwFxK", subType: "upsell", name: "test funnel" }'
+          allOf:
+          - $ref: '#/components/schemas/OrderSource'
+        subscriptionId:
+          type: string
+          example: I-0UE609H8E43P
+          description: Subscription id for subscription.
+        subscriptionSnapshot:
+          type: object
+          description: Snapshot of subscription.
+          example: '{ status: "ACTIVE", status_update_time: "2022-08-16T11:06:53Z", id: "I-0UE609H8E43P", plan_id: "P-82K11750F0313430KMLRGE6Y", start_time: "2022-08-16T11:05:31Z", quantity: 1 }'
+        paymentProvider:
+          type: object
+          description: Payment provider details for the subscription.
+          example: '{ type: "paypal", connectedAccount: { _id: "64410debdc8f3b0503523abb", merchantClientId: "AeXtjrxdgsJiCPwQt5jML5pH-0mwmLs-tH7ub4Uo3IrDKvRl34FvJy8niI6E1wmS_pryIRdNllyVl58b" } }'
+        ipAddress:
+          type: string
+          example: 103.100.16.82
+          description: Ip address from where subscription was initiated.
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation timestamp of the subscription.
+          example: '2023-11-20T10:23:36.515Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: The last update timestamp of the subscription.
+          example: '2024-01-23T09:57:04.846Z'
+        meta:
+          type: object
+          description: Meta details of the subscription.
+          example: '{ collection: "transactionsv2", id: "6320652f0f664b6632006920" }'
+        markAsTest:
+          type: boolean
+          description: Is test subscription.
+          example: 'false'
+        schedule:
+          description: Scedule details for the subscription.
+          example: '{ collection: "transactionsv2", id: "6320652f0f664b6632006920" }'
+          allOf:
+          - $ref: '#/components/schemas/ScheduleOptionsDto'
+        autoPayment:
+          type: object
+          description: Auto payment details of the subscription.
+          example: '{ customerId: "908879612", paymentMethodId: "908646635" }'
+        recurringProduct:
+          type: object
+          description: Recurring product details of the subscription.
+          example: '{ locationId: "Z4Bxl8J4SaPEPLq9IQ8g", funnel: "bQHJWKcyjiKjk4BHv91g", step: "2281a993-8a75-4b48-9912-571f29c99a74", name: "Sofa Set" }'
+        canceledAt:
+          format: date-time
+          type: string
+          description: Cancellation timestamp of the subscription.
+          example: '2023-11-20T10:23:36.515Z'
+        canceledBy:
+          type: string
+          example: qUuXUiB2AiA2DIthEicP
+          description: User id who cancelled the subscription.
+        traceId:
+          type: string
+          description: Trace id of the subscription.
+          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
+        createdBy:
+          type: string
+          example: user123
+          description: User ID who created the subscription.
+      required:
+      - _id
+      - altType
+      - altId
+      - createdAt
+      - updatedAt
     ListSubscriptionResponseDto:
       type: object
       properties:
@@ -364,139 +490,6 @@ components:
       - intervalType
       - interval
       - startDate
-    GetSubscriptionResponseSchema:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: The unique identifier for the subscription.
-          example: 64bf78af39118e4011926cba
-        altType:
-          type: object
-          example: location
-          description: AltType is the type of identifier.
-        altId:
-          type: string
-          description: 'AltId is the unique identifier eg: location id.'
-          example: 3SwdhCu3svxI8AKsPJt6
-        contactId:
-          type: string
-          example: XPLSw2SVagl12LMDeTmQ
-          description: Contact id corresponding to the subscription.
-        contactSnapshot:
-          type: object
-          description: Contact details of the subscriber.
-          example: '{ last_name: "Mcclain", type: "lead", first_name_lower_case: "rogan", email: "anish+11@gohighlevel.com", last_name_lower_case: "mcclain", location_id: "o6241QsiRwUIJHyjuhos", company_name: "Jordan and Cox Trading"}'
-        coupon:
-          type: object
-          description: Coupon details of the subscription.
-          example: '{ _id: "6374c6926d119a393fe1e556", usageCount: 5260, altId: "jVFIxsMY19D94nOSIOEO", altType: "location", name: "FREE-100%", code: "FREE100", discountType: "percentage", discountValue: 100 }'
-        currency:
-          type: string
-          example: USD
-          description: Currency in which subscription was made.
-        amount:
-          type: number
-          example: '100'
-          description: Subscription value.
-        status:
-          type: object
-          example: active
-          description: Subscription status.
-        liveMode:
-          type: boolean
-          example: 'false'
-          description: Subscription is in live / test mode.
-        entityType:
-          type: string
-          example: order
-          description: 'Entity type of subscription (eg: order).'
-        entityId:
-          type: string
-          example: 62f4db0f3059ecee61379012
-          description: 'Entity id for the subscription. e.g: order id'
-        entitySource:
-          description: Entity source details for the subscription.
-          example: '{ type: "funnel", id: "lx6ROqruHGVQD2PZwFxK", subType: "upsell", name: "test funnel" }'
-          allOf:
-          - $ref: '#/components/schemas/OrderSource'
-        subscriptionId:
-          type: string
-          example: I-0UE609H8E43P
-          description: Subscription id for subscription.
-        subscriptionSnapshot:
-          type: object
-          description: Snapshot of subscription.
-          example: '{ status: "ACTIVE", status_update_time: "2022-08-16T11:06:53Z", id: "I-0UE609H8E43P", plan_id: "P-82K11750F0313430KMLRGE6Y", start_time: "2022-08-16T11:05:31Z", quantity: 1 }'
-        paymentProvider:
-          type: object
-          description: Payment provider details for the subscription.
-          example: '{ type: "paypal", connectedAccount: { _id: "64410debdc8f3b0503523abb", merchantClientId: "AeXtjrxdgsJiCPwQt5jML5pH-0mwmLs-tH7ub4Uo3IrDKvRl34FvJy8niI6E1wmS_pryIRdNllyVl58b" } }'
-        ipAddress:
-          type: string
-          example: 103.100.16.82
-          description: Ip address from where subscription was initiated.
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation timestamp of the subscription.
-          example: '2023-11-20T10:23:36.515Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: The last update timestamp of the subscription.
-          example: '2024-01-23T09:57:04.846Z'
-        meta:
-          type: object
-          description: Meta details of the subscription.
-          example: '{ collection: "transactionsv2", id: "6320652f0f664b6632006920" }'
-        markAsTest:
-          type: boolean
-          description: Is test subscription.
-          example: 'false'
-        schedule:
-          description: Scedule details for the subscription.
-          example: '{ collection: "transactionsv2", id: "6320652f0f664b6632006920" }'
-          allOf:
-          - $ref: '#/components/schemas/ScheduleOptionsDto'
-        autoPayment:
-          type: object
-          description: Auto payment details of the subscription.
-          example: '{ customerId: "908879612", paymentMethodId: "908646635" }'
-        recurringProduct:
-          type: object
-          description: Recurring product details of the subscription.
-          example: '{ locationId: "Z4Bxl8J4SaPEPLq9IQ8g", funnel: "bQHJWKcyjiKjk4BHv91g", step: "2281a993-8a75-4b48-9912-571f29c99a74", name: "Sofa Set" }'
-        canceledAt:
-          format: date-time
-          type: string
-          description: Cancellation timestamp of the subscription.
-          example: '2023-11-20T10:23:36.515Z'
-        canceledBy:
-          type: string
-          example: qUuXUiB2AiA2DIthEicP
-          description: User id who cancelled the subscription.
-        traceId:
-          type: string
-          description: Trace id of the subscription.
-          example: 302d2cf4-1ba0-4bf5-bc3b-f8fa76fda58a
-        createdBy:
-          type: string
-          example: user123
-          description: User ID who created the subscription.
-      required:
-      - _id
-      - altType
-      - altId
-      - createdAt
-      - updatedAt
-    ScheduleOptionsDto:
-      type: object
-      properties:
-        executeAt:
-          type: string
-        rrule:
-          $ref: '#/components/schemas/CustomRRuleOptionsDto'
     SubscriptionResponseSchema:
       type: object
       properties:
@@ -608,6 +601,13 @@ components:
       - entitySourceType
       - createdAt
       - updatedAt
+    ScheduleOptionsDto:
+      type: object
+      properties:
+        executeAt:
+          type: string
+        rrule:
+          $ref: '#/components/schemas/CustomRRuleOptionsDto'
   securitySchemes:
     bearer:
       scheme: bearer

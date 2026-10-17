@@ -419,22 +419,61 @@ paths:
         - calendars.write
 components:
   schemas:
-    ScheduleIntervalDTO:
+    ScheduleObjectResponseDTO:
       type: object
       properties:
-        from:
+        id:
           type: string
-          description: Start time in HH:MM format (24-hour format)
-          example: 09:00
-          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
-        to:
+          description: Unique identifier for the schedule
+          example: IkqiJlXJ7o9h61tCHHod
+        name:
           type: string
-          description: End time in HH:MM format (24-hour format)
-          example: '17:00'
-          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+          description: Human-readable name for the schedule
+          example: Business Hours Schedule
+        locationId:
+          type: string
+          description: Location ID where this schedule applies
+          example: IkqiJlXJ7o9h61tCHHod
+        rules:
+          description: Schedule rules defining when the schedule is active
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleRuleDTO'
+        timezone:
+          type: string
+          description: Timezone for the schedule (IANA timezone identifier)
+          example: America/New_York
+        dateAdded:
+          type: string
+          description: ISO date string when the schedule was created
+          example: '2023-01-15T10:30:00.000Z'
+        dateUpdated:
+          type: string
+          description: ISO date string when the schedule was last updated
+          example: '2023-01-20T14:45:00.000Z'
+        userId:
+          type: string
+          description: User ID associated with the schedule
+          example: IkqiJlXJ7o9h61tCHHod
+        calendarIds:
+          description: Calendar IDs associated with the schedule
+          type: array
+          items:
+            type: string
+        deleted:
+          type: boolean
+          description: Whether the schedule has been deleted
+          example: false
       required:
-      - from
-      - to
+      - id
+      - name
+      - locationId
+      - rules
+      - timezone
+      - dateAdded
+      - dateUpdated
+      - userId
+      - deleted
     GetAllSchedulesResponseDTO:
       type: object
       properties:
@@ -512,61 +551,6 @@ components:
       - locationId
       - name
       - userId
-    ScheduleObjectResponseDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the schedule
-          example: IkqiJlXJ7o9h61tCHHod
-        name:
-          type: string
-          description: Human-readable name for the schedule
-          example: Business Hours Schedule
-        locationId:
-          type: string
-          description: Location ID where this schedule applies
-          example: IkqiJlXJ7o9h61tCHHod
-        rules:
-          description: Schedule rules defining when the schedule is active
-          type: array
-          items:
-            $ref: '#/components/schemas/ScheduleRuleDTO'
-        timezone:
-          type: string
-          description: Timezone for the schedule (IANA timezone identifier)
-          example: America/New_York
-        dateAdded:
-          type: string
-          description: ISO date string when the schedule was created
-          example: '2023-01-15T10:30:00.000Z'
-        dateUpdated:
-          type: string
-          description: ISO date string when the schedule was last updated
-          example: '2023-01-20T14:45:00.000Z'
-        userId:
-          type: string
-          description: User ID associated with the schedule
-          example: IkqiJlXJ7o9h61tCHHod
-        calendarIds:
-          description: Calendar IDs associated with the schedule
-          type: array
-          items:
-            type: string
-        deleted:
-          type: boolean
-          description: Whether the schedule has been deleted
-          example: false
-      required:
-      - id
-      - name
-      - locationId
-      - rules
-      - timezone
-      - dateAdded
-      - dateUpdated
-      - userId
-      - deleted
     ScheduleResponseDTO:
       type: object
       properties:
@@ -576,6 +560,22 @@ components:
           - $ref: '#/components/schemas/ScheduleObjectResponseDTO'
       required:
       - schedule
+    ScheduleIntervalDTO:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Start time in HH:MM format (24-hour format)
+          example: 09:00
+          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+        to:
+          type: string
+          description: End time in HH:MM format (24-hour format)
+          example: '17:00'
+          pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+      required:
+      - from
+      - to
     ScheduleRuleDTO:
       type: object
       properties:

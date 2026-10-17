@@ -337,6 +337,18 @@ paths:
         - contacts.write
 components:
   schemas:
+    TaskByIsSuccessfulResponseDto:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/TaskSchema'
+    TasksListSuccessfulResponseDto:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSchema'
     UpdateTaskBody:
       type: object
       properties:
@@ -355,48 +367,12 @@ components:
         assignedTo:
           type: string
           example: hxHGVRb1YJUscrCB8eXK
-    TaskSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: lJpzYrWdpkC2hX6t2yue
-        title:
-          type: string
-          example: test
-        body:
-          type: string
-          example: testing
-        assignedTo:
-          type: string
-          example: tesTUcmRxWrjqzJS8EjkxNKting
-        dueDate:
-          type: string
-          example: '2021-07-08T02:30:00.000Z'
-        completed:
-          type: boolean
-          example: true
-        contactId:
-          type: string
-          example: lJpzYrWdpkC2hX6t2yue
-    TasksListSuccessfulResponseDto:
-      type: object
-      properties:
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskSchema'
     DeleteTaskSuccessfulResponseDto:
       type: object
       properties:
         succeded:
           type: boolean
           example: true
-    TaskByIsSuccessfulResponseDto:
-      type: object
-      properties:
-        task:
-          $ref: '#/components/schemas/TaskSchema'
     CreateTaskParams:
       type: object
       properties:
@@ -427,6 +403,30 @@ components:
           example: true
       required:
       - completed
+    TaskSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: lJpzYrWdpkC2hX6t2yue
+        title:
+          type: string
+          example: test
+        body:
+          type: string
+          example: testing
+        assignedTo:
+          type: string
+          example: tesTUcmRxWrjqzJS8EjkxNKting
+        dueDate:
+          type: string
+          example: '2021-07-08T02:30:00.000Z'
+        completed:
+          type: boolean
+          example: true
+        contactId:
+          type: string
+          example: lJpzYrWdpkC2hX6t2yue
   securitySchemes:
     bearer:
       scheme: bearer

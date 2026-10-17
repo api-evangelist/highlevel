@@ -233,28 +233,11 @@ paths:
       - Agency-Access: []
 components:
   schemas:
-    GetSnapshotPushStatusSuccessfulResponseDTO:
+    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SnapshotStatusSchema'
-    SnapshotsSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: Snapshot Id.
-        name:
-          type: string
-          example: Martial Arts Snapshot
-          description: Name of the snapshot
-        type:
-          type: string
-          example: own
-          description: Type of snapshot - own or imported.
+          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
     CreateSnapshotShareLinkRequestDTO:
       type: object
       properties:
@@ -282,13 +265,13 @@ components:
       required:
       - snapshot_id
       - share_type
-    GetSnapshotsSuccessfulResponseDto:
+    GetSnapshotPushStatusSuccessfulResponseDTO:
       type: object
       properties:
-        snapshots:
+        data:
           type: array
           items:
-            $ref: '#/components/schemas/SnapshotsSchema'
+            $ref: '#/components/schemas/SnapshotStatusSchema'
     SnapshotStatusSchemaWithAssets:
       type: object
       properties:
@@ -316,17 +299,6 @@ components:
           type: array
           items:
             type: string
-    CreateSnapshotShareLinkSuccessfulResponseDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 1eM2UgkfaECOYyUdCo9Pa
-          description: id for shared snapshot
-        shareLink:
-          type: string
-          example: https://affiliates.gohighlevel.com/?share=1eM2UgkfaECOYyUdCo9Pa
-          description: Share Link for snapshot
     SnapshotStatusSchema:
       type: object
       properties:
@@ -347,11 +319,39 @@ components:
           type: string
           example: 10/28/2022, 6:24:54 PM
           description: 'Timestamp of when snapshot processing starts for sub-account '
-    GetLatestSnapshotPushStatusSuccessfulResponseDTO:
+    SnapshotsSchema:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/SnapshotStatusSchemaWithAssets'
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: Snapshot Id.
+        name:
+          type: string
+          example: Martial Arts Snapshot
+          description: Name of the snapshot
+        type:
+          type: string
+          example: own
+          description: Type of snapshot - own or imported.
+    GetSnapshotsSuccessfulResponseDto:
+      type: object
+      properties:
+        snapshots:
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotsSchema'
+    CreateSnapshotShareLinkSuccessfulResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1eM2UgkfaECOYyUdCo9Pa
+          description: id for shared snapshot
+        shareLink:
+          type: string
+          example: https://affiliates.gohighlevel.com/?share=1eM2UgkfaECOYyUdCo9Pa
+          description: Share Link for snapshot
   securitySchemes:
     bearer:
       scheme: bearer

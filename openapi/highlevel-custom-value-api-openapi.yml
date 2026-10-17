@@ -283,18 +283,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    CustomValueIdSuccessfulResponseDto:
-      type: object
-      properties:
-        customValue:
-          $ref: '#/components/schemas/CustomValueSchema'
-    CustomValuesListSuccessfulResponseDto:
-      type: object
-      properties:
-        customValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomValueSchema'
     CustomValueSchema:
       type: object
       properties:
@@ -313,6 +301,19 @@ components:
         locationId:
           type: string
           example: rWQ709Pb6dasyqGLceg1x
+    CustomValueDeleteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    CustomValuesListSuccessfulResponseDto:
+      type: object
+      properties:
+        customValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomValueSchema'
     customValuesDTO:
       type: object
       properties:
@@ -325,12 +326,11 @@ components:
       required:
       - name
       - value
-    CustomValueDeleteSuccessfulResponseDto:
+    CustomValueIdSuccessfulResponseDto:
       type: object
       properties:
-        succeded:
-          type: boolean
-          example: true
+        customValue:
+          $ref: '#/components/schemas/CustomValueSchema'
   securitySchemes:
     bearer:
       scheme: bearer

@@ -478,268 +478,11 @@ paths:
         - calendars/events.write
 components:
   schemas:
-    DeleteEventSuccessfulResponseDto:
-      type: object
-      properties:
-        succeeded:
-          type: boolean
-          example: true
     GetCalendarEventSuccessfulResponseDTO:
       type: object
       properties:
         event:
           $ref: '#/components/schemas/CalendarEventDTO'
-    BlockedSlotSuccessfulResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id
-          example: 0TkCdp9PfvLeWKYRRvIz
-        locationId:
-          type: string
-          description: Location Id
-          example: C2QujeCh8ZnC7al2InWR
-        title:
-          type: string
-          description: Title
-          example: My event
-        startTime:
-          type: object
-          description: Start Time
-          example: '2021-06-23T03:30:00+05:30'
-        endTime:
-          type: object
-          description: End Time
-          example: '2021-06-23T04:30:00+05:30'
-        calendarId:
-          type: string
-          description: Calendar id
-          example: CVokAlI8fgw4WYWoCtQz
-        assignedUserId:
-          type: string
-          description: Assigned User Id
-          example: 0007BWpSzSwfiuSl0tR2
-      required:
-      - id
-      - locationId
-      - title
-      - startTime
-      - endTime
-    AppointmentEditSchema:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Title
-          example: Test Event
-        meetingLocationType:
-          type: string
-          description: "Meeting location type. \n- If `address` is provided in the request body, the `meetingLocationType` defaults to **custom**."
-          example: custom
-          enum:
-          - custom
-          - zoom
-          - gmeet
-          - phone
-          - address
-          - ms_teams
-          - google
-        meetingLocationId:
-          type: string
-          description: 'The unique identifier for the meeting location.
-
-            - This value can be found in `calendar.locationConfigurations`or `calendar.teamMembers[].locationConfigurations`'
-          example: custom_0
-          default: default
-        overrideLocationConfig:
-          type: boolean
-          description: 'Flag to override location config
-
-            - **false** - If only `meetingLocationId` is provided
-
-            - **true** - If only `meetingLocationType` is provided
-
-            '
-          example: true
-        appointmentStatus:
-          type: string
-          example: confirmed
-          enum:
-          - new
-          - confirmed
-          - cancelled
-          - showed
-          - noshow
-          - invalid
-        assignedUserId:
-          type: string
-          description: Assigned User Id
-          example: 0007BWpSzSwfiuSl0tR2
-        description:
-          type: string
-          description: Appointment Description
-          example: Booking a call to discuss the project
-        address:
-          type: string
-          description: Appointment Address
-          example: Zoom
-        ignoreDateRange:
-          type: boolean
-          description: If set to true, the minimum scheduling notice and date range would be ignored
-          example: false
-        toNotify:
-          type: boolean
-          description: If set to false, the automations will not run
-          example: false
-        ignoreFreeSlotValidation:
-          type: boolean
-          description: If true the time slot validation would be avoided for any appointment creation (even the ignoreDateRange)
-          example: true
-        rrule:
-          type: string
-          description: RRULE as per the iCalendar (RFC 5545) specification for recurring events. DTSTART is not required, instance ids are calculated on the basis of startTime of the event. The rrule only be applied if ignoreFreeSlotValidation is true.
-          examples:
-          - RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5
-          - 'RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20210623T043000Z
-
-            EXDATE:20211105T040000Z,20211105T040000Z'
-        calendarId:
-          type: string
-          description: Calendar Id
-          example: CVokAlI8fgw4WYWoCtQz
-        startTime:
-          type: string
-          description: Start Time
-          example: '2021-06-23T03:30:00+05:30'
-        endTime:
-          type: string
-          description: End Time
-          example: '2021-06-23T04:30:00+05:30'
-    DeleteAppointmentSchema:
-      type: object
-      properties: {}
-    CreatedOrUpdatedBy:
-      type: object
-      properties:
-        userId:
-          type: string
-          description: The ID of the user who created or updated the appointment
-        source:
-          type: string
-          description: The source of the appointment
-      required:
-      - source
-    AppointmentSchemaResponse:
-      type: object
-      properties:
-        calendarId:
-          type: string
-          description: Calendar Id
-          example: CVokAlI8fgw4WYWoCtQz
-        locationId:
-          type: string
-          description: Location Id
-          example: C2QujeCh8ZnC7al2InWR
-        contactId:
-          type: string
-          description: Contact Id
-          example: 0007BWpSzSwfiuSl0tR2
-        startTime:
-          type: string
-          description: Start Time
-          example: '2021-06-23T03:30:00+05:30'
-        endTime:
-          type: string
-          description: End Time
-          example: '2021-06-23T04:30:00+05:30'
-        title:
-          type: string
-          description: Title
-          example: Test Event
-        meetingLocationType:
-          type: string
-          description: Meeting Location Type
-          example: custom
-          default: default
-        appointmentStatus:
-          type: string
-          example: confirmed
-          enum:
-          - new
-          - confirmed
-          - cancelled
-          - showed
-          - noshow
-          - invalid
-          - active
-          - completed
-        assignedUserId:
-          type: string
-          description: Assigned User Id
-          example: 0007BWpSzSwfiuSl0tR2
-        address:
-          type: string
-          description: Appointment Address
-          example: Zoom
-        isRecurring:
-          type: boolean
-          description: true if the event is recurring otherwise false
-          example: 'true'
-        rrule:
-          type: string
-          description: RRULE as per the iCalendar (RFC 5545) specification for recurring events
-          examples:
-          - RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5
-          - 'RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20210623T043000Z
-
-            EXDATE:20211105T040000Z,20211105T040000Z'
-        id:
-          type: string
-          description: Id
-          example: 0TkCdp9PfvLeWKYRRvIz
-      required:
-      - calendarId
-      - locationId
-      - contactId
-      - id
-    BlockSlotCreateRequestDTO:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Title
-          example: Test Event
-        calendarId:
-          type: string
-          description: Either calendarId or assignedUserId can be set, not both.
-          example: CVokAlI8fgw4WYWoCtQz
-        assignedUserId:
-          type: string
-          description: Either calendarId or assignedUserId can be set, not both.
-          example: CVokAlI8fgw4WYWoCtQz
-        locationId:
-          type: string
-          description: Location Id
-          example: C2QujeCh8ZnC7al2InWR
-        startTime:
-          type: string
-          description: Start Time
-          example: '2021-06-23T03:30:00+05:30'
-        endTime:
-          type: string
-          description: End Time
-          example: '2021-06-23T04:30:00+05:30'
-      required:
-      - calendarId
-      - locationId
-    GetCalendarEventsSuccessfulResponseDTO:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/CalendarEventDTO'
     CalendarEventDTO:
       type: object
       properties:
@@ -852,6 +595,129 @@ components:
       - endTime
       - dateAdded
       - dateUpdated
+    AppointmentEditSchema:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title
+          example: Test Event
+        meetingLocationType:
+          type: string
+          description: "Meeting location type. \n- If `address` is provided in the request body, the `meetingLocationType` defaults to **custom**."
+          example: custom
+          enum:
+          - custom
+          - zoom
+          - gmeet
+          - phone
+          - address
+          - ms_teams
+          - google
+        meetingLocationId:
+          type: string
+          description: 'The unique identifier for the meeting location.
+
+            - This value can be found in `calendar.locationConfigurations`or `calendar.teamMembers[].locationConfigurations`'
+          example: custom_0
+          default: default
+        overrideLocationConfig:
+          type: boolean
+          description: 'Flag to override location config
+
+            - **false** - If only `meetingLocationId` is provided
+
+            - **true** - If only `meetingLocationType` is provided
+
+            '
+          example: true
+        appointmentStatus:
+          type: string
+          example: confirmed
+          enum:
+          - new
+          - confirmed
+          - cancelled
+          - showed
+          - noshow
+          - invalid
+        assignedUserId:
+          type: string
+          description: Assigned User Id
+          example: 0007BWpSzSwfiuSl0tR2
+        description:
+          type: string
+          description: Appointment Description
+          example: Booking a call to discuss the project
+        address:
+          type: string
+          description: Appointment Address
+          example: Zoom
+        ignoreDateRange:
+          type: boolean
+          description: If set to true, the minimum scheduling notice and date range would be ignored
+          example: false
+        toNotify:
+          type: boolean
+          description: If set to false, the automations will not run
+          example: false
+        ignoreFreeSlotValidation:
+          type: boolean
+          description: If true the time slot validation would be avoided for any appointment creation (even the ignoreDateRange)
+          example: true
+        rrule:
+          type: string
+          description: RRULE as per the iCalendar (RFC 5545) specification for recurring events. DTSTART is not required, instance ids are calculated on the basis of startTime of the event. The rrule only be applied if ignoreFreeSlotValidation is true.
+          examples:
+          - RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5
+          - 'RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20210623T043000Z
+
+            EXDATE:20211105T040000Z,20211105T040000Z'
+        calendarId:
+          type: string
+          description: Calendar Id
+          example: CVokAlI8fgw4WYWoCtQz
+        startTime:
+          type: string
+          description: Start Time
+          example: '2021-06-23T03:30:00+05:30'
+        endTime:
+          type: string
+          description: End Time
+          example: '2021-06-23T04:30:00+05:30'
+    BlockSlotCreateRequestDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title
+          example: Test Event
+        calendarId:
+          type: string
+          description: Either calendarId or assignedUserId can be set, not both.
+          example: CVokAlI8fgw4WYWoCtQz
+        assignedUserId:
+          type: string
+          description: Either calendarId or assignedUserId can be set, not both.
+          example: CVokAlI8fgw4WYWoCtQz
+        locationId:
+          type: string
+          description: Location Id
+          example: C2QujeCh8ZnC7al2InWR
+        startTime:
+          type: string
+          description: Start Time
+          example: '2021-06-23T03:30:00+05:30'
+        endTime:
+          type: string
+          description: End Time
+          example: '2021-06-23T04:30:00+05:30'
+      required:
+      - calendarId
+      - locationId
+    DeleteAppointmentSchema:
+      type: object
+      properties: {}
     AppointmentCreateSchema:
       type: object
       properties:
@@ -985,6 +851,140 @@ components:
       required:
       - calendarId
       - locationId
+    BlockedSlotSuccessfulResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id
+          example: 0TkCdp9PfvLeWKYRRvIz
+        locationId:
+          type: string
+          description: Location Id
+          example: C2QujeCh8ZnC7al2InWR
+        title:
+          type: string
+          description: Title
+          example: My event
+        startTime:
+          type: object
+          description: Start Time
+          example: '2021-06-23T03:30:00+05:30'
+        endTime:
+          type: object
+          description: End Time
+          example: '2021-06-23T04:30:00+05:30'
+        calendarId:
+          type: string
+          description: Calendar id
+          example: CVokAlI8fgw4WYWoCtQz
+        assignedUserId:
+          type: string
+          description: Assigned User Id
+          example: 0007BWpSzSwfiuSl0tR2
+      required:
+      - id
+      - locationId
+      - title
+      - startTime
+      - endTime
+    GetCalendarEventsSuccessfulResponseDTO:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarEventDTO'
+    CreatedOrUpdatedBy:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: The ID of the user who created or updated the appointment
+        source:
+          type: string
+          description: The source of the appointment
+      required:
+      - source
+    DeleteEventSuccessfulResponseDto:
+      type: object
+      properties:
+        succeeded:
+          type: boolean
+          example: true
+    AppointmentSchemaResponse:
+      type: object
+      properties:
+        calendarId:
+          type: string
+          description: Calendar Id
+          example: CVokAlI8fgw4WYWoCtQz
+        locationId:
+          type: string
+          description: Location Id
+          example: C2QujeCh8ZnC7al2InWR
+        contactId:
+          type: string
+          description: Contact Id
+          example: 0007BWpSzSwfiuSl0tR2
+        startTime:
+          type: string
+          description: Start Time
+          example: '2021-06-23T03:30:00+05:30'
+        endTime:
+          type: string
+          description: End Time
+          example: '2021-06-23T04:30:00+05:30'
+        title:
+          type: string
+          description: Title
+          example: Test Event
+        meetingLocationType:
+          type: string
+          description: Meeting Location Type
+          example: custom
+          default: default
+        appointmentStatus:
+          type: string
+          example: confirmed
+          enum:
+          - new
+          - confirmed
+          - cancelled
+          - showed
+          - noshow
+          - invalid
+          - active
+          - completed
+        assignedUserId:
+          type: string
+          description: Assigned User Id
+          example: 0007BWpSzSwfiuSl0tR2
+        address:
+          type: string
+          description: Appointment Address
+          example: Zoom
+        isRecurring:
+          type: boolean
+          description: true if the event is recurring otherwise false
+          example: 'true'
+        rrule:
+          type: string
+          description: RRULE as per the iCalendar (RFC 5545) specification for recurring events
+          examples:
+          - RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5
+          - 'RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20210623T043000Z
+
+            EXDATE:20211105T040000Z,20211105T040000Z'
+        id:
+          type: string
+          description: Id
+          example: 0TkCdp9PfvLeWKYRRvIz
+      required:
+      - calendarId
+      - locationId
+      - contactId
+      - id
   securitySchemes:
     bearer:
       scheme: bearer

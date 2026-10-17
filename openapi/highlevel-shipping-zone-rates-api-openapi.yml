@@ -344,6 +344,66 @@ paths:
       - Location-Access: []
 components:
   schemas:
+    UpdateShippingRateDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        name:
+          type: string
+          description: Name of the shipping zone
+          example: North zone
+        description:
+          type: string
+          description: Delivery description
+          example: Ships next day
+        currency:
+          type: string
+          description: The currency of the amount of the rate / handling fee
+          example: USD
+        amount:
+          type: number
+          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
+          example: 99.99
+        conditionType:
+          type: string
+          description: Type of condition to provide the conditional pricing
+          enum:
+          - none
+          - price
+          - weight
+          example: price
+        minCondition:
+          type: number
+          description: Minimum condition for applying this price. set 0 or null if there is no minimum
+          example: 99.99
+        maxCondition:
+          type: number
+          description: Maximum condition for applying this price. set 0 or null if there is no maximum
+          example: 99.99
+        isCarrierRate:
+          type: boolean
+          description: is this a carrier rate
+          example: true
+        shippingCarrierId:
+          type: string
+          description: Shipping carrier id
+          example: 655b33a82209e60b6adb87a5
+        percentageOfRateFee:
+          type: number
+          description: Percentage of rate fee if it is a carrier rate.
+          example: 10.99
+        shippingCarrierServices:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingCarrierServiceDto'
     UpdateShippingRateResponseDto:
       type: object
       properties:
@@ -362,6 +422,66 @@ components:
       required:
       - status
       - data
+    ListShippingRateResponseDto:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total number of items
+          example: 20
+        data:
+          description: An array of items
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - total
+      - data
+    GetShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+        data:
+          description: Shipping zone data
+          allOf:
+          - $ref: '#/components/schemas/ShippingRateSchema'
+      required:
+      - status
+      - data
+    ShippingCarrierServiceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the shipping carrier service
+          example: Priority Mail Express International
+        value:
+          type: string
+          description: Value of the shipping carrier service
+          example: PriorityMailExpressInternational
+      required:
+      - name
+      - value
+    DeleteShippingRateResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
     CreateShippingRateDto:
       type: object
       properties:
@@ -432,108 +552,6 @@ components:
       - minCondition
       - maxCondition
       - shippingCarrierId
-    ListShippingRateResponseDto:
-      type: object
-      properties:
-        total:
-          type: number
-          description: Total number of items
-          example: 20
-        data:
-          description: An array of items
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingRateSchema'
-      required:
-      - total
-      - data
-    UpdateShippingRateDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        name:
-          type: string
-          description: Name of the shipping zone
-          example: North zone
-        description:
-          type: string
-          description: Delivery description
-          example: Ships next day
-        currency:
-          type: string
-          description: The currency of the amount of the rate / handling fee
-          example: USD
-        amount:
-          type: number
-          description: The amount of the shipping rate if it is normal rate (0 means free ). Fixed Handling fee if it is a carrier rate (it will add to the carrier rate).
-          example: 99.99
-        conditionType:
-          type: string
-          description: Type of condition to provide the conditional pricing
-          enum:
-          - none
-          - price
-          - weight
-          example: price
-        minCondition:
-          type: number
-          description: Minimum condition for applying this price. set 0 or null if there is no minimum
-          example: 99.99
-        maxCondition:
-          type: number
-          description: Maximum condition for applying this price. set 0 or null if there is no maximum
-          example: 99.99
-        isCarrierRate:
-          type: boolean
-          description: is this a carrier rate
-          example: true
-        shippingCarrierId:
-          type: string
-          description: Shipping carrier id
-          example: 655b33a82209e60b6adb87a5
-        percentageOfRateFee:
-          type: number
-          description: Percentage of rate fee if it is a carrier rate.
-          example: 10.99
-        shippingCarrierServices:
-          description: An array of items
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingCarrierServiceDto'
-    ShippingCarrierServiceDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the shipping carrier service
-          example: Priority Mail Express International
-        value:
-          type: string
-          description: Value of the shipping carrier service
-          example: PriorityMailExpressInternational
-      required:
-      - name
-      - value
-    DeleteShippingRateResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
     CreateShippingRateResponseDto:
       type: object
       properties:
@@ -642,24 +660,6 @@ components:
       - shippingZoneId
       - createdAt
       - updatedAt
-    GetShippingRateResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-        data:
-          description: Shipping zone data
-          allOf:
-          - $ref: '#/components/schemas/ShippingRateSchema'
-      required:
-      - status
-      - data
   securitySchemes:
     bearer:
       scheme: bearer

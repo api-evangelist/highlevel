@@ -870,6 +870,64 @@ paths:
       - Facebook Integration
 components:
   schemas:
+    GreetingCard:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Greeting card title
+          example: Welcome!
+        style:
+          type: string
+          description: Greeting card style
+          example: LIST_STYLE
+        content:
+          description: Greeting card content
+          example:
+          - Learn more about our services
+          type: array
+          items:
+            type: string
+      required:
+      - title
+      - style
+      - content
+    WelcomeMessageQuestion:
+      type: object
+      properties:
+        question:
+          type: string
+          description: Question title text
+          example: How can we help?
+        response:
+          type: string
+          description: Auto-response message
+          example: Thanks for reaching out
+      required:
+      - question
+    FbSetDefaultPageBodyDTO:
+      type: object
+      properties:
+        pageId:
+          type: string
+          description: Facebook page identifier
+          example: '103456789012345'
+      required:
+      - pageId
+    FormQuestionOption:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Option key
+          example: option 1
+        value:
+          type: string
+          description: Option value
+          example: Option 1
+      required:
+      - key
+      - value
     ThankYouPage:
       type: object
       properties:
@@ -906,32 +964,63 @@ components:
       - body
       - buttonText
       - buttonType
-    CustomDisclaimer:
+    CreateIntegrationDTO:
       type: object
       properties:
-        title:
+        locationId:
           type: string
-          description: Disclaimer title
-          example: Terms & Conditions
-        body:
+          description: Location identifier
+          example: loc_abc123
+        pageId:
           type: string
-          description: Disclaimer body text
-          example: By submitting...
-        checkboxes:
-          description: Consent checkboxes the user must agree to before submitting the form
+          description: Facebook page ID
+          example: '123456789'
+        adAccountId:
+          type: string
+          description: Ad account identifier
+          example: act_123456
+      required:
+      - locationId
+      - pageId
+    CreateConversationFormDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: loc_abc123
+        name:
+          type: string
+          description: Conversation form name
+          example: Welcome Form
+        text:
+          type: string
+          description: Welcome message text
+          example: Hi! How can we help?
+        questions:
+          description: Quick-reply questions shown in the welcome message of the conversation form
           example:
-          - is_required: true
-            text: I agree to the Terms & Conditions
-            key: terms_checkbox
-          - is_required: false
-            text: I would like to receive marketing emails
-            key: marketing_optin
+          - question: How can we help?
+            response: Thanks for reaching out! A team member will assist you shortly.
+          - question: I want to learn more
+            response: Great! Here is a link to our services.
           type: array
           items:
-            $ref: '#/components/schemas/CustomDisclaimerCheckbox'
+            $ref: '#/components/schemas/WelcomeMessageQuestion'
       required:
-      - title
-      - body
+      - locationId
+      - name
+      - text
+      - questions
+    LocationIdBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location identifier
+          example: HChooFuiyPpVYzeJ4HMe
+      required:
+      - locationId
     FormQuestion:
       type: object
       properties:
@@ -981,19 +1070,6 @@ components:
       required:
       - key
       - type
-    WelcomeMessageQuestion:
-      type: object
-      properties:
-        question:
-          type: string
-          description: Question title text
-          example: How can we help?
-        response:
-          type: string
-          description: Auto-response message
-          example: Thanks for reaching out
-      required:
-      - question
     CustomDisclaimerCheckbox:
       type: object
       properties:
@@ -1013,15 +1089,6 @@ components:
       - is_required
       - text
       - key
-    LocationIdBodyDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: HChooFuiyPpVYzeJ4HMe
-      required:
-      - locationId
     CreateLeadFormDTO:
       type: object
       properties:
@@ -1089,99 +1156,32 @@ components:
       - questions
       - privacyPolicyLink
       - thankYouPage
-    GreetingCard:
+    CustomDisclaimer:
       type: object
       properties:
         title:
           type: string
-          description: Greeting card title
-          example: Welcome!
-        style:
+          description: Disclaimer title
+          example: Terms & Conditions
+        body:
           type: string
-          description: Greeting card style
-          example: LIST_STYLE
-        content:
-          description: Greeting card content
+          description: Disclaimer body text
+          example: By submitting...
+        checkboxes:
+          description: Consent checkboxes the user must agree to before submitting the form
           example:
-          - Learn more about our services
+          - is_required: true
+            text: I agree to the Terms & Conditions
+            key: terms_checkbox
+          - is_required: false
+            text: I would like to receive marketing emails
+            key: marketing_optin
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/CustomDisclaimerCheckbox'
       required:
       - title
-      - style
-      - content
-    FormQuestionOption:
-      type: object
-      properties:
-        key:
-          type: string
-          description: Option key
-          example: option 1
-        value:
-          type: string
-          description: Option value
-          example: Option 1
-      required:
-      - key
-      - value
-    CreateIntegrationDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        pageId:
-          type: string
-          description: Facebook page ID
-          example: '123456789'
-        adAccountId:
-          type: string
-          description: Ad account identifier
-          example: act_123456
-      required:
-      - locationId
-      - pageId
-    CreateConversationFormDTO:
-      type: object
-      properties:
-        locationId:
-          type: string
-          description: Location identifier
-          example: loc_abc123
-        name:
-          type: string
-          description: Conversation form name
-          example: Welcome Form
-        text:
-          type: string
-          description: Welcome message text
-          example: Hi! How can we help?
-        questions:
-          description: Quick-reply questions shown in the welcome message of the conversation form
-          example:
-          - question: How can we help?
-            response: Thanks for reaching out! A team member will assist you shortly.
-          - question: I want to learn more
-            response: Great! Here is a link to our services.
-          type: array
-          items:
-            $ref: '#/components/schemas/WelcomeMessageQuestion'
-      required:
-      - locationId
-      - name
-      - text
-      - questions
-    FbSetDefaultPageBodyDTO:
-      type: object
-      properties:
-        pageId:
-          type: string
-          description: Facebook page identifier
-          example: '103456789012345'
-      required:
-      - pageId
+      - body
   securitySchemes:
     bearer:
       scheme: bearer

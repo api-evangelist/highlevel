@@ -213,6 +213,20 @@ paths:
       - bearer: []
 components:
   schemas:
+    DeleteRecurringTaskResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sx6wyHhbFdRXh302Lunr
+          description: Recurring Task Id
+        success:
+          type: boolean
+          example: true
+          description: Success
+      required:
+      - id
+      - success
     CustomRRulesOptions:
       type: object
       properties:
@@ -351,20 +365,15 @@ components:
       required:
       - title
       - rruleOptions
-    DeleteRecurringTaskResponseDTO:
+    RecurringTaskSingleResponseDTO:
       type: object
       properties:
-        id:
-          type: string
-          example: sx6wyHhbFdRXh302Lunr
-          description: Recurring Task Id
-        success:
-          type: boolean
-          example: true
-          description: Success
+        recurringTask:
+          description: Recurring Tasks
+          allOf:
+          - $ref: '#/components/schemas/RecurringTaskResponseDTO'
       required:
-      - id
-      - success
+      - recurringTask
     RecurringTaskResponseDTO:
       type: object
       properties:
@@ -429,15 +438,6 @@ components:
       - rruleOptions
       - totalOccurrence
       - deleted
-    RecurringTaskSingleResponseDTO:
-      type: object
-      properties:
-        recurringTask:
-          description: Recurring Tasks
-          allOf:
-          - $ref: '#/components/schemas/RecurringTaskResponseDTO'
-      required:
-      - recurringTask
   securitySchemes:
     bearer:
       scheme: bearer

@@ -874,28 +874,6 @@ components:
           type: array
           items:
             type: string
-    StartAfterNumberSchema:
-      type: object
-      properties:
-        startAfterDate:
-          type: number
-          description: Search to begin after the specified date - should contain the sort value of the last document
-          example: 1600854
-    SendConversationResponseDto:
-      type: object
-      properties:
-        conversations:
-          description: The list of all conversations found for the given query
-          type: array
-          items:
-            $ref: '#/components/schemas/ConversationSchema'
-        total:
-          type: number
-          description: Total Number of results found for the given query
-          example: 100
-      required:
-      - conversations
-      - total
     ConversationSchema:
       type: object
       properties:
@@ -1004,6 +982,28 @@ components:
       - contactName
       - email
       - phone
+    StartAfterNumberSchema:
+      type: object
+      properties:
+        startAfterDate:
+          type: number
+          description: Search to begin after the specified date - should contain the sort value of the last document
+          example: 1600854
+    SendConversationResponseDto:
+      type: object
+      properties:
+        conversations:
+          description: The list of all conversations found for the given query
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversationSchema'
+        total:
+          type: number
+          description: Total Number of results found for the given query
+          example: 100
+      required:
+      - conversations
+      - total
     GetLocationSchema:
       type: object
       properties:
@@ -1059,6 +1059,13 @@ components:
           description: The social media links for location
           allOf:
           - $ref: '#/components/schemas/SocialSchema'
+    SearchSuccessfulResponseDto:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetLocationSchema'
     SocialSchema:
       type: object
       properties:
@@ -1106,13 +1113,6 @@ components:
           type: string
           description: Google Business Places ID
           example: ChIJJGPdVbQTrjsRGUkefteUeFk
-    SearchSuccessfulResponseDto:
-      type: object
-      properties:
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetLocationSchema'
     SettingsSchema:
       type: object
       properties:
@@ -1128,51 +1128,6 @@ components:
         disableContactTimezone:
           type: boolean
           example: false
-    PostSearchSuccessfulResponseDto:
-      type: object
-      properties:
-        opportunities:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
-        total:
-          type: number
-          example: 100
-        aggregations:
-          type: object
-      required:
-      - total
-    SearchSuccessfulResponseDto_2:
-      type: object
-      properties:
-        opportunities:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
-        meta:
-          $ref: '#/components/schemas/SearchMetaResponseSchema'
-        aggregations:
-          type: object
-    CustomFieldResponseSchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: MgobCB14YMVKuE4Ka8p1
-        fieldValue:
-          description: The value of the custom field
-          oneOf:
-          - type: string
-          - type: object
-          - type: array
-            items:
-              type: string
-          - type: array
-            items:
-              type: object
-      required:
-      - id
-      - fieldValue
     SearchOpportunitiesContactResponseSchema:
       type: object
       properties:
@@ -1195,6 +1150,17 @@ components:
           type: array
           items:
             type: string
+    SearchSuccessfulResponseDto_2:
+      type: object
+      properties:
+        opportunities:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
+        meta:
+          $ref: '#/components/schemas/SearchMetaResponseSchema'
+        aggregations:
+          type: object
     AdditionalDetailsDTO:
       type: object
       properties:
@@ -1211,32 +1177,20 @@ components:
       - tasks
       - calendarEvents
       - unReadConversations
-    OpportunitySearchBodyDTO:
+    PostSearchSuccessfulResponseDto:
       type: object
       properties:
-        locationId:
-          type: string
-          description: Location Id
-          example: i2SpAtBVHSVea1sL6oah
-        query:
-          type: string
-        limit:
-          type: number
-        page:
-          type: number
-        searchAfter:
+        opportunities:
           type: array
           items:
-            type: string
-        additionalDetails:
-          $ref: '#/components/schemas/AdditionalDetailsDTO'
+            $ref: '#/components/schemas/SearchOpportunitiesResponseSchema'
+        total:
+          type: number
+          example: 100
+        aggregations:
+          type: object
       required:
-      - locationId
-      - query
-      - limit
-      - page
-      - searchAfter
-      - additionalDetails
+      - total
     SearchOpportunitiesResponseSchema:
       type: object
       properties:
@@ -1315,6 +1269,32 @@ components:
             type: array
         externalObjectId:
           type: string
+    OpportunitySearchBodyDTO:
+      type: object
+      properties:
+        locationId:
+          type: string
+          description: Location Id
+          example: i2SpAtBVHSVea1sL6oah
+        query:
+          type: string
+        limit:
+          type: number
+        page:
+          type: number
+        searchAfter:
+          type: array
+          items:
+            type: string
+        additionalDetails:
+          $ref: '#/components/schemas/AdditionalDetailsDTO'
+      required:
+      - locationId
+      - query
+      - limit
+      - page
+      - searchAfter
+      - additionalDetails
     SearchMetaResponseSchema:
       type: object
       properties:
@@ -1339,6 +1319,242 @@ components:
         prevPage:
           type: number
           example: 1
+    CustomFieldResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: MgobCB14YMVKuE4Ka8p1
+        fieldValue:
+          description: The value of the custom field
+          oneOf:
+          - type: string
+          - type: object
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: object
+      required:
+      - id
+      - fieldValue
+    SearchUserSuccessfulResponseDto:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSchema'
+        count:
+          type: number
+          example: 1231
+    RoleSchema:
+      type: object
+      properties:
+        type:
+          type: string
+          example: account
+        role:
+          type: string
+          example: admin
+        locationIds:
+          example:
+          - ve9EPM428h8vShlRW1KT
+          type: array
+          items:
+            type: string
+        restrictSubAccount:
+          type: boolean
+          example: true
+    PermissionsDto:
+      type: object
+      properties:
+        campaignsEnabled:
+          type: boolean
+          example: true
+          default: true
+        campaignsReadOnly:
+          type: boolean
+          example: false
+          default: false
+        contactsEnabled:
+          type: boolean
+          example: true
+          default: true
+        workflowsEnabled:
+          type: boolean
+          example: true
+          default: true
+        workflowsReadOnly:
+          type: boolean
+          example: true
+          default: false
+        triggersEnabled:
+          type: boolean
+          example: true
+          default: true
+        funnelsEnabled:
+          type: boolean
+          example: true
+          default: true
+        websitesEnabled:
+          type: boolean
+          example: false
+          default: false
+        opportunitiesEnabled:
+          type: boolean
+          example: true
+          default: true
+        dashboardStatsEnabled:
+          type: boolean
+          example: true
+          default: true
+        bulkRequestsEnabled:
+          type: boolean
+          example: true
+          default: true
+        appointmentsEnabled:
+          type: boolean
+          example: true
+          default: true
+        reviewsEnabled:
+          type: boolean
+          example: true
+          default: true
+        onlineListingsEnabled:
+          type: boolean
+          example: true
+          default: true
+        phoneCallEnabled:
+          type: boolean
+          example: true
+          default: true
+        conversationsEnabled:
+          type: boolean
+          example: true
+          default: true
+        assignedDataOnly:
+          type: boolean
+          example: false
+          default: false
+        adwordsReportingEnabled:
+          type: boolean
+          example: false
+          default: false
+        membershipEnabled:
+          type: boolean
+          example: false
+          default: false
+        facebookAdsReportingEnabled:
+          type: boolean
+          example: false
+          default: false
+        attributionsReportingEnabled:
+          type: boolean
+          example: false
+          default: false
+        settingsEnabled:
+          type: boolean
+          example: true
+          default: true
+        tagsEnabled:
+          type: boolean
+          example: true
+          default: true
+        leadValueEnabled:
+          type: boolean
+          example: true
+          default: true
+        marketingEnabled:
+          type: boolean
+          example: true
+          default: true
+        agentReportingEnabled:
+          type: boolean
+          example: true
+          default: true
+        botService:
+          type: boolean
+          example: false
+          default: false
+        socialPlanner:
+          type: boolean
+          example: true
+          default: true
+        bloggingEnabled:
+          type: boolean
+          example: true
+          default: true
+        invoiceEnabled:
+          type: boolean
+          example: true
+          default: true
+        affiliateManagerEnabled:
+          type: boolean
+          example: true
+          default: true
+        contentAiEnabled:
+          type: boolean
+          example: true
+          default: true
+        refundsEnabled:
+          type: boolean
+          example: true
+          default: true
+        recordPaymentEnabled:
+          type: boolean
+          example: true
+          default: true
+        cancelSubscriptionEnabled:
+          type: boolean
+          example: true
+          default: true
+        paymentsEnabled:
+          type: boolean
+          example: true
+          default: true
+        communitiesEnabled:
+          type: boolean
+          example: true
+          default: true
+        exportPaymentsEnabled:
+          type: boolean
+          example: true
+          default: true
+    FilterByEmailDto:
+      type: object
+      properties:
+        companyId:
+          type: string
+          example: 5DP41231LkQsiKESj6rh
+          description: Company ID to filter users
+        emails:
+          type: string
+          example: user1@example.com,user2@example.com
+          description: Comma-separated list of email addresses to filter users
+        deleted:
+          type: boolean
+          example: false
+          description: Filter deleted users
+          default: false
+        skip:
+          type: string
+          example: '1'
+          default: '0'
+          description: No of results to be skipped before returning the result
+        limit:
+          type: string
+          example: '10'
+          default: '25'
+          description: No of results to be limited before returning the result
+        projection:
+          type: string
+          example: all
+          description: Projection fields to return. Use "all" for all fields, or specify comma-separated field names. Default returns only id and email
+      required:
+      - companyId
+      - emails
     UserSchema:
       type: object
       properties:
@@ -1585,222 +1801,6 @@ components:
           - da
           - fi
           - 'no'
-    SearchUserSuccessfulResponseDto:
-      type: object
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSchema'
-        count:
-          type: number
-          example: 1231
-    FilterByEmailDto:
-      type: object
-      properties:
-        companyId:
-          type: string
-          example: 5DP41231LkQsiKESj6rh
-          description: Company ID to filter users
-        emails:
-          type: string
-          example: user1@example.com,user2@example.com
-          description: Comma-separated list of email addresses to filter users
-        deleted:
-          type: boolean
-          example: false
-          description: Filter deleted users
-          default: false
-        skip:
-          type: string
-          example: '1'
-          default: '0'
-          description: No of results to be skipped before returning the result
-        limit:
-          type: string
-          example: '10'
-          default: '25'
-          description: No of results to be limited before returning the result
-        projection:
-          type: string
-          example: all
-          description: Projection fields to return. Use "all" for all fields, or specify comma-separated field names. Default returns only id and email
-      required:
-      - companyId
-      - emails
-    PermissionsDto:
-      type: object
-      properties:
-        campaignsEnabled:
-          type: boolean
-          example: true
-          default: true
-        campaignsReadOnly:
-          type: boolean
-          example: false
-          default: false
-        contactsEnabled:
-          type: boolean
-          example: true
-          default: true
-        workflowsEnabled:
-          type: boolean
-          example: true
-          default: true
-        workflowsReadOnly:
-          type: boolean
-          example: true
-          default: false
-        triggersEnabled:
-          type: boolean
-          example: true
-          default: true
-        funnelsEnabled:
-          type: boolean
-          example: true
-          default: true
-        websitesEnabled:
-          type: boolean
-          example: false
-          default: false
-        opportunitiesEnabled:
-          type: boolean
-          example: true
-          default: true
-        dashboardStatsEnabled:
-          type: boolean
-          example: true
-          default: true
-        bulkRequestsEnabled:
-          type: boolean
-          example: true
-          default: true
-        appointmentsEnabled:
-          type: boolean
-          example: true
-          default: true
-        reviewsEnabled:
-          type: boolean
-          example: true
-          default: true
-        onlineListingsEnabled:
-          type: boolean
-          example: true
-          default: true
-        phoneCallEnabled:
-          type: boolean
-          example: true
-          default: true
-        conversationsEnabled:
-          type: boolean
-          example: true
-          default: true
-        assignedDataOnly:
-          type: boolean
-          example: false
-          default: false
-        adwordsReportingEnabled:
-          type: boolean
-          example: false
-          default: false
-        membershipEnabled:
-          type: boolean
-          example: false
-          default: false
-        facebookAdsReportingEnabled:
-          type: boolean
-          example: false
-          default: false
-        attributionsReportingEnabled:
-          type: boolean
-          example: false
-          default: false
-        settingsEnabled:
-          type: boolean
-          example: true
-          default: true
-        tagsEnabled:
-          type: boolean
-          example: true
-          default: true
-        leadValueEnabled:
-          type: boolean
-          example: true
-          default: true
-        marketingEnabled:
-          type: boolean
-          example: true
-          default: true
-        agentReportingEnabled:
-          type: boolean
-          example: true
-          default: true
-        botService:
-          type: boolean
-          example: false
-          default: false
-        socialPlanner:
-          type: boolean
-          example: true
-          default: true
-        bloggingEnabled:
-          type: boolean
-          example: true
-          default: true
-        invoiceEnabled:
-          type: boolean
-          example: true
-          default: true
-        affiliateManagerEnabled:
-          type: boolean
-          example: true
-          default: true
-        contentAiEnabled:
-          type: boolean
-          example: true
-          default: true
-        refundsEnabled:
-          type: boolean
-          example: true
-          default: true
-        recordPaymentEnabled:
-          type: boolean
-          example: true
-          default: true
-        cancelSubscriptionEnabled:
-          type: boolean
-          example: true
-          default: true
-        paymentsEnabled:
-          type: boolean
-          example: true
-          default: true
-        communitiesEnabled:
-          type: boolean
-          example: true
-          default: true
-        exportPaymentsEnabled:
-          type: boolean
-          example: true
-          default: true
-    RoleSchema:
-      type: object
-      properties:
-        type:
-          type: string
-          example: account
-        role:
-          type: string
-          example: admin
-        locationIds:
-          example:
-          - ve9EPM428h8vShlRW1KT
-          type: array
-          items:
-            type: string
-        restrictSubAccount:
-          type: boolean
-          example: true
   securitySchemes:
     bearer:
       scheme: bearer

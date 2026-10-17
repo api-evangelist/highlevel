@@ -281,6 +281,105 @@ paths:
         - calendars/events.write
 components:
   schemas:
+    CalendarNotificationResponseDTO:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Notification ID
+        receiverType:
+          type: string
+          example: contact
+          enum:
+          - contact
+          - guest
+          - assignedUser
+          - emails
+          - phoneNumbers
+          - business
+        additionalEmailIds:
+          example:
+          - example1@email.com
+          - example2@email.com
+          type: array
+          items:
+            type: string
+        additionalPhoneNumbers:
+          example:
+          - '+919876744444'
+          - '+919876744445'
+          type: array
+          items:
+            type: string
+        channel:
+          type: string
+          example: email
+          enum:
+          - email
+          - inApp
+          - sms
+          - whatsapp
+        notificationType:
+          type: string
+          example: confirmation
+          enum:
+          - booked
+          - confirmation
+          - cancellation
+          - reminder
+          - followup
+          - reschedule
+        isActive:
+          type: boolean
+          example: true
+        additionalWhatsappNumbers:
+          example:
+          - '+919876744444'
+          - '+919876744445'
+          type: array
+          items:
+            type: string
+        templateId:
+          type: string
+          example: 0as9d8as0d
+        body:
+          type: string
+          example: This is a test notification
+        subject:
+          type: string
+          example: Test Notification
+        afterTime:
+          example:
+          - timeOffset: 1
+            unit: hours
+          type: array
+          items:
+            $ref: '#/components/schemas/SchedulesDTO'
+        beforeTime:
+          example:
+          - timeOffset: 1
+            unit: hours
+          type: array
+          items:
+            $ref: '#/components/schemas/SchedulesDTO'
+        selectedUsers:
+          example:
+          - user1
+          - user2
+          type: array
+          items:
+            type: string
+        deleted:
+          type: boolean
+          example: false
+    CalendarNotificationDeleteResponseDTO:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Result of delete/update operation
+      required:
+      - message
     CreateCalendarNotificationDTO:
       type: object
       properties:
@@ -484,105 +583,6 @@ components:
           type: number
         unit:
           type: string
-    CalendarNotificationDeleteResponseDTO:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Result of delete/update operation
-      required:
-      - message
-    CalendarNotificationResponseDTO:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Notification ID
-        receiverType:
-          type: string
-          example: contact
-          enum:
-          - contact
-          - guest
-          - assignedUser
-          - emails
-          - phoneNumbers
-          - business
-        additionalEmailIds:
-          example:
-          - example1@email.com
-          - example2@email.com
-          type: array
-          items:
-            type: string
-        additionalPhoneNumbers:
-          example:
-          - '+919876744444'
-          - '+919876744445'
-          type: array
-          items:
-            type: string
-        channel:
-          type: string
-          example: email
-          enum:
-          - email
-          - inApp
-          - sms
-          - whatsapp
-        notificationType:
-          type: string
-          example: confirmation
-          enum:
-          - booked
-          - confirmation
-          - cancellation
-          - reminder
-          - followup
-          - reschedule
-        isActive:
-          type: boolean
-          example: true
-        additionalWhatsappNumbers:
-          example:
-          - '+919876744444'
-          - '+919876744445'
-          type: array
-          items:
-            type: string
-        templateId:
-          type: string
-          example: 0as9d8as0d
-        body:
-          type: string
-          example: This is a test notification
-        subject:
-          type: string
-          example: Test Notification
-        afterTime:
-          example:
-          - timeOffset: 1
-            unit: hours
-          type: array
-          items:
-            $ref: '#/components/schemas/SchedulesDTO'
-        beforeTime:
-          example:
-          - timeOffset: 1
-            unit: hours
-          type: array
-          items:
-            $ref: '#/components/schemas/SchedulesDTO'
-        selectedUsers:
-          example:
-          - user1
-          - user2
-          type: array
-          items:
-            type: string
-        deleted:
-          type: boolean
-          example: false
   securitySchemes:
     bearer:
       scheme: bearer

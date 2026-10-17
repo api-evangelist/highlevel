@@ -340,38 +340,6 @@ components:
       - deleted
       - createdAt
       - updatedAt
-    DeleteFaqResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status of the delete operation
-          example: true
-      required:
-      - success
-    BadRequestDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 400
-        message:
-          type: string
-          example: Bad Request
-    UpdateFaqBodyDTO:
-      type: object
-      properties:
-        question:
-          type: string
-          description: faq question as a string
-          example: What is the capital of France?
-        answer:
-          type: string
-          description: faq answer as a string
-          example: The capital of France is Paris.
-      required:
-      - question
-      - answer
     ListFaqsResponseDTO:
       type: object
       properties:
@@ -395,15 +363,41 @@ components:
       required:
       - count
       - faqs
-    InternalServerErrorDTO:
+    DeleteFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the delete operation
+          example: true
+      required:
+      - success
+    CreateFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the operation
+          example: true
+        faq:
+          description: Created FAQ details
+          allOf:
+          - $ref: '#/components/schemas/FaqResponseDTO'
+      required:
+      - success
+      - faq
+    UnauthorizedDTO:
       type: object
       properties:
         statusCode:
           type: number
-          example: 500
+          example: 401
         message:
           type: string
-          example: Internal Server Error
+          example: 'Invalid token: access token is invalid'
+        error:
+          type: string
+          example: Unauthorized
     UnprocessableDTO:
       type: object
       properties:
@@ -419,41 +413,20 @@ components:
         error:
           type: string
           example: Unprocessable Entity
-    CreateFaqResponseDTO:
+    UpdateFaqBodyDTO:
       type: object
       properties:
-        success:
-          type: boolean
-          description: Success status of the operation
-          example: true
-        faq:
-          description: Created FAQ details
-          allOf:
-          - $ref: '#/components/schemas/FaqResponseDTO'
-      required:
-      - success
-      - faq
-    UpdateFaqResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status of the update operation
-          example: true
-      required:
-      - success
-    UnauthorizedDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 401
-        message:
+        question:
           type: string
-          example: 'Invalid token: access token is invalid'
-        error:
+          description: faq question as a string
+          example: What is the capital of France?
+        answer:
           type: string
-          example: Unauthorized
+          description: faq answer as a string
+          example: The capital of France is Paris.
+      required:
+      - question
+      - answer
     AddFaqDTO:
       type: object
       properties:
@@ -478,6 +451,33 @@ components:
       - question
       - answer
       - knowledgeBaseId
+    InternalServerErrorDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: Internal Server Error
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    UpdateFaqResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status of the update operation
+          example: true
+      required:
+      - success
   securitySchemes:
     bearer:
       scheme: bearer

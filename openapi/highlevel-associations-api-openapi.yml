@@ -393,39 +393,6 @@ paths:
         - associations.readonly
 components:
   schemas:
-    createAssociationReqDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: string
-        key:
-          type: string
-          example: student_teacher
-          description: Association's Unique key
-        firstObjectLabel:
-          type: object
-          example: student
-          description: First Objects Association Label (custom_objects.children)
-        firstObjectKey:
-          type: object
-          example: custom_objects.children
-          description: First Objects Key
-        secondObjectLabel:
-          type: object
-          example: Teacher
-          description: Second Object Association Label (contact)
-        secondObjectKey:
-          type: object
-          example: contact
-          description: Second Objects Key
-      required:
-      - locationId
-      - key
-      - firstObjectLabel
-      - firstObjectKey
-      - secondObjectLabel
-      - secondObjectKey
     UpdateAssociationReqDto:
       type: object
       properties:
@@ -498,6 +465,39 @@ components:
       - secondObjectLabel
       - secondObjectKey
       - associationType
+    createAssociationReqDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: string
+        key:
+          type: string
+          example: student_teacher
+          description: Association's Unique key
+        firstObjectLabel:
+          type: object
+          example: student
+          description: First Objects Association Label (custom_objects.children)
+        firstObjectKey:
+          type: object
+          example: custom_objects.children
+          description: First Objects Key
+        secondObjectLabel:
+          type: object
+          example: Teacher
+          description: Second Object Association Label (contact)
+        secondObjectKey:
+          type: object
+          example: contact
+          description: Second Objects Key
+      required:
+      - locationId
+      - key
+      - firstObjectLabel
+      - firstObjectKey
+      - secondObjectLabel
+      - secondObjectKey
   securitySchemes:
     bearer:
       scheme: bearer

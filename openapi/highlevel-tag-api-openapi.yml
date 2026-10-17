@@ -137,55 +137,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    GetTagsByIdResponseSchema:
-      type: object
-      properties:
-        tags:
-          description: Social Media Tag Data
-          type: array
-          items:
-            $ref: '#/components/schemas/SocialMediaTagSchema'
-        count:
-          type: number
-          description: Count
-          example: 3
-      required:
-      - tags
-    GetTagsByLocationIdResponseSchema:
-      type: object
-      properties:
-        tags:
-          description: Tags Data
-          type: array
-          items:
-            $ref: '#/components/schemas/SocialMediaTagSchema'
-        count:
-          type: number
-          description: Count
-          example: 3
-    GetTagsByIdResponseDTO:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success or Failure
-          example: true
-        statusCode:
-          type: number
-          description: Status Code
-          example: 201
-        message:
-          type: string
-          description: Message
-          example: Fetched Tags by Tag IDs
-        results:
-          description: Requested Results
-          allOf:
-          - $ref: '#/components/schemas/GetTagsByIdResponseSchema'
-      required:
-      - success
-      - statusCode
-      - message
     GetTagsByLocationIdResponseDTO:
       type: object
       properties:
@@ -209,6 +160,18 @@ components:
       - success
       - statusCode
       - message
+    GetTagsByLocationIdResponseSchema:
+      type: object
+      properties:
+        tags:
+          description: Tags Data
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialMediaTagSchema'
+        count:
+          type: number
+          description: Count
+          example: 3
     SocialMediaTagSchema:
       type: object
       properties:
@@ -240,6 +203,29 @@ components:
           format: date-time
           type: string
           example: '2023-08-02T00:00:00.000Z'
+    GetTagsByIdResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success or Failure
+          example: true
+        statusCode:
+          type: number
+          description: Status Code
+          example: 201
+        message:
+          type: string
+          description: Message
+          example: Fetched Tags by Tag IDs
+        results:
+          description: Requested Results
+          allOf:
+          - $ref: '#/components/schemas/GetTagsByIdResponseSchema'
+      required:
+      - success
+      - statusCode
+      - message
     UpdateTagDTO:
       type: object
       properties:
@@ -252,6 +238,20 @@ components:
             type: string
       required:
       - tagIds
+    GetTagsByIdResponseSchema:
+      type: object
+      properties:
+        tags:
+          description: Social Media Tag Data
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialMediaTagSchema'
+        count:
+          type: number
+          description: Count
+          example: 3
+      required:
+      - tags
   securitySchemes:
     bearer:
       scheme: bearer

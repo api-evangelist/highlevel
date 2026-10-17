@@ -575,27 +575,20 @@ components:
       - createdAt
       - updatedAt
       - traceId
-    DeleteCouponParams:
+    DeleteCouponResponseDto:
       type: object
       properties:
-        altId:
+        success:
+          type: boolean
+          description: Indicates whether the delete was successful
+          example: true
+        traceId:
           type: string
-          description: Location Id
-          example: BQdAwxa0ky1iK2sstLGJ
-        altType:
-          type: string
-          description: Alt Type
-          enum:
-          - location
-          example: location
-        id:
-          type: string
-          description: Coupon Id
-          example: 6241712be68f7a98102ba272
+          description: Unique identifier for tracing this API request
+          example: c667b18d-8f5e-44cf-a914
       required:
-      - altId
-      - altType
-      - id
+      - success
+      - traceId
     CouponDto:
       type: object
       properties:
@@ -690,6 +683,27 @@ components:
       - applyToFuturePaymentsConfig
       - createdAt
       - updatedAt
+    DeleteCouponParams:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id
+          example: BQdAwxa0ky1iK2sstLGJ
+        altType:
+          type: string
+          description: Alt Type
+          enum:
+          - location
+          example: location
+        id:
+          type: string
+          description: Coupon Id
+          example: 6241712be68f7a98102ba272
+      required:
+      - altId
+      - altType
+      - id
     ApplyToFuturePaymentsConfigDto:
       type: object
       properties:
@@ -710,20 +724,6 @@ components:
           example: months
       required:
       - type
-    DeleteCouponResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Indicates whether the delete was successful
-          example: true
-        traceId:
-          type: string
-          description: Unique identifier for tracing this API request
-          example: c667b18d-8f5e-44cf-a914
-      required:
-      - success
-      - traceId
   securitySchemes:
     bearer:
       scheme: bearer

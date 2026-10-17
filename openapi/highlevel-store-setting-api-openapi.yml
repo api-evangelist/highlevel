@@ -132,30 +132,6 @@ components:
       required:
       - status
       - data
-    StoreOrderNotificationDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Store order notification enabled
-          example: true
-        subject:
-          type: string
-          description: Store order email subject
-          example: Your order is placed !
-        emailTemplateId:
-          type: string
-          description: Email Template Id
-          example: 6788d542f0462ffd6bc29bb9
-        defaultEmailTemplateId:
-          type: string
-          description: Default Email Template Id
-          example: 6788d542f0462ffd6bc29bb9
-      required:
-      - enabled
-      - subject
-      - emailTemplateId
-      - defaultEmailTemplateId
     StoreShippingOriginDto:
       type: object
       properties:
@@ -1221,6 +1197,30 @@ components:
       - city
       - street1
       - zip
+    StoreOrderFulfillmentNotificationDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Store order fulfillment notification enabled
+          example: true
+        subject:
+          type: string
+          description: Store order fulfillment email subject
+          example: Order fulfilled
+        emailTemplateId:
+          type: string
+          description: Email Template Id
+          example: 6788d542f0462ffd6bc29bb9
+        defaultEmailTemplateId:
+          type: string
+          description: Default Email Template Id
+          example: 6788d542f0462ffd6bc29bb9
+      required:
+      - enabled
+      - subject
+      - emailTemplateId
+      - defaultEmailTemplateId
     StoreSettingSchema:
       type: object
       properties:
@@ -1263,30 +1263,6 @@ components:
       - _id
       - createdAt
       - updatedAt
-    StoreOrderFulfillmentNotificationDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: Store order fulfillment notification enabled
-          example: true
-        subject:
-          type: string
-          description: Store order fulfillment email subject
-          example: Order fulfilled
-        emailTemplateId:
-          type: string
-          description: Email Template Id
-          example: 6788d542f0462ffd6bc29bb9
-        defaultEmailTemplateId:
-          type: string
-          description: Default Email Template Id
-          example: 6788d542f0462ffd6bc29bb9
-      required:
-      - enabled
-      - subject
-      - emailTemplateId
-      - defaultEmailTemplateId
     CreateStoreSettingDto:
       type: object
       properties:
@@ -1332,6 +1308,30 @@ components:
       required:
       - status
       - data
+    StoreOrderNotificationDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Store order notification enabled
+          example: true
+        subject:
+          type: string
+          description: Store order email subject
+          example: Your order is placed !
+        emailTemplateId:
+          type: string
+          description: Email Template Id
+          example: 6788d542f0462ffd6bc29bb9
+        defaultEmailTemplateId:
+          type: string
+          description: Default Email Template Id
+          example: 6788d542f0462ffd6bc29bb9
+      required:
+      - enabled
+      - subject
+      - emailTemplateId
+      - defaultEmailTemplateId
   securitySchemes:
     bearer:
       scheme: bearer

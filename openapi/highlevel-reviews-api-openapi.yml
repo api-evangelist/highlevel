@@ -412,19 +412,6 @@ paths:
         - products.write
 components:
   schemas:
-    DeleteProductReviewResponseDto:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of api action
-          example: true
-        message:
-          type: string
-          description: Success message
-          example: Successfully created
-      required:
-      - status
     ListProductReviewsResponseDto:
       type: object
       properties:
@@ -439,30 +426,6 @@ components:
       required:
       - data
       - total
-    UserDetailsDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the customer
-          example: John Doe
-          minLength: 1
-          maxLength: 100
-        email:
-          type: string
-          description: Email of the customer
-          example: example@example.com
-        phone:
-          type: string
-          description: Phone no of the customer
-          example: +1-555-555-5555
-        isCustomer:
-          type: boolean
-          description: Is the person an admin or customer
-          example: true
-      required:
-      - name
-      - email
     UpdateProductReviewsResponseDto:
       type: object
       properties:
@@ -517,6 +480,87 @@ components:
       - altType
       - productId
       - status
+    UpdateProductReviewObjectDto:
+      type: object
+      properties:
+        reviewId:
+          type: string
+          description: Review Id
+          example: 6578278e879ad2646715ba9c
+        productId:
+          type: string
+          description: Product Id
+          example: 6578278e879ad2646715ba9d
+        storeId:
+          type: string
+          description: Store Id
+          example: a1b2c3d4e5f6g7h8i9j0k1l2
+      required:
+      - reviewId
+      - productId
+      - storeId
+    UserDetailsDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the customer
+          example: John Doe
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          description: Email of the customer
+          example: example@example.com
+        phone:
+          type: string
+          description: Phone no of the customer
+          example: +1-555-555-5555
+        isCustomer:
+          type: boolean
+          description: Is the person an admin or customer
+          example: true
+      required:
+      - name
+      - email
+    UpdateProductReviewsDto:
+      type: object
+      properties:
+        altId:
+          type: string
+          description: Location Id or Agency Id
+          example: 6578278e879ad2646715ba9c
+        altType:
+          type: string
+          enum:
+          - location
+        reviews:
+          description: Array of Product Reviews
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateProductReviewObjectDto'
+        status:
+          type: object
+          description: Status of the review
+          example: approved
+      required:
+      - altId
+      - altType
+      - reviews
+      - status
+    DeleteProductReviewResponseDto:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of api action
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: Successfully created
+      required:
+      - status
     CountReviewsByStatusResponseDto:
       type: object
       properties:
@@ -550,50 +594,6 @@ components:
       - headline
       - comment
       - user
-    UpdateProductReviewsDto:
-      type: object
-      properties:
-        altId:
-          type: string
-          description: Location Id or Agency Id
-          example: 6578278e879ad2646715ba9c
-        altType:
-          type: string
-          enum:
-          - location
-        reviews:
-          description: Array of Product Reviews
-          type: array
-          items:
-            $ref: '#/components/schemas/UpdateProductReviewObjectDto'
-        status:
-          type: object
-          description: Status of the review
-          example: approved
-      required:
-      - altId
-      - altType
-      - reviews
-      - status
-    UpdateProductReviewObjectDto:
-      type: object
-      properties:
-        reviewId:
-          type: string
-          description: Review Id
-          example: 6578278e879ad2646715ba9c
-        productId:
-          type: string
-          description: Product Id
-          example: 6578278e879ad2646715ba9d
-        storeId:
-          type: string
-          description: Store Id
-          example: a1b2c3d4e5f6g7h8i9j0k1l2
-      required:
-      - reviewId
-      - productId
-      - storeId
   securitySchemes:
     bearer:
       scheme: bearer

@@ -279,24 +279,6 @@ components:
       - locationId
       - name
       - redirectTo
-    DeleteLinksSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
-    LinkUpdateDto:
-      type: object
-      properties:
-        name:
-          type: string
-          example: first tag
-        redirectTo:
-          type: string
-          example: https://www.google.com/
-      required:
-      - name
-      - redirectTo
     LinkSchema:
       type: object
       properties:
@@ -322,11 +304,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LinkSchema'
+    DeleteLinksSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
     GetLinkSuccessfulResponseDto:
       type: object
       properties:
         link:
           $ref: '#/components/schemas/LinkSchema'
+    LinkUpdateDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: first tag
+        redirectTo:
+          type: string
+          example: https://www.google.com/
+      required:
+      - name
+      - redirectTo
   securitySchemes:
     bearer:
       scheme: bearer

@@ -211,6 +211,15 @@ paths:
         - calendars/events.write
 components:
   schemas:
+    NoteCreatedBySchema:
+      type: object
+      properties:
+        id:
+          type: string
+          example: TUcmRxWr
+        name:
+          type: string
+          example: John Doe
     GetNoteSchema:
       type: object
       properties:
@@ -231,34 +240,12 @@ components:
           example: TUcmRxWrjqzJS8EjkxNK
         createdBy:
           $ref: '#/components/schemas/NoteCreatedBySchema'
-    NoteCreatedBySchema:
-      type: object
-      properties:
-        id:
-          type: string
-          example: TUcmRxWr
-        name:
-          type: string
-          example: John Doe
     DeleteNoteSuccessfulResponseDto:
       type: object
       properties:
         success:
           type: boolean
           example: true
-    NotesDTO:
-      type: object
-      properties:
-        userId:
-          type: string
-          example: GCs5KuzPqTls7vWclkEV
-        body:
-          type: string
-          example: lorem ipsum
-          description: Note body
-          maxLength: 5000
-      required:
-      - body
     GetCreateUpdateNoteSuccessfulResponseDto:
       type: object
       properties:
@@ -274,6 +261,19 @@ components:
         hasMore:
           type: boolean
           example: true
+    NotesDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: GCs5KuzPqTls7vWclkEV
+        body:
+          type: string
+          example: lorem ipsum
+          description: Note body
+          maxLength: 5000
+      required:
+      - body
   securitySchemes:
     bearer:
       scheme: bearer

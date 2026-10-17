@@ -39,26 +39,6 @@ paths:
       - Courses
 components:
   schemas:
-    CategoryInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        visibility:
-          $ref: '#/components/schemas/visibility'
-        thumbnailUrl:
-          type: string
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostInterface'
-        subCategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubCategoryInterface'
-      required:
-      - title
-      - visibility
     ProductInterface:
       type: object
       properties:
@@ -78,54 +58,6 @@ components:
       - title
       - description
       - categories
-    InstructorDetails:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      required:
-      - name
-      - description
-    PublicExporterPayload:
-      type: object
-      properties:
-        locationId:
-          type: string
-        userId:
-          type: string
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductInterface'
-      required:
-      - locationId
-      - products
-    PostMaterialInterface:
-      type: object
-      properties:
-        title:
-          type: string
-        type:
-          $ref: '#/components/schemas/type'
-        url:
-          type: string
-      required:
-      - title
-      - type
-      - url
-    visibility:
-      type: string
-      enum:
-      - published
-      - draft
-    contentType:
-      type: string
-      enum:
-      - video
-      - assignment
-      - quiz
     SubCategoryInterface:
       type: object
       properties:
@@ -222,6 +154,74 @@ components:
       - stl
       - woff
       - ttf
+    PostMaterialInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        type:
+          $ref: '#/components/schemas/type'
+        url:
+          type: string
+      required:
+      - title
+      - type
+      - url
+    InstructorDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+      - name
+      - description
+    contentType:
+      type: string
+      enum:
+      - video
+      - assignment
+      - quiz
+    visibility:
+      type: string
+      enum:
+      - published
+      - draft
+    CategoryInterface:
+      type: object
+      properties:
+        title:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/visibility'
+        thumbnailUrl:
+          type: string
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostInterface'
+        subCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubCategoryInterface'
+      required:
+      - title
+      - visibility
+    PublicExporterPayload:
+      type: object
+      properties:
+        locationId:
+          type: string
+        userId:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductInterface'
+      required:
+      - locationId
+      - products
   securitySchemes:
     bearer:
       scheme: bearer

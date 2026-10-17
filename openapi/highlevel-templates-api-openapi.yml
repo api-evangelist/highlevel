@@ -441,28 +441,99 @@ paths:
     - url: https://services.leadconnectorhq.com
 components:
   schemas:
-    TemplateSettings:
-      type: object
-      properties: {}
-    BuilderUpdateSuccessfulDTO:
+    FetchBuilderSuccesfulResponseDto:
       type: object
       properties:
-        ok:
+        name:
           type: string
-          example: 'true'
-          description: ok
-        traceId:
+          example: New Template
+          description: template name
+        updatedBy:
           type: string
-          example: 0c52e980-41f6-4be7-8c4b-32332ss
-          description: trace id
+          example: John Doe
+          description: updated by
+        isPlainText:
+          type: boolean
+          example: 'false'
+          description: plain text based template
+        lastUpdated:
+          type: string
+          example: '2024-11-12T12:34:36.070Z'
+          description: last updated
+        dateAdded:
+          type: string
+          example: '2024-11-12T12:34:36.070Z'
+          description: date added
         previewUrl:
           type: string
           example: https://example.com
           description: preview url
-        templateDownloadUrl:
+        id:
           type: string
-          example: https://example.com
-          description: template data download url
+          example: 67334b231f2fad724062f52b5
+          description: id
+        version:
+          type: string
+          example: '1'
+          description: version
+        templateType:
+          type: string
+          example: builder
+          description: type
+    CreateBuilderSuccesfulResponseDto:
+      type: object
+      properties:
+        redirect:
+          type: string
+          example: 66e811229245fc098765590
+          description: template id
+        traceId:
+          type: string
+          example: 0c52e980-41f6-4be7-8c4b-e2c5a13dc3c2
+          description: trace id
+      required:
+      - redirect
+      - traceId
+    TemplateSettings:
+      type: object
+      properties: {}
+    SaveBuilderDataDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+        templateId:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        updatedBy:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        dnd:
+          example: '{elements:[], attrs:{}, templateSettings:{}}'
+          allOf:
+          - $ref: '#/components/schemas/IBuilderJsonMapper'
+        html:
+          type: string
+          example: ''
+        editorType:
+          type: string
+          enum:
+          - html
+          - builder
+        previewText:
+          type: string
+          example: zYy3YOUuHxgomU1uYJty
+        isPlainText:
+          type: boolean
+          example: 'false'
+      required:
+      - locationId
+      - templateId
+      - updatedBy
+      - dnd
+      - html
+      - editorType
     CreateBuilderDto:
       type: object
       properties:
@@ -517,59 +588,36 @@ components:
       - locationId
       - type
       - importProvider
-    FetchBuilderSuccesfulResponseDto:
+    BuilderUpdateSuccessfulDTO:
       type: object
       properties:
-        name:
+        ok:
           type: string
-          example: New Template
-          description: template name
-        updatedBy:
+          example: 'true'
+          description: ok
+        traceId:
           type: string
-          example: John Doe
-          description: updated by
-        isPlainText:
-          type: boolean
-          example: 'false'
-          description: plain text based template
-        lastUpdated:
-          type: string
-          example: '2024-11-12T12:34:36.070Z'
-          description: last updated
-        dateAdded:
-          type: string
-          example: '2024-11-12T12:34:36.070Z'
-          description: date added
+          example: 0c52e980-41f6-4be7-8c4b-32332ss
+          description: trace id
         previewUrl:
           type: string
           example: https://example.com
           description: preview url
-        id:
+        templateDownloadUrl:
           type: string
-          example: 67334b231f2fad724062f52b5
-          description: id
-        version:
-          type: string
-          example: '1'
-          description: version
-        templateType:
-          type: string
-          example: builder
-          description: type
-    CreateBuilderSuccesfulResponseDto:
+          example: https://example.com
+          description: template data download url
+    DeleteBuilderSuccesfulResponseDto:
       type: object
       properties:
-        redirect:
+        ok:
           type: string
-          example: 66e811229245fc098765590
-          description: template id
+          example: 'true'
+          description: ok
         traceId:
           type: string
-          example: 0c52e980-41f6-4be7-8c4b-e2c5a13dc3c2
+          example: 0c52e980-41f6-4be7-8c4b-32332ss
           description: trace id
-      required:
-      - redirect
-      - traceId
     IBuilderJsonMapper:
       type: object
       properties:
@@ -585,63 +633,38 @@ components:
       - elements
       - attrs
       - templateSettings
-    DeleteBuilderSuccesfulResponseDto:
+    SendDocumentFromPublicApiBodyDto:
       type: object
       properties:
-        ok:
-          type: string
-          example: 'true'
-          description: ok
-        traceId:
-          type: string
-          example: 0c52e980-41f6-4be7-8c4b-32332ss
-          description: trace id
-    SaveBuilderDataDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
         templateId:
           type: string
-          example: zYy3YOUuHxgomU1uYJty
-        updatedBy:
+          description: Template Id
+          example: hTlkh7t8gujsahgg93
+        userId:
           type: string
-          example: zYy3YOUuHxgomU1uYJty
-        dnd:
-          example: '{elements:[], attrs:{}, templateSettings:{}}'
-          allOf:
-          - $ref: '#/components/schemas/IBuilderJsonMapper'
-        html:
-          type: string
-          example: ''
-        editorType:
-          type: string
-          enum:
-          - html
-          - builder
-        previewText:
-          type: string
-          example: zYy3YOUuHxgomU1uYJty
-        isPlainText:
+          description: User Id
+          example: hTlkh7t8gujsahgg93
+        sendDocument:
           type: boolean
-          example: 'false'
-      required:
-      - locationId
-      - templateId
-      - updatedBy
-      - dnd
-      - html
-      - editorType
-    BadRequestDTO:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 400
-        message:
+          description: Send Document
+          example: true
+        locationId:
           type: string
-          example: Bad Request
+          description: Location Id
+          example: hTlkh7t8gujsahgg93
+        contactId:
+          type: string
+          description: Contact Id
+          example: hTlkh7t8gujsahgg93
+        opportunityId:
+          type: string
+          description: Opportunity Id
+          example: hTlkh7t8gujsahgg93
+      required:
+      - templateId
+      - userId
+      - locationId
+      - contactId
     TemplateListResponseDTO:
       type: object
       properties:
@@ -732,6 +755,30 @@ components:
       required:
       - data
       - total
+    SendTemplateResponseDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status
+          example: true
+        links:
+          description: Links for all recipients
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposalEstimateLinksDto'
+      required:
+      - success
+      - links
+    BadRequestDTO:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        message:
+          type: string
+          example: Bad Request
     ProposalEstimateLinksDto:
       type: object
       properties:
@@ -783,53 +830,6 @@ components:
       - documentRevision
       - createdBy
       - deleted
-    SendTemplateResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Success status
-          example: true
-        links:
-          description: Links for all recipients
-          type: array
-          items:
-            $ref: '#/components/schemas/ProposalEstimateLinksDto'
-      required:
-      - success
-      - links
-    SendDocumentFromPublicApiBodyDto:
-      type: object
-      properties:
-        templateId:
-          type: string
-          description: Template Id
-          example: hTlkh7t8gujsahgg93
-        userId:
-          type: string
-          description: User Id
-          example: hTlkh7t8gujsahgg93
-        sendDocument:
-          type: boolean
-          description: Send Document
-          example: true
-        locationId:
-          type: string
-          description: Location Id
-          example: hTlkh7t8gujsahgg93
-        contactId:
-          type: string
-          description: Contact Id
-          example: hTlkh7t8gujsahgg93
-        opportunityId:
-          type: string
-          description: Opportunity Id
-          example: hTlkh7t8gujsahgg93
-      required:
-      - templateId
-      - userId
-      - locationId
-      - contactId
   securitySchemes:
     bearer:
       scheme: bearer

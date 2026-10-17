@@ -231,23 +231,6 @@ paths:
         - objects/record.write
 components:
   schemas:
-    CreateCustomObjectRecordDto:
-      type: object
-      properties: {}
-    UpdateCustomObjectRecordDto:
-      type: object
-      properties: {}
-    ObjectRecordDeleteResponseDTO:
-      type: object
-      properties:
-        id:
-          type: string
-          description: id of the deleted object
-          example: 661c06b4ffde146bdb469442
-        success:
-          type: boolean
-          description: boolean that defines if the operation was a success or not
-          example: true
     RecordByIdResponseDTO:
       type: object
       properties:
@@ -309,6 +292,23 @@ components:
       - properties
       - dateAdded
       - dateUpdated
+    UpdateCustomObjectRecordDto:
+      type: object
+      properties: {}
+    ObjectRecordDeleteResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id of the deleted object
+          example: 661c06b4ffde146bdb469442
+        success:
+          type: boolean
+          description: boolean that defines if the operation was a success or not
+          example: true
+    CreateCustomObjectRecordDto:
+      type: object
+      properties: {}
   securitySchemes:
     bearer:
       scheme: bearer

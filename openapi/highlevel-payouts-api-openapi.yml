@@ -118,15 +118,6 @@ paths:
         - affiliate-manager.readonly
 components:
   schemas:
-    PayoutListMetaResponseDto:
-      type: object
-      properties:
-        count:
-          type: number
-          description: Total payouts matching the filters
-          example: 42
-      required:
-      - count
     PayoutListItemResponseDto:
       type: object
       properties:
@@ -223,6 +214,20 @@ components:
       - affiliateId
       - currency
       - amount
+    GetPayoutListResponseDto:
+      type: object
+      properties:
+        payouts:
+          description: Payout list
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutListItemResponseDto'
+        meta:
+          description: Pagination metadata
+          allOf:
+          - $ref: '#/components/schemas/PayoutListMetaResponseDto'
+      required:
+      - payouts
     OAuthAffiliateListItemResponseDto:
       type: object
       properties:
@@ -361,20 +366,15 @@ components:
       - _id
       - locationId
       - email
-    GetPayoutListResponseDto:
+    PayoutListMetaResponseDto:
       type: object
       properties:
-        payouts:
-          description: Payout list
-          type: array
-          items:
-            $ref: '#/components/schemas/PayoutListItemResponseDto'
-        meta:
-          description: Pagination metadata
-          allOf:
-          - $ref: '#/components/schemas/PayoutListMetaResponseDto'
+        count:
+          type: number
+          description: Total payouts matching the filters
+          example: 42
       required:
-      - payouts
+      - count
   securitySchemes:
     bearer:
       scheme: bearer

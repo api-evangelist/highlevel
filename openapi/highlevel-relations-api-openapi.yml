@@ -196,30 +196,6 @@ paths:
         - associations/relation.write
 components:
   schemas:
-    createRelationReqDto:
-      type: object
-      properties:
-        locationId:
-          type: string
-          example: clF1LD04GTUKN3b3XuOj
-          description: Your Sub Account's ID
-        associationId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-          description: Association's Id
-        firstRecordId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-          description: 'First Record''s Id. For instance, if you have an association between a contact and a custom object, and you specify the contact as the first object while creating the association, then your firstRecordId would be the contactId '
-        secondRecordId:
-          type: string
-          example: ve9EPM428h8vShlRW1KT
-          description: Second Record's Id.For instance, if you have an association between a contact and a custom object, and you specify the custom object as the second entity while creating the association, then your secondRecordId would be the customObject record Id
-      required:
-      - locationId
-      - associationId
-      - firstRecordId
-      - secondRecordId
     GetPostSuccessfulResponseDto:
       type: object
       properties:
@@ -262,6 +238,30 @@ components:
       - secondObjectLabel
       - secondObjectKey
       - associationType
+    createRelationReqDto:
+      type: object
+      properties:
+        locationId:
+          type: string
+          example: clF1LD04GTUKN3b3XuOj
+          description: Your Sub Account's ID
+        associationId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+          description: Association's Id
+        firstRecordId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+          description: 'First Record''s Id. For instance, if you have an association between a contact and a custom object, and you specify the contact as the first object while creating the association, then your firstRecordId would be the contactId '
+        secondRecordId:
+          type: string
+          example: ve9EPM428h8vShlRW1KT
+          description: Second Record's Id.For instance, if you have an association between a contact and a custom object, and you specify the custom object as the second entity while creating the association, then your secondRecordId would be the customObject record Id
+      required:
+      - locationId
+      - associationId
+      - firstRecordId
+      - secondRecordId
   securitySchemes:
     bearer:
       scheme: bearer

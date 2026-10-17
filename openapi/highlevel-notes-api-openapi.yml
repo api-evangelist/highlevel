@@ -313,6 +313,24 @@ components:
         pinned:
           type: boolean
           example: false
+    DeleteNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        succeded:
+          type: boolean
+          example: true
+    GetCreateUpdateNoteSuccessfulResponseDto:
+      type: object
+      properties:
+        note:
+          $ref: '#/components/schemas/GetNoteSchema'
+    GetNotesListSuccessfulResponseDto:
+      type: object
+      properties:
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetNoteSchema'
     UpdateNoteDTO:
       type: object
       properties:
@@ -331,12 +349,6 @@ components:
         pinned:
           type: boolean
           example: false
-    DeleteNoteSuccessfulResponseDto:
-      type: object
-      properties:
-        succeded:
-          type: boolean
-          example: true
     NotesDTO:
       type: object
       properties:
@@ -357,18 +369,6 @@ components:
           example: false
       required:
       - body
-    GetCreateUpdateNoteSuccessfulResponseDto:
-      type: object
-      properties:
-        note:
-          $ref: '#/components/schemas/GetNoteSchema'
-    GetNotesListSuccessfulResponseDto:
-      type: object
-      properties:
-        notes:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetNoteSchema'
   securitySchemes:
     bearer:
       scheme: bearer
