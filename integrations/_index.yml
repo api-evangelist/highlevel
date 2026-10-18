@@ -53,7 +53,7 @@
     - connectors/applications/h-level
     vendor_link: https://www.gohighlevel.com/main-page
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: highlevel-meltano
   label: Meltano
@@ -83,5 +83,5 @@
     quality:
     - gold
     builder: 'community (Meltano Hub variant maintainers: hotgluexyz, meltanolabs)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
