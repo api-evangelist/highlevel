@@ -1890,3 +1890,9 @@ x-tagGroups:
   name: Saas
   tags:
   - Saas
+x-provenance:
+  method: harvested
+  publisher: HighLevel
+  source: https://raw.githubusercontent.com/gohighlevel/highlevel-api-docs/HEAD/apps/saas-api.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
