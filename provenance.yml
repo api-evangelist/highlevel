@@ -12,6 +12,9 @@ artifacts:
   authentication/highlevel-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  capabilities/highlevel-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/highlevel-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -30,6 +33,12 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/highlevel-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
   json-ld/highlevel-context.jsonld:
     method: unknown
     evidence: no authorship recorded
@@ -213,7 +222,7 @@ artifacts:
   json-schema/highlevel-user-subscription-change-dto-schema.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-22T213221.yml:
@@ -229,6 +238,21 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   llms/highlevel-llms-provenance.yml:
@@ -554,12 +578,8 @@ artifacts:
       to the provider's source is unverified
   openapi/_original/saas-api.json:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/_original/saas-api.json.archived.txt:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
+    evidence: byte-identical to https://raw.githubusercontent.com/gohighlevel/highlevel-api-docs/HEAD/apps/saas-api.json
+      (sha256 d3a1c7143770, fetched 2026-10-04)
   openapi/highlevel-account-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
